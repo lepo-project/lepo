@@ -1,0 +1,61 @@
+<% index = 0 %>
+<%= outcome_form.fields_for :outcomes_objectives do |so_form| %>
+<% index += 1 %>
+<table>
+  <tr>
+    <td class="objective" rowspan="2"><%= index %>. <%= so_form.object.objective.title %>
+      <% if so_form.object.objective.criterion %>
+      <br/><span class"criterion"><%= so_form.object.objective.criterion %></span>
+      <% end %>
+    </td>
+    <th class="self-achievement">自己</th>
+    <% if evaluator_id > 0 %>
+    <th class="eval-achievement"><%= t('activerecord.attributes.course.managers') %></th>
+    <% end %>
+    <th class="allocation">配点</th>
+  </tr>
+  <tr>
+    <% if so_form.object.self_achievement %>
+    <th class="self-achievement <%= demerit_class(so_form.object.self_achievement, so_form.object.objective.allocation) %>"><%= so_form.object.self_achievement %></th>
+    <% else %>
+    <th class="self-achievement">-</th>
+    <% end %>
+    <% if evaluator_id > 0 %>
+    <% if so_form.object.eval_achievement %>
+    <th class="eval-achievement <%= demerit_class(so_form.object.eval_achievement, so_form.object.objective.allocation) %>"><%= so_form.object.eval_achievement %></th>
+    <% else %>
+    <th class="eval-achievement">-</th>
+    <% end %>
+    <% end %>
+    <th class="allocation"><%= so_form.object.objective.allocation %></th>
+  </tr>
+</table>
+
+<% case lesson_role when "evaluator" %>
+<% form_class = "eval-achievement-form" %>
+<% so_form.object.eval_achievement = so_form.object.objective.allocation if !so_form.object.eval_achievement %>
+<% when "learner" %>
+<% form_class = "self-achievement-form" %>
+<% so_form.object.self_achievement = 0 if !so_form.object.self_achievement %>
+<% end %>
+
+<div id="outcome_<%= outcome_form.object.id %>_objective_<%= so_form.object.objective.id %>" class="<%= form_class %> control-group" style="display:flex; padding:0.5rem 0.5rem 0;">
+  <div class="control-label" style="width:4rem;">評価：</div>
+
+  <div class="controls" style="margin-left: 0;" data-lepo-outcome-id="<%= outcome_form.object.id %>" data-lepo-objective-id="<%= so_form.object.objective.id %>" data-lepo-allocation="<%= so_form.object.objective.allocation %>">
+    <% (so_form.object.objective.allocation + 1).times do |p| %>
+    <label class="radio inline" style="padding:0 10px;">
+      <% case lesson_role when "evaluator" %>
+      <%= so_form.radio_button(:eval_achievement, p) %>
+      <% when "learner" %>
+      <%= so_form.radio_button(:self_achievement, p) %>
+      <% end %>
+      <%= p %>
+    </label>
+    <% end %>
+    <%= so_form.hidden_field :outcome_id, value: outcome_form.object.id %>
+    <%= so_form.hidden_field :objective_id, value: so_form.object.objective.id %>
+  </div>
+</div>
+
+<% end %>

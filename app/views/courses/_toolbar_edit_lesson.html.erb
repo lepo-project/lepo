@@ -1,0 +1,8 @@
+<div id="toolbar-btns">
+  <%= link_to({action: "ajax_edit", id: @course.id}, {class: "toolbar-btn", remote: true}) do %>
+      <i class="fa fa-arrow-left"></i> 戻る
+  <% end %>
+  <%= link_to(get_url_hash(@course.id, @course.status), {class: "toolbar-btn", remote: true}) do %>
+      <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
+  <% end %>
+</div>

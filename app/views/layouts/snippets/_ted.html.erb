@@ -1,0 +1,9 @@
+<% video_id = WebSource.ted_id snippet.source.url %>
+<div class="snippet-card card">
+  <div class="main-area">
+    <div class="body" style="height: 315px;">
+      <iframe src="https://embed-ssl.ted.com/talks/<%= video_id %>.html" width="640" height="360" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+    </div>
+    <%= render(partial: "layouts/snippets/footer", locals: {snippet: snippet}) %>
+  </div>
+</div>

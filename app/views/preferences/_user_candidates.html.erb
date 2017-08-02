@@ -1,0 +1,27 @@
+<div class="card block">
+  <h2 class="card-header"><%= title %></h2>
+  <div class="card-block" style="padding: 1px;">
+    <table class="table table-sm table-striped user-table">
+      <% users.each do |user| %>
+      <tr>
+        <td class="image-td">
+          <%= render partial: "layouts/image", locals: {obj: user, fa_class: 'fa-user', size: 'm'} %>
+        </td>
+        <td class="name-td">
+          <%= user.fullname + ' / ' + user.fullname_alt %>
+          <span class="badge badge-default"><%= member_role_text 'system', user.role %></span>
+        </td>
+        <td class="button-td">
+          <% search_word = @search_word ? @search_word : '' %>
+          <% role = @role ? @role : '' %>
+          <%= link_to({action: "ajax_select_account", id: user.id, search_word: search_word, role: role}, remote: true) do %>
+          <button type="button" class="btn btn-primary">
+            設定
+          </button>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

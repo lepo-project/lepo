@@ -1,0 +1,9 @@
+<% messages = outcome.outcome_messages.select { |x| x.id } %>
+<% class_name = outcome.id == current_outcome_id ? 'current-outcome' : 'other-outcome' %>
+<div class="<%= class_name %> rounded" style="padding: 0.5rem;">
+  <% if messages.size > 0 %>
+  <%= render partial: 'outcomes/message', collection: messages, locals: {outcome_manager_id: outcome.manager_id} %>
+  <% else %>
+  <%= render partial: 'layouts/system_message', locals: {message: t('views.system_messages.no_messages'), message_category: 'info'} %>
+  <% end %>
+</div>

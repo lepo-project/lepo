@@ -1,0 +1,148 @@
+//
+// CSS for sub-pane
+//
+
+@import 'components/toolbar';
+
+#sub-pane {
+  background-color: #d0ddee;
+  border-right: 1px solid #ccc;
+  height: inherit;
+  overflow: hidden;
+  #main-nav {
+    height: calc(100% - #{$toolbar-height});
+    left: 0;
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    width: $sub-pane-toolbar-width;
+    h1 {
+      color: #356;
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 120%;
+      margin: 10px 0 0 4px;
+      a {
+        clear: both;
+        color: #356;
+        display: block;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 10px 0 0 4px;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+    }
+    ul {
+      margin: 4px 0 14px;
+      padding-left: 0;
+      li {
+        font-weight: normal;
+        list-style-type: none;
+        margin-left: 0;
+        overflow: hidden;
+        a {
+          color: #333;
+          display: block;
+          height: 30px;
+          padding-left: 16px;
+          padding-top: 7px;
+          position: relative;
+          text-decoration: none;
+          vertical-align: top;
+          white-space: nowrap;
+          width: 100%;
+          i {
+            color: #333;
+            &.no-icon {
+              text-indent: -9999px;
+            }
+          }
+          .tag {
+            bottom: 6px;
+            font-size: 9pt;
+            line-height: 100%;
+            position: absolute;
+            right: 16px;
+          }
+        }
+      }
+      li#selected {
+        background-color: #6f7faf;
+        a {
+          color: #fff;
+          i {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  #sub-toolbar {
+    background-color: $toolbar-bgcolor;
+    bottom: 0;
+    height: $toolbar-height;
+    left: 0;
+    position: absolute;
+    width: inherit;
+    #left-btns {
+      float: left;
+    }
+    #right-btns {
+      float: right;
+    }
+    .toolbar-btn {
+      display: block;
+      float: inherit;
+      font-size: 1.5rem;
+      height: $toolbar-height;
+      padding: 4px 4px 0;
+      text-align: center;
+      i {
+        font-size: 1.9rem;
+        &.fa-plus {
+          font-size: 1.8rem;
+        }
+      }
+    }
+    a.toolbar-btn, button.toolbar-btn {
+      color: $toolbar-color;
+      text-decoration: none;
+      &:hover {
+        color: $toolbar-hover-color;
+      }
+    }
+    div.toolbar-btn {
+      color: $toolbar-disabled-color;
+    }
+    div.dropdown-menu {
+      background-color: $toolbar-bgcolor;
+      border: 0;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      left: 2px;
+      line-height: 250%;
+      margin-top: 0;
+      width: 204px;
+      a.dropdown-item {
+        display: block;
+        font-size: 1.2rem;
+        height: 100%;
+        padding-left: 10px;
+        padding-right: 0;
+        width: 100%;
+        &:hover {
+          color: $toolbar-hover-color;
+          text-decoration: none;
+        }
+        i {
+          font-size: 1.4rem;
+        }
+        &.disabled {
+          color: #aaa;
+        }
+      }
+    }
+  }
+}

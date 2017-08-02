@@ -1,0 +1,10 @@
+<div class="loc attachment">
+  <div class="loc-header"><%= t('activerecord.models.attachment_file') %></div>
+  <div class="loc-body">
+    <ul>
+      <% files.each do |file| %>
+          <li><%= link_to file.upload_file_name, file.upload.url, {target: "_blank"} %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

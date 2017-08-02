@@ -1,0 +1,67 @@
+<div class="resources-card card">
+  <% if session[:nav_section] == 'home' %>
+  <h2 class="card-header"><%= t('views.manual') %></h2>
+  <div class="card-block" style="color:#000;">
+    <p class="card-text" style="color:#000;margin-bottom:20px;">
+      下の教材一覧には、LePoの操作マニュアルなどが表示されます。
+    </p>
+    <% else %>
+    <div class="card-block" style="color:#000;">
+      <% end %>
+      <% if @contents.empty? %>
+      <%= t('views.system_messages.no_contents') %>
+      <% else %>
+      <!-- header -->
+      <div class="row list-header">
+        <div class="inner-row">
+          <% case session[:nav_section] when 'home' %>
+          <div class="xx-large col">
+            <div><%= t('activerecord.attributes.content.title') %></div>
+          </div>
+          <div class="medium col">
+            <div><%= t('views.updated_at') %></div>
+          </div>
+          <% when 'repository' %>
+          <div class="x-small col">
+            <div></div>
+          </div>
+          <div class="small col">
+          </div>
+          <div class="xxx-large col">
+            <div><%= t('activerecord.attributes.content.title') %></div>
+          </div>
+          <div class="medium col">
+            <div><%= t('views.courses') %></div>
+          </div>
+          <div class="medium col">
+            <div><%= t('views.updated_at') %></div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- body -->
+      <% @contents.each do |content| %>
+      <div id="<%= selected_id(content == @content) %>" class="row <%= cycle('even-row', 'odd-row') %>">
+        <div class="inner-row">
+          <% case session[:nav_section] when 'home' %>
+          <div class="xx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('views.pages')})", content.id, {}) %></div>
+          <div class="medium col"><%= link_to_resource("#{format_time content.updated_at, 'ymd'}", content.id, {}) %></div>
+
+          <% when "repository" %>
+          <% icon_info = content_icon_info(content.status) %>
+          <div class="x-small col"><%= link_to_resource("<i class='#{icon_info[:class]}'></i>", content.id, {title: icon_info[:text]}) %></div>
+          <div class="small col">
+            <% role = ContentMember.find_by_user_id_and_content_id(session[:id], content.id).role %>
+            <%= link_to_resource("#{role_text role}", content.id, {}) %>
+          </div>
+          <div class="xxx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('views.pages')})", content.id, {}) %></div>
+          <div class="medium col"><%= link_to_resource("#{content.lessons.size.to_s}", content.id, {}) %></div>
+          <div class="medium col"><%= link_to_resource("#{format_time content.updated_at, 'ymd'}", content.id, {}) %></div>
+          <% end %>
+        </div>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+  </div>

@@ -1,0 +1,17 @@
+//
+// CSS for signin-resource
+//
+
+@import 'components/background_image';
+
+#resource #signin-resource {
+	@include background-image;
+	.control-group {
+		label {
+			width: 80px;
+		}
+		.controls {
+			margin-left: 90px;
+		}
+	}
+}

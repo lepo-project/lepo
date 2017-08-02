@@ -1,0 +1,29 @@
+<table>
+  <tr>
+    <td class="objective" rowspan="2"><%= outcome_objective_counter + 1 %>. <%= outcome_objective.objective.title %>
+      <% if outcome_objective.objective.criterion %>
+      <br/><span class"criterion"><%= outcome_objective.objective.criterion %></span>
+      <% end %>
+    </td>
+    <th class="self-achievement">自己</th>
+    <% if evaluator_id > 0 %>
+    <th class="eval-achievement"><%= t('activerecord.attributes.course.managers') %></th>
+    <% end %>
+    <th class="allocation">配点</th>
+  </tr>
+  <tr>
+    <% if outcome_objective.self_achievement %>
+    <th class="self-achievement <%= demerit_class(outcome_objective.self_achievement, outcome_objective.objective.allocation) %>"><%= outcome_objective.self_achievement %></th>
+    <% else %>
+    <th class="self-achievement">-</th>
+    <% end %>
+    <% if evaluator_id > 0 %>
+    <% if outcome_objective.eval_achievement %>
+    <th class="eval-achievement <%= demerit_class(outcome_objective.eval_achievement, outcome_objective.objective.allocation) %>"><%= outcome_objective.eval_achievement %></th>
+    <% else %>
+    <th class="eval-achievement">-</th>
+    <% end %>
+    <% end %>
+    <th class="allocation"><%= outcome_objective.objective.allocation %></th>
+  </tr>
+</table>

@@ -1,0 +1,65 @@
+<div id="user-resource" class="scroll-pane">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>学期の設定</h1>
+			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+
+			<div class="bordered-block">
+				<h2>
+					新しい学期の登録
+				</h2>
+				<%= form_for(@term, url: {action: 'ajax_create'}, html: {style: 'padding: 4px;', remote: true}) do |f| %>
+				<div class="form-group row">
+					<%= f.label :title, '学期名', class: 'col-md-3 col-form-label text-sm-right' %>
+					<div class="col-md-7">
+						<%= f.text_field :title, {class: 'form-control', placeholder: 'タイトル', style: 'margin-right:16px;'} %>
+						<div class="form-text">コーストップページに表示</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<%= f.label :start_at, '開始日', class: 'col-md-3 col-form-label text-sm-right' %>
+					<div class="col-md-7">
+						<%= f.date_select :start_at, {}, {class: 'form-control', style: 'width:80px; margin-right:3px;float: left;'} %>
+					</div>
+				</div>
+				<div class="form-group row">
+					<%= f.label :end_at, '終了日', class: 'col-md-3 col-form-label text-sm-right' %>
+					<div class="col-md-7">
+						<%= f.date_select :end_at, {}, {class: 'form-control', style: 'width:80px; margin-right:3px;float: left;'} %>
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+					<i class="fa fa-plus-circle fa-lg"></i> 登録
+				</button>
+				<% end %>
+			</div>
+
+			<div class="bordered-block">
+				<h2>登録済みの学期
+					<div class="header-explanation">学期開始日の1ヶ月前から、コースを学期に登録可能</div>
+				</h2>
+				<% @terms.each do |term| %>
+				<%= form_for(term, url: {action: 'ajax_update'}, html: {style: 'margin-bottom:30px;', remote: true}) do |f| %>
+				<%= f.hidden_field :id, value: term.id %>
+				<%= f.text_field :title, {class: 'form-control', placeholder: 'タイトル', style: 'margin-right:2px;'} %>
+				<%= f.date_select :start_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %> <div style="float:left;margin:0 10px;">-</div><%= f.date_select :end_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %>
+				<div style="clear: both;width:100%;text-align:right;">（ 登録しているコースの数： <%= term.courses.length %> ）</div>
+				<button type="submit" class="btn btn-secondary" style="min-width:60px;">
+					<i class="fa fa-check-circle fa-lg"></i> 更新
+				</button>
+				<% if term.courses.length.zero? %>
+				<%= link_to({action: 'ajax_destroy', id: term.id}, {remote: true}) do %>
+				<button type="submit" class="btn btn-danger" style="min-width:60px;margin-left:20px;">
+					<i class="fa fa-trash fa-lg"></i> 削除
+				</button>
+				<% end %>
+				<% end %>
+				<% end %>
+				<% end %>
+			</div>
+
+			<%= render partial: 'layouts/complete_btn', locals: {controller_name: 'preferences', nav_section: 'home'} %>
+		</div>
+	</div>
+</div>

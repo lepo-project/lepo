@@ -1,0 +1,22 @@
+//
+// CSS for preference-resource
+//
+
+#resource #preference-resource {
+  .card {
+    .preference-table {
+      .image-td {
+        text-align: center;
+        width: 80px;
+        i {
+          color: #aaa;
+          font-size: 32px;
+        }
+      }
+      .name-td {
+        font-size: 1.1rem;
+        vertical-align: middle;
+      }
+    }
+  }
+}

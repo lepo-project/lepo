@@ -1,0 +1,3 @@
+$("#messages-<%= outcome.manager_id %>").html(
+  "<%= j render(partial: 'outcomes/messages', locals: {current_outcome_id: current_outcome_id, outcome: outcome}) %>"
+);

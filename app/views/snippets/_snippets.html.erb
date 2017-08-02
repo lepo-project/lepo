@@ -1,0 +1,23 @@
+<div id="snippets" style="overflow: auto;">
+  <%= render partial: "layouts/snippet", collection: @snippets, locals: {editable_snippet: true} %>
+</div>
+
+
+<script>
+$(function () {
+  $('#snippets').sortable({
+    axis:'y',
+    opacity: 0.8,
+    update:function () {
+      $.ajax({
+        url:'<%= Rails.application.config.relative_url_root %>/snippets/ajax_sort/?note_id=<%= @note.id %>',
+        data:$(this).sortable('serialize')
+      })
+    }
+  })
+  // for snippet edit form
+  autosize($('.elastic_textarea'));
+  // for snippet edit form: this is necessary to fit height when initial text exists in textarea
+  $('.to-be-hidden').hide();
+})
+</script>

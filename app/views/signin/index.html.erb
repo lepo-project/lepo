@@ -1,0 +1,38 @@
+<div id="wrapper">
+  <div id="sub-pane">
+    <nav id="main-nav">
+      <%= render partial: "signin/main_nav" %>
+    </nav>
+    <div id="sub-toolbar">
+      <%= render partial: "signin/sub_toolbar" %>
+    </div>
+  </div>
+  <div id="main-pane" class="container">
+    <div id="main-toolbar">
+      <div id="fixed-toolbar">
+        <a id="sub-pane-toggle" class="toolbar-btn" style="cursor:pointer;"><i class="fa fa-navicon"></i></a>
+      </div>
+      <div id="variable-toolbar">
+        <%= render partial: "signin/toolbar" %>
+      </div>
+    </div>
+    <div id="message-card"></div>
+    <main id="resource">
+      <% if User.count.zero? %>
+      <!-- before initial setup -->
+      <%= render partial: "setup"  %>
+      <% else %>
+      <!-- after initial setup -->
+      <%= render partial: "index"  %>
+      <% end %>
+    </main>
+  </div>
+</div>
+
+
+<script>
+$("#sub-pane-toggle").click(function(e) {
+  e.preventDefault();
+  $("#wrapper").toggleClass("toggled");
+});
+</script>

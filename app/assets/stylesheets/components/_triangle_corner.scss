@@ -1,0 +1,41 @@
+//
+// variables & mixins for triangle-corner
+//
+
+@mixin triangle-corner {
+  div.triangle-corner {
+    &::before {
+      border-right: 34px solid transparent;
+      border-top: 34px solid #d0d0d0;
+      content: '';
+      display: block;
+      height: 0;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 0;
+      z-index: 2;
+    }
+    a {
+      color: #fff;
+      font-size: 10pt;
+      left: 2px;
+      position: absolute;
+      text-decoration: none;
+      top: 4px;
+      z-index: 3;
+      &:hover {
+        color: #fca;
+      };
+    }
+    &.stared {
+      &::before {
+        border-right: 34px solid transparent;
+        border-top: 34px solid #fca;
+      }
+      a {
+        color: #f30;
+      }
+    }
+  }
+}

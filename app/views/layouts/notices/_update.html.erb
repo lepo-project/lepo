@@ -1,0 +1,18 @@
+<%#= f.error_messages %>
+<div class="bordered-block">
+	<h2>お知らせの更新</h2>
+	<div class="form-group row">
+		<div class="col-md-8">
+			<%= f.text_area :message, rows: "5", value: value, class: "elastic_textarea form-control" %>
+			<div class="button-block">
+				<% nav_id = (@course_id && (@course_id > 0)) ? @course_id : 0 %>
+				<%= link_to({action: 'ajax_edit_notice', nav_section: session[:nav_section], nav_id: nav_id}, {id: "cancel-btn", class: "btn btn-secondary", title: "cancel", remote: true}) do %>
+				<i class="fa fa-times-circle fa-lg"></i> <%= t("views.cancel") %>
+				<% end %>
+				<button type="submit" class="btn btn-primary" style="margin-left: 10px;">
+					<i class="fa fa-check-circle fa-lg"></i> 更新
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

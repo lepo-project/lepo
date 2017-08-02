@@ -1,0 +1,29 @@
+<div class="footer">
+  <div class="card-footer">
+    <div class="d-flex justify-content-between">
+      <div>
+        <%= link_to(get_short_string(snippet.reference_num + ' ' + display_title(snippet.source), 25), snippet.source.url, {target: '_blank'}) %>
+        <% if snippet.master_note && session[:nav_section] == 'open_courses' && session[:nav_id].to_i == snippet.note.course_id %>
+        ( 取り込み元ノート: <%= link_to(raw("<i class='fa fa-file-text'></i>#{snippet.master_note.manager.familyname}"), {controller: 'notes', action: 'ajax_show_from_others', nav_id: snippet.note.course_id, id: snippet.master_note.id}, {remote: true}) %> )
+        <% end %>
+      </div>
+      <%  if snippet.importable? @user.id %>
+      <%= link_to(raw("<i class='fa fa-plus'></i> MyNote"), {action: 'ajax_import_snippet', snippet_id: snippet.id}, {remote: true, title: '自分のノートに取込み'}) %>
+      <% else %>
+      <%= raw("<span class='badge badge-default'>取り込み済み</span>") if snippet.imported? @user.id %>
+      <% end %>
+
+      <% if controller_name == 'snippets' %>
+      <a data-toggle="collapse" href="#snippet-<%= snippet.id %>-operations" aria-expanded="false" aria-controls="snippet-<%= snippet.id %>-operations"><i class='fa fa-chevron-circle-down'></i> <%= t('views.operations') %></a>
+      <% elsif !snippet.imported_snippets.size.zero? && session[:nav_section] == 'open_courses' && session[:nav_id].to_i == snippet.note.course_id %>
+      <div>
+        取り込んだノート:
+        <% snippet.imported_snippets.each do |rs| %>
+        <%= link_to(raw("<i class='fa fa-file-text'></i>#{rs.manager.familyname}"), {controller: 'notes', action: 'ajax_show_from_others', nav_id: snippet.note.course_id, id: rs.note_id}, {remote: true}) if rs.note_id %>&nbsp;&nbsp;
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <%= render(partial: 'layouts/snippets/operations_web', locals: {snippet: snippet}) if controller_name == 'snippets' %>
+</div>

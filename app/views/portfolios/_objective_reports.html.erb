@@ -1,0 +1,29 @@
+<h2 class="card-header">レッスン目標の達成率</h2>
+<div class="clearfix" style="padding:10px;">
+  <% if Outcome.report_displayable? @lesson.id, session[:id], @course_role %>
+  <table id="goals-achievements" class="table table-condensed">
+    <tbody>
+      <% if @lesson.evaluator_id == 0 %>
+      <tr>
+        <th class="width280"></th>
+        <th class="width120"></th>
+        <th class="width240 text-center">目標の達成率 [%]</th>
+      </tr>
+      <% else %>
+      <tr>
+        <th class="width280" rowspan="2"></th>
+        <th class="width120" rowspan="2"></th>
+        <th class="width240 text-center" colspan="2">目標の達成率 [%]</th>
+      </tr>
+      <tr>
+        <th class="width120 text-center">自己評価</th>
+        <th class="width120 text-center">教師評価</th>
+      </tr>
+      <% end %>
+      <%= render partial: "goal_objective_report", collection: objective_reports(@lesson, @learners, @myself, @course_role), locals: {eval_report: (@lesson.evaluator_id > 0)} %>
+    </tbody>
+  </table>
+  <% else %>
+  <%= render partial: "layouts/system_message", locals: {message: "課題の評価が完了していません", message_category: "information"} %>
+  <% end %>
+</div>

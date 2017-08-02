@@ -1,0 +1,9 @@
+//
+// CSS for portfolio-resource
+//
+
+@import 'components/versatile_cards';
+
+#resource #portfolio-resource {
+	@include report-card;
+}

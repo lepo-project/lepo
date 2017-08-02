@@ -1,0 +1,66 @@
+<div id="note-header" class="note-header-card card">
+  <div class="card-block">
+    <% if controller_name == "notes" %>
+    <div class="triangle-corner <%= note_star_btn_class session[:id], @note %>">
+      <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: "ajax_toggle_star", id: @note.id, resource: "show"}, {remote: true}) %>
+    </div>
+    <% end %>
+    <div class="card-subtitle text-right text-muted">
+      <%= t('views.note.' + @note.status) %><%= t('activerecord.models.note') %>
+    </div>
+    <h1 class="card-title"><%= @note.title %></h1>
+  </div>
+
+  <div class="card-block-flex">
+    <div class="side-area">
+      <% obj = (@course && @course.learner?(@user.id) && @note.anonymous?(@user.id)) ? nil : @note.manager %>
+      <%= render partial: "layouts/image", locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>
+      <div class="caption">
+        <% if obj.nil? %>
+        ---
+        <% else %>
+        <%= @note.manager.fullname %>
+        <% end %>
+      </div>
+    </div>
+    <div class="main-area">
+      <p class="overview"><%= @note.overview %></p>
+      <%= render(partial: "layouts/snippets/headers", locals: {headers: Snippet.headers(@snippets)}) %>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <div class="align-left" title="<%= t('views.note.char_count') %>">
+      <i class='fa fa-font fa-lg'></i><%= @note.snippets_char_count('all') %> <%= t('views.units.characters') %><span title="<%= t('views.note.written_char_count') %>">（<i class='fa fa-user fa-lg'></i><%= @note.snippets_char_count('direct') %> <%= t('views.units.characters') %>）</span>
+    </div>
+    <div class="align-left" title="<%= t('views.note.media_count') %>">
+      <i class='fa fa-picture-o fa-lg'></i><%= @note.snippets_count "media" %> <%= t('views.units.pieces') %><span title="<%= t('views.note.uploaded_media_count') %>">（<i class='fa fa-user fa-lg'></i><%= @note.snippets_count "direct_media" %> <%= t('views.units.pieces') %>）</span>
+    </div>
+    <div class="align-left" title="<%= t('views.note.referenced_web_count') %>">
+      <i class='fa fa-globe fa-lg'></i><%= @note.reference_ids.size %> <%= t('views.units.pages') %>
+    </div>
+    <% if @note.stars_count > 0 %>
+    <div class="align-left" title="<%= t('views.note.star_count') %>">
+      <i class='fa fa-star fa-lg'></i><%= @note.stars_count %> <%= t('views.units.pieces') %>
+    </div>
+    <% end %>
+    <div class="align-right" title="<%= l(@note.updated_at)  %>">
+      <%= l(@note.updated_at.to_date, format: :short)  %>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+$(function () {
+  $(".scroll").click(function(event){
+    event.preventDefault();
+    var url = this.href;
+    var parts = url.split("#");
+    var header = $("#"+parts[1]).offset();
+    var pane_top = $("#snippet-resource").offset();
+    $('#snippet-resource').animate({scrollTop:(header.top-pane_top.top)}, 500);
+  });
+});
+</script>

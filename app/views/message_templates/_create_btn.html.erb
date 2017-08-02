@@ -1,0 +1,28 @@
+<!-- Example split danger button -->
+<div class="btn-group dropup" style="float: left; margin-left: 10px;">
+  <button type="button" id="create_template_<%= outcome_id %>" class="btn btn-lg btn-secondary"><i class='fa fa-comment fa-lg'></i> テンプレートに登録</button>
+  <button type="button" id="create_message_template_option_<%= outcome_id %>" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+
+  <div class="dropdown-menu" aria-labelledby="create_template_<%= outcome_id %>">
+    <% if evaluator_id > 0 %>
+    <% @content.objectives.each_with_index do |obj, index| %>
+    <a id="create_demerit_template_<%= outcome_id %>_<%= obj.id %>" class="create_template_obj_<%= obj.id %> dropdown-item" style="cursor:pointer;" disabled="disabled">目標<%= index + 1 %>の減点テンプレートに登録</a>
+    <% end %>
+    <% end %>
+    <a id="create_common_template_<%= outcome_id %>" class="dropdown-item" style="cursor:pointer;">全教材テンプレートに登録</a>
+  </div>
+</div>
+
+
+<script>
+$("#create_template_<%= outcome_id %>").click(function(){createTemplate(<%= lesson_id %>, <%= outcome_id %>, <%= @content.id %>, 0);})
+
+<% if evaluator_id > 0 %>
+<% @content.objectives.each_with_index do |obj, index| %>
+$("#create_demerit_template_<%= outcome_id %>_<%= obj.id %>").click(function(){createTemplate(<%= lesson_id %>, <%= outcome_id %>, <%= @content.id %>, <%= obj.id %>);})
+<% end %>
+<% end %>
+$("#create_common_template_<%= outcome_id %>").click(function(){createTemplate(<%= lesson_id %>, <%= outcome_id %>, 0, 0);})
+</script>

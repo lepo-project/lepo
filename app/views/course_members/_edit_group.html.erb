@@ -1,0 +1,36 @@
+<div id="user-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+			<div class="block">
+				<!-- With Groups -->
+				<!-- #FIXME: Group work -->
+				<table class="table edit-group">
+					<tr>
+						<th>id</th>
+						<th>氏名</th>
+						<th>班</th>
+					</tr>
+					<% @course.learners.each do |l| %>
+					<tr>
+						<td><%= l.user_id %></td>
+						<td><%= l.fullname %></td>
+						<td>
+							<div class="btn-group" data-toggle="buttons-radio">
+								<ul class="nav nav-pills">
+									<% @course.groups_count.times do |g| %>
+									<% if g == @course.group_id_for(l.id) %>
+									<li class="active"><span class="badge badge-primary" style="font-size: 1rem;"><%= g+1 %>班</span></li>
+									<% else %>
+									<li><%= link_to("#{g+1}班", {action: "ajax_update_group", user_id: l.id, group_id: g}, {remote: true}) %></li>
+									<% end %>
+									<% end %>
+								</ul>
+							</div>
+						</td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

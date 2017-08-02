@@ -1,0 +1,9 @@
+//
+// variables & mixins for block
+//
+
+@mixin default-block {
+  clear: both;
+  margin-bottom: 1rem;
+  max-width: 720px;
+}

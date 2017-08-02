@@ -1,0 +1,12 @@
+<ul class="breadcrumb">
+  <% crumbs.each do |c| %>
+  <% if c.size == 1 %>
+  <li class="active"><%= c[0] %></li>
+  <% else %>
+  <li>
+    <%= link_to(c[0], c[1], {remote: true}) %>
+    <span class="divider">/</span>
+  </li>
+  <% end %>
+  <% end %>
+</ul>

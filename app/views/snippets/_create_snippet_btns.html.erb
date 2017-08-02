@@ -1,0 +1,27 @@
+<button id="create-text-btn-<%= display_order %>" class="btn btn-sm btn-outline-secondary create-snippet-btn">
+  <i class="fa fa-plus"></i> <%= t('views.snippet.text') %>
+</button>
+<button id="create-file-btn-<%= display_order %>" class="btn btn-sm btn-outline-secondary create-snippet-btn">
+  <i class="fa fa-plus"></i> <%= t('views.snippet.file') %>
+</button>
+<button id="create-header-btn-<%= display_order %>" class="btn btn-sm btn-outline-secondary create-snippet-btn">
+  <i class="fa fa-plus"></i> <%= t('views.snippet.header') %>
+</button>
+<button id="create-subheader-btn-<%= display_order %>" class="btn btn-sm btn-outline-secondary create-snippet-btn">
+  <i class="fa fa-plus"></i> <%= t('views.snippet.subheader') %>
+</button>
+
+<%= render(partial: "snippets/create", locals: {display_order: display_order, note_id: note_id, category: "text"}) %>
+<%= render(partial: "snippets/create_file", locals: {display_order: display_order, note_id: note_id}) %>
+<%= render(partial: "snippets/create", locals: {display_order: display_order, note_id: note_id, category: "header"}) %>
+<%= render(partial: "snippets/create", locals: {display_order: display_order, note_id: note_id, category: "subheader"}) %>
+
+
+<script>
+$(function() {
+  $("#create-text-btn-<%= display_order %>").click(function(){toggleCreateSnippet(<%= display_order %>, "text");});
+  $("#create-file-btn-<%= display_order %>").click(function(){toggleCreateSnippet(<%= display_order %>, "file");});
+  $("#create-header-btn-<%= display_order %>").click(function(){toggleCreateSnippet(<%= display_order %>, "header");});
+  $("#create-subheader-btn-<%= display_order %>").click(function(){toggleCreateSnippet(<%= display_order %>, "subheader");});
+});
+</script>

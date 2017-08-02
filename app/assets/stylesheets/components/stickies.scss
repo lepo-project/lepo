@@ -1,0 +1,180 @@
+//
+// CSS for sticky
+//
+
+@import 'components/color';
+@import 'components/image';
+@import 'components/toolbar';
+@import 'components/triangle_corner';
+
+#resource #sticky-panel {
+  @include image-40px;
+  background-color: $toolbar-bgcolor;
+  border: 1px solid #ccc;
+  border-top: 0;
+  color: #000;
+  max-height: 92%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 4px;
+  position: absolute;
+  right: 16px;
+  top: $toolbar-height;
+  z-index: 1;
+  .toolbar {
+    height: 20px;
+    padding: 0 2px 0 0;
+    a#sticky-num-indicator {
+      background: none;
+      color: $toolbar-color;
+      display: block;
+      float: right;
+      margin-top: 4px;
+      text-align: right;
+      width: 40px;
+      &:hover {
+        color: $toolbar-hover-color;
+        text-decoration: none;
+      }
+    }
+    a.btn {
+      float: right;
+      margin-right: 4px;
+      min-width: 12px;
+    }
+    a.editor {
+      display: block;
+      float: left;
+    }
+    div.course-border {
+      border-right-color: $course-color;
+    }
+    div.private-border {
+      border-right-color: $private-color;
+    }
+  }
+  .show, .edit {
+    margin: 0 16px 4px 4px;
+    width: 358px;
+    .sticky {
+      margin-bottom: 4px;
+    }
+  }
+  .mini {
+    width: 64px;
+    .toolbar  a#sticky-num-indicator {
+      margin: 4px 16px 0 0;
+    }
+  }
+}
+
+
+#resource #sticky-reports, #resource #course-stickies, #resource #private-stickies, #resource #hot-stickies, #resource #user-stickies {
+  a.btn {
+    display: block;
+    float: right;
+    margin-right: 8px;
+    min-width: 40px;
+    i.fa {
+      line-height: 100%;
+    }
+    &#related-btn {
+      float: left;
+      margin-left: 10px;
+    }
+  }
+  .sticky {
+    @include image-40px;
+    margin: 4px;
+  }
+}
+#resource #sticky-panel, #resource #sticky-reports, #resource #course-stickies, #resource #private-stickies, #resource #hot-stickies, #resource #user-stickies {
+  .show, .edit {
+    clear: both;
+    #sort-btn, #reload-btn {
+      i.fa {
+        line-height: 100%;
+      }
+    }
+    .create-btn {
+      background-color: #fff;
+      border: 1px solid;
+      border-bottom-color: #bbb;
+      border-left-color: #bbb;
+      border-right-width: 6px;
+      border-top-color: #bbb;
+      float: left;
+      margin: 0 4px 4px 0;
+      min-width: 86px;
+      padding: 4px;
+    }
+    .sticky {
+      background-color: #fff;
+      border-right-style: solid;
+      border-right-width: 10px;
+      float: left;
+      width: 356px;
+      .word-wrap {
+        white-space: pre-line;
+      }
+    }
+    .side-area {
+      @include triangle-corner;
+      float: left;
+      height: 100%;
+      margin: 0;
+      position: relative;
+      text-align: center;
+      width: 56px;
+      .side-image {
+        margin-top: 6px;
+      }
+      .side-caption {
+        color: #333;
+        font-size: 10px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        padding-top: 0;
+        text-align: center;
+        width: 56px;
+      }
+    }
+    .main-area {
+      margin-bottom: 0;
+      min-height: 0;
+      overflow: hidden;
+      padding: 4px;
+      .header a {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+      .body {
+        color: #000;
+        min-height: 40px;
+      }
+      .footer {
+        margin-top: 12px;
+        .left-footer {
+          color: #888;
+          float: left;
+        }
+        .right-footer {
+          float: right;
+          a {
+            padding: 0 5px;
+          }
+        }
+      }
+    }
+    #new-sticky {
+      padding: 0 12px 0 2px;
+      textarea {
+        height: 50px;
+        margin: 2px 0;
+        max-height: 300px;
+        width: 100%;
+      }
+    }
+  }
+}

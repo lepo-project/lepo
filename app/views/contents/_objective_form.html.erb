@@ -1,0 +1,50 @@
+<% if editable %>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label text-sm-right"><span class="<%= required_class required %>">*</span>目標</label>
+
+      <div class="col-md-7">
+        <%= objective_form.text_field :title, class: "form-control" %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label text-sm-right"><span class="<%= required_class required %>">*</span>課題配点</label>
+
+      <div class="col-md-7 form-inline">
+        <%= objective_form.select :allocation, [10, 9, 8, 7, 6, 5, 4, 3, 2, 1], {}, {class: "form-control", style: "width: 100px;"} %> / 10点
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label text-sm-right"><span style="vertical-align: top">評価基準</span></label>
+
+      <div class="col-md-7">
+        <%= objective_form.text_area :criterion, class: "form-control", rows: "3" %>
+      </div>
+    </div>
+<% else %>
+    <!-- when outcomes_objective record exists for the content, objectives is NOT editable -->
+    <% if objective_form.object.title && objective_form.object.title.size > 0 %>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label text-sm-right" style="line-height: 60%;"><span class="<%= required_class required %>">*</span>目標</label>
+
+          <div class="col-md-7">
+            <%= objective_form.object.title %>
+            <%= objective_form.hidden_field :title %>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label text-sm-right" style="line-height: 60%;"><span class="<%= required_class required %>">*</span>課題配点</label>
+
+          <div class="col-md-7">
+            <%= objective_form.object.allocation %> / 10点
+            <%= objective_form.hidden_field :allocation %>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label text-sm-right" style="line-height: 60%;"><span style="vertical-align: top">評価基準</span></label>
+
+          <div class="col-md-7">
+            <%= objective_form.text_area :criterion, class: "form-control", rows: "3" %>
+          </div>
+        </div>
+    <% end %>
+<% end %>

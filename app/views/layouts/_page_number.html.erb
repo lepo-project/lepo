@@ -1,0 +1,22 @@
+<div class="page-number">
+  <div style="float:left;padding-top:2px;">: </div>
+  <div class="btn-group">
+    <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><%= page_num_text(session[:page_num], session[:max_page_num]) %></a>
+    <div class="dropdown-menu">
+      <% for p in 0..session[:max_page_num].to_i %>
+      <% item_class = (p != session[:page_num].to_i) ? 'dropdown-item' : 'dropdown-item disabled' %>
+      <%= link_to({action: 'ajax_show_page', page_num: p}, {class: item_class, remote: true}) do %>
+      <% if p == session[:page_num].to_i %>
+      <i class="fa fa-check"></i>
+      <% end %>
+      <%= page_num_text p, session[:max_page_num] %>
+      <% end %>
+      <% end %>
+      <% if defined? lesson_id %>
+      <div class="dropdown-divider"></div>
+      <%= link_to(t('views.navs.portfolio'), {controller: 'portfolios', action: 'ajax_show_with_transition', id: lesson_id}, {class: 'dropdown-item', remote: true}) %>
+      <% end %>
+    </div>
+  </div>
+  <%= render(partial: 'layouts/page_flipper', locals: {pg: pg}) %>
+</div>

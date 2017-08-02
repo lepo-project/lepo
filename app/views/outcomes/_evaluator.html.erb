@@ -1,0 +1,130 @@
+<% outcome = evaluator %>
+
+<div id="outcome_<%= outcome.id %>" class="accordion-group outcome-<%= outcome.status %>">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#outcome_accordion" href="#collapse_<%= outcome.id %>">
+      <div class="heading-item" style="text-align:right; width:4rem;">
+        <%= outcome.score.to_s+t('views.units.points') if outcome.score %>
+      </div>
+      <div class="heading-item" style="text-align:center; width:9rem;">
+        <%= outcome_status_text outcome.status, outcome.score %>
+      </div>
+      <div class="heading-item">
+        <%= outcome.manager.fullname %> (<%= outcome.manager.user_id %>)
+        <% if @course && (@course.groups_count > 1) %>
+        / <%= (@course.group_id_for outcome.manager_id) + 1 %><%= t('activerecord.attributes.course_member.group') %>
+        <% end %>
+      </div>
+      <div class="heading-item" style="padding-right:0.5rem; text-align:right; width:11rem;">
+        <%= (format_time(outcome.updated_at, 'mdhm')) if outcome.updated_at %>
+      </div>
+    </a>
+    <hr style="border-style: none;" />
+  </div>
+
+  <div id="collapse_<%= outcome.id %>" class="accordion-body collapse">
+
+    <% if (outcome.status != 'draft') %>
+
+    <div class="accordion-inner">
+      <div class="loc-subheader">提出物</div>
+      <% case @content.as_category when 'file' %>
+      <%= render partial: 'outcomes/file_outcome', locals: {outcome_files: outcome.outcome_files, outcome_id: outcome.id, outcome_status: outcome.status} %>
+      <% when 'choice' %>
+      <%= render partial: 'outcomes/choice_outcome' %>
+      <% end %>
+
+      <%= form_for(outcome, url: {controller: 'outcomes', action: 'ajax_update', id: outcome.id}, html: {name: 'outcome_form', class: 'form-horizontal', remote: true}) do |outcome_form| %>
+      <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+      <%#= outcome_form.error_messages %>
+
+      <% case @content.as_category when 'text' %>
+      <%= render partial: 'outcomes/text_outcome', locals: {outcome_form: outcome_form, outcome_text: outcome.outcome_text, outcome_status: outcome.status} %>
+      <% when 'outside' %>
+      <%= render partial: 'outcomes/outside_outcome' %>
+      <% end %>
+
+      <div class="loc-subheader">達成度評価</div>
+      <div class="loc-subbody">
+        <% if (outcome.status == 'submit') && (@lesson_role == 'evaluator') %>
+        <%= render partial: 'outcomes/outcome_objective_form', locals: {outcome_form: outcome_form, lesson_role: @lesson_role, evaluator_id: @lesson.evaluator_id} %>
+        <div style="text-align:right;margin-right:1rem;">目標別評価の合計と異なるレッスン評価をする場合の評価： <%= outcome_form.select :score, 0..10, {include_blank: '---', selected: ''}, {class: 'form-control', style: 'display: inline-block; width: 60px;'} %></div>
+        <% else %>
+        <%= render partial: 'outcomes/outcome_objective', collection: outcome.outcomes_objectives, locals: {evaluator_id: @lesson.evaluator_id} %>
+        <%= raw("<div style='text-align: right;margin-top:4px;'>（このレッスンの評価担当者ではありません）</div>") if (@lesson.evaluator_id > 0) && (@lesson_role == 'manager') %>
+        <% end %>
+      </div>
+
+      <% if (outcome.status == 'submit') or (outcome.status == 'self_submit') %>
+      <div class="loc-subheader">メッセージ</div>
+      <div class="loc-subbody">
+        <div class="message_form" style="display:<%= ((outcome.status == 'submit') && (@lesson_role == 'evaluator')) ? 'block' : 'none' %>;">
+
+          <div class="insert_btns" data-lepo-outcome-id="<%= outcome.id %>">
+            <%= render partial: '/message_templates/insert_btn', collection: @message_templates[:contents]+@message_templates[:content]+@message_templates[:objective], locals: {lesson_id: @lesson.id, evaluator_id: @lesson.evaluator_id, outcome_id: outcome.id} %>
+          </div>
+
+          <%= outcome_form.fields_for :outcome_messages, Outcome.reflect_on_association(:outcome_messages).klass.new do |message_form| %>
+          <%= message_form.text_area :message, style: 'width: 100%; height:4em; max-height: 20em; padding:0;', class: "message_form_text elastic_textarea" %>
+          <%= message_form.hidden_field :manager_id, value: @myself.id %>
+          <% end %>
+
+          <div style="margin-top: 8px; height: 40px;">
+            <button type="submit" class="btn btn-large btn-primary" style="float: left;">
+              <i class="fa fa-comment fa-lg"></i> <%= outcome_submit_text(@lesson.evaluator_id, @lesson_role) %>
+            </button>
+            <div class="create_btn">
+              <%= render partial: '/message_templates/create_btn', locals: {lesson_id: @lesson.id, evaluator_id: @lesson.evaluator_id, outcome_id: outcome.id} %>
+            </div>
+          </div>
+
+        </div>
+        <div class="show_message_form" style="display:<%= ((outcome.status == 'self_submit') || ((outcome.status == 'submit') && (@lesson_role == 'manager'))) ? 'block' : 'none' %>">
+          <a id="create_outcome_message_<%= outcome.id %>" class="btn btn-secondary" style="cursor:pointer;"><i class='fa fa-comment fa-lg'></i> メッセージを作成</a>
+        </div>
+      </div>
+      <% end %>
+
+      <div style="margin: 0 0 1rem;">
+        <%= previous_status_button @lesson.evaluator_id, @lesson_role, outcome %>
+      </div>
+
+      <div class="loc-subheader lesson-menu-header">
+        過去のメッセージ
+        <%= render partial: 'outcomes/lessons_menu', locals: {outcome: outcome, lesson_id: @lesson.id} %>
+      </div>
+      <div id="messages-<%= outcome.manager_id %>" class="loc-subbody">
+        <%= render partial: 'outcomes/messages', locals: {current_outcome_id: outcome.id, outcome: outcome} %>
+      </div>
+
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+
+<script>
+var obj_ids = <%= @content.objective_ids %>
+$(function () {
+
+  // when outcome is new record, outcome.id is null, so outcome_id must be treated as character not integer
+  var outcome_id = "<%= outcome.id %>"
+  var message_form = $("#outcome_" + outcome_id + " .message_form_text");
+
+  if (message_form.length > 0) {
+    displaycreateTemplateBtn(message_form.val().length, outcome_id)
+    displayObjectiveTemplateBtnAll(outcome_id)
+
+    $('#outcome_' + outcome_id).on('show', function () {
+      bindMessageTextarea(outcome_id);
+      displayObjectiveTemplateBtnAll(outcome_id, obj_ids);
+    })
+    $('#outcome_' + outcome_id).on('hidden', function () {
+      unbindMessageTextarea(outcome_id);
+    })
+  }
+})
+$("#create_outcome_message_<%= outcome.id %>").click(function(){toggleOutcomeMessage(<%= outcome.id %>);})
+
+</script>

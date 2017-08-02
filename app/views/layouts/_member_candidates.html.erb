@@ -1,0 +1,53 @@
+<% if users.size == 0 %>
+<%= render partial: 'layouts/system_message', locals: {message: t('views.system_messages.no_search_results'), message_category: 'info'} %>
+<% else %>
+<div class="card block">
+  <h2 class="card-header"><%= title %></h2>
+  <div class="card-block" style="padding: 1px;">
+    <table class="table table-sm table-striped user-table">
+      <% users.each do |user| %>
+      <tr>
+        <td class="image-td">
+          <%= render partial: 'layouts/image', locals: {obj: user[0], fa_class: 'fa-user', size: 'm'} %>
+        </td>
+        <td class="name-td">
+          <%= user[0].fullname + ' / ' + user[0].fullname_alt %>
+          <span class="badge badge-default"><%= member_role_text category, user[1] %></span>
+        </td>
+        <td class="button-td">
+          <% search_word = @search_word ? @search_word : '' %>
+          <% candidates_csv = @candidates_csv ? @candidates_csv : '' %>
+          <% member_role = @member_role ? @member_role : '' %>
+          <% url = member_candidate_url category, form_category, user[0], resource_id, user[2], search_word, member_role, candidates_csv %>
+
+          <%= link_to(url, remote: true) do %>
+          <% case user[2] when 'suspended' %>
+          <button type="button" class="btn btn-danger">
+            <%= t('activerecord.others.user.role.suspended') %>
+          </button>
+          <% when 'none' %>
+          <button type="button" class="btn btn-danger">
+            <%= t('activerecord.models.'+category) %>から登録解除
+          </button>
+          <% else %>
+          <% button_title = member_role_text category, user[2] %>
+          <% if button_title %>
+          <button type="button" class="btn btn-primary">
+            <%= button_title %>として登録
+          </button>
+          <% end %>
+          <% end %>
+          <% end %>
+
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+  <% unless footer.empty? %>
+  <div class="card-footer">
+    <%= sanitize add_br(footer) %>
+  </div>
+  <% end %>
+</div>
+<% end %>

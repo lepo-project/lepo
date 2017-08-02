@@ -1,0 +1,145 @@
+lepo_bookmarklet = {
+	set_content: function (container) {
+		<% tags.each do |tag| %>
+		var elem = document.createElement('<%= tag[:name] %>');
+		<% tag[:attributes].each do |key,value| %>
+		elem.setAttribute("<%= key %>", "<%= value %>");
+		<% end %>
+		elem.innerHTML = '<%= j raw(tag[:innerHTML]) %>';
+		container.appendChild(elem);
+		<% end %>
+	},
+
+	load_content: function () {
+		var base = document.getElementById("lepo_bookmarklet_base");
+		var content = document.getElementById("lepo_bookmarklet_content");
+		document.body.appendChild(base);
+		document.body.appendChild(content);
+
+		if (document.querySelectorAll('img').length == 0) {
+			var str = document.createTextNode("切り抜く文字が選択されてなく、切り抜ける画像もありません。");
+			base.appendChild(str);
+			base.style.height = "120px";
+			base.style.padding = "60px 0 0";
+			content.style.width = "0";
+			document.body.appendChild(base);
+			setTimeout(this.unload_content, 2500);
+		} else {
+			var str = document.createTextNode("切り抜く画像をクリックしてください。");
+			base.appendChild(str);
+			//			document.body.appendChild(base);
+
+			var closer = document.getElementById("lepo_bookmarklet_closer");
+			var str = document.createTextNode("閉じる");
+			closer.appendChild(str);
+			this.load_images();
+		}
+	},
+
+	load_images: function () {
+		var images = document.querySelectorAll('img');
+		var lepo_bookmarklet_images = document.getElementById("lepo_bookmarklet_images");
+
+		var srcs = new Array();
+		for (var i = 0; i < images.length; i++) {
+			srcs.push(images[i].src)
+		}
+
+		// without overlap srcs
+		if (srcs.filter) {
+			var unique_srcs = srcs.filter(function (x, i, self) {
+				return self.indexOf(x) === i;
+			});
+		} else {
+			// for ie<=8
+			unique_srcs = srcs;
+		};
+
+		var bookmarklet_content = document.getElementById("lepo_bookmarklet_content");
+		var bookmarklet_base = document.getElementById("lepo_bookmarklet_base");
+		var bookmarklet_container = document.getElementById("lepo_bookmarklet_container");
+
+		for (var i = 0; i < unique_srcs.length; i++) {
+			// #mybookmarklet_images img {
+			//   float:left;margin:6px;max-height:120px;max-width:150px;
+			//   border: solid 3px #aaa;
+			// #mybookmarklet_images img:hover {
+			//   border: solid 3px #0af;
+			// var css = "img:hover {border: solid 3px #0af;}"
+			// var style = document.createElement('style');
+			// style.appendChild(document.createTextNode(css));
+			// document.getElementsByTagName('head')[0].appendChild(style);
+
+			var image = document.createElement('img');
+			image.style.border = "solid 3px #aaa";
+			image.style.float = "left";
+			image.style.margin = "6px";
+			image.style.maxHeight = "120px";
+			image.style.maxWidth = "150px";
+			image.src = unique_srcs[i];
+			var d = document;
+			var b = d.body;
+			var z = d.createElement('script');
+			z.type = "text/javascript";
+
+			if (image.addEventListener) {
+				image.addEventListener('click', function(img) {
+					try {
+						if (!b) throw (0);
+						z.src = '<%= system_url %>/snippets/create_web_snippet?u=' + encodeURIComponent(d.location.href) + '&t=' + encodeURIComponent(d.title) + '&d=' + encodeURIComponent(img.target.src) + '&c=i&tk=<%= token %>&v=3.2';
+						b.appendChild(z);
+						b.removeChild(bookmarklet_content);
+						b.removeChild(bookmarklet_base);
+						b.removeChild(bookmarklet_container);
+					} catch (e) {
+						alert('切り抜き操作でエラーが発生しました。');
+					}
+				}, false);
+			} else {
+				// for IE8
+				image.attachEvent("onclick", function(img) {
+					try {
+						if (!b) throw (0);
+						z.src = '<%= system_url %>/snippets/create_web_snippet?u=' + encodeURIComponent(d.location.href) + '&t=' + encodeURIComponent(d.title) + '&d=' + encodeURIComponent(window.event.srcElement.src) + '&c=i&tk=<%= token %>&v=3.2';
+						b.appendChild(z);
+						b.removeChild(bookmarklet_content);
+						b.removeChild(bookmarklet_base);
+						b.removeChild(bookmarklet_container);
+					} catch (e) {
+						alert('切り抜き操作でエラーが発生しました。');
+					}
+				});
+			}
+			lepo_bookmarklet_images.appendChild(image);
+		}
+	},
+
+	unload_content: function () {
+		if (document.getElementById("lepo_bookmarklet_content") != null) {
+			document.body.removeChild(document.getElementById("lepo_bookmarklet_content"));
+		}
+		if (document.getElementById("lepo_bookmarklet_base") != null) {
+			document.body.removeChild(document.getElementById("lepo_bookmarklet_base"));
+		}
+		if (document.getElementById("lepo_bookmarklet_container") != null) {
+			document.body.removeChild(document.getElementById("lepo_bookmarklet_container"));
+		}
+	},
+
+	is_loaded: function () {
+		return document.getElementById("lepo_bookmarklet_container") != null;
+	},
+
+	load: function () {
+		if (!this.is_loaded()) {
+			var container = document.createElement("div");
+			container.setAttribute('id', 'lepo_bookmarklet_container');
+			container.style.display = 'none';
+			this.set_content(container);
+			document.body.appendChild(container);
+			this.load_content();
+		};
+	}
+};
+
+lepo_bookmarklet.load();

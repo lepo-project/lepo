@@ -1,0 +1,22 @@
+<% side = message_side message.manager_id, outcome_manager_id %>
+<div class="dialogue-card <%= side %>">
+  <div class="side-area" title="<%= message.manager.familyname %> <%= message.manager.givenname %>">
+    <div class="image">
+      <%= render partial: 'layouts/image', locals: {obj: message.manager, fa_class: 'fa-user', size: 'm'} %>
+    </div>
+    <div class="side-caption"><%= message.manager.familyname %></div>
+  </div>
+  <% popover_side = side == 'left' ? 'right' : 'left' %>
+  <div class="main-area popover popover-<%= popover_side %>" data-toggle="popover" data-placement="<%= popover_side %>">
+    <div class="popover-title">
+      <div class="score"><%= message.score.to_s + t('views.units.points') if message.score %></div>
+      <div><%= format_time message.updated_at, 'mdhm' %></div>
+    </div>
+    <div class="popover-content">
+      <div>
+        <% message = (message.message.size == 0) ? '...' : message.message %>
+        <%= sanitize add_br message %>
+      </div>
+    </div>
+  </div>
+</div>

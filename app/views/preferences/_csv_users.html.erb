@@ -1,0 +1,18 @@
+<div class ="bordered-block selected">
+  <h2>CSVによるユーザ登録</h2>
+  <div style="margin:1rem;">
+    <%= form_tag({action: "ajax_csv_candidates"}, remote: true) do %>
+    <% candidates_csv = @candidates_csv ? @candidates_csv : '' %>
+    <%= text_area_tag "candidates_csv", candidates_csv, class: "form-control", style: "max-width: 720px; margin-bottom: 6px;", rows: "5" %>
+    <button type="submit" class="btn btn-secondary">
+      <i class="fa fa-plus-circle fa-lg"></i> CSV形式の確認
+    </button>
+    <% end %>
+  </div>
+
+  <% if @candidates && @candidates.size > 0 %>
+  <div class="clearfix">
+    <%= render(partial: 'layouts/member_candidates', locals: {title: '確認結果', category: 'system', form_category: 'csv', users: @candidates, resource_id: 0, footer: ''}) %>
+  </div>
+  <% end %>
+</div>

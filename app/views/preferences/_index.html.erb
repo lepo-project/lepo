@@ -1,0 +1,10 @@
+<div id="preference-resource" class="scroll-pane">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="block">
+				<%= render partial: 'preference', locals: {header: "#{t('views.preferences.user_preferences')}", preferences: @user.preferences} %>
+				<%= render partial: 'preference', locals: {header: "#{t('views.preferences.system_preferences')}", preferences: @user.system_preferences} unless @user.system_preferences.size.zero? %>
+			</div>
+		</div>
+	</div>
+</div>

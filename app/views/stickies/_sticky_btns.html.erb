@@ -1,0 +1,12 @@
+<% if hash[:view_category] && hash[:view_category] == "course" %>
+<% btn_class = session[:related_course_stickies] ? "btn-info" : "btn-secondary" %>
+<%= link_to(raw("<i class='fa fa-filter'></i>自分に関係するふせんのみ"), hash.merge({related_course_stickies: !session[:related_course_stickies]}), {remote: true, id: "related-btn", class: "btn btn-sm #{btn_class}"}) %>
+<% end %>
+
+<% btn_class = session[:star_sort_stickies] ? "btn-info" : "btn-secondary" %>
+
+<!-- FIXME: note_sticky  -->
+<% if (session[:nav_controller] != "notes") %>
+<%= link_to(raw("&#8595;<i class='fa fa-star'></i>"), hash.merge({star_sort_stickies: !session[:star_sort_stickies]}), {remote: true, id: "sort-btn", class: "btn btn-sm #{btn_class}", title: "スター数で並べ替え"}) %>
+<% end %>
+<%= link_to(raw("<i class='fa fa-repeat'></i>"), hash, {remote: true, id: "reload-btn", class: "btn btn-sm btn-secondary", title: "再読み込み"}) %>

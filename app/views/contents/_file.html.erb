@@ -1,0 +1,19 @@
+<% file_id = file_category + "_#{file.id}" %>
+
+<div id="<%= file_id %>" class="associated-object">
+  <table>
+    <tr>
+      <th class="draggable-symbol"><i class="fa tentative-grip"></i></th>
+      <th class="serial-number">
+        <% if file_category == "page" %>
+        <%= file.display_order %>.
+        <% end %>
+      </th>
+      <th class="l160px" style="overflow: hidden; max-width: 160px;"><%= link_to file.upload_file_name, file.upload.url, {target: "_blank", class: "bright-link"} %></th>
+      <td class="l160px"><%= format_time(file.upload_updated_at, "mdhm") + " 更新" %></td>
+      <td class="r40px">
+        <%= link_to("削除", {action: "ajax_destroy_"+file_category+"_file", id: @content.id, file_id: file.id}, {class: "bright-link", remote: true}) %>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,63 @@
+<% outcome = learner %>
+<div class="loc">
+  <div class="loc-header">
+    提出物と評価 &nbsp; &nbsp;[<%= outcome_status_text outcome.status, outcome.score %>： <%= outcome.score ? outcome_score_text(@lesson.evaluator_id, outcome.score) : '---' %> ]
+  </div>
+
+  <div class="loc-body">
+    <div class="loc-subheader">提出物</div>
+    <% case @content.as_category when 'file' %>
+    <div id="file_outcome">
+      <%= render partial: 'outcomes/file_outcome', locals: {outcome_files: outcome.outcome_files, outcome_id: outcome.id, outcome_status: outcome.status} %>
+    </div>
+    <% when 'choice' %>
+    <%= render partial: 'outcomes/choice_outcome' %>
+    <% end %>
+
+    <%= form_for(outcome, url: {controller: 'outcomes', action: 'ajax_update', id: outcome.id}, html: {name: 'outcome_form', class: 'form-horizontal', remote: true}) do |outcome_form| %>
+    <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+    <%#= outcome_form.error_messages %>
+
+    <% case @content.as_category when "text" %>
+    <%= render partial: 'outcomes/text_outcome', locals: {outcome_form: outcome_form, outcome_text: outcome.outcome_text, outcome_status: outcome.status} %>
+    <% when "outside" %>
+    <%= render partial: 'outcomes/outside_outcome' %>
+    <% end %>
+
+    <div class="loc-subheader">達成度評価</div>
+    <div class="loc-subbody">
+      <% if outcome.status == 'draft' %>
+      <div>学習目標の達成度を、配点に基づき自己評価しましょう（授業成績には影響しません）。</div>
+      <%= render partial: 'outcomes/outcome_objective_form', locals: {outcome_form: outcome_form, lesson_role: @lesson_role, evaluator_id: @lesson.evaluator_id} %>
+      <% else %>
+      <%= render partial: 'outcomes/outcome_objective', collection: outcome.outcomes_objectives, locals: {evaluator_id: @lesson.evaluator_id} %>
+      <% end %>
+    </div>
+
+    <% if outcome.status == 'draft' %>
+    <div class="loc-subheader" style="margin-top:10px;">学習を振り返っての<%= outcome_message_text @lesson.evaluator_id %></div>
+    <div class="loc-subbody">
+      <%= outcome_form.fields_for :outcome_messages, Outcome.reflect_on_association(:outcome_messages).klass.new do |message_form| %>
+      <%= message_form.text_area :message, style: 'width: 100%; height:4em; max-height: 20em; padding:0;', class: 'elastic_textarea' %>
+      <%= message_form.hidden_field :manager_id, value: @myself.id %>
+      <% end %>
+      <div style="margin: 8px 0 0; padding: 0;">
+        <%= outcome_form.submit outcome_submit_text(@lesson.evaluator_id, @lesson_role), class: "btn btn-primary" %>
+      </div>
+    </div>
+    <% end %>
+    <div style="margin: 0 0 1rem;">
+      <%= previous_status_button @lesson.evaluator_id, @lesson_role, outcome %>
+    </div>
+
+    <div class="loc-subheader lesson-menu-header">
+      過去の<%= outcome_message_text @lesson.evaluator_id %>
+      <%= render partial: 'outcomes/lessons_menu', locals: {outcome: outcome, lesson_id: @lesson.id} %>
+    </div>
+    <div id="messages-<%=outcome.manager_id%>" class="loc-subbody">
+      <%= render partial: 'outcomes/messages', locals: {current_outcome_id: outcome.id, outcome: outcome} %>
+    </div>
+
+    <% end %>
+  </div>
+</div>

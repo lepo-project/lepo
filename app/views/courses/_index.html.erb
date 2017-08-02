@@ -1,0 +1,56 @@
+<div id="course-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12 block">
+      <!-- Course Overview -->
+      <div class="card-l course-border">
+        <%= render partial: 'layouts/card_l', locals: {card: course_card_hash(@course)} %>
+      </div>
+
+      <!-- Course Notices -->
+      <% notices = Notice.for_course @course.id %>
+      <% if notices.size > 0 %>
+      <%= render partial: 'layouts/notices/notice_card', collection: notices, locals: {border_category: 'course'} %>
+      <% end %>
+
+      <!-- Course Activities -->
+      <% if @course.learner? session[:id] %>
+      <div class="card-l learner-border">
+        <%= render partial: 'layouts/card_l', locals: {card: lesson_activity_card_hash('learner', @lesson_resources)} %>
+      </div>
+      <% else %>
+      <div class="card-l staff-border">
+        <%= render partial: 'layouts/card_l', locals: {card: lesson_activity_card_hash('staff', @lesson_resources)} %>
+      </div>
+      <% end %>
+
+      <!-- Self Evaluation Chart: Deprecated -->
+      <%# charts = get_self_achievement_charts(session[:id], @course.id, Date.today, 1, 14) %>
+      <%#= render partial: "selfeval_chart", locals: {charts: charts} %>
+
+      <!-- Hot Course Stickies -->
+      <div id="hot-stickies">
+        <% hot_stickies = @course.hot_stickies %>
+        <%= render(partial: 'stickies/hot_stickies', locals: {stickies: hot_stickies})  %>
+      </div>
+
+      <!-- Hot Course Notes -->
+      <div id="hot_notes">
+        <% hot_notes = @course.hot_notes %>
+        <%= render(partial: 'notes/hot_notes', locals: {notes: hot_notes, course_id: @course.id})  %>
+      </div>
+
+      <!-- Hot Web Sources -->
+      <!-- <div id="hot_sources">
+      <%# hot_sources = @course.hot_sources %>
+      <%#= render(partial: 'notes/hot_sources', locals: {sources: hot_sources, course_id: @course.id}) %>
+    </div> -->
+
+    <!-- Course Lessons -->
+    <%= render partial: 'lessons_card' %>
+
+    <!-- Course Goals & Point Allocation -->
+    <%= render partial: 'goal_card', locals: {goals: @goals} %>
+
+  </div>
+</div>
+</div>

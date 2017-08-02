@@ -1,0 +1,43 @@
+<div id="signin-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="block">
+        <%= form_tag({action: "ajax_authenticate"}, id: 'signin-form', remote: true) do %>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label col-form-label-lg text-sm-right" for="user_id">User ID</label>
+          <div class="col-md-7">
+            <%= text_field_tag :user_id, params[:user_id], {placeholder: "User ID", class: "form-control"} %>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label col-form-label-lg text-sm-right" for="password">Password</label>
+          <div class="col-md-7">
+            <%= password_field_tag :password, params[:password], {placeholder: "Password", class: "form-control", autocomplete: 'off'} %>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="controls col-md-7 offset-sm-3">
+            <%= submit_tag t("activerecord.models.signin"), id: 'signin-submit-btn', class: "btn btn-primary btn-block" %>
+          </div>
+        </div>
+        <% end %>
+      </div>
+
+      <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: 'error'} %>
+
+      <% system_notices = Notice.for_system %>
+      <% if system_notices.size > 0 %>
+      <div class="block">
+        <%= render partial: "layouts/notices/notice_card", collection: system_notices, locals: {border_category: "course"} %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(function () {
+  $("#user_id").focus();
+})
+</script>
