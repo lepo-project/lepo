@@ -22,7 +22,7 @@ LePo is a Web-based LMS (Learning Management System) that is developing with the
 
 1. access the top page ( localhost:3000 ) with web browser and follow the shown instruction.
 
- (for initial configuration, signin with system admin account is limited for IP address 127.0.0.1.)
+ (For initial configuration, signin with system admin account is limited for IP address 127.0.0.1.)
 
 # For Production Environment
 
@@ -33,4 +33,3 @@ LePo is a Web-based LMS (Learning Management System) that is developing with the
 # Current Status
  - LePo is in alpha version. In the near future, there may be a big code change.
  - We assume use LePo in Japanese now, but English language pack is also under development.
- 
