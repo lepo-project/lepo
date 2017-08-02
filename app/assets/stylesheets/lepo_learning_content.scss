@@ -1,0 +1,350 @@
+@import 'components/card';
+@import 'components/color';
+@import 'components/image';
+@import 'components/versatile_cards';
+
+div#simple-html-content {
+  @include image-40px;
+  background-color: #444;
+  font-family: "游ゴシック体", "Yu Gothic", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+  height: 100%;
+  line-height: 150%;
+  overflow: auto;
+  text-align: center;
+  * {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 150%;
+  }
+  div#container {
+    background-color: #fff;
+    border-style: solid;
+    border-width: 5px 1px;
+    height: auto;
+    max-width: 720px;
+    min-width: 360px;
+    padding: 10px 0 2px;
+    div#content {
+      color: #000;
+      height: 100%;
+      padding: 0 10px;
+      text-align: left;
+      h1 {
+        border-style: double;
+        clear: both;
+        color: #fff;
+        font-size: large;
+        font-weight: bold;
+        margin: 3px 0;
+        padding: 2px 5px;
+      }
+      h2 {
+        border-style: solid;
+        border-width: 0 0 3px 12px;
+        clear: both;
+        font-size: large;
+        font-weight: bold;
+        margin: 3px 0;
+        padding-left: 5px;
+      }
+      h3 {
+        border-style: solid;
+        border-width: 0 0 1px 3px;
+        clear: both;
+        font-weight: bold;
+        margin: 3px 0;
+        padding-left: 5px;
+      }
+      dt {
+        font-weight: bold;
+        padding-left: 10px;
+      }
+      dd {
+        padding-left: 10px;
+      }
+      sub {
+        font-size: 80%;
+        line-height: 100%;
+        vertical-align: -0.3em;
+      }
+      sup {
+        font-size: 80%;
+        line-height: 100%;
+        vertical-align: 0.6em;
+      }
+      a {
+        &:hover {
+          color: #39f;
+        }
+      }
+      .block-image {
+        clear: both;
+        img {
+          border: 5px solid #ddd;
+          display: block;
+          margin: 10px auto;
+          padding: 0;
+          text-align: center;
+        }
+      }
+      .block-media {
+        clear: both;
+        display: block;
+        margin: 5px auto;
+      }
+      .loc {
+        clear: both;
+        margin: 16px 2px;
+      }
+      .loc-header {
+        color: #fff;
+        font-weight: bold;
+        padding: 0 10px;
+      }
+      .loc-body {
+        margin: 0;
+        padding: 5px 10px;
+      }
+      .loc-subheader {
+        font-weight: bold;
+      }
+      .loc-subbody {
+        padding: 0 0 1rem;
+      }
+      ol, ul {
+        margin-left: 10px;
+      }
+      dl {
+        padding-left: 10px;
+      }
+      hr {
+        clear: both;
+        margin: 0 10px;
+        padding: 0;
+      }
+    }
+    &.cover-page {
+      border-color: $cover-color #777;
+      div#content {
+        h1 {
+          background-color: $cover-color;
+          border-color: $cover-background-color;
+          margin: 2px 0;
+        }
+        h2 {
+          border-color: $cover-color;
+          color: $cover-color;
+        }
+        h3 {
+          color: $cover-color;
+        }
+        .loc {
+          background-color: $cover-background-color;
+          border: 2px solid $cover-color;
+        }
+        .loc-header {
+          background-color: $cover-color;
+        }
+        .loc-subheader {
+          color: $cover-color;
+        }
+      }
+    }
+    &.assignment-page {
+      border-color: $assignment-color #777;
+      div#content {
+        @include dialogue-card;
+        h1 {
+          background-color: $assignment-color;
+          border-color: $assignment-background-color;
+        }
+        h2 {
+          border-color: $assignment-color;
+          color: $assignment-color;
+        }
+        h3 {
+          color: $assignment-color;
+        }
+        .loc {
+          background-color: $assignment-background-color;
+          border: 2px solid $assignment-color;
+        }
+        .loc-header {
+          background-color: $assignment-color;
+        }
+        .loc-subheader {
+          color: $assignment-color;
+        }
+        div.accordion-group {
+          background-color: $assignment-background-color;
+          border: 2px solid $assignment-color;
+          div.accordion-heading {
+            background-color: $assignment-color;
+            a.accordion-toggle {
+              display: flex;
+              div.heading-item {
+                color: #fff;
+                &:last-child {
+                  margin-left: auto;
+                }
+              }
+            }
+          }
+          div.accordion-body {
+            padding: 0.5rem;
+          }
+          &.outcome-draft {
+            border: 2px solid $draft-color;
+            div.accordion-heading {
+              background-color: $draft-color;
+              a.accordion-toggle {
+                cursor: default;
+                &:hover div {
+                  color: #000;
+                  text-decoration: none;
+                }
+                div.heading-item {
+                  color: #000;
+                  font-weight: normal;
+                }
+              }
+            }
+          }
+          &.outcome-return {
+            background-color: $return-background-color;
+            border-color: $return-color;
+            .loc-subheader {
+              color: $return-color;
+            }
+            div.accordion-heading {
+              background-color: $return-color;
+            }
+          }
+        }
+        div.btn-group {
+          a.disabled {
+            color: #888;
+          }
+          i {
+            line-height: 100%;
+          }
+          div.dropdown-menu {
+            padding: 4px 0 0;
+            a {
+              color: #000;
+              text-decoration: none;
+              i.unchecked {
+                color: #eee;
+              }
+              &:hover {
+                color: #fff;
+                i.unchecked {
+                  color: #69f;
+                }
+              }
+            }
+          }
+          button.insert-btn {
+            font-size: small;
+            max-width: 570px;
+            overflow: hidden;
+            text-align: left;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+        div.text-outcome {
+          background-color: #fff;
+          border: 1px solid #eee;
+          padding: 5px;
+          width: 100%;
+        }
+        div.file-outcome-form {
+          background-color: #def;
+          border-top: 2px solid #0df;
+          padding: 0;
+          width: 600px;
+        }
+        table {
+          background-color: #fff;
+          border-spacing: 0;
+          margin-top: 4px;
+          padding: 0;
+          width: 100%;
+          &.file-outcome-list * {
+            margin: 0;
+            padding: 5px 10px;
+          }
+          th {
+            font-weight: bold;
+            padding: 4px 2px 0;
+          }
+          .objective {
+            font-weight: bold;
+            padding: 2px 4px;
+            .criterion {
+              font-size: small;
+              font-weight: normal;
+            }
+          }
+          .self-achievement {
+            background-color: $learner-color;
+            color: #fff;
+            text-align: center;
+            width: 44px;
+          }
+          .eval-achievement {
+            background-color: $staff-color;
+            color: #fff;
+            text-align: center;
+            width: 44px;
+          }
+          .allocation {
+            background-color: $course-color;
+            color: #fff;
+            text-align: center;
+            width: 44px;
+          }
+          .demerit {
+            color: #900;
+            font-weight: bold;
+          }
+        }
+        div.eval-achievement-form {
+          background-color: #fde;
+          border-top: 2px solid $staff-color;
+          margin-bottom: 4px;
+          padding: 0;
+          width: 100%;
+        }
+        div.self-achievement-form {
+          background-color: #def;
+          border-top: 2px solid $learner-color;
+          margin-bottom: 4px;
+          padding: 0;
+          width: 100%;
+        }
+        .lesson-menu-header {
+          align-items: center;
+          display: flex;
+          margin-bottom: 0.5rem;
+        }
+        .lesson-menu {
+          height: auto;
+          margin-left: auto;
+          width: 180px;
+          select {
+            font-size: 12px;
+            height: 30px;
+            line-height: 28px;
+            padding: 1px;
+          }
+        }
+        .other-outcome {
+          background-color: $inactive-background-color;
+        }
+      }
+    }
+  }
+}

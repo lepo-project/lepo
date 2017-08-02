@@ -1,0 +1,451 @@
+//
+// variables & mixins for versatile cards
+//
+
+@import 'components/card';
+@import 'components/toolbar';
+@import 'components/triangle_corner';
+
+
+@mixin dialogue-card {
+  .dialogue-card {
+    align-items: center;
+    display: flex;
+    margin-bottom: 0.25rem;
+    &.left {
+      flex-direction: row;
+      .main-area {
+        margin-right: 2rem;
+      }
+    }
+    &.right {
+      flex-direction: row-reverse;
+      .main-area {
+        margin-left: 2rem;
+      }
+    }
+    .main-area {
+      margin: 0 0.5rem;
+      max-width: 500px;
+      position: relative;
+      .popover-title {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.15rem 0.5rem;
+        .score {
+          font-weight: bold;
+          margin-right: 2rem;
+        }
+      }
+      .popover-content {
+        padding: 0.5rem;
+      }
+    }
+    .side-area {
+      padding: 5px 10px;
+      text-align: center;
+      width: 60px;
+    }
+  }
+}
+
+@mixin goal-card {
+  .goal-card {
+    .goal {
+      display: flex;
+      padding-bottom: 0.25rem;
+      padding-top: 0;
+      .main-area {
+        margin-right: auto;
+        width: 100%;
+      }
+      .side-area {
+        text-align: right;
+        width: 15rem;
+        a {
+          display: block;
+          padding: 0.25rem 0;
+        }
+      }
+    }
+    .objectives {
+      border-bottom: 1px dashed #999;
+      margin-bottom: 0.5rem;
+      padding-top: 0;
+      .main-area {
+        margin-right: auto;
+        padding-left: 1rem;
+        width: 100%;
+      }
+      .side-area {
+        text-align: right;
+        width: 12rem;
+      }
+    }
+  }
+}
+
+@mixin group-card {
+  .group-card {
+    @include default-card-small;
+    &:hover {
+      background-color: $toolbar-hover-color;
+      border-color: $toolbar-hover-color;
+      text-decoration: none;
+      div.card-header {
+        text-decoration: none;
+      }
+    }
+    div.card-header {
+      color: #000;
+      font-size: larger;
+    }
+  }
+}
+
+@mixin report-card {
+  .report-card {
+    h2.card-header {
+      color: #222;
+    }
+    hr {
+      border-color: #ddd;
+    }
+    div.card-right-top {
+      color: #000;
+      float: right;
+      margin: 0 16px 8px;
+      text-align: right;
+    }
+    .alert {
+      margin-bottom: 0;
+    }
+    table#achievements, table#evaluations, table#goals-achievements, table#signins, table#stars {
+      background-color: #fff;
+      color: #222;
+      margin-bottom: 4px;
+      th {
+        vertical-align: middle;
+      }
+      .width40 {
+        width: 40px;
+      }
+      .width80 {
+        width: 80px;
+      }
+      .width120 {
+        width: 120px;
+      }
+      .width160 {
+        width: 160px;
+      }
+      .width200 {
+        width: 200px;
+      }
+      .width240 {
+        width: 240px;
+      }
+      .width280 {
+        width: 280px;
+      }
+      .width320 {
+        width: 320px;
+      }
+      .width360 {
+        width: 360px;
+      }
+      .width480 {
+        width: 480px;
+      }
+      td div.progress {
+        background-color: #d0d0d0;
+        background-image: none;
+        margin-bottom: 0;
+        .bar {
+          font-weight: bold;
+        }
+      }
+      span.no-bar {
+        color: #888;
+      }
+    }
+    table#goals {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+@mixin resources-card {
+  div.resources-card {
+    max-width: 720px;
+    .card-header {
+      color: #222;
+    }
+    div.row {
+      border-bottom: 1px #eee solid;
+      overflow: hidden;
+      &.list-header div.col div {
+        font-weight: bold;
+      }
+      div.inner-row {
+        width: 2000px;
+        div.col {
+          border-right: 0;
+          float: left;
+          height: 24px;
+          padding-left: 5px;
+          padding-right: 5px;
+          text-align: center;
+          &.xx-small {
+            width: 30px;
+          }
+          &.x-small {
+            width: 40px;
+          }
+          &.small {
+            font-size: 1rem; // prescription for same name class in bootstrap4
+            width: 80px;
+          }
+          &.medium {
+            width: 120px;
+          }
+          &.large {
+            width: 160px;
+          }
+          &.x-large {
+            text-align: left;
+            width: 200px;
+          }
+          &.xx-large {
+            text-align: left;
+            width: 240px;
+          }
+          &.xxx-large {
+            text-align: left;
+            width: 280px;
+          }
+          &.xxxx-large {
+            text-align: left;
+            width: 320px;
+          }
+          &.xxxxx-large {
+            text-align: left;
+            width: 360px;
+          }
+          &.xxxxxx-large {
+            text-align: left;
+            width: 400px;
+          }
+          &.endpoint {
+            text-align: left;
+            width: 80px;
+          }
+          div {
+            overflow: hidden;
+            padding: 4px 8px;
+            white-space: nowrap;
+          }
+        }
+      }
+      div.col {
+        border-right: 1px #eee solid;
+        a {
+          color: #023;
+          display: block;
+          height: 100%;
+          overflow: hidden;
+          text-decoration: none;
+          white-space: nowrap;
+        }
+        i.icon-gray {
+          color: #aaa;
+        }
+        i.icon-red {
+          color: #d00;
+        }
+      }
+      &.even-row {
+        background-color: #fff;
+      }
+      &.odd-row {
+        background-color: #eff6ff;
+      }
+      &.disabled-row {
+        color: #999;
+      }
+      &#selected {
+        background-color: #6f7faf;
+        color: #fff;
+        a {
+          color: #fff;
+        }
+      }
+    }
+    div#no-resource {
+      background-color: $list-header-color;
+      color: #666;
+      font-size: 120%;
+      padding: 3em 2em 0;
+    }
+  }
+}
+
+@mixin snippet-card {
+  .snippet-card {
+    background-color: #fff;
+    border: 1px solid #eee;
+    clear: both;
+    color: #000;
+    height: auto;
+    margin: 8px 0 4px;
+    overflow: hidden;
+    padding: 4px;
+    position: relative;
+    .main-area {
+      min-height: 30px;
+      .snippet-image {
+        text-align: center;
+        img {
+          max-width: 480px;
+        }
+      }
+      .footer {
+        background-color: #f7f7f9;
+        color: #666;
+        width: 100%;
+        .card-footer {
+          padding: 0.5rem 0.5rem 0.1rem;
+        }
+        .footnote {
+          margin-right: 10px;
+        }
+      }
+      .operation-list {
+        border-top: 1px dotted #aaa;
+        padding: 0.5rem 0.5rem 0;
+        ul {
+          margin-bottom: 0;
+          li {
+            font-size: larger;
+            padding: 0 0 10px;
+            vertical-align: middle;
+          }
+        }
+        .operation-header {
+          color: #666;
+          text-align: right;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@mixin source-card {
+  .source-card {
+    color: #000;
+    float: left;
+    margin: 10px;
+    width: 305px;
+    h3 {
+      margin: 0 0 8px;
+      a {
+        font-size: 11pt;
+        font-weight: bold;
+        line-height: 20px;
+        padding-bottom: 4px;
+      }
+    }
+    ul {
+      margin: 0;
+      padding: 6px 0 0 8px;
+      li {
+        padding: 0 0 4px;
+      }
+    }
+  }
+}
+
+@mixin note-card {
+  .note-card {
+    @include default-card-small;
+    @include triangle-corner;
+    &.drop-hover {
+      background-color: #d0ddee;
+      border-color: $toolbar-hover-color;
+    }
+  }
+}
+
+@mixin note-header-card {
+  div.note-header-card {
+    @include triangle-corner;
+    color: #000;
+    margin-bottom: 1rem;
+    padding-top: 0;
+    .card-block {
+      padding: 0.5rem 0.5rem 0.25rem;
+      .card-subtitle {
+        margin: 0.5rem;
+      }
+      .card-title {
+        font-size: 16pt;
+        line-height: 30px;
+        margin: 0;
+        padding-left: 1rem;
+        text-align: center;
+      }
+    }
+    .card-block-flex {
+      display: flex;
+      padding: 0.5rem;
+      .side-area {
+        text-align: center;
+        width: 80px;
+        .icon {
+          width: 80px;
+          i {
+            color: #aaa;
+            display: block;
+            font-size: 60pt;
+          }
+        }
+        .caption {
+          overflow-y: auto;
+          padding: 2px 0;
+          width: 80px;
+        }
+      }
+      .main-area {
+        padding-left: 15px;
+        width: 100%;
+        p.overview {
+          font-size: 11pt;
+          line-height: 140%;
+        }
+        #header-snippets {
+          margin-top: 8px;
+          .label {
+            font-size: 10pt;
+          }
+          div {
+            margin-top: 5px;
+          }
+          ul {
+            margin-left: 0;
+            padding-left: 0;
+          }
+        }
+      }
+    }
+    .card-footer {
+      display: flex;
+      div.align-left {
+        margin-right: 1rem;
+      }
+      div.align-right {
+        margin-left: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<% ["draft", "open", "archived"].each_with_index do |s, i| %>
+<% status_class = (Course.transitionable? current_status, s) ? "selectable" : "disabled" %>
+<% status_id = selected_id(selected_status == s) %>
+<div id="<%= status_id %>" class="<%= status_class %>">
+  <% linkable = (status_class == "selectable") && (status_id != "selected") %>
+  <% if linkable %>
+  <%= link_to({action: 'ajax_set_status', current_status: current_status, selected_status: s}, {style: "display:block;width:100%;", remote: true}) do %>
+  <%= render partial: "layouts/status_form_bar", locals: {s: s, i: i} %>
+  <% end %>
+  <% else %>
+  <%= render partial: "layouts/status_form_bar", locals: {s: s, i: i} %>
+  <% end %>
+
+</div>
+<% case s when "draft" %>
+<div class="arrow">&#9660;</div>
+<% when "open" %>
+<div class="arrow">&#9660; &#9650;</div>
+<% end %>
+<% end %>
+
+<input type="hidden" id="course_status" name="course[status]" value="<%= selected_status %>"/>

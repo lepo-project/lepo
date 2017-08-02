@@ -1,0 +1,39 @@
+<div class="bordered-block" style="margin-top:1rem;">
+  <h2>オプション（コース担当教師のみ利用可能）
+    <div class="header-explanation">
+      <span id="option_form_opener"><a class="bright-link" style="cursor:pointer;">オプションを表示/非表示</a></span>
+    </div>
+  </h2>
+  <div id="option_form" style="display: none; margin-left:20px;">
+    <div style="margin-bottom:1rem;">
+      <h3>1. コースの複製</h3>
+      <% if Term.selectables("hereafter").size > 0 %>
+      <%= form_for :course, url: {action: "ajax_duplicate", original_id: @course.id}, html: {class: "form-inline", multipart: true}, remote: true do |f| %>
+      <%= f.select :term_id, Term.selectables("hereafter"), {}, {class: "form-control"} %> の <%= f.text_field :title, {class: "form-control", placeholder: @course.title} %> として
+      <button type="submit" class="btn btn-sm btn-secondary">コースの複製</button>
+      <% end %>
+      <% else %>
+      <p>コースを複製できる学期がありません。システム管理者に相談して下さい。</p>
+      <% end %>
+    </div>
+
+    <div>
+      <h3>2. コースの削除</h3>
+      <% if @course.lessons.size > 0 %>
+      <p>レッスンが登録されているコースは、削除できません</p>
+      <% else %>
+      <p>この操作は、取り消すことができません</p>
+      <%= form_for :course, url: {action: "ajax_destroy", id: @course.id}, html: {class: "form-horizontal"}, remote: true do |f| %>
+      <button type="submit" class="btn btn-danger" style="margin-left: 10px;">
+        <i class="fa fa-trash fa-lg"></i> コースの削除
+      </button>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$("#option_form_opener").click(function(){toggleOptionForm();})
+</script>

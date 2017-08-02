@@ -1,0 +1,10 @@
+<tr>
+	<td class="width160"><%= signin_report["fullname"] %></td>
+	<% if signin_report["last_signin_at"].kind_of?(Time) %>
+	<td class="width160 text-center"><%= format_time(signin_report["last_signin_at"], "mdhm") %></td>
+	<% else %>
+	<td class="width160 text-center">---</td>
+	<% end %>
+	<td class="text-center"><%= signin_report["access_num_week1"] %></td>
+	<td class="text-center"><%= signin_report["access_num_week2"] %></td>
+</tr>

@@ -1,0 +1,4 @@
+<div class="lesson-menu">
+  <% menu_data = { url: url_for(controller: :outcomes, action: :ajax_show_previous_messages, current_outcome_id: outcome.id, manager_id: outcome.manager_id), remote: true } %>
+  <%= select_tag('lesson_id', options_for_select(lesson_menu_items(@course, @lesson), :selected => -1, :disabled => -1), :class =>'form-control input-sm', data: menu_data) %>
+</div>

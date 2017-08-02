@@ -1,0 +1,67 @@
+<div class="side-area">
+  <% if card['image'] %>
+  <div class="image">
+    <%= image_tag card['image'], class: "rounded" %>
+  </div>
+  <% else %>
+  <div class="icon">
+    <i class="<%= card['icon'] %>"></i>
+  </div>
+  <% end %>
+  <% if card['caption'] %>
+  <div class='caption'><%= sanitize add_br card['caption'] %></div>
+  <% end %>
+</div>
+
+<div class="main-area">
+  <div class="body">
+    <% if card['header'] %>
+    <h3><%= card['header'] %></h3>
+    <% end %>
+    <% add_br_body = add_br card['body'] %>
+    <% if card['summary'] %>
+
+    <% separated_body = get_summary add_br_body %>
+    <%= auto_link(sanitize(separated_body[0]), html: { target: '_blank' }) %>
+    <% if separated_body.size == 2 %>
+    <br/>
+
+    <div style="text-align: right; padding: 4px 8px 0;">
+      <a id="toggle_card<%= card.object_id %>" style="cursor:pointer;"><i class="fa fa-chevron-circle-down"></i> <%= t('views.show_rest') %></a>
+    </div>
+
+    <div id="toggle_<%= card.object_id %>" style="display:none;">
+      <%= auto_link(sanitize(separated_body[1]), html: { target: '_blank' }) %>
+    </div>
+    <% end %>
+
+    <% else %>
+    <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
+    <% end %>
+  </div>
+  <div class="footer">
+    <% card['footnotes'].each do |fn| %>
+    <span class="footnote"><%= fn %></span>
+    <% end %>
+    <% if card['operations'] %>
+    <div class="operation-box">
+      <% card['operations'].each do |op| %>
+      <span class="operation"><%= link_to(op[:label], op[:url], remote: true) %></span>
+      <% end %>
+    </div>
+    <% end %>
+    <% if card['links'] %>
+    <div class="operation-box">
+      <% card['links'].each do |li| %>
+      <span class="operation"><%= link_to(li[:label], li[:url], { target: '_blank'}) %></span>
+      <% end %>
+    </div>
+    <% end %>
+
+  </div>
+</div>
+
+
+<script>
+$("#toggle_card<%= card.object_id %>").click(function(){toggleCard(<%= card.object_id %>);});
+</script>

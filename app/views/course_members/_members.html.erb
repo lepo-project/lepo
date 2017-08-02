@@ -1,0 +1,19 @@
+<% if users.size > 0 %>
+<div class="card">
+  <h2 class="card-header"><%= title %>: <%= users.size %>名</h2>
+  <div class="card-block" style="padding: 1px;">
+    <table class="table table-sm table-striped user-table">
+      <% users.each do |user| %>
+      <tr>
+        <td class="image-td">
+          <%= render partial: "layouts/image", locals: {obj: user, fa_class: 'fa-user', size: 'm'} %>
+        </td>
+        <td class="name-td">
+          <%= link_to user.fullname + " / " + user.fullname_alt, {controller: 'course_members', action: 'ajax_show', id: user.id}, remote: true %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+<% end %>

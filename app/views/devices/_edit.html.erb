@@ -1,0 +1,37 @@
+<!-- FIXME: PushNotification -->
+<div id="user-resource" class="scroll-pane">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>端末情報更新
+				<div class="header-explanation">登録コース内で公開 / 設定必須項目：<span class="required">*</span></div>
+			</h1>
+			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+			<%= form_for @device, url: {action: :ajax_update, id: @device.id}, html: {id: 'user_form', name: 'user_form', multipart: true}, remote: true do |f| %>
+			<%#= f.error_messages %>
+			<div class="bordered-block">
+				<div class="form-group row">
+					<%= f.label :title, raw("<span class='required'>*</span>端末名"), class: 'col-md-3 col-form-label text-sm-right' %>
+					<div class="col-md-7">
+						<%= f.text_field :title, class: 'form-control' %>
+					</div>
+				</div>
+				<div class="form-group row">
+					<%= f.hidden_field :registration_id, id: 'registration_id', cols: '50', rows: '4', readonly: true %>
+					<%= f.label :registration_id, raw("<span class='required'>*</span>通知の有無"), class: 'col-md-3 col-form-label text-sm-right' %>
+					<div class="col-md-7">
+						<button id="js-push-button" disabled>
+							プッシュ通知を有効にする
+						</button>
+					</div>
+				</div>
+			</div>
+			<%= link_to({action: 'ajax_index', nav_section: 'home'}, {id: 'cancel-btn', class: 'btn btn-large btn-secondary', title: 'cancel', remote: true}) do %>
+			<i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
+			<% end %>
+			<%= render partial: 'layouts/submit_complete_btn' %>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script src="<%= asset_path 'main.js' %>"></script>

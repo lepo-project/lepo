@@ -1,0 +1,9 @@
+<% border_category = "staff" if (@editting_notice and (notice_card.id == @editting_notice.id)) %>
+
+<div class="card-l <%= border_category %>-border">
+  <% if @course %>
+      <%= render partial: "layouts/card_l", locals: {card: notice_card_hash(notice_card, border_category, @course)} %>
+  <% else %>
+  <%= render partial: "layouts/card_l", locals: {card: notice_card_hash(notice_card, border_category)} %>
+  <% end %>
+</div>

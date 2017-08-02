@@ -1,0 +1,116 @@
+<%= render(partial: "snippets/web_snippet/style") %>
+<style id="bookmarklet_style">
+#mybookmarklet_htmlbase {
+  height: 370px;
+  padding: 0;
+  font-size: 18pt;
+  text-align: center;
+}
+#mybookmarklet_closer {
+  font-size: 10pt;
+  text-align: right;
+  margin-right: 10px;
+  text-decoration: underline;
+}
+#mybookmarklet_htmlcontent {
+  top: 50px;
+  left: 0px;
+  margin: 4px 2%;
+  height: 305px;
+  width: 96%;
+  overflow: scroll;
+  background-color: #888;
+}
+#mybookmarklet_images img {
+  float: left;
+  margin: 10px;
+  max-height: 120px;  max-width: 150px;
+  border: solid 2px #aaa;
+}
+#mybookmarklet_images img:hover {
+  border: solid 2px #fff;
+}
+</style>
+
+
+<div id="mybookmarklet_htmlbase" onclick="mybookmarklet.base.content_unload()">
+  <div id="mybookmarklet_closer"></div>
+</div>
+
+<div id="mybookmarklet_htmlcontent">
+  <div id="mybookmarklet_images"></div>
+</div>
+
+
+<script>
+
+mybookmarklet.base = {};
+
+mybookmarklet.base.content_unload = function () {
+  document.body.removeChild(document.getElementById('mybookmarklet_htmlcontent'));
+  document.body.removeChild(document.getElementById('mybookmarklet_htmlbase'));
+  mybookmarklet.bookmarklet.unload();
+}
+
+mybookmarklet.base.content_load = function () {
+  document.body.appendChild(document.getElementById("mybookmarklet_htmlcontent"));
+  document.body.appendChild(document.getElementById("mybookmarklet_htmlbase"));
+  var htmlbase = document.getElementById("mybookmarklet_htmlbase");
+  var htmlcontent = document.getElementById("mybookmarklet_htmlcontent");
+
+  if (document.querySelectorAll('img').length == 0) {
+    var str = document.createTextNode("切り抜く文字が選択されてなく、切り抜ける画像もありません。");
+    htmlbase.appendChild(str);
+    htmlbase.style.height = "120px";
+    htmlbase.style.padding = "60px 0 0";
+    htmlcontent.style.width = "0";
+    document.body.appendChild(htmlbase);
+    setTimeout('mybookmarklet.base.content_unload()', 2500);
+  } else {
+    var str = document.createTextNode("切り抜く画像をクリックしてください。");
+    htmlbase.appendChild(str);
+    document.body.appendChild(htmlbase);
+
+    var closer = document.getElementById("mybookmarklet_closer");
+    var str = document.createTextNode("閉じる");
+    closer.appendChild(str);
+    mybookmarklet.base.image_selector();
+  }
+}
+
+mybookmarklet.base.image_selector = function () {
+  var images = document.querySelectorAll('img');
+  var mybookmarklet_images = document.getElementById("mybookmarklet_images");
+
+  var srcs = new Array();
+  for (var i = 0; i < images.length; i++) {
+    srcs.push(images[i].src)
+  }
+
+  // without overlap srcs
+  var unique_srcs = srcs.filter(function (x, i, self) {
+    return self.indexOf(x) === i;
+  });
+
+  for (var i = 0; i < unique_srcs.length; i++) {
+    var image = document.createElement('img');
+    image.src = unique_srcs[i];
+    image.addEventListener('click', function(img) {
+      var d = document;
+      var z = d.createElement('scr' + 'ipt');
+      var b = d.body;
+      try {
+        if (!b) throw (0);
+        z.setAttribute('src', '<%= system_url %>/snippets/create_web_snippet?u=' + encodeURIComponent(d.location) + '&t=' + encodeURIComponent(d.title) + '&d=' + img.target.src + '&c=i&v=1');
+        b.appendChild(z);
+        mybookmarklet.base.content_unload();
+      } catch (e) {
+        alert('Something went wrong with the bookmarklet.');
+      }
+    }, false);
+    mybookmarklet_images.appendChild(image);
+  }
+}
+
+mybookmarklet.base.content_load();
+</script>

@@ -1,0 +1,80 @@
+<div id="versatile-resource" class="scroll-pane">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>リンクの設定</h1>
+			<%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+
+			<div class="bordered-block">
+				<h2>
+					<%= @user.system_staff? ? "システム共通" : "利用者個人" %>のリンク
+					<div class="header-explanation">同タイトルのリンク登録はURLを更新</div>
+				</h2>
+				<% if @link.errors.any? %>
+				<ul style="background-color: #a33; border: solid 2px #c66;">
+					<% @link.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+					<% end %>
+				</ul>
+				<% @link = Link.new %>
+				<% end %>
+
+				<div style="margin-top: 14px;">
+					<h3>新しいリンクの登録</h3>
+					<div style="padding-left: 20px;">
+						<% if @editable_links.size < USER_LINK_MAX_SIZE %>
+						<%= form_for(@link, url: {action: "ajax_create"}, html: {class: "form-inline", style: "padding: 4px;", remote: true}) do |f| %>
+						<%= f.text_field :title, {class: "form-control", placeholder: "タイトル", style: "margin-right:16px;"} %>
+						<%= f.text_field :url, {class: "form-control", placeholder: "URL", style: "margin-right:16px;"} %>
+						<%= f.hidden_field :display_order, value: @editable_links.size+1 %>
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-plus-circle fa-lg"></i> 登録
+						</button>
+						<% end %>
+						<% else %>
+						リンクは<%= USER_LINK_MAX_SIZE %>個までしか登録できません
+						<% end %>
+					</div>
+				</div>
+				<div style="margin-top: 20px;">
+					<% if @editable_links.size > 0 %>
+					<h3>登録済みのリンク</h3>
+					<div id="links" style="padding-left: 20px; overflow: auto;">
+						<%= render partial: "link", collection: @editable_links %>
+					</div>
+					<% end %>
+				</div>
+			</div>
+
+			<% if (@system_links.size > 0) && !@user.system_staff? %>
+			<div class="bordered-block">
+				<h2>システム共通のリンク
+					<div class="header-explanation">変更不可</div>
+				</h2>
+				<% @system_links.each do |link| %>
+				<div style="padding-left: 20px;">
+					<label><%= link.display_order %>. <%=link.title %>, <%= link.url %></label>
+				</div>
+				<% end %>
+
+			</div>
+			<% end %>
+			<%= render partial: 'layouts/complete_btn', locals: {controller_name: "preferences", nav_section: "home"} %>
+		</div>
+	</div>
+</div>
+
+
+<script>
+$(function () {
+	$('#links').sortable({
+		axis:'y',
+		opacity: 0.8,
+		update:function () {
+			$.ajax({
+				url:'<%= Rails.application.config.relative_url_root %>/links/ajax_sort/',
+				data:$(this).sortable('serialize')
+			})
+		}
+	})
+});
+</script>

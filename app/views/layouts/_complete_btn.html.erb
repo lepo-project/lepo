@@ -1,0 +1,6 @@
+<% link_to_hash = {action: 'ajax_index', nav_section: nav_section} %>
+<% link_to_hash.merge!({nav_id: nav_id}) if defined?(nav_id) %>
+<% link_to_hash.merge!({controller: controller_name}) if defined?(controller_name) %>
+<%= link_to(link_to_hash, {id: "complete-btn", class: "btn btn-large btn-secondary", title: "complete", remote: true}) do %>
+<i class="fa fa-check-circle fa-lg"></i> <%= t('views.ok') %>
+<% end %>

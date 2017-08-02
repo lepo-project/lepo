@@ -1,0 +1,18 @@
+<% if !@lesson %>
+<nav id="sub-nav">
+	<%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top')]]} %>
+</nav>
+<% else %>
+<nav id="sub-nav">
+	<%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top'), {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [t('activerecord.models.lesson')+' '+@lesson.display_order.to_s]]} %>
+	<div class="page-number">
+		<div style="float:left;padding-top:2px;">: </div>
+		<div class="btn-group" style="width: 9rem;">
+			<a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><%= t('views.navs.portfolio') %></a>
+			<div class="dropdown-menu">
+				<%= link_to(t('activerecord.models.content'), {controller: 'courses', action: 'ajax_show_page_with_transition', nav_section: session[:nav_section], nav_id: session[:nav_id], lesson_id: @lesson.id}, {class: 'dropdown-item', remote: true}) %>
+			</div>
+		</div>
+	</div>
+</nav>
+<% end %>

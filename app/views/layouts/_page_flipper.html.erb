@@ -1,0 +1,23 @@
+<div class="page-flipper">
+  <!-- show previous page button -->
+  <% if page_exists?(session[:page_num] - 1, session[:max_page_num]) %>
+  <%= link_to({action: "ajax_show_page", page_num: (session[:page_num] - 1)}, {class: "toolbar-btn", remote: true}) do %>
+  <i class="fa fa-arrow-left"></i>
+  <% end %>
+  <% else %>
+  <div class="toolbar-btn">
+    <i class="fa fa-arrow-left"></i>
+  </div>
+  <% end %>
+
+  <!-- show next page button -->
+  <% if page_exists?(session[:page_num] + 1, session[:max_page_num]) %>
+  <%= link_to({action: "ajax_show_page", page_num: (session[:page_num] + 1)}, {class: "toolbar-btn", remote: true}) do %>
+  <i class="fa fa-arrow-right"></i>
+  <% end %>
+  <% else %>
+  <div class="toolbar-btn">
+    <i class="fa fa-arrow-right"></i>
+  </div>
+  <% end %>
+</div>

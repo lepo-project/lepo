@@ -1,0 +1,31 @@
+<div id="snippet-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="block">
+        <%= render partial: "layouts/note_header", locals: {editable_snippet: false}  %>
+      </div>
+      <div id="snippets" class="block">
+        <%= render partial: "layouts/snippet", collection: @snippets, locals: {editable_snippet: false} %>
+      </div>
+
+      <% references = @note.references %>
+      <% unless references.size.zero? %>
+      <div id="references" class="block">
+        <h1><%= t('views.note.references') %></h1>
+        <ol>
+          <% references.each do |ref| %>
+          <li><%= display_title ref %>, <%= link_to(ref.url, ref.url, { target: '_blank'}) %> (<%= ref.created_at.strftime('%Y年%-m月%-d日') %>閲覧)</li>
+          <% end %>
+        </ol>
+      </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<% if @note.status == "course" %>
+<% if session[:sticky_panel] !="none" %>
+<div id="sticky-panel"><%= render(partial: "stickies/sticky_panel", object: @stickies) %></div>
+<% end %>
+<% end %>

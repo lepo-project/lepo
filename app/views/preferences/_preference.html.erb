@@ -1,0 +1,19 @@
+<div class="card">
+  <h2 class="card-header"><%= header %></h2>
+  <div class="card-block" style="padding: 1px;">
+    <table class="table table-sm table-striped preference-table">
+      <% preferences.each do |pref| %>
+      <tr>
+        <td class="image-td">
+          <div class="icon" style="text-align: center;">
+            <i class="fa <%= preference_icon pref[0], pref[1] %>"></i>
+          </div>
+        </td>
+        <td class="name-td">
+          <%= link_to preference_title(pref[0], pref[1]), {controller: pref[0], action: pref[1]}, {id: preference_title_id(pref[0], pref[1]), remote: true} %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

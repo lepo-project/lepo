@@ -1,0 +1,3 @@
+$('#main-nav').html("<%= j render(partial: 'layouts/main_nav') %>");
+$('#variable-toolbar').html("<%= j render(partial: 'toolbar_show', locals: {pg: pg}) %>");
+$('#resource').html("<%= j render(partial: resource, locals: {pg: pg}) %>");

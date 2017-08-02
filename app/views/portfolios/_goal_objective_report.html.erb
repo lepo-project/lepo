@@ -1,0 +1,22 @@
+<% report = goal_objective_report %>
+<tr>
+	<td rowspan="<%= (@course_role == "learner")? 2:1 %>" ><%= report[:title] %></td>
+
+	<% if @course_role == "learner" %>
+	<td class="text-right"><%= report[:fullname] %></td>
+	<%= render "bar", style: "info", ratio: report[:self_achievement], display: (report[:self_allocation] > 0) %>
+	<% if eval_report %>
+	<%= render "bar", style: "info", ratio: report[:eval_achievement], display: (report[:eval_allocation] > 0) %>
+	<% end %>
+</tr>
+<tr>
+	<% end %>
+
+	<td class="text-right">学生の平均</td>
+	<% display = (@learners.size > 0) && (report[:self_allocation] > 0) %>
+	<%= render "bar", style: "success", ratio: report[:average_self_achievement], display: display %>
+	<% if eval_report %>
+	<% display = (@learners.size > 0) && (report[:eval_allocation] > 0) %>
+	<%= render "bar", style: "success", ratio: report[:average_eval_achievement], display: display %>
+	<% end %>
+</tr>

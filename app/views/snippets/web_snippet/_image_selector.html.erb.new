@@ -1,0 +1,90 @@
+<%= render(partial: "snippets/web_snippet/style") %>
+<style id="bookmarklet_style">
+#mybookmarklet_htmlbase {
+  height: 100px;
+  padding: 0px 0pt 0pt;
+  font-size: 18pt;
+  text-align: center;
+}
+#mybookmarklet_closer {
+  font-size: 10pt;
+  text-align: right;
+  margin-right: 10px;
+  text-decoration: underline;
+}
+</style>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+<div id="mybookmarklet_htmlbase" onclick="mybookmarklet.base.content_unload()">
+  <div id="mybookmarklet_closer"></div>
+</div>
+
+<script>
+
+mybookmarklet.base = {};
+
+mybookmarklet.base.content_unload = function () {
+  document.body.removeChild(document.getElementById('mybookmarklet_htmlbase'));
+  mybookmarklet.bookmarklet.unload();
+}
+
+mybookmarklet.base.content_load = function () {
+  document.body.appendChild(document.getElementById("mybookmarklet_htmlbase"));
+  var htmlbase = document.getElementById("mybookmarklet_htmlbase");
+
+  var str = document.createTextNode("切り抜く画像をクリックしてください。");
+  htmlbase.appendChild(str);
+  document.body.appendChild(htmlbase);
+
+  var closer = document.getElementById("mybookmarklet_closer");
+  var str = document.createTextNode("閉じる");
+  closer.appendChild(str);
+
+  $(document).click(function(event){
+    var target = $(event.target);
+    if (event.target.nodeName == "IMG") {
+      //alert($(event.target).attr("src"))
+            alert($(event.target).src)
+    } else {
+      alert(event.target.nodeName);
+    }
+  });
+  //mybookmarklet.base.image_selector();
+}
+
+mybookmarklet.base.image_selector = function () {
+  var images = document.querySelectorAll('img');
+  var mybookmarklet_images = document.getElementById("mybookmarklet_images");
+
+  var srcs = new Array();
+  for (var i = 0; i < images.length; i++) {
+    srcs.push(images[i].src)
+  }
+
+  // without overlap srcs
+  var unique_srcs = srcs.filter(function (x, i, self) {
+    return self.indexOf(x) === i;
+  });
+
+  for (var i = 0; i < unique_srcs.length; i++) {
+    var image = document.createElement('img');
+    image.src = unique_srcs[i];
+    image.addEventListener('click', function(img) {
+      var d = document;
+      var z = d.createElement('scr' + 'ipt');
+      var b = d.body;
+      try {
+        if (!b) throw (0);
+        z.setAttribute('src', '<%= system_url %>/snippets/create_web_snippet?u=' + encodeURIComponent(d.location) + '&t=' + encodeURIComponent(d.title) + '&d=' + img.target.src + '&c=i&v=1');
+        b.appendChild(z);
+        mybookmarklet.base.content_unload();
+      } catch (e) {
+        alert('Something went wrong with the bookmarklet.');
+      }
+    }, false);
+    mybookmarklet_images.appendChild(image);
+  }
+}
+
+mybookmarklet.base.content_load();
+</script>

@@ -1,0 +1,39 @@
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top')]]} %>
+</nav>
+
+<% case controller.action_name when 'index', 'ajax_index' %>
+<% if (session[:nav_section] == 'repository') && (User.content_manageable? session[:id]) %>
+<div id="toolbar-btns">
+  <%= link_to({action: 'ajax_new', category: 'upload'}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class='fa fa-plus'></i> <%= t('activerecord.models.content') %>
+  <% end %>
+</div>
+<% end %>
+
+<% when 'ajax_edit', 'ajax_new' %>
+<div id="toolbar-btns">
+  <% if controller.action_name == "ajax_new" %>
+  <%= link_to({action: 'ajax_index', nav_section: 'repository'}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
+  <% end %>
+  <% else %>
+  <%= link_to({action: 'ajax_show', id: @content.id}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
+  <% end %>
+  <% end %>
+  <%= link_to('javascript:void(0);', onclick: "$('#content_form').submit()", class: 'toolbar-btn') do %>
+  <i class="fa fa-arrow-right"></i> <%= t('views.navs.save_and_next') %>
+  <% end %>
+</div>
+
+<% when 'ajax_create', 'ajax_update' %>
+<div id="toolbar-btns">
+  <%= link_to({action: 'ajax_edit', id: @content.id}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class="fa fa-arrow-left"></i> 戻る
+  <% end %>
+  <%= link_to({action: 'ajax_show', id: @content.id}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
+  <% end %>
+</div>
+<% end %>

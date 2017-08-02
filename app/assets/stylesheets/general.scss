@@ -1,0 +1,18 @@
+//
+// CSS for general purpose
+//
+
+html {
+  font-size: 14px;
+  height: 100%;
+  width: 100%;
+  * {
+    font-family: "游ゴシック体", "Yu Gothic", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+    font-weight: 500;
+  }
+  body, #wrapper {
+    height: 100%;
+    line-height: 120%;
+    width: 100%;
+  }
+}

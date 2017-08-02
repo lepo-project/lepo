@@ -1,0 +1,51 @@
+<div id="snippet-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="clearfix">
+        <% if @notes.size == 0 %>
+        <%= render partial: "layouts/system_message", locals: {message: t('views.system_messages.no_note_resources'), message_category: 'info'} %>
+        <% else %>
+        <%= render partial: "notes/note", collection: @notes, locals: {resource: "index", droppable: true} %>
+        <% end %>
+      </div>
+      <% if @snippets.size > 0 %>
+      <%= render partial: "layouts/system_message", locals: {message: raw("収集した情報はドラッグ＆ドロップ、またはメニュー<i class='fa fa-chevron-circle-down fa-lg'></i>内の操作でノートに貼り付けてください。"), message_category: 'info'} %>
+      <% else %>
+      <% if @notes.size > 0 %>
+      <%= render partial: "layouts/system_message", locals: {message: t('views.system_messages.no_snippets'), message_category: 'info'} %>
+      <% end %>
+      <% end %>
+      <div id="snippets" class="block">
+        <%= render partial: "layouts/snippet", collection: @snippets, locals: {editable_snippet: true} %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(function () {
+  // For Snippet drag and drop
+  $('.draggable').draggable({
+    opacity: 0.8,
+    revert: "invalid",
+    revertDuration: 200
+  })
+  $('.droppable').droppable({
+    hoverClass: "drop-hover",
+    tolerance: "pointer",
+    drop: function (e, ui) {
+      var snippet_id = ui.draggable.attr('id').substr(8);
+      var note_id = $(this).attr('id').substr(6);
+      $.ajax({
+        url:'<%= Rails.application.config.relative_url_root %>/snippets/ajax_paste/'+snippet_id+'?note_id='+note_id
+      })
+      ui.draggable.hide();
+    }
+  })
+  // for snippet edit form
+  autosize($('.elastic_textarea'));
+  // for snippet edit form: this is necessary to fit height when initial text exists in textarea
+  $('.to-be-hidden').hide();
+});
+</script>

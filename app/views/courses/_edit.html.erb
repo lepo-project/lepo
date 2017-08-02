@@ -1,0 +1,11 @@
+<div id="course-resource" class="scroll-pane">
+  <div class="row" id="edit-course">
+    <div class="col-md-12">
+      <h1>コースの編集
+        <div class="header-explanation">設定必須項目：<span class="required">*</span></div>
+      </h1>
+      <%= render partial: "form", locals: {submit_action: 'ajax_update'} %>
+      <%= render partial: "option_form" if @course.manager? session[:id] %>
+    </div>
+  </div>
+</div>

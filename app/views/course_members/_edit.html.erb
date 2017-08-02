@@ -1,0 +1,40 @@
+<div id="user-resource" class="scroll-pane">
+  <div class="block alert alert-info">
+    <h4 class="alert-heading"><%= t('activerecord.models.course_member') + t('activerecord.attributes.course_member.role') %></h4>
+    <dl>
+      <dt>
+        <%= t('activerecord.attributes.course.managers') %>
+      </dt>
+      <dd>
+        教材等の閲覧 / 課題の評価 / コース設定
+      </dd>
+      <dt>
+        <%= t('activerecord.attributes.course.assistants') %>
+      </dt>
+      <dd>
+        教材等の閲覧 / コース設定
+      </dd>
+      <dt>
+        <%= t('activerecord.attributes.course.learners') %>
+      </dt>
+      <dd>
+        教材等の閲覧 / 課題提出
+      </dd>
+    </dl>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+      <%= render(partial: 'layouts/search_members', locals: {update_model: 'course_member', resource_id: @course.id}) %>
+      <%= render(partial: 'layouts/csv_members', locals: {update_model: 'course_member', resource_id: @course.id}) %>
+      <% current_course_members = @course.managers.zip Array.new(@course.managers.size, 'manager'), Array.new(@course.managers.size, @course.managers.size ==1 ? '' : 'none') %>
+      <% current_course_members = current_course_members.concat(@course.assistants.zip Array.new(@course.assistants.size, 'assistant'), Array.new(@course.assistants.size, 'none')) %>
+      <% current_course_members = current_course_members.concat(@course.learners.zip Array.new(@course.learners.size, 'learner'), Array.new(@course.learners.size, 'none')) %>
+      <%= render(partial: 'layouts/member_candidates', locals: {title: '現在のメンバー', category: 'course', form_category: 'index', users: current_course_members, resource_id: @course.id, footer:''}) %>
+      <p>
+        <%= link_to raw("<i class='fa fa-check-circle fa-lg'></i> 完了"), {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, {id: 'complete-btn', class: 'btn btn-large btn-primary', title: 'complete', remote: true} %>
+      </p>
+    </div>
+  </div>
+</div>

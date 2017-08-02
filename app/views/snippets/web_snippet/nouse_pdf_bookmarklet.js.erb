@@ -1,0 +1,61 @@
+lepo_bookmarklet = {
+	set_content: function (container) {
+		<% tags.each do |tag| %>
+		var elem = document.createElement('<%= tag[:name] %>');
+		<% tag[:attributes].each do |key,value| %>
+		elem.setAttribute("<%= key %>", "<%= value.value %>");
+		<% end %>
+		elem.innerHTML = '<%= j raw(tag[:innerHTML]) %>';
+		container.appendChild(elem);
+		<% end %>
+	},
+
+	load_content: function () {
+		document.body.appendChild(document.getElementById("lepo_bookmarklet_content"));
+		document.body.appendChild(document.getElementById("lepo_bookmarklet_base"));
+	},
+
+	unload_content: function () {
+		if (document.getElementById("lepo_bookmarklet_content") != null) {
+			document.body.removeChild(document.getElementById("lepo_bookmarklet_content"));
+		}
+		if (document.getElementById("lepo_bookmarklet_base") != null) {
+			document.body.removeChild(document.getElementById("lepo_bookmarklet_base"));
+		}
+		if (document.getElementById("lepo_bookmarklet_container") != null) {
+			document.body.removeChild(document.getElementById("lepo_bookmarklet_container"));
+		}
+	},
+
+	is_loaded: function () {
+		return document.getElementById("lepo_bookmarklet_container") != null;
+	},
+
+	load: function () {
+		if (!this.is_loaded()) {
+			var container = document.createElement("div");
+			container.setAttribute('id', 'lepo_bookmarklet_container');
+			container.style.display = 'none';
+			this.set_content(container);
+			document.body.appendChild(container);
+			this.load_content();
+
+
+
+			// to use encodeURIComponent for pdf text input
+			var d = document;
+			document.getElementById('u_value').value = d.location;
+			document.getElementById('t_value').value = d.title;
+			// document.getElementById('u_value').value = encodeURIComponent(d.location);
+			// document.getElementById('t_value').value = encodeURIComponent(d.title);
+
+
+
+
+
+			setTimeout(this.unload_content, <%= duration %>);
+		};
+	}
+};
+
+lepo_bookmarklet.load();

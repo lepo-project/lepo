@@ -1,0 +1,11 @@
+<% form_id = "create-#{category}-form-" + display_order.to_s %>
+<div id="<%= form_id %>" class="to-be-hidden">
+  <%= form_for Snippet.new, url: {action: :ajax_create, display_order: display_order, note_id: note_id, category: category}, html: {id: 'snippet-form', name: 'snippet-form', multipart: true}, remote: true do |f| %>
+  <%= render partial: "snippets/form", locals: {f: f, form_id: form_id, category: category} %>
+  <% end %>
+</div>
+
+
+<script>
+$("#cancel-<%= form_id %>").click(function(){toggleCreateSnippet(<%= display_order %>, "<%= category %>");});
+</script>

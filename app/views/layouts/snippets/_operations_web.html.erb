@@ -1,0 +1,16 @@
+<div id="snippet-<%= snippet.id %>-operations" class="collapse operation-list">
+  <div class="operation-header">切り抜き日時：<%= format_time(snippet.created_at, "mdhm") %></div>
+  <ul class="fa-ul">
+    <% if snippet.category == 'pdf' %>
+    <li><a id="update-pdf-snippet-btn-<%= snippet.id %>" style="cursor:pointer;"><i class='fa fa-li fa-pencil'></i> PDFファイルの引用文を入力</a></li>
+    <% end %>
+    <% @notes.each do |note| %>
+    <% next if snippet.note_id && (snippet.note_id == note.id) %>
+    <li><%= link_to(raw("<i class='fa-li fa fa-file-text-o'></i>「#{note.title}」に貼り付け"), {action: "ajax_paste", id: snippet.id, note_id: note.id}, {remote: true}) %></li>
+    <% end %>
+    <% if snippet.note_id %>
+    <li><%= link_to(raw("<i class='fa-li fa fa-file-text'></i>現在のノートからはがす"), {action: "ajax_paste", id: snippet.id}, {remote: true}) %></li>
+    <% end %>
+    <li><%= link_to(raw("<i class='fa-li fa fa-trash-o'></i>切り抜きを削除"), {action: "ajax_destroy", id: snippet.id}, {remote: true}) %></li>
+  </ul>
+</div>

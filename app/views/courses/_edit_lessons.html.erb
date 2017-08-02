@@ -1,0 +1,81 @@
+<div id="course-resource" class="scroll-pane">
+  <div class="row" id="edit-lessons">
+    <div class="col-md-12">
+      <h1>レッスンの編集</h1>
+      <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+
+      <div class="bordered-block">
+        <h2>レッスン構成
+          <div class="header-explanation">1〜<%= COURSE_LESSON_MAX_SIZE %>個のレッスンを登録可能</div>
+        </h2>
+
+        <div style="margin-top: 14px;">
+          <h3>新規レッスンの登録</h3>
+          <div style="padding-left: 20px;">
+            <% if @content_array.size == 0 %>
+            新たに追加できる教材がありません
+            <% elsif @course.lessons.size >= COURSE_LESSON_MAX_SIZE %>
+            登録できるレッスンの上限値<%= COURSE_LESSON_MAX_SIZE %>に達しました
+            <% else %>
+            <%= form_for(:lesson, url: {action: 'ajax_create_lesson', id: @course.id}, html: {id: 'lesson-form', class: 'form-inline', style: 'padding: 4px;', remote: true}) do |f| %>
+            <%#= f.error_messages %>
+            <%= f.hidden_field :display_order, value: @course.lessons.size + 1 %>
+            <%= f.select :content_id, @content_array, {}, {class: 'form-control', style: 'width: 300px; margin-right:16px;'} %>
+            <%= f.select :evaluator_id, get_evaluators(@course.managers), {}, {selected: 0, class: 'form-control', style: 'margin-right:16px;'} %>
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fa-plus-circle fa-lg"></i> 登録
+            </button>
+            <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <% if @course.lessons.size > 0 %>
+        <div style="margin-top: 10px;">
+          <h3>登録済みレッスン</h3>
+          <div id="lessons" style="padding-left: 20px; overflow: auto;">
+            <%= render partial: 'lesson', collection: @course.lessons %>
+          </div>
+        </div>
+        <% end %>
+      </div>
+
+      <div class="bordered-block">
+        <h2>コース目標の確認</h2>
+        <ol id="goals">
+          <%= render partial: 'goal', collection: @course.goals %>
+        </ol>
+        <h2>コース目標とレッスン目標の関連づけ
+          <div class="header-explanation">レッスン教材の到達目標に、関連するコース目標を1つ指定</div>
+        </h2>
+        <div id="objectives">
+          <% @course.lessons.each do |lesson| %>
+          <h3>レッスン<%= lesson.display_order %>： <%= lesson.content.title %></h3>
+          <%= render partial: 'objective', collection: lesson.content.objectives, locals: {lesson: lesson} %>
+          <% end %>
+        </div>
+      </div>
+
+      <p>
+        <%= link_to raw("<i class='fa fa-arrow-left fa-lg'></i> 戻る"), {action: 'ajax_edit', id: @course.id}, {id: 'cancel-btn', class: 'btn btn-large btn-secondary', title: 'cancel', remote: true} %>
+        <%= link_to raw("<i class='fa fa-check-circle fa-lg'></i> 完了"), get_url_hash(@course.id, @course.status), {id: 'complete-btn', class: 'btn btn-large btn-primary', title: 'complete', style: 'margin-left: 10px;', remote: true} %>
+      </p>
+
+    </div>
+  </div>
+</div>
+
+<script>
+$(function () {
+  $('#lessons').sortable({
+    axis:'y',
+    opacity: 0.8,
+    update:function () {
+      $.ajax({
+        url:'<%= Rails.application.config.relative_url_root %>/courses/ajax_sort_lessons/<%= @course.id %>',
+        data:$(this).sortable('serialize')
+      })
+    }
+  })
+});
+</script>

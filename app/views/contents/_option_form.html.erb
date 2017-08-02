@@ -1,0 +1,25 @@
+<div class="bordered-block">
+  <h2>オプション
+    <div class="header-explanation">
+      <span id="option_form_opener"><a style="cursor:pointer;" class="bright-link">オプションを表示/非表示</a></span>
+    </div>
+  </h2>
+  <div id="option_form" style="display: none; margin-left:20px;">
+    <h3>教材の削除</h3>
+    <% if @content.lessons.size > 0 %>
+    <p>コースで利用している教材は、削除できません</p>
+    <% else %>
+    <p>この操作は、取り消すことができません</p>
+    <%= form_for(@content, url: {action: "ajax_destroy", id: @content.id}, html: {class: "form-horizontal", remote: true}) do |f| %>
+    <button type="submit" class="btn btn-danger" style="margin-left: 10px;">
+      <i class="fa fa-trash fa-lg"></i> 教材の削除
+    </button>
+    <% end %>
+    <% end %>
+  </div>
+</div>
+
+
+<script>
+$("#option_form_opener").click(function(){toggleOptionForm();})
+</script>

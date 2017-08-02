@@ -1,0 +1,15 @@
+<div class="loc-subbody">
+  <% if show_outcome_form? @lesson_role, outcome_status %>
+      <div>
+        <%= outcome_form.fields_for :outcome_text do |text_form| %>
+            <%= text_form.text_area :entry, style: "width: 100%; height:4em; max-height: 20em; padding:0;", class: "elastic_textarea" %>
+        <% end %>
+      </div>
+  <% else %>
+      <div class="text-outcome">
+        <% if outcome_text %>
+            <%= sanitize add_br outcome_text.entry %>
+        <% end %>
+      </div>
+  <% end %>
+</div>

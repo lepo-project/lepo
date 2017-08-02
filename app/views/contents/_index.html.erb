@@ -1,0 +1,79 @@
+<div id="content-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12 block">
+      <% case session[:nav_section] when 'home' %>
+      <!-- Contents -->
+      <%= render partial: 'contents/contents_card' if @contents.size > 0 %>
+      <div class="card">
+        <h2 class="card-header"><%= t('views.recommended_browser') %></h2>
+        <div class="card-block">
+          <p class="card-text">
+            以下のwebブラウザで、LePoを利用してください。
+          </p>
+          <ul>
+            <li>Windows: Internet Explorer 11, Chrome 最新版</li>
+            <li>macOS: Chrome 最新版</li>
+          </ul>
+          <p class="card-text">
+            なお、Edgeブラウザでは、ノート機能が利用できません
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-header"><%= t('views.shortcut_key') %></h2>
+        <div class="card-block">
+          <p class="card-text">
+            教材を表示している時は、以下のキー操作が利用できます。なお、これらのキー操作は?キーで確認できます。
+          </p>
+          【ページ操作】
+          <ul>
+            <li>次のページに移動： → または k</li>
+            <li>前のページに移動： ← または j</li>
+            <li>5ページ先に移動： Shift + → または Shift + k</li>
+            <li>5ページ前に移動： Shift + ← または Shift + j</li>
+            <li>表紙ページに移動： Shift + ↑</li>
+            <li>課題ページに移動： Shift + ↓</li>
+          </ul>
+          【ふせん操作】
+          <ul>
+            <li>個人ふせんを作成： l（エル）</li>
+            <li>コースふせんを作成： Shift + l</li>
+            <li>編集中のふせんを貼る： Shift + Enter</li>
+            <li>編集中のふせんをキャンセル： Esc</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-header"><%= t('views.course_content_management') %></h2>
+        <div class="card-block" style="line-height: 150%;">
+          <p class="card-text">
+            システム管理者のみコースの登録が可能であり、特定のユーザをコース管理者に指定してコース登録することで、そのユーザがコースを管理できるようになります。
+          </p>
+          <p class="card-text">
+            また、システム管理者、1つ以上のコースの管理者/アシスタントになっているユーザ、および1つ以上の教材のアシスタントになっているユーザは、教材を管理することができます。
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-header"><%= t('views.system_version') %></h2>
+        <div class="card-block" style="line-height: 150%;">
+          <p class="card-text">
+            ご利用中のLePoのバージョン： 0.1.0 （2017年8月1日更新）
+          </p>
+        </div>
+      </div>
+
+      <% when 'repository' %>
+      <div class="card-l course-border">
+        <%= render partial: 'layouts/card_l', locals: {card: support_card_hash('content')} %>
+      </div>
+
+      <!-- Contents -->
+      <%= render partial: 'contents/contents_card' %>
+      <% end %>
+    </div>
+  </div>
+</div>

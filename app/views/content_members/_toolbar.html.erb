@@ -1,0 +1,5 @@
+<div id="toolbar-btns">
+  <%= link_to({controller: "contents", action: "ajax_show", id: @content.id}, {class: "toolbar-btn", remote: true}) do %>
+      <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
+  <% end %>
+</div>

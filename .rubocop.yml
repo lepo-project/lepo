@@ -1,0 +1,38 @@
+LineLength:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 60
+
+Metrics/ClassLength:
+  CountComments: false  # count full line comments?
+  Max: 500
+
+Metrics/CyclomaticComplexity:
+  Max: 15
+
+Metrics/MethodLength:
+  Max: 50
+
+Metrics/PerceivedComplexity:
+  Max: 15
+
+Style/AlignParameters:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/ConditionalAssignment:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Description: 'Use / or %r around regular expressions.'
+  StyleGuide: '#percent-r'
+  Enabled: false

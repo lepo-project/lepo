@@ -1,0 +1,2 @@
+<h3><%= snippet.subheader_title @snippets %></h3>
+<%= render(partial: "layouts/snippets/operations_direct", locals: {snippet: snippet})  if editable_snippet %>

@@ -1,0 +1,35 @@
+<div class="goal-card card">
+  <h2 class="card-header">
+    <%= t('activerecord.models.goal') %>
+  </h2>
+
+  <% goals.each do |goal| %>
+  <div class="goal card-block">
+    <div class="main-area">
+      <div class="card-title">
+        <%= goal["title"] %>
+      </div>
+    </div>
+    <div class="side-area">
+      <%= t('activerecord.attributes.objective.allocation') %>: <%= goal['self_allocation_sum'] %><%= t('views.units.points') %>
+      <a data-toggle="collapse" href="#goal<%= goal['id'] %>-details" aria-expanded="false" aria-controls="#goal<%= goal['id'] %>-details">
+        <i class="fa fa-chevron-circle-down"></i> <%= t('views.show_details') %>
+      </a>
+    </div>
+  </div>
+
+  <div id="goal<%= goal['id'] %>-details" class="objectives collapse card-block">
+    <h3>対応するレッスン目標</h3>
+    <% if goal["objectives"].size > 0 %>
+    <% goal["objectives"].each do |o| %>
+    <div class="d-flex">
+      <div class="main-area"><%= t('activerecord.models.lesson') %> <%= o[:display_order] %>: <%= o[:title] %></div>
+      <div class="side-area"><%= o[:self_allocation] %><%= t('views.units.points') %></div>
+    </div>
+    <% end %>
+    <% else %>
+    <div style="padding-left:1rem;"><%= t('views.none') %></div>
+    <% end %>
+  </div>
+  <% end %>
+</div>

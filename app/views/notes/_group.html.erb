@@ -1,0 +1,15 @@
+<div class="group-card card">
+  <% learners = @course.learners_in_group group_id %>
+  <h2 class="card-header" style="margin-bottom:0;">
+    <%= group_id + 1 %>班: <%= learners.size %>名
+  </h2>
+  <ul class="list-group list-group-flush">
+    <% learners.each do |l| %>
+    <% if (l.id == @user.id) %>
+    <li class="list-group-item"><i class='fa fa-user fa-lg'></i> <%= l.fullname %></li>
+    <% else %>
+    <li class="list-group-item" style="text-indent: 1.7rem;"> <%= l.fullname %></li>
+    <% end %>
+    <% end %>
+  </ul>
+</div>

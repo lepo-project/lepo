@@ -1,0 +1,60 @@
+<% case controller.action_name when 'ajax_index', 'ajax_update_profile', 'ajax_update_account' %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top')]]} %>
+</nav>
+
+<% when 'ajax_profile_pref', 'ajax_destroy_user_image', 'ajax_account_pref' %>
+<% crumb_title = (controller.action_name == 'ajax_account_pref') ? 'アカウント' : 'プロフィール' %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [crumb_title]]} %>
+</nav>
+<div id="toolbar-btns">
+  <%= link_to({action: 'ajax_index', nav_section: 'home'}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
+  <% end %>
+
+  <%= link_to('javascript:void(0);', onclick: "$('#user_form').submit()", class: 'toolbar-btn') do %>
+  <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
+  <% end %>
+</div>
+
+<% when 'ajax_notice_pref', 'ajax_edit_notice', 'ajax_create_notice', 'ajax_destroy_notice', 'ajax_reedit_notice', 'ajax_expire_notice', 'ajax_expire_notice_from_course_top', 'ajax_open_notice', 'ajax_update_notice' %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [t('activerecord.models.notice')]]} %>
+</nav>
+<div id="toolbar-btns">
+  <%= link_to({action: 'ajax_index', nav_section: session[:nav_section]}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
+  <% end %>
+</div>
+
+<% when 'ajax_new_user_pref' %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [t('views.new_user')]]} %>
+</nav>
+<div id="toolbar-btns">
+  <%= link_to({action: 'ajax_index', nav_section: session[:nav_section]}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
+  <% end %>
+</div>
+
+<% when 'ajax_new_user_pref' %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [t('views.new_user')]]} %>
+</nav>
+<div id="toolbar-btns">
+  <%= link_to({action: 'ajax_index', nav_section: session[:nav_section]}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
+  <% end %>
+</div>
+
+<% when 'ajax_user_account_pref', 'ajax_search_accounts' %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [t('views.user_account')]]} %>
+</nav>
+<div id="toolbar-btns">
+  <%= link_to({action: 'ajax_index', nav_section: 'home'}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
+  <% end %>
+</div>
+<% end %>

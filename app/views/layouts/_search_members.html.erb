@@ -1,0 +1,25 @@
+<% selected_form = (@form_category == 'search') %>
+
+<div class="bordered-block <%= 'selected' if selected_form %> clearfix">
+  <h2>メンバーの検索と登録
+    <div class="header-explanation">ユーザID / 氏名で検索</div>
+  </h2>
+  <div style="margin:4px">
+    <%= form_tag({action: 'ajax_search_candidates'}, class: "form-inline", remote: true) do %>
+    <% search_word = @search_word ? @search_word : '' %>
+    <%= text_field_tag 'search_word', search_word, class: 'form-control form-control-lg', :placeholder => 'キーワード' %>
+    <div style="margin: 0 1rem;">を</div>
+    <%= select_tag "member_role", options_for_select(member_role_options(update_model), @member_role),  class: "form-control form-control-lg" %>
+    <div style="margin: 0 1rem;">として</div>
+    <%= hidden_field_tag "content_id", @content.id if update_model == "content_member" %>
+    <button type="submit" class="btn btn-primary" style="margin-left: 8px;">
+      <i class="fa fa-search fa-lg"></i> 検索
+    </button>
+    <% end %>
+  </div>
+
+  <% if selected_form %>
+  <% category = (update_model == 'content_member') ? 'content' : 'course' %>
+  <%= render(partial: 'layouts/member_candidates', locals: {title: '検索結果', category: category, form_category: 'search', users: @candidates, resource_id: resource_id, footer: ''}) %>
+  <% end %>
+</div>

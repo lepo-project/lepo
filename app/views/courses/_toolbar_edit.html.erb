@@ -1,0 +1,9 @@
+<div id="toolbar-btns">
+  <%= link_to(course_cancel_hash, {class: "toolbar-btn", remote: true}) do %>
+      <i class="fa fa-times-circle"></i> <%= t("views.cancel") %>
+  <% end %>
+
+  <%= link_to("javascript:void(0);", id: "next-btn", onclick: "$('#course-form').submit()", class: "toolbar-btn") do %>
+      <i class="fa fa-arrow-right"></i> <%= t('views.navs.save_and_next') %>
+  <% end %>
+</div>

@@ -1,0 +1,9 @@
+//
+// variables & mixins for background image
+//
+
+@mixin background-image {
+  background-image: image-url('background.png');
+  background-position: center;
+  background-repeat: no-repeat;
+}

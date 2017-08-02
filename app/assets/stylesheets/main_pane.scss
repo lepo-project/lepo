@@ -1,0 +1,523 @@
+//
+// CSS for main-pane
+//
+
+@import 'components/block';
+@import 'components/card';
+@import 'components/color';
+@import 'components/image';
+@import 'components/toolbar';
+@import 'components/versatile_cards';
+
+#main-pane {
+  border-style: none;
+  float: left;
+  height: inherit;
+  .row {
+    height: inherit;
+    .col-md-12 {
+      height: inherit;
+    }
+  }
+  #main-toolbar {
+    background-color: $toolbar-bgcolor;
+    font-size: 1.3rem;
+    height: $toolbar-height;
+    left: 0;
+    padding: 2px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    div#fixed-toolbar {
+      border-right: 1px solid #bbb;
+      margin-right: 12px;
+    }
+    div#variable-toolbar {
+      height: 100%;
+    }
+    div#fixed-toolbar, nav#sub-nav {
+      float: left;
+      height: 100%;
+    }
+    nav#sub-nav {
+      // #FIXME: Group work;
+      ul.breadcrumb {
+        background-color: $toolbar-bgcolor;
+        float: left;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        li {
+          float: left;
+          height: 100%;
+          padding: 6px 2px;
+        }
+      }
+      ul.breadcrumb::after {
+        // prescription for Bootstrap4 breadcrumb CSS
+        display: inline;
+      }
+      div.page-number {
+        float: left;
+        height: 100%;
+        padding-top: 3px;
+        .btn-group {
+          float: left;
+          width: 5.5rem;
+          a.toolbar-btn {
+            padding-left: 0;
+          }
+          div.dropdown-menu {
+            left: 0;
+            line-height: 140%;
+            max-height: 22rem;
+            min-width: 10rem;
+            overflow-y: auto;
+            width: 10rem;
+            a.dropdown-item {
+              padding-left: 0;
+              text-align: center;
+              text-indent: 2rem;
+              &.disabled {
+                text-indent: 0;
+              }
+            }
+          }
+        }
+        .page-flipper {
+          float: left;
+          height: 100%;
+          .toolbar-btn {
+            padding-top: 1px;
+          }
+        }
+      }
+    }
+    div#toolbar-btns {
+      float: right;
+      height: 100%;
+      div.dropdown-menu {
+        left: -10rem;
+        width: 14rem;
+      }
+    }
+    div.dropdown-menu {
+      background-color: $toolbar-bgcolor;
+      border: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      line-height: 240%;
+      margin-top: 1px;
+      a.dropdown-item {
+        display: block;
+        font-size: 1.3rem;
+        height: 100%;
+        width: 100%;
+        &:hover {
+          text-decoration: none;
+        }
+        i {
+          font-size: 1.4rem;
+        }
+      }
+      div.dropdown-divider {
+        background-color: #bbb;
+      }
+    }
+    .toolbar-btn {
+      display: block;
+      float: left;
+      height: 100%;
+      margin: 0 6px;
+      min-width: 30px;
+      padding: 4px 8px;
+      text-align: center;
+      i {
+        font-size: 1.5rem;
+      }
+    }
+    a.toolbar-btn {
+      color: $toolbar-color;
+      text-decoration: none;
+      &:hover {
+        color: $toolbar-hover-color;
+      }
+    }
+    div.toolbar-btn {
+      color: $toolbar-disabled-color;
+    }
+  }
+
+  #message-card {
+    .optional-info {
+      background-color: #ffb;
+      box-shadow: 1px 1px 2px #222;
+      color: #000;
+      display: none;
+      left: 40%;
+      margin-left: -120px;
+      padding: 8px;
+      position: absolute;
+      top: 32px;
+      width: 450px;
+      z-index: 1000;
+      h2 {
+        font-size: 16px;
+        margin-bottom: 4px;
+        text-align: center;
+      }
+      td {
+        padding: 4px;
+        &.action {
+          padding-right: 8px;
+        }
+        &.key {
+          text-align: center;
+        }
+      }
+      a {
+        color: #26f;
+        text-decoration: none;
+      }
+      a:hover, a:hover div {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  #resource {
+    @include report-card;
+    @include resources-card;
+    @include image-80px;
+    background-color: #444;
+    color: #fff;
+    height: 100%;
+    overflow: auto;
+    padding: $toolbar-height 0 0;
+    a, a div {
+      color: #26f;
+      text-decoration: none;
+    }
+    a:hover, a:hover div {
+      text-decoration: underline;
+    }
+    dd {
+      text-indent: 1em;
+    }
+    dt {
+      font-weight: bold;
+    }
+    h1 {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 0 16px;
+      padding-bottom: 2px;
+    }
+    h2 {
+      border-bottom: 1px #fff solid;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 120%;
+      margin: 0 0 10px;
+    }
+    h3 {
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 120%;
+      margin: 0 0 4px;
+    }
+    i {
+      margin: 0 4px 0 0;
+      vertical-align: baseline;
+    }
+    iframe {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+    a {
+      &.bright-link {
+        color: #0df;
+        &:hover {
+          color: #0ff;
+        }
+      }
+      &.btn {
+        color: #000;
+        &.btn-primary, &.btn-info, &.btn-success, &.btn-warning, &.btn-danger, &.btn-inverse {
+          color: #fff;
+        }
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .btn {
+      min-width: 120px;
+      i {
+        line-height: 180%;
+      }
+    }
+    .btn-group .btn {
+      min-width: 0;
+    }
+    div.card {
+      color: #000;
+      margin-bottom: 10px;
+    }
+    div.scroll-pane {
+      background-color: #444;
+      height: 100%;
+      overflow: auto;
+      padding: 15px;
+    }
+    .form-list {
+      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
+      li {
+        margin-top: 0.25rem;
+      }
+    }
+    div.block {
+      @include default-block;
+    }
+    div.button-block {
+      margin-top: 1rem;
+    }
+    div.bordered-block {
+      @include default-block;
+      background-color: #555;
+      border: 2px solid #777;
+      padding: 8px 4px 0;
+      label {
+        color: #fff;
+      }
+      &.selected {
+        background-color: #777;
+        border-color: #999;
+      }
+      .control-group-text-line {
+        margin-bottom: 12px;
+        .control-text-line {
+          font-size: 14px;
+          line-height: 14px;
+          padding-top: 4px;
+        }
+      }
+      div.form-side-area {
+        float: left;
+        width: 300px;
+      }
+      div.form-main-area {
+        float: left;
+        width: 400px;
+        div.files div {
+          background-color: #777;
+        }
+        div#page-files div {
+          cursor: pointer;
+          &:hover {
+            background-color: #999;
+          }
+        }
+      }
+    }
+    div.file-submit-button {
+      height: 48px;
+      overflow: hidden;
+      position: relative;
+      width: 180px;
+      button {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1;
+        &.disabled {
+          display: none;
+        }
+      }
+      input#outcome-file-upload, input#page-file-upload, input#asset-file-upload, input#attachment-file-upload, input#snippet-file-upload {
+        cursor: pointer;
+        filter: alpha(opacity = 0);
+        font-size: 100px;
+        height: 100%;
+        -moz-opacity: 0;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        z-index: 20;
+      }
+    }
+    .required {
+      color: #3df;
+      font-weight: bold;
+    }
+    .optional {
+      display: none;
+    }
+    .header-explanation {
+      float: right;
+      font-size: 12px;
+      margin-right: 4px;
+    }
+    .file-explanation {
+      margin-top: 6px;
+    }
+    .fieldWithErrors {
+      background-color: #c00;
+      display: table;
+      padding: 2px;
+    }
+    #errorExplanation {
+      background-color: #c33;
+      border: 2px solid #e55;
+      padding: 5px 5px 10px;
+      h2 {
+        line-height: 120%;
+        margin-top: -5px;
+        padding: 5px 5px 0;
+      }
+    }
+    div#status-flow {
+      width: 500px;
+      div.status-flow-bar {
+        min-height: 14px;
+        padding-top: 2px;
+      }
+      div.select-symbol-box {
+        float: left;
+        height: 16px;
+        width: 16px;
+        .selected-symbol, .selectable-symbol {
+          display: none;
+        }
+      }
+      div.selectable {
+        background-color: #bdd;
+        border: 2px solid #dff;
+        padding: 4px;
+        div.select-symbol-box .selectable-symbol {
+          display: inline;
+        }
+      }
+      div.selectable:hover {
+        background-color: #dff;
+        border: 2px solid #eff;
+        color: #011;
+      }
+      div.selectable a, div.selectable a div {
+        color: #022;
+        text-decoration: none;
+      }
+      div#selected {
+        background-color: #bdd;
+        border: 2px solid #dff;
+        color: #022;
+        font-weight: bold;
+        padding: 4px;
+        * {
+          font-weight: bold;
+        }
+        div.select-symbol-box .selected-symbol {
+          display: inline;
+        }
+        div.select-symbol-box .selectable-symbol {
+          display: none;
+        }
+      }
+      div.disabled {
+        background-color: #777;
+        border: 2px solid #999;
+        color: #ddd;
+        padding: 4px;
+      }
+      div.arrow {
+        height: 12px;
+        margin: 0 auto 4px;
+        text-align: center;
+        width: 30px;
+      }
+      div.icon {
+        float: left;
+        height: 20px;
+        width: 10px;
+      }
+      div.title {
+        float: left;
+        padding-left: 10px;
+      }
+    }
+    div.course-border {
+      border-right-color: $course-color;
+    }
+    div.learner-border, a.learner-border {
+      border-right-color: $learner-color;
+    }
+    div.staff-border, a.staff-border {
+      border-right-color: $staff-color;
+    }
+    div.private-border {
+      border-right-color: $private-color;
+    }
+    div.pending-border, a.pending-border {
+      border-right-color: $pending-color;
+    }
+    .card-l {
+      @include default-card;
+    }
+    div.associated-object table {
+      background-color: #777;
+      border: 1px solid #999;
+      line-height: 200%;
+      margin-bottom: 2px;
+      width: 100%;
+      th, a {
+        font-weight: bold;
+      }
+      .draggable-symbol {
+        padding-left: 4px;
+        width: 20px;
+      }
+      .serial-number {
+        padding-right: 6px;
+        text-align: right;
+        width: 24px;
+      }
+      .l80px {
+        text-align: center;
+        width: 80px;
+      }
+      .l120px {
+        text-align: center;
+        width: 120px;
+      }
+      .l160px {
+        width: 160px;
+      }
+      .r40px {
+        text-align: center;
+        width: 40px;
+      }
+      th.goal-title {
+        border-bottom: 1px solid #eec;
+        text-align: center;
+      }
+      td.selected {
+        background-color: #bdd;
+        border: 2px solid #dff;
+        color: #022;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+
+    .fa.tentative-grip::before {
+      /* \f142 is ellipsis-v */
+      /* \202F is thin unbreakable space */
+      color: #eee;
+      content: '\f142 \202F \f142';
+    }
+  }
+}

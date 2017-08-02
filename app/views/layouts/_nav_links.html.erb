@@ -1,0 +1,15 @@
+<% links = available_links %>
+<% if (links.size > 0) %>
+<h1>
+  <%= t("activerecord.models.link") %>
+</h1>
+<ul>
+  <% links.each do |link| %>
+  <li>
+    <a href="<%= sanitize link['url'] %>" class="link" target="_blank">
+      <i class="fa fa-link fa-lg"></i> <%= link['title'] %>
+    </a>
+  </li>
+  <% end %>
+</ul>
+<% end %>

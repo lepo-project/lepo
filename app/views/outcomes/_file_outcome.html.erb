@@ -1,0 +1,52 @@
+<div class="loc-subbody">
+  <table class="file-outcome-list">
+    <% if (outcome_files.length == 0) %>
+    <tr>
+      <td>ファイルは提出されていません</td>
+    </tr>
+    <% else %>
+    <% outcome_files.each do |file| %>
+    <tr>
+      <th class="file_name"><%= link_to file.upload_file_name, file.upload.url, {target: "_blank"} %></th>
+      <td class="l160px"><%= format_time file.upload_updated_at, "mdhm" %></td>
+      <td class="r40px">
+        <% if show_outcome_form? @lesson_role, outcome_status %>
+        <%= link_to('削除', {controller: 'outcomes', action: 'ajax_destroy_file', id: outcome_id, file_id: file.id}, {class: 'remove', remote: true}) %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+    <% end %>
+  </table>
+
+  <% if show_outcome_form? @lesson_role, outcome_status %>
+  <div class="file-outcome-form">
+    <% if (outcome_files.size < OUTCOME_MAX_SIZE) %>
+    <%= form_for :outcome_file, url: {controller: 'outcomes', action: :ajax_upload_file, id: outcome_id}, html: {id: 'outcome-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
+    <%#= f.error_messages %>
+    <%= f.hidden_field :outcome_id, value: outcome_id %>
+    <div style="padding: 4px;">
+      <%= render partial: 'layouts/file_submit_button', locals: {f: f, file_category: 'outcome', form_id: 'outcome-file-upload'} %>
+    </div>
+    <% end %>
+  </div>
+  <% else %>
+  <div class="file-explanation">ファイルは<%= OUTCOME_MAX_SIZE %>個までしか提出できません</div>
+  <% end %>
+  <% end %>
+</div>
+
+
+<script>
+$(function () {
+  $('#outcome-file-upload').change(function () {
+    $('#outcome-file-form').submit();
+    $('#outcome-file-submit-btn').css("display", "none")
+    $('#outcome-file-progress-btn').css("display", "block")
+  })
+  $('*').ajaxStop(function () {
+    $('#outcome-file-submit-btn').css("display", "block")
+    $('#outcome-file-progress-btn').css("display", "none")
+  });
+});
+</script>

@@ -1,0 +1,35 @@
+//
+// variables & mixins for image
+//
+
+@mixin image-40px {
+  .image-40px {
+    height: 40px;
+    text-align: center;
+    width: 40px;
+    i {
+      color: #aaa;
+      display: block;
+      font-size: 30pt;
+      height: 100%;
+      line-height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+@mixin image-80px {
+  .image-80px {
+    height: 80px;
+    text-align: center;
+    width: 80px;
+    i {
+      color: #aaa;
+      display: block;
+      font-size: 54pt;
+      height: 100%;
+      line-height: 100%;
+      width: 100%;
+    }
+  }
+}

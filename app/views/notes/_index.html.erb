@@ -1,0 +1,23 @@
+<div id="snippet-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <% if @course.groups_count == 1 %>
+      <!-- Without Groups (Only One Group) -->
+      <% if @notes.size == 0 %>
+      <%= render partial: "layouts/system_message", locals: {message: "現在、公開されているノートは、ありません。", message_category: 'info'} %>
+      <% else %>
+      <%= render partial: "note", collection: @notes, locals: {resource: "index", droppable: false} %>
+      <% end %>
+
+      <% else %>
+      <!-- With Groups -->
+      <!-- #FIXME: Group work -->
+      <% @course.groups_count.times do |group_id| %>
+      <%= link_to({action: 'ajax_group_index', group_id: group_id}, {remote: true}) do %>
+      <%= render partial: "group", locals: {group_id: group_id} %>
+      <% end %>
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

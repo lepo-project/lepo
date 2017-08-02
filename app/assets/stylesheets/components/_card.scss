@@ -1,0 +1,143 @@
+//
+// variables & mixins for card
+//
+
+@mixin default-card-small {
+  border: 2px solid #eee;
+  float: left;
+  margin: 0 10px 10px 0;
+  padding: 2px;
+  width: 360px;
+  .card-title {
+    margin: 0;
+    padding-left: 1rem;
+    text-align: center;
+    a, a div {
+      font-size: 11pt;
+      font-weight: bold;
+      line-height: 20px;
+    }
+  }
+  .card-block {
+    padding: 0.5rem 0.5rem 0.25rem;
+    .card-subtitle {
+      margin-bottom: 0.5rem;
+    }
+  }
+  .card-block-flex {
+    display: flex;
+    padding: 0.5rem;
+    .side-area {
+      text-align: center;
+      width: 80px;
+      .icon {
+        width: 80px;
+        i {
+          color: #aaa;
+          display: block;
+          font-size: 50pt;
+        }
+      }
+      .caption {
+        overflow-y: auto;
+        padding: 2px 0;
+        width: 80px;
+      }
+    }
+    .main-area {
+      font-size: 10pt;
+      padding-left: 15px;
+      width: 100%;
+    }
+  }
+  .card-footer {
+    display: flex;
+    div.align-left {
+      margin-right: 1rem;
+    }
+    div.align-right {
+      margin-left: auto;
+    }
+  }
+}
+
+@mixin default-card {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-right: 20px solid;
+  clear: both;
+  color: #000;
+  height: auto;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  padding: 4px;
+  position: relative;
+  .side-area {
+    float: left;
+    height: 100%;
+    margin: 0 0 -30000px;
+    padding-bottom: 30000px;
+    text-align: center;
+    width: 100px;
+    .image {
+      min-height: 40px;
+    }
+    .icon {
+      width: 100px;
+      i {
+        color: #aaa;
+        display: block;
+        font-size: 60pt;
+        height: 100%;
+        line-height: 100%;
+        width: 100%;
+      }
+    }
+    .caption {
+      font-size: small;
+      overflow-y: hidden;
+      padding: 2px 0;
+      width: 100px;
+    }
+  }
+  .main-area {
+    margin: 0;
+    margin-bottom: -30000px;
+    min-height: 30px;
+    overflow: hidden;
+    padding-bottom: 30020px;
+    padding-left: 10px;
+    .body {
+      line-height: 140%;
+      min-height: 40px;
+      h3 {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 120%;
+        padding-bottom: 4px;
+        a {
+          font-size: 14px;
+          font-weight: bold;
+        }
+      }
+    }
+    .footer {
+      bottom: 4px;
+      color: #888;
+      position: absolute;
+      width: 100%;
+      .footnote {
+        margin-right: 10px;
+      }
+      .operation-box {
+        float: right;
+        margin-right: 110px;
+      }
+      .operation {
+        float: right;
+        margin-right: 20px;
+        position: relative;
+      }
+    }
+  }
+}

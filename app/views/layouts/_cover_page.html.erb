@@ -1,0 +1,55 @@
+<div id="simple-html-content">
+  <div id="container" class="cover-page" >
+    <div id="content">
+      <h1><%= @content.title %></h1>
+
+      <div class="loc abstract">
+        <div class="loc-header"><%= t('activerecord.attributes.content.overview') %></div>
+        <div class="loc-body">
+          <%= sanitize add_br @content.overview %>
+        </div>
+      </div>
+
+      <div class="loc goal">
+        <div class="loc-header"><%= t('activerecord.models.goal') %></div>
+        <div class="loc-body">
+          <ol>
+            <% @content.objectives.each do |sg| %>
+            <li><%= sg.title %></li>
+            <% end %>
+          </ol>
+        </div>
+      </div>
+
+      <% if @content.condition.size > 0 %>
+      <div class="loc condition">
+        <div class="loc-header"><%= t('activerecord.attributes.content.condition') %></div>
+        <div class="loc-body">
+          <%= sanitize add_br @content.condition %>
+        </div>
+      </div>
+      <% end %>
+
+      <% if @content.attachment_files.size > 0 %>
+      <%= render partial: "layouts/attachment_files", locals: {files: @content.attachment_files} %>
+      <% end %>
+
+      <div class="loc outcome">
+        <div class="loc-header">
+          <%= t('views.assignment') %> : <%= t('views.content.as_'+ @content.as_category) %>
+
+          <% if @lesson and !@lesson.new_record? %>
+          [ <%= lesson_evaluator_text @lesson.evaluator_id %> ]
+          <% end %>
+        </div>
+        <div class="loc-body">
+          <%= sanitize add_br @content.as_overview %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if session[:sticky_panel] !="none" %>
+<div id="sticky-panel"><%= render(partial: "stickies/sticky_panel", object: pg["stickies"]) %></div>
+<% end %>

@@ -1,0 +1,50 @@
+<% template = insert_btn %>
+<div class="btn-group template_objective_<%= template.objective_id %>" style="float: left; margin: 0 4px 4px 0;">
+  <% btn_class = template_btn_class template.content_id, template.objective_id %>
+  <button type="button" id="insert_template<%= template.id %>_<%= outcome_id %>" class="<%= btn_class%> insert-btn" title="<%= template.message %>"><%= template.message %></button>
+  <button type="button" class="<%= btn_class %> dropdown-toggle" style="font-size:small;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <div class="dropdown-menu <%= dropdown_position template.message, 14 %>">
+
+    <% if evaluator_id > 0 %>
+    <% @content.objectives.each_with_index do |obj, index| %>
+    <% unchecked = (template.objective_id == obj.id) ? "" : "unchecked" %>
+
+    <%= link_to({controller: "message_templates", action: 'ajax_toggle_objective', id: template.id, lesson_id: lesson_id, objective_id: obj.id}, {class: "dropdown-item", remote: true}) do %>
+    <i class='fa fa-check <%= unchecked %>'></i> 目標<%= index + 1 %>の減点テンプレートに設定
+    <% end %>
+    <% end %>
+    <% end %>
+
+    <% toggled_content_id = (template.content_id > 0) ? 0 : session[:content_id] %>
+    <% unchecked = (template.content_id > 0) ? "unchecked" : "" %>
+    <%= link_to({controller: "message_templates", action: 'ajax_toggle_contents', id: template.id, lesson_id: lesson_id, toggled_content_id: toggled_content_id}, {class: "dropdown-item", remote: true}) do %>
+    <i class='fa fa-check <%= unchecked %>'></i> 全教材テンプレートに設定
+    <% end %>
+
+    <div class="dropdown-divider"></div>
+
+    <%= link_to({controller: "message_templates", action: 'ajax_destroy', id: template.id, lesson_id: lesson_id}, {class: "dropdown-item", remote: true}) do %>
+    <i class='fa fa-times-circle'></i> 削除
+    <% end %>
+    <% if template.content_id > 0 %>
+    <div style="float: right; margin-right:16px; font-size:x-small"><%= template.counter %>回使用</div>
+    <% end %>
+
+  </div>
+</div>
+
+
+<script>
+var obj_ids = <%= @content.objective_ids %>
+
+$(function () {
+  var outcome_id = <%= outcome_id %>
+  message_length = $("#outcome_" + outcome_id + " .message_form_text").val().length;
+  displaycreateTemplateBtn(message_length, outcome_id)
+  displayObjectiveTemplateBtnAll(outcome_id, obj_ids)
+})
+$("#insert_template<%= template.id %>_<%= outcome_id %>").click(function(){insertTemplate($(this), '<%= lesson_id %>', '<%= template.id %>', '<%= j(template.message) %>');})
+
+</script>

@@ -1,0 +1,16 @@
+keyBinder($(document));
+try {
+  sessionStorage.setItem("nav-open-courses-class", "<%= @user.system_staff? ? 'nav-hidden' : '' %>");
+  sessionStorage.setItem("nav-repository-class", "nav-hidden");
+} catch(err) {
+  console.error(err);
+}
+
+// partial renderings
+$("#main-nav").html("<%= j render(partial: 'layouts/main_nav') %>");
+$("#sub-toolbar").html("<%= j render(partial: 'layouts/sub_toolbar') %>");
+$("#variable-toolbar").html("<%= j render(partial: 'dashboard/toolbar') %>");
+$("#message-card").html("<%= j render(partial: 'layouts/message_card') %>");
+$("#resource").html("<%= j render(partial: 'dashboard/index') %>");
+
+closeSubPane()

@@ -1,0 +1,38 @@
+<div id="versatile-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <h1><%= controller_name == "preferences" ? "システム" : "コース" %>のお知らせの編集</h1>
+      <% if (@editting_notice) %>
+      <%= form_for(@editting_notice, url: {action: :ajax_update_notice, id: @course_id, notice_id: @editting_notice.id}, remote: true) do |f| %>
+      <%= render(partial: "layouts/notices/update", locals: {f: f, value: @editting_notice.message}) %>
+      <% end %>
+      <% else %>
+      <%= form_for(:notice, url: {action: :ajax_create_notice, id: @course_id}, remote: true) do |f| %>
+      <%= render(partial: "layouts/notices/create", locals: {f: f}) %>
+      <% end %>
+      <% end %>
+
+      <% if @open_notices.size + @expired_notices.size > 0 %>
+      <div class="bordered-block">
+        <h2>既存のお知らせ</h2>
+        <% if @open_notices.size > 0 %>
+        <h3>公開中のお知らせ</h3>
+        <%= render partial: "layouts/notices/notice_card", collection: @open_notices, locals: {border_category: "course"} %>
+        <% end %>
+        <% if @expired_notices.size > 0 %>
+        <h3>公開を終了したお知らせ</h3>
+        <%= render partial: "layouts/notices/notice_card", collection: @expired_notices, locals: {border_category: "pending"} %>
+        <% end %>
+      </div>
+      <% end %>
+
+      <% nav_id = (@course_id && (@course_id > 0)) ? @course_id : 0 %>
+      <%= render partial: 'layouts/complete_btn', locals: {nav_section: session[:nav_section], nav_id: nav_id} %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+autosize($('.elastic_textarea'));
+</script>

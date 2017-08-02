@@ -1,0 +1,13 @@
+<% if message %>
+<div style="max-width:720px;margin:0.5rem 0;clear:both;">
+  <% if message_category && message_category == "error" %>
+  <div class="alert alert-danger">
+    <i class="fa fa-exclamation-circle fa-lg"></i> <%= message %>
+  </div>
+  <% else %>
+  <div class="alert alert-info">
+    <i class="fa fa-info-circle fa-lg"></i> <%= message %>
+  </div>
+  <% end %>
+</div>
+<% end %>

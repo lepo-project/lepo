@@ -1,0 +1,29 @@
+<div style="margin-top: 20px; padding-top: 30px; clear: both;">
+  <h2>相互評価の要約（コーススタッフにのみ表示）</h2>
+  <p>
+    相互評価中は、学生ユーザにはノート管理者の氏名・プロフィールイメージを非表示
+  </p>
+  <% members = @course.learners_in_group @group_id %>
+  <% members.each do |m| %>
+  <% group_notes = @notes.select{|s| (s.group_id == @group_id) && (@course.learner? s.manager_id)} %>
+  <% group_notes = group_notes.sort! {|a, b| a.id <=> b.id} %>
+  <h3><%= m.fullname %>（<%= m.user_id %>）</h3>
+  <ul>
+    <% user_peer_review = get_peer_review group_notes, @group_id, m.id %>
+    <% user_peer_review[:eval].each do |upr| %>
+    <li>評価対象：<%= upr.manager.fullname %></li>
+    <% end %>
+  </ul>
+  <ul>
+    <% stickies = Sticky.where(course_id: @course.id, manager_id: m.id, target_type: "note") %>
+    <% stickies.each do |s| %>
+    <% note = Note.find(s.target_id) %>
+    <li>ふせん：<%= note.manager.fullname %> 「<%= s.message %>」</li>
+    <% end %>
+    <% stars = NoteStar.where(manager_id: m.id, stared: true) %>
+    <% stars.each do |s| %>
+    <li>スター：<%= s.note.manager.fullname %></li>
+    <% end %>
+  </ul>
+  <% end %>
+</div>

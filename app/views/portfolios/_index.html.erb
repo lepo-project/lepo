@@ -1,0 +1,27 @@
+<div id="portfolio-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="block">
+        <!-- Course Lessons -->
+        <%= render partial: 'lessons_card' %>
+        <% eval_category = @course.eval_category %>
+        <% if !eval_category %>
+        <%= render partial: 'layouts/system_message', locals: {message: 'コースにレッスンが登録されていません', message_category: 'info'} %>
+        <% else %>
+        <div id="achievement_reports" class="report-card card">
+          <%= render(partial: 'achievement_reports', locals: {eval_category: eval_category}) %>
+        </div>
+        <div id="goal_reports" class="report-card card">
+          <%= render(partial: 'goal_reports', locals: {eval_category: eval_category}) %>
+        </div>
+        <div id="star_reports" class="report-card card">
+          <%= render(partial: 'star_reports') %>
+        </div>
+        <div id="sticky-reports" class="report-card card">
+          <%= render(partial: 'stickies/sticky_reports') %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

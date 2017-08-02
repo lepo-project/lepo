@@ -1,0 +1,481 @@
+en:
+  activerecord:
+    models:
+      asset_file: Asset file
+      attachment_file: Attachment file
+      attendance: Attendance
+      content: Content
+      content_member: Member
+      course: Course
+      course_member: Member
+      device: Device
+      goal: Goal
+      goals_objective: Goals and Objective
+      lesson: Lesson
+      link: Link
+      message_template: Message Template
+      note: Note
+      note_star: Note Star
+      notice: Notice
+      objective: Objective
+      outcome: Outcome
+      outcome_file: Outcome File
+      outcome_message: Outcome Message
+      outcome_text: Outcome Text
+      outcomes_objective: Outcomes Objective
+      page_file: Page File
+      signin: Signin
+      snippet: Snippet
+      snippet_file: Snippet File
+      sticky: Sticky
+      sticky_star: Sticky Star
+      term: Term
+      user: User
+      web_source: Web Source
+
+    attributes:
+      asset_file:
+        content: :activerecord.models.content
+        upload_content_type: Upload content type
+        upload_file_name: Upload file name
+        upload_file_size: Upload file size
+        upload_updated_at: Upload updated at
+
+      attachment_file:
+        content: :activerecord.models.content
+        upload_content_type: Upload content type
+        upload_file_name: Upload file name
+        upload_file_size: Upload file size
+        upload_updated_at: Upload updated at
+
+      attendance:
+        lesson: :activerecord.models.lesson
+        memo: Memo
+        user: :activerecord.models.user
+
+      content:
+        as_category: As category
+        as_overview: As overview
+        asset_files: Asset files
+        assistants: Assistants
+        attachment_files: Attachment files
+        category: Category
+        condition: Condition
+        content_members: Content Members
+        courses: Courses
+        instructors: Instructors
+        lessons: Lessons
+        managers: Manager
+        objectives: Objectives
+        overview: Overview
+        page_files: Page files
+        status: Status
+        stickies: Stickies
+        title: Title
+
+      content_member:
+        content: :activerecord.models.content
+        role: Role
+        user: :activerecord.models.user
+
+      course:
+        assistants: Assistants
+        contents: Contents
+        course_members: Course Members
+        goals: Goals
+        groups_count: Groups Count
+        image_content_type: Image content type
+        image_file_name: Image file name
+        image_file_size: Image file size
+        image_updated_at: Image updated at
+        learners: Learners
+        lessons: Lessons
+        managers: Managers
+        master_draft_notes: Master draft notes
+        master_open_notes: Master open notes
+        master_review_notes: Master review notes
+        members: Members
+        notes: Notes
+        notices: Notices
+        open_lessons: Open lessons
+        outcomes: Outcomes
+        overview: Overview
+        staff_course_notes: Staff course notes
+        status: Status
+        term: :activerecord.models.term
+        title: Title
+
+      course_member:
+        course: :activerecord.models.course
+        group: Group
+        role: Role
+        user: :activerecord.models.user
+
+      device:
+        managers: Managers
+        title: Title
+        user: :activerecord.models.user
+
+      goal:
+        course: :activerecord.models.course
+        goals_objectives: Goals objectives
+        lessons: Lessons
+        objectives: Objectives
+        title: Title
+
+      goals_objective:
+        goal: :activerecord.models.goal
+        lesson: :activerecord.models.lesson
+        objective: :activerecord.models.objective
+
+      lesson:
+        attendance_end_at: Attendance end at
+        attendance_start_at: Attendance start at
+        attendances: Attendances
+        content: :activerecord.models.content
+        course: :activerecord.models.course
+        display_order: Display order
+        evaluator: :activerecord.models.evaluator
+        goals_objectives: Goals objectives
+        no_goal_objectives: No goal objectives
+        outcomes: Outcomes
+        status: Status
+
+      link:
+        display_order: Display order
+        manager: :activerecord.models.manager
+        title: Title
+        url: URL
+
+      message_template:
+        content: :activerecord.models.content
+        counter: Counter
+        manager: :activerecord.models.manager
+        message: Message
+        objective: :activerecord.models.objective
+
+      note:
+        course: :Course
+        direct_snippets: Direct snippets
+        direct_text_snippets: Direct text snippets
+        manager: :activerecord.models.manager
+        overview: Overview
+        snippets: Snippets
+        stared_users: Stared users
+        status: Status
+        stickies: Stickies
+        note_stars: Note stars
+        text_snippets: Text snippets
+        title: Title
+        web_snippets: Web snippets
+        web_text_snippets: Web text snippets
+
+      note_star:
+        manager: :activerecord.models.manager
+        stared: Stared
+        note: :activerecord.models.note
+
+      notice:
+        course: :activerecord.models.course
+        manager: :activerecord.models.manager
+        message: Message
+        status: Status
+
+      objective:
+        allocation: Allocation
+        content: :activerecord.models.content
+        criterion: Criterion
+        goals: Goals
+        goals_objectives: Goals objectives
+        outcomes: Outcomes
+        outcomes_objectives: Outcomes objectives
+        title: Title
+
+      outcome:
+        checked: Checked
+        course: :activerecord.models.course
+        lesson: :activerecord.models.lesson
+        manager: :activerecord.models.manager
+        objectives: Objectives
+        outcome_files: Outcome files
+        outcome_messages: Outcome messages
+        outcome_text: :activerecord.models.outcome_text
+        outcomes_objectives: Outcomes objectives
+        score: Score
+        status: Status
+
+      outcome_file:
+        outcome: :activerecord.models.outcome
+        upload_content_type: Upload content type
+        upload_file_name: Upload file name
+        upload_file_size: Upload file size
+        upload_updated_at: Upload updated at
+
+      outcome_message:
+        manager: :activerecord.models.manager
+        message: Message
+        outcome: :activerecord.models.outcome
+        score: Score
+
+      outcome_text:
+        entry: Entry
+        outcome: :activerecord.models.outcome
+
+      outcomes_objective:
+        eval_achievement: Eval Achievement
+        objective: :activerecord.models.objective
+        outcome: :activerecord.models.outcome
+        self_achievement: Self Achievement
+
+      page_file:
+        content: :activerecord.models.content
+        display_order: Display order
+        stickies: Stickies
+        upload_content_type: Upload content type
+        upload_file_name: Upload file name
+        upload_file_size: Upload file size
+        upload_updated_at: Upload updated at
+
+      signin:
+        inside: Inside
+        user: :activerecord.models.user
+
+      snippet:
+        category: Category
+        description: Description
+        display_order: Display order
+        manager: :activerecord.models.manager
+        note: :activerecord.models.note
+        snippet_file: :activerecord.models.snippet_file
+        source: :activerecord.models.source
+        source_type: Source type
+
+      snippet_file:
+        snippet: :activerecord.models.snippet
+        upload_content_type: Upload content type
+        upload_file_name: Upload file name
+        upload_file_size: Upload file size
+        upload_updated_at: Upload updated at
+
+      sticky:
+        category: Category
+        content: :activerecord.models.content
+        manager: :activerecord.models.manager
+        message: Message
+        note: :activerecord.models.note
+        page_file: :activerecord.models.page_file
+        stared_users: Stared users
+        sticky_stars: Sticky stars
+        target_type: Target type
+
+      sticky_star:
+        manager: :activerecord.models.manager
+        stared: Stared
+        sticky: :activerecord.models.sticky
+
+      term:
+        courses: Courses
+        end_at: End at
+        start_at: Start at
+        title: Title
+
+      user:
+        archived_at: Archived at
+        attendances: Attendances
+        authentication: Authentication
+        contents: Contents
+        content_members: Content Member
+        courses: Courses
+        course_members: Courses Members
+        description: Description
+        devices: Devices
+        familyname: Familyname
+        familyname_alt: Familyname alt
+        givenname: Givenname
+        givenname_alt: Givenname alt
+        hashed_password: Hashed password
+        image_content_type: Image content type
+        image_file_name: Image file name
+        image_file_size: Image file size
+        image_updated_at: Image updated at
+        last_signin_at: Last signin at
+        lessons: Lessons
+        notes: Notes
+        outcome_messages: Outcome messages
+        outcomes: Outcomes
+        role: Role
+        salt: Salt
+        signins: Signins
+        snippets: Snippets
+        stickies: Stickies
+        sticky_stars: Sticky stars
+        token: Token
+        web_url: Web url
+
+      web_source:
+        snippets: Snippets
+        title: Title
+        url: Url
+
+    others:
+      content:
+        manager: Manager
+      user:
+        authentication:
+          local: Local
+          ldap: LDAP
+        role:
+          admin: Administrator
+          manager: Manager
+          user: User
+          suspended: Suspended
+
+  views:
+    assignment: Assignment
+    cancel: Cancel
+    candidate: Candidate
+    content:
+      as_choice: Choice Exam.
+      as_file: File Upload
+      as_outside: Out System
+      as_text: Writing
+      assignment_page: Asg.
+      cover_page: Cover
+      current_lesson: Current Lesson
+      evaluator: Evaluator
+      manage: Contents Manage
+      messages_in_other_lesson: Messages in other lesson
+      self_evaluation: Self Evaluation
+      teacher_evaluation: Teacher Evaluation
+    course_content_management: Course & Content Management
+    courses: Courses
+    default: Default
+    delete: Delete
+    edit: Edit
+    goal_achievement_rate: Goal Achievement Rate
+    home: Home
+    impossible: Impossible
+    learning_progress: Learning Progress
+    lesson_status: Lesson Status
+    manual: Manual
+    navs:
+      dashboard: Dashboard
+      new_content: New Content
+      new_course: New Course
+      new_link: New Link
+      note_management: Note Management
+      portfolio: Portfolio
+      preferences: Preferences
+      save_and_next: Save & Next
+      support: Support
+      top: Top
+    new_device: New Device
+    new_user: New User Creation
+    no_title: ( No Title )
+    none: none
+    note:
+      char_count: character count
+      course: Course
+      master_draft: Master
+      master_review: :views.note.master_draft
+      master_open: :views.note.master_draft
+      media_count: media count
+      private: Private
+      references: References
+      referenced_web_count: referenced web count
+      star_count: star count
+      sticky_count: sticky count
+      uploaded_media_count: uploaded media count
+      written_char_count: written char count
+    ok: OK
+    operations: Operations
+    pages: Pages
+    password_confirmation: Password (Confirmation)
+    possible: Possible
+    preferences:
+      account: Account
+      account_summary: password
+      device: Push Notification
+      device_summary: Devices for Push Notification
+      link: Link
+      link_summary: links shown in sidebar
+      new_course: New Course
+      new_course_summary: new course creation (term to register is necessary)
+      new_user: New User
+      new_user_summary: new user creation
+      note: Note
+      note_summary: +Note Button / Default Note
+      profile: Profile
+      profile_summary: name / user image / self introduction / ...
+      system_notice: System Notice
+      system_notice_summary: system notices shown in signin page
+      system_preferences: System Preferences (Limited for System Managers)
+      term: Term
+      term_summary: school terms for courses
+      user_account: Existing User
+      user_account_summary: search and edit for existing user
+      user_preferences: User Preferences
+    recommended_browser: Recommended Web Browser
+    repository: Repository
+    required: Required
+    open_courses: Open Courses
+    search: Search
+    setup:
+      header: Welcome to LePo !
+      message1: Before using LePo, let's complete the following steps.
+      message2: Creation of administrator account is complete !
+      message3: Please reload the page, display the sign in page, and sign-in to LePo as administrator.
+      config:
+        header: Config. Files
+        message1: Please check the configurations in the above file and set appropriate values ​​as necessary.
+        message2: Please set the information of the database to use in the above file. When using SQLite 3 in the development environment, you can skip this step here.
+        message3: Please set values for secret_key_base in the above file. For the production environment, set the value of secret_key_base as an environment variable.
+        message4: To generate random string of secret_key_base, you can use "rails secret" command etc.
+        message5: After correcting the config files, restart the Rails server and proceed to Step 3.
+      license:
+        header: License
+        message1: This software is released under the GNU Affero General Public License, version 3 as open source software.
+        message2: For this license, please check the link below.
+      admin_account:
+        header: Administrator Account
+        message1: Please create a system administrator account from the form below. One administrator account must be created in the system and it can manage some system manager accounts.
+        message2: The password must be alphanumeric and within the range of the following number of characters.
+        message3: System administrator and managers can sign-in only from the following IP addresses.
+        message4: The creation of the administrator account has already been completed.
+      errors:
+        message1: Creating admin account failed. Please check the input character string and try to create it again.
+        message2: As the admin account has already been registered, you can not register again.
+    shortcut_key: Shortcut Key
+    signin:
+      errors:
+        message1: You are not allowed to access.
+        message2: There is a mistake in User ID or Password.
+    signout: Signout
+    snippet:
+      text: Text
+      file: File
+      header: Header
+      subheader: Subheader
+    show_details: Show / Hide Details
+    show_learners_details: Show / Hide Learner Info.
+    show_rest: Show / Hide the rest
+    star_acquisition_status: Star Acquisition Status
+    sticky:
+      course: Course
+      private: Private
+    system_messages:
+      no_contents: No contents to display
+      no_dashboard_resources: Currently no information on the dashboard
+      no_lessons: No lessons to display
+      no_messages: No messages
+      no_note_resources: Currently no notes managed
+      no_snippets: Currently no snippets
+      no_search_results: No Search Results
+    system_version: System Version
+    units:
+      characters: characters
+      pages: pages
+      pieces: pieces
+      points: points
+    updated_at: Upated at
+    user_account: User Account

@@ -1,0 +1,40 @@
+<% outcome = observer %>
+<div class="loc">
+ <div class="loc-header">
+   提出物と評価 &nbsp; &nbsp;[<%= outcome_status_text outcome.status, outcome.score %>： <%= outcome.score ? outcome.score.to_s+"点" : "-----" %>]
+ </div>
+
+ <div class="loc-body">
+  <div class="loc-subheader">提出物</div>
+  <% case @content.as_category when "file" %>
+  <%= render partial: "outcomes/file_outcome", locals: {outcome_files: outcome.outcome_files, outcome_id: outcome.id, outcome_status: outcome.status} %>
+  <% when "choice" %>
+  <%= render partial: "outcomes/choice_outcome" %>
+  <% end %>
+
+  <%= form_for(outcome, url: {controller: "outcomes", action: "ajax_update", id: outcome.id}, html: {name: 'outcome_form', remote: true}) do |outcome_form| %>
+  <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+  <%#= outcome_form.error_messages %>
+
+  <% case @content.as_category when "text" %>
+  <%= render partial: "outcomes/text_outcome", locals: {outcome_form: outcome_form, outcome_text: outcome.outcome_text, outcome_status: outcome.status} %>
+  <% when "outside" %>
+  <%= render partial: "outcomes/outside_outcome" %>
+  <% end %>
+
+  <div class="loc-subheader">達成度評価</div>
+  <div class="loc-subbody">
+    <%= render partial: "outcomes/outcome_objective", collection: outcome.outcomes_objectives, locals: {evaluator_id: 0} %>
+  </div>
+
+  <div class="loc-subheader" style="margin-top:10px;">学習を振り返っての<%= outcome_message_text 0 %></div>
+  <div class="loc-subbody">
+    <%= outcome_form.fields_for :outcome_messages, Outcome.reflect_on_association(:outcome_messages).klass.new do |message_form| %>
+    <%= message_form.text_area :message, style: "width: 100%; height:4em; padding:0;" %>
+    <%= message_form.hidden_field :manager_id, value: @myself.id %>
+    <% end %>
+  </div>
+
+  <% end %>
+</div>
+</div>

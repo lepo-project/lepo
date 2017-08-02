@@ -1,0 +1,3 @@
+<% outcomes.each do |outcome| %>
+	$("div#outcome_<%= outcome.id %> div.insert_btns").html("<%= j render(partial: "/message_templates/insert_btn", collection: @message_templates[:contents]+@message_templates[:content]+@message_templates[:objective], locals: {lesson_id: lesson_id, evaluator_id: evaluator_id, outcome_id: outcome.id}) %>");
+<% end %>

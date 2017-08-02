@@ -1,0 +1,16 @@
+<% nav_id_exists = (nav_item[:nav_id]) ? true : false %>
+<% selected = check_identical(nav_item, nav_id_exists, session[:nav_section], session[:nav_controller], session[:nav_id]) ? "selected" : "" %>
+<% link_to_hash = {controller: nav_item[:nav_controller], action: 'ajax_index', nav_section: nav_item[:nav_section]} %>
+<% link_to_hash.merge!({nav_id: nav_item[:nav_id]}) if nav_id_exists %>
+
+<li id="<%= selected %>">
+	<div>
+		<%= link_to(link_to_hash, {remote: true}) do %>
+		<% if nav_item[:class] == "no-icon" %>
+		<span style="padding-left:1.7rem;"><%= nav_item[:title] %></span>
+		<% else %>
+		<span><i class="<%= nav_item[:class] %>"></i> <%= nav_item[:title] %></span>
+		<% end %>
+		<% end %>
+	</div>
+</li>

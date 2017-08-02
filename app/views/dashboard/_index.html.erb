@@ -1,0 +1,37 @@
+<div id="dashboard-resource" class="scroll-pane">
+  <div class="row">
+    <% if @cards.size == 0 %>
+    <div class="col-md-12">
+      <%= render partial: 'layouts/system_message', locals: {message: t('views.system_messages.no_dashboard_resources'), message_category: 'info'} %>
+    </div>
+    <% else %>
+    <% @cards.each do |card| %>
+    <div class="col-md-6">
+      <div class="card">
+        <h2 class="card-header"><%= card[:header] %></h2>
+        <div class="card-block">
+          <p class="card-text">
+            <%= card[:content] %>
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <% if card[:list] %>
+          <% card[:list].each do |li| %>
+          <li class="list-group-item">
+            <% if li[:lesson_id] %>
+            <!--  for lesson related links -->
+            <%= link_to(li[:title], {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id], lesson_id: li[:lesson_id], page_num: li[:page_num]}, {remote: true}) %>
+            <% else %>
+            <!--  for course related links -->
+            <%= link_to(li[:title], {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id]}, {remote: true}) %>
+            <% end %>
+          </li>
+          <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
+  </div>
+</div>

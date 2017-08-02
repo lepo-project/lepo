@@ -1,0 +1,48 @@
+<!-- FIXME: PushNotification -->
+<div id="user-resource" class="scroll-pane">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>端末登録
+				<div class="header-explanation">登録コース内で公開 / 設定必須項目：<span class="required">*</span></div>
+			</h1>
+			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+			<%= form_for @device, url: {action: :ajax_create, id: @device.id}, html: {id: 'user_form', name: 'user_form', multipart: true}, remote: true do |f| %>
+			<%#= f.error_messages %>
+			<div class="bordered-block">
+				<ul>
+					<li>
+						現在、LePoを表示しているブラウザを、プッシュ通知先に登録します。
+					</li>
+					<li>
+						端末名：「自宅PC」、「スマホ」などを自由に入力し、プッシュ通知をする端末を区別できるようにします
+					</li>
+					<li>
+						通知の有無：「プッシュ通知を無効にする」が表示された状態で、指定した端末にプッシュ通知が表示されます
+					</li>
+				</ul>
+				<div class="form-group row">
+					<%= f.label :title, raw("<span class='required'>*</span>端末名"), class: 'col-md-3 col-form-label text-sm-right' %>
+					<div class="col-md-7">
+						<%= f.text_field :title, class: 'form-control' %>
+					</div>
+				</div>
+				<div class="form-group row">
+					<%= f.hidden_field :registration_id, id: 'registration_id', cols: '50', rows: '4', readonly: true %>
+					<%= f.label :registration_id, raw("<span class='required'>*</span>通知の有無"), class: 'col-md-3 col-form-label text-sm-right' %>
+					<div class="col-md-7">
+						<button id="js-push-button" disabled>
+							プッシュ通知を有効にする
+						</button>
+					</div>
+				</div>
+			</div>
+			<%= link_to({action: 'ajax_index'}, {id: 'cancel-btn', class: 'btn btn-large btn-secondary', title: 'cancel', remote: true}) do %>
+			<i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
+			<% end %>
+			<%= render partial: 'layouts/submit_complete_btn' %>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script src="<%= asset_path 'main.js' %>"></script>

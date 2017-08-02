@@ -1,0 +1,245 @@
+// This is a manifest file that'll be compiled into including all the files listed below.
+// Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
+// be included in the compiled file accessible from http://example.com/assets/application.js
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// the compiled file.
+//
+//= require autosize
+//= require jquery
+//= require jquery_ujs
+//= require jquery-ui
+//= require jquery.remotipart
+//= require jquery-hotkeys
+//= require tether
+//= require bootstrap
+//= require_tree .
+//= require_directory .
+
+$(document).ajaxSend(function (e, xhr, options) {
+  var token = $("meta[name='csrf-token']").attr("content");
+  xhr.setRequestHeader("X-CSRF-Token", token);
+});
+
+function keyBinder(target_doc) {
+  // target_doc may be document or iframe's document
+  var binding_keys = ["left", "j", "shift+left", "shift+j", "right", "k", "shift+right", "shift+k", "shift+up", "shift+down"]; // page move
+  binding_keys = binding_keys.concat(["l", "shift+l"]); // sticky form
+  binding_keys = binding_keys.concat(["f"]); // sub-pane toggle
+  binding_keys = binding_keys.concat(["/", "shift+/"]); // message-card toggle
+  jQuery.each(binding_keys, function (i, binding_key) {
+    target_doc.bind("keyup", binding_key, function (evt) {
+      switch (binding_key) {
+        case "l":
+        toggleCreateSticky("private");
+        break;
+        case "shift+l":
+        toggleCreateSticky("course");
+        break;
+        case "f":
+        $("#wrapper").toggleClass("toggled");
+        break;
+        case "/":
+        case "shift+/":
+        toggleShortcutKey();
+        break;
+        default:
+        jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/application/key_binder/?key=" + binding_key});
+        end
+      }
+      return false;
+    });
+  });
+}
+
+// sub-pane
+function closeSubPane() {
+  if ( !window.matchMedia('(min-width:768px)').matches ) {
+    $("#wrapper").removeClass("toggled");
+  }
+}
+
+function checkNavSection(section) {
+  switch (section) {
+    case "open_courses":
+    sessionStorage.setItem("nav-open-courses-class", "");
+    break;
+    case "repository":
+    sessionStorage.setItem("nav-repository-class", "");
+    break;
+  }
+}
+
+function hideNavSection(section) {
+  $('#nav-' + section + " ul").css("display", "block");
+  $('#nav-' + section + " h1 .indicator").html("&#9660;")
+  $('#nav-' + section + ".nav-hidden ul").css("display", "none");
+  $('#nav-' + section + ".nav-hidden h1 .indicator").html("&#9654;");
+}
+
+function setNavSection(section) {
+  $("#nav-" + section).addClass(sessionStorage.getItem("nav-" + section + "-class"));
+  hideNavSection(section);
+  $("#nav-" + section + " h1 a").click(function(){toggleNavSection(section);});
+}
+
+function toggleNavSection(section) {
+  $("#nav-" + section).toggleClass("nav-hidden");
+  var navClass = (sessionStorage.getItem("nav-" + section + "-class") == "nav-hidden") ? "" : "nav-hidden";
+  sessionStorage.setItem("nav-" + section + "-class", navClass);
+  hideNavSection(section);
+}
+
+// course resource
+function toggleCard(object_id) {
+  $('#toggle_' + object_id).slideToggle(10);
+}
+function toggleOutcomeMessage(outcome_id) {
+  $("#outcome_" + outcome_id + " .message_form").toggle();
+  $("#outcome_" + outcome_id + " .message_form_text").focus();
+  $("#outcome_" + outcome_id + " .show_message_form").toggle();
+}
+function toggleShortcutKey() {
+  $("#shortcut_key").slideToggle(100);
+}
+
+function toggleOptionForm() {
+  $("#option_form").slideToggle(10);
+}
+
+function toggleCreateSticky(category) {
+  $("#sticky-panel-toolbar").toggle();
+  $("#create_" + category + "_sticky").toggle();
+  $("#create_" + category + "_sticky #sticky_message").focus();
+}
+
+function toggleUpdateSticky(sticky_id) {
+  $("#sticky_" + sticky_id).toggle();
+  $("#update_sticky_" + sticky_id).toggle();
+  $("#update_sticky_" + sticky_id + ' #sticky_message').focus();
+}
+
+function toggleCreateSnippetBtns(display_order) {
+  $("#create-file-btn-" + display_order).toggle();
+  $("#create-text-btn-" + display_order).toggle();
+  $("#create-header-btn-" + display_order).toggle();
+  $("#create-subheader-btn-" + display_order).toggle();
+}
+function toggleCreateSnippet(display_order, category) {
+  toggleCreateSnippetBtns(display_order)
+  $("#create-" + category + "-form-" + display_order).toggle();
+  $("#create-" + category + "-form-" + display_order + " #snippet_description").focus();
+}
+function toggleUpdateSnippet(id, display_order) {
+  $("#categorized-snippet-" + id).toggle();
+  $("#update-form-" + display_order).toggle();
+  $("#update-form-" + display_order + " #snippet_description").focus();
+}
+function toggleUpdatePDFSnippet(id) {
+  $("#categorized-snippet-" + id).toggle();
+  $("#update-pdf-form-" + id).toggle();
+  $("#update-pdf-form-" + id + " #snippet_description").focus();
+}
+// snippet and note resource
+function destroyNote(note_id) {
+  jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/snippets/ajax_destroy_note/?note_id=" + note_id});
+}
+
+// message template resource
+
+function createTemplate(lesson_id, outcome_id, content_id, objective_id) {
+  var textArea = $("#outcome_" + outcome_id + " .message_form_text");
+  var startPos = textArea[0].selectionStart;
+  var endPos = textArea[0].selectionEnd;
+  var doc = document.selection;
+
+  if (startPos && textArea.val().substring(startPos, endPos).length != 0) {
+    // for IE9 and other modern browsers
+    message = textArea.val().substring(startPos, endPos);
+  } else if (doc && doc.createRange().text.length != 0) {
+    // for IE8
+    message = doc.createRange().text;
+  } else {
+    // all text in textarea, for all browsers
+    message = $("#outcome_" + outcome_id + " .message_form_text").val();
+  }
+  jQuery.ajax({type:"post", url:"<%= Rails.application.config.relative_url_root %>/message_templates/ajax_create/", data:{'message':message, 'lesson_id':lesson_id, 'content_id':content_id, 'outcome_id':outcome_id, 'objective_id':objective_id}});
+}
+
+function displaycreateTemplateBtn(message_length, outcome_id) {
+  if (message_length > 0) {
+    $("#create_message_template_" + outcome_id).removeClass("disabled");
+    $("#create_message_template_option_" + outcome_id).removeClass("disabled");
+  } else {
+    $("#create_message_template_" + outcome_id).addClass("disabled");
+    $("#create_message_template_option_" + outcome_id).addClass("disabled");
+  }
+}
+function displayObjectiveTemplateBtn(outcome_id, objective_id){
+  display = checkFullAchievement(outcome_id, objective_id) ? "none" : "block";
+  $("div#outcome_" + outcome_id + " .create_template_obj_" + objective_id).css("display", display);
+  $("div#outcome_" + outcome_id + " div.template_objective_" + objective_id).css("display", display);
+}
+function displayObjectiveTemplateBtnAll(outcome_id, obj_ids) {
+  for (i in obj_ids) {
+    displayObjectiveTemplateBtn(outcome_id, obj_ids[i]);
+  }
+}
+function checkFullAchievement(outcome_id, objective_id) {
+  radio_for_objective = "div#outcome_" + outcome_id + "_objective_" + objective_id
+  allocation = $(radio_for_objective + " div.controls").data("lepo-allocation");
+  achievement = $(radio_for_objective + " input:radio:checked").val();
+  return (achievement == allocation)
+}
+function insertTemplate(button, lesson_id, id, message) {
+  var textArea = $("~ .message_form_text", button.parent().parent());
+  var startPos = textArea[0].selectionStart;
+  var endPos = textArea[0].selectionEnd;
+  var doc = document.selection;
+  textArea.focus();
+
+  if (startPos >= 0) {
+    // for IE9 and other modern browsers
+    new_message = textArea.val().substring(0, startPos) + message + textArea.val().substring(endPos);
+    caretPos = startPos + message.length;
+    textArea.val(new_message);
+    textArea[0].setSelectionRange(caretPos, caretPos);
+  } else {
+    // for IE8
+    textRange = doc.createRange();
+    textRange.text = message;
+    textRange.select();
+  }
+  jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/message_templates/ajax_count/", data:{'id':id, 'lesson_id':lesson_id}});
+  autosize.update($('.elastic_textarea'));
+}
+function bindMessageTextarea(outcome_id) {
+  var textArea = $("#outcome_" + outcome_id + " .message_form_text");
+  textArea.bind("change keyup", function () {
+    displaycreateTemplateBtn($(this).val().length, outcome_id)
+  });
+}
+function unbindMessageTextarea(outcome_id) {
+  var textArea = $("#outcome_" + outcome_id + " .message_form_text");
+  textArea.unbind("change keyup");
+}
+function charCount(form_id, text_num, text_max){
+  if (text_num <= text_max) {
+    $('#'+form_id+' #char-count').text(text_num + " / " + text_max + " 文字");
+  }else{
+    $('#'+form_id+' #char-count').text("文字数オーバー");
+  }
+}
+
+// FIXME: PushNotification
+// $(function(){
+//   $.ajax({
+//     type: "GET",
+//     scriptCharset: 'utf-8',
+//     dataType:'json',
+//     url: "<%= asset_path 'manifest.json' %>",
+//     success: function(res){
+//       console.debug(res[0]);
+//     },
+//     error:function(){console.log('Miss..');}
+//   });
+// });

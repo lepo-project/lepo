@@ -1,0 +1,31 @@
+<!-- FIXME: PushNotification -->
+<div id="user-resource" class="scroll-pane">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>プッシュ通知をする機器の設定</h1>
+			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+
+			<div class="bordered-block">
+				<h2>プッシュ通知とは</h2>
+				<p>提出課題の評価が決定した際に、AndroidスマートフォンやWindowsPC/MacのChromeブラウザに通知を送るサービスです。</p>
+				<ul>
+					<li>このサービスは試験的な機能であり、iPhone/iPadでは利用することができません。</li>
+					<li>電源オフ、またはインターネットに未接続の時のプッシュ通知は、電源オン、またはインターネットに接続した時点で表示されます。</li>
+				</ul>
+			</div>
+
+			<div class="bordered-block">
+				<h2>プッシュ通知をする機器</h2>
+				<% if @user.devices.length == 0 %>
+				<p>プッシュ通知をする機器が、登録されていません。</p>
+				<% else %>
+				<%= render(partial: 'device', collection: @user.devices) %>
+				<% end %>
+				<%= link_to({action: 'ajax_new'}, {class: 'btn btn-primary', remote: true}) do %>
+				<i class='fa fa-plus'></i> <%= t('views.new_device') %>
+				<% end %>
+			</div>
+			<%= render partial: 'layouts/complete_btn', locals: {controller_name: 'preferences', nav_section: 'home'} %>
+		</div>
+	</div>
+</div>

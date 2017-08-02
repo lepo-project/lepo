@@ -1,0 +1,55 @@
+<div id="simple-html-content">
+  <div id="container" class="assignment-page">
+    <div id="content">
+      <h1><%= assignment_category_text @content.as_category %>課題
+        <% if @lesson and !@lesson.new_record? %>
+        [ <%= lesson_evaluator_text @lesson.evaluator_id %> ]
+        <% end %>
+      </h1>
+
+      <div class="loc abstract">
+        <div class="loc-header">概要</div>
+        <div class="loc-body">
+          <% if session[:nav_section] == "home" %>
+          マニュアルには課題はありません（このページは課題ページのサンプルです）。
+          <% else %>
+          <%= sanitize add_br @content.as_overview %>
+          <% end %>
+        </div>
+      </div>
+
+      <% if session[:nav_section] != "home" %>
+      <div id="outcome">
+        <% case @lesson_role when "learner" %>
+        <%= render partial: "outcomes/learner", collection: @outcomes %>
+        <% when "evaluator", "manager" %>
+        <div class="accordion" id="outcome_accordion">
+          <%= render partial: "outcomes/evaluator", collection: @outcomes %>
+        </div>
+        <% else %>
+        <%= render partial: "outcomes/observer", collection: @outcomes %>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>
+
+<% if session[:sticky_panel] !="none" %><div id="sticky-panel"><%= render(partial: "stickies/sticky_panel", object: pg["stickies"]) %></div>
+<% end %>
+
+
+<script>
+$(function () {
+  autosize($('.elastic_textarea'));
+  autosize.update($('.elastic_textarea'));
+  if ("<%= @lesson_role %>" == "evaluator"){
+    $("input").change(function () {
+      var outcome_id = $(this).parent().parent().data("lepo-outcome-id");
+      var objective_id = $(this).parent().parent().data("lepo-objective-id");
+      displayObjectiveTemplateBtn(outcome_id, objective_id);
+    })
+  }
+})
+</script>

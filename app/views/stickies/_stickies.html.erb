@@ -1,0 +1,17 @@
+<div class="report-card card">
+	<h2 class="card-header" style="margin-bottom:0;">
+		<%= sticky_category_text view_category %>
+	</h2>
+	<div class="card-block" style="background-color: #f4f4f4; padding: 0;">
+		<% if (view_category == "course") || (view_category == "private") %>
+		<%= render partial: "stickies/sticky_btns", locals: {hash: {action: "ajax_arrange_stickies", content_id: content_id, view_category: view_category}} %>
+		<% end %>
+		<div class="show clearfix" style="padding:10px;">
+			<% if stickies.size > 0 %>
+			<%= render partial: "stickies/sticky", collection: stickies, locals: {view_category: view_category} %>
+			<% else %>
+			<%= render partial: "layouts/system_message", locals: {message: "#{sticky_category_text view_category}が作成されていません", message_category: "information"} %>
+			<% end %>
+		</div>
+	</div>
+</div>
