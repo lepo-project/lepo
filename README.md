@@ -14,7 +14,7 @@ LePo is a Web-based LMS (Learning Management System) that is developing with the
 
 1. install ImageMagick
 
-1. bundle install
+1. bundle install --without production
 
 1. rails db:migrate
 
