@@ -1,10 +1,10 @@
 # == Schema Information
 #
-# Table name: s
+# Table name: note_stars
 #
 #  id         :integer          not null, primary key
 #  manager_id :integer
-#  note_id   :integer
+#  note_id    :integer
 #  stared     :boolean          default(TRUE)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

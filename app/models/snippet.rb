@@ -4,7 +4,7 @@
 #
 #  id            :integer          not null, primary key
 #  manager_id    :integer
-#  note_id      :integer
+#  note_id       :integer
 #  category      :string           default("text")
 #  description   :text
 #  source_type   :string           default("direct")
