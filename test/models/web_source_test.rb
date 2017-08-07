@@ -25,4 +25,9 @@ class WebSourceTest < ActiveSupport::TestCase
     assert_invalid build(:web_source, url: ''), :url
     assert_invalid build(:web_source, url: nil), :url
   end
+
+  # test for validates :url, format: URI.regexp(%w[http https])
+  test 'a web_source with incorrect url is invalid' do
+    assert_invalid build(:web_source, url: 'abc'), :url
+  end
 end

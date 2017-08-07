@@ -17,9 +17,25 @@
 
 FactoryGirl.define do
   factory :note do
-    sequence(:manager_id) { |i| i }
-    sequence(:course_id) { |i| i }
+    association :course
+    association :manager, factory: :user
     sequence(:title) { |i| "Note #{i} Title" }
     overview 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+
+    factory :course_note do
+      status 'course'
+    end
+
+    factory :master_draft_note do
+      status 'master_draft'
+    end
+
+    factory :master_review_note do
+      status 'master_review'
+    end
+
+    factory :master_open_note do
+      status 'master_open'
+    end
   end
 end

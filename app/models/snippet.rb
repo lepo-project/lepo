@@ -20,9 +20,7 @@ class Snippet < ApplicationRecord
   belongs_to :note, touch: true
   belongs_to :source, class_name: 'WebSource'
   has_one :snippet_file
-  validates_presence_of :category
   validates_presence_of :manager_id
-  validates_presence_of :source_type
   validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
   validates_inclusion_of :category, in: %w[image pdf], if: "source_type == 'upload'"
   validates_inclusion_of :category, in: %w[text image pdf scratch ted youtube], if: "source_type == 'web'"

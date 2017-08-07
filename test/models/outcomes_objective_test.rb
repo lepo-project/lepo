@@ -39,4 +39,18 @@ class OutcomesObjectiveTest < ActiveSupport::TestCase
     outcomes_objective = create(:outcomes_objective)
     assert_invalid build(:outcomes_objective, outcome_id: outcomes_objective.outcome_id, objective_id: outcomes_objective.objective_id), :outcome_id
   end
+
+  # test for validates_inclusion_of :eval_achievement, in: (0..10).to_a, allow_nil: true
+  test 'a outcomes_objectives with eval_achievement that is not included in (0..10).to_a is invalid' do
+    assert build(:outcomes_objective, eval_achievement: nil).valid?
+    assert_invalid build(:outcomes_objective, eval_achievement: -1), :eval_achievement
+    assert_invalid build(:outcomes_objective, eval_achievement: 11), :eval_achievement
+  end
+
+  # test for validates_inclusion_of :self_achievement, in: (0..10).to_a, allow_nil: true
+  test 'a outcomes_objectives with self_achievement that is not included in (0..10).to_a is invalid' do
+    assert build(:outcomes_objective, self_achievement: nil).valid?
+    assert_invalid build(:outcomes_objective, self_achievement: -1), :self_achievement
+    assert_invalid build(:outcomes_objective, self_achievement: 11), :self_achievement
+  end
 end

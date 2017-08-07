@@ -17,10 +17,25 @@
 
 FactoryGirl.define do
   factory :sticky do
-    sequence(:manager_id) { |i| i }
-    sequence(:content_id) { |i| i }
+    association :manager, factory: :user
+    association :content
+    # association :target, factory: :page_file
+    # association :target, factory: :note
     sequence(:course_id) { |i| i }
     sequence(:target_id) { |i| i }
     message 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+
+    factory :course_sticky do
+      category 'course'
+    end
+
+    factory :note_sticky do
+      target_type 'note'
+    end
+
+    factory :course_note_sticky do
+      category 'course'
+      target_type 'note'
+    end
   end
 end

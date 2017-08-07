@@ -15,7 +15,6 @@ class ContentMember < ApplicationRecord
   belongs_to :user
   validates_presence_of :content_id
   validates_presence_of :user_id
-  validates_presence_of :role
   validates_uniqueness_of :content_id, scope: [:user_id]
   validates_inclusion_of :role, in: %w[manager assistant instructor]
   validate :content_manageable_user, if: "role != 'assistant'"

@@ -18,6 +18,7 @@ class Objective < ApplicationRecord
   has_many :outcomes_objectives, dependent: :destroy
   has_many :outcomes, through: :outcomes_objectives
   validates_presence_of :title
+  validates_inclusion_of :allocation, in: (1..10).to_a, allow_nil: true
 
   def selected?(lessons)
     (lessons.select { |l| l.content_id == content_id }).size == 1

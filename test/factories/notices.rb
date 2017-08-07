@@ -13,8 +13,12 @@
 
 FactoryGirl.define do
   factory :notice do
-    sequence(:course_id) { |i| i }
-    sequence(:manager_id) { |i| i }
+    association :manager, factory: :user
+    association :course
     message 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+
+    factory :expired_notice do
+      status 'expired'
+    end
   end
 end

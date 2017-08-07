@@ -11,9 +11,27 @@
 #
 
 FactoryGirl.define do
-  factory :content_member do
-    sequence(:content_id) { |i| i }
-    sequence(:user_id) { |i| i }
+  factory :content_assistant, class: ContentMember do
+    association :content
+    association :user
     role 'assistant'
+
+    factory :content_manager do
+      association :user, factory: :admin_user
+      role 'manager'
+
+      factory :content_manager_for_user do
+        association :user, role: 'user'
+      end
+    end
+
+    factory :content_instructor do
+      association :user, factory: :admin_user
+      role 'instructor'
+
+      factory :content_instructor_for_user do
+        association :user, role: 'user'
+      end
+    end
   end
 end

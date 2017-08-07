@@ -19,8 +19,16 @@
 
 FactoryGirl.define do
   factory :course do
-    sequence(:term_id) { |i| i }
+    association :term
     sequence(:title) { |i| "Course #{i} Title" }
     overview 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+
+    factory :draft_course do
+      status 'draft'
+    end
+
+    factory :archived_course do
+      status 'archived'
+    end
   end
 end

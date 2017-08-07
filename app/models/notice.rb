@@ -16,7 +16,6 @@ class Notice < ApplicationRecord
   belongs_to :course
   validates_presence_of :manager_id
   validates_presence_of :message
-  validates_presence_of :status
   validates_inclusion_of :status, in: %w[open expired]
 
   # ====================================================================

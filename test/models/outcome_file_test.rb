@@ -34,4 +34,10 @@ class OutcomeFileTest < ActiveSupport::TestCase
     assert_invalid build(:outcome_file, upload_file_name: ''), :upload_file_name
     assert_invalid build(:outcome_file, upload_file_name: nil), :upload_file_name
   end
+
+  # test for validates_uniqueness_of :upload_file_name, scope: [:outcome_id]
+  test 'some outcome_files with same upload_file_name and outcome_id are invalid' do
+    outcome_file = create(:outcome_file)
+    assert_invalid build(:outcome_file, upload_file_name: outcome_file.upload_file_name, outcome_id: outcome_file.outcome_id), :upload_file_name
+  end
 end

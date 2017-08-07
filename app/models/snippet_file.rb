@@ -22,6 +22,7 @@ class SnippetFile < ApplicationRecord
   belongs_to :snippet, touch: true
   validates_presence_of :snippet_id
   validates_presence_of :upload_file_name
+  validates_uniqueness_of :snippet_id
 
   # ====================================================================
   # Public Functions

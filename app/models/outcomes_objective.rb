@@ -17,6 +17,8 @@ class OutcomesObjective < ApplicationRecord
   validates_presence_of :objective_id
   validates_presence_of :outcome_id
   validates_uniqueness_of :outcome_id, scope: [:objective_id]
+  validates_inclusion_of :eval_achievement, in: (0..10).to_a, allow_nil: true
+  validates_inclusion_of :self_achievement, in: (0..10).to_a, allow_nil: true
 
   # ====================================================================
   # Public Functions

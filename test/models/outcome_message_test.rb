@@ -33,4 +33,11 @@ class OutcomeMessageTest < ActiveSupport::TestCase
     assert_invalid build(:outcome_message, outcome_id: ''), :outcome_id
     assert_invalid build(:outcome_message, outcome_id: nil), :outcome_id
   end
+
+  # test for validates_inclusion_of :score, in: (0..10).to_a, allow_nil: true
+  test 'a outcome_message with score that is not included in (0..10).to_a is invalid' do
+    assert build(:outcome_message, score: nil).valid?
+    assert_invalid build(:outcome_message, score: -1), :score
+    assert_invalid build(:outcome_message, score: 11), :score
+  end
 end

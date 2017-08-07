@@ -28,10 +28,9 @@ class Note < ApplicationRecord
   has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'web').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
   has_many :stared_users, -> { where('s.stared = ?', true) }, through: :s, source: :manager
   validates_presence_of :manager_id
-  validates_presence_of :status
   validates_presence_of :title
+  validates_inclusion_of :peer_reviews_count, in: (0..STORY_PEER_REVIEW_MAX_SIZE).to_a
   validates_inclusion_of :status, in: %w[private course master_draft master_review master_open]
-  validates :peer_reviews_count, inclusion: { in: (0..STORY_PEER_REVIEW_MAX_SIZE).to_a }
 
   # ====================================================================
   # Public Functions

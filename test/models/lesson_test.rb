@@ -23,6 +23,7 @@ class LessonTest < ActiveSupport::TestCase
   # test for valid lesson data
   test 'a lesson with valid data is valid' do
     assert build(:lesson).valid?
+    assert build(:draft_lesson).valid?
   end
 
   # test for validates_presence_of :content_id
@@ -49,15 +50,15 @@ class LessonTest < ActiveSupport::TestCase
     assert_invalid build(:lesson, evaluator_id: nil), :evaluator_id
   end
 
-  # test for validates_presence_of :status
-  test 'a lesson without status is invalid' do
-    assert_invalid build(:lesson, status: ''), :status
-    assert_invalid build(:lesson, status: nil), :status
-  end
-
   # test for validates_uniqueness_of :content_id, scope: [:course_id]
   test 'some lessons with same content_id and course_id are invalid' do
     lesson = create(:lesson)
     assert_invalid build(:lesson, content_id: lesson.content_id, course_id: lesson.course_id), :content_id
+  end
+
+  # test for validates_inclusion_of :status, in: %w[draft open]
+  test 'a lesson with status that is not included in [draft open] is invalid' do
+    assert_invalid build(:lesson, status: ''), :status
+    assert_invalid build(:lesson, status: nil), :status
   end
 end

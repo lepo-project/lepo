@@ -34,4 +34,10 @@ class AttachmentFileTest < ActiveSupport::TestCase
     assert_invalid build(:attachment_file, upload_file_name: ''), :upload_file_name
     assert_invalid build(:attachment_file, upload_file_name: nil), :upload_file_name
   end
+
+  # test for validates_uniqueness_of :upload_file_name, scope: [:content_id]
+  test 'some attachment_files with same upload_file_name and content_id are invalid' do
+    attachment_file = create(:attachment_file)
+    assert_invalid build(:attachment_file, upload_file_name: attachment_file.upload_file_name, content_id: attachment_file.content_id), :upload_file_name
+  end
 end

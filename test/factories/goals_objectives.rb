@@ -12,8 +12,8 @@
 
 FactoryGirl.define do
   factory :goals_objective do
-    sequence(:goal_id) { |i| i }
-    sequence(:lesson_id) { |i| i }
-    sequence(:objective_id) { |i| i }
+    association :goal
+    association :lesson
+    association :objective
   end
 end

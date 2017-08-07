@@ -14,7 +14,7 @@
 
 FactoryGirl.define do
   factory :outcome_file do
-    sequence(:outcome_id) { |i| i }
+    association :outcome
     sequence(:upload_file_name) { |i| "UploadFile#{i}" }
   end
 end

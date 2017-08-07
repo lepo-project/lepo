@@ -34,4 +34,10 @@ class AssetFileTest < ActiveSupport::TestCase
     assert_invalid build(:asset_file, upload_file_name: ''), :upload_file_name
     assert_invalid build(:asset_file, upload_file_name: nil), :upload_file_name
   end
+
+  # test for validates_uniqueness_of :upload_file_name, scope: [:content_id]
+  test 'some asset_files with same upload_file_name and content_id are invalid' do
+    asset_file = create(:asset_file)
+    assert_invalid build(:asset_file, upload_file_name: asset_file.upload_file_name, content_id: asset_file.content_id), :upload_file_name
+  end
 end

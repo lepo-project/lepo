@@ -55,11 +55,9 @@ class User < ApplicationRecord
   has_many :stickies, foreign_key: :manager_id
   has_many :sticky_stars, foreign_key: :manager_id
   has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
-  validates_presence_of :authentication
   validates_presence_of :familyname
   validates_presence_of :folder_id
   validates_presence_of :hashed_password, if: "authentication == 'local'"
-  validates_presence_of :role
   validates_presence_of :salt, if: "authentication == 'local'"
   validates_presence_of :token
   validates_presence_of :user_id
@@ -181,14 +179,16 @@ class User < ApplicationRecord
   end
 
   def content_manageable?
+    # condition 1
     return true if %w[admin manager].include? role
     course_members.each do |cm|
+      # condition 2: content manager and instructors must be course manager or assistant
       return true if cm.role == 'manager' || cm.role == 'assistant'
     end
-    content_members.each do |cm|
-      # content manager and instructors must be course manager or course assistant
-      return true if cm.role == 'assistant'
-    end
+    # content_members.each do |cm|
+    #   # condition 3: content manager and instructors must be assistant of other content
+    #   return true if cm.role == 'assistant'
+    # end
     false
   end
 

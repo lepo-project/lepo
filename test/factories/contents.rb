@@ -16,11 +16,23 @@
 #
 
 FactoryGirl.define do
-  factory :content do
+  factory :content, class: Content do
     category 'upload'
     sequence(:title) { |i| "Content #{i} Title" }
     condition 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
     overview 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
     as_overview 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+
+    factory :content_with_file_assignment do
+      as_category 'file'
+    end
+
+    factory :content_with_outside_assignment do
+      as_category 'outside'
+    end
+
+    factory :archived_content do
+      status 'archived'
+    end
   end
 end
