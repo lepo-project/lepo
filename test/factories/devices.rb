@@ -12,7 +12,7 @@
 
 FactoryGirl.define do
   factory :device do
-    sequence(:manager_id) { |i| i }
+    association :manager, factory: :user
     sequence(:title) { |i| "Device #{i}" }
     registration_id { (1..32).map { ('a'..'z').to_a[rand(26)] }.join }
   end

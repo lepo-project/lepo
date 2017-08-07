@@ -34,4 +34,10 @@ class SnippetFileTest < ActiveSupport::TestCase
     assert_invalid build(:snippet_file, upload_file_name: ''), :upload_file_name
     assert_invalid build(:snippet_file, upload_file_name: nil), :upload_file_name
   end
+
+  # test for validates_uniqueness_of :snippet_id
+  test 'some snippet_files with same snippet_id are invalid' do
+    snippet_file = create(:snippet_file)
+    assert_invalid build(:snippet_file, snippet_id: snippet_file.snippet_id), :snippet_id
+  end
 end

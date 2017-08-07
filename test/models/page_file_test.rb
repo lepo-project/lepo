@@ -35,4 +35,10 @@ class PageFileTest < ActiveSupport::TestCase
     assert_invalid build(:page_file, upload_file_name: ''), :upload_file_name
     assert_invalid build(:page_file, upload_file_name: nil), :upload_file_name
   end
+
+  # test for validates_uniqueness_of :upload_file_name, scope: [:content_id]
+  test 'some page_files with same upload_file_name and content_id are invalid' do
+    page_file = create(:page_file)
+    assert_invalid build(:page_file, upload_file_name: page_file.upload_file_name, content_id: page_file.content_id), :upload_file_name
+  end
 end

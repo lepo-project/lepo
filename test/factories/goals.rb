@@ -11,7 +11,7 @@
 
 FactoryGirl.define do
   factory :goal do
-    sequence(:course_id) { |i| i }
+    association :course
     sequence(:title) { |i| "Course Goal #{i}" }
   end
 end

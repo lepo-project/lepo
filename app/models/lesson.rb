@@ -26,7 +26,6 @@ class Lesson < ApplicationRecord
   validates_presence_of :course_id
   validates_presence_of :display_order
   validates_presence_of :evaluator_id
-  validates_presence_of :status
   validates_uniqueness_of :content_id, scope: [:course_id]
   validates_inclusion_of :status, in: %w[draft open]
 

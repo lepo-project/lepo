@@ -16,11 +16,23 @@
 
 FactoryGirl.define do
   factory :outcome do
-    sequence(:manager_id) { |i| i }
-    sequence(:course_id) { |i| i }
-    sequence(:lesson_id) { |i| i }
+    association :course
+    association :lesson
+    association :manager, factory: :user
     folder_id nil
     score 10
     checked true
+
+    factory :submit_outcome do
+      status 'submit'
+    end
+
+    factory :self_submit_outcome do
+      status 'self_submit'
+    end
+
+    factory :return_outcome do
+      status 'return'
+    end
   end
 end

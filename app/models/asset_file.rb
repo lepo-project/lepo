@@ -22,4 +22,5 @@ class AssetFile < ApplicationRecord
   belongs_to :content, touch: true
   validates_presence_of :content_id
   validates_presence_of :upload_file_name
+  validates_uniqueness_of :upload_file_name, scope: [:content_id]
 end

@@ -16,12 +16,16 @@
 
 FactoryGirl.define do
   factory :lesson do
-    sequence(:evaluator_id) { |i| i }
-    sequence(:content_id) { |i| i }
-    sequence(:course_id) { |i| i }
+    association :evaluator, factory: :user
+    association :content
+    association :course
     sequence(:display_order) { |i| i }
     status 'open'
     attendance_start_at { Time.now }
     attendance_end_at { Time.now }
+
+    factory :draft_lesson do
+      status 'draft'
+    end
   end
 end

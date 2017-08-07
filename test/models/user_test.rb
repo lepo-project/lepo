@@ -36,12 +36,10 @@ class UserTest < ActiveSupport::TestCase
   # test for valid user data
   test 'a user with valid data is valid' do
     assert build(:user).valid?
-  end
-
-  # test for validates_presence_of :authentication
-  test 'a user without authentication is invalid' do
-    assert_invalid build(:user, authentication: ''), :authentication
-    assert_invalid build(:user, authentication: nil), :authentication
+    assert build(:admin_user).valid?
+    assert build(:manager_user).valid?
+    assert build(:suspended_user).valid?
+    assert build(:ldap_user).valid?
   end
 
   # test for validates_presence_of :familyname
@@ -50,25 +48,23 @@ class UserTest < ActiveSupport::TestCase
     assert_invalid build(:user, familyname: nil), :familyname
   end
 
+  # test for validates_presence_of :folder_id
+  # this test is no need because of before_validation callback
+
   # test for validates_presence_of :hashed_password, if: "authentication == 'local'"
   test 'a user without hashed_password is invalid' do
     assert_invalid build(:user, hashed_password: ''), :hashed_password
     assert_invalid build(:user, hashed_password: nil), :hashed_password
-    assert build(:ldap_user).valid?
-  end
-
-  # test for validates_presence_of :role
-  test 'a user without role is invalid' do
-    assert_invalid build(:user, role: ''), :role
-    assert_invalid build(:user, role: nil), :role
   end
 
   # test for validates_presence_of :salt, if: "authentication == 'local'"
   test 'a user without salt is invalid' do
     assert_invalid build(:user, salt: ''), :salt
     assert_invalid build(:user, salt: nil), :salt
-    assert build(:ldap_user).valid?
   end
+
+  # test for validates_presence_of :token
+  # this test is no need because of before_validation callback
 
   # test for validates_presence_of :user_id
   test 'a user without user_id is invalid' do
@@ -92,5 +88,34 @@ class UserTest < ActiveSupport::TestCase
   test 'some users with same user_id are invalid' do
     user = create(:user)
     assert_invalid build(:user, user_id: user.user_id), :user_id
+  end
+
+  # test for validates_inclusion_of :authentication, in: %w[local ldap]
+  test 'a user with authentication that is not included in [local ldap] is invalid' do
+    assert_invalid build(:user, authentication: ''), :authentication
+    assert_invalid build(:user, authentication: nil), :authentication
+  end
+
+  # test for validates_inclusion_of :role, in: %w[admin manager user suspended]
+  test 'a user with role that is not included in [admin manager user suspended] is invalid' do
+    assert_invalid build(:user, role: ''), :role
+    assert_invalid build(:user, role: nil), :role
+  end
+
+  # test for validates_confirmation_of :password
+  test 'a user with password that is not same to password_confirmation is invalid' do
+    assert_invalid build(:user, password_confirmation: 'temporary2'), :password_confirmation
+  end
+
+  # test for validate :password_non_blank, if: "authentication == 'local'"
+  test 'a user without password is invalid' do
+    assert_invalid build(:user, password: ''), :password
+    assert_invalid build(:user, password: nil), :password
+  end
+
+  # test for validates_length_of :password, in: USER_PASSWORD_MIN_LENGTH..USER_PASSWORD_MAX_LENGTH, allow_blank: true, if: "authentication == 'local'"
+  test 'a user with incorrect length password is invalid' do
+    assert_invalid build(:user, password: 'a' * (USER_PASSWORD_MIN_LENGTH - 1)), :password
+    assert_invalid build(:user, password: 'a' * (USER_PASSWORD_MAX_LENGTH + 1)), :password
   end
 end

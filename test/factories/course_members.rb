@@ -12,9 +12,17 @@
 #
 
 FactoryGirl.define do
-  factory :course_member do
-    sequence(:course_id) { |i| i }
-    sequence(:user_id) { |i| i }
+  factory :course_manager, class: CourseMember do
+    association :course
+    association :user
     role 'manager'
+
+    factory :course_assistant do
+      role 'assistant'
+    end
+
+    factory :course_learner do
+      role 'learner'
+    end
   end
 end

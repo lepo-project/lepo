@@ -23,4 +23,5 @@ class PageFile < ApplicationRecord
   has_many :stickies, -> { where('stickies.target_type = ?', 'page') }, foreign_key: 'target_id', dependent: :destroy
   validates_presence_of :content_id
   validates_presence_of :upload_file_name
+  validates_uniqueness_of :upload_file_name, scope: [:content_id]
 end

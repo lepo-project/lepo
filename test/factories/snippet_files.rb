@@ -14,7 +14,7 @@
 
 FactoryGirl.define do
   factory :snippet_file do
-    sequence(:snippet_id) { |i| i }
+    association :snippet
     sequence(:upload_file_name) { |i| "UploadFile#{i}" }
   end
 end

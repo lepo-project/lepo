@@ -11,7 +11,7 @@
 
 FactoryGirl.define do
   factory :signin do
-    sequence(:user_id) { |i| i }
+    association :user
     src_ip '127.0.0.1'
   end
 end

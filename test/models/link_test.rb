@@ -51,4 +51,9 @@ class LinkTest < ActiveSupport::TestCase
     link = create(:link)
     assert_invalid build(:link, title: link.title, manager_id: link.manager_id), :title
   end
+
+  # test for  validates :url, format: URI.regexp(%w[http https])
+  test 'a link with incorrect url is invalid' do
+    assert_invalid build(:link, url: 'abc'), :url
+  end
 end

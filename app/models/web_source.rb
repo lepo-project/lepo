@@ -12,6 +12,7 @@
 class WebSource < ApplicationRecord
   has_many :snippets, -> { where(source_type: 'web') }, foreign_key: 'source_id'
   validates_presence_of :url
+  validates :url, format: URI.regexp(%w[http https])
 
   # ====================================================================
   # Public Functions

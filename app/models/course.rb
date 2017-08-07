@@ -48,13 +48,10 @@ class Course < ApplicationRecord
   validates_presence_of :folder_id
   validates_presence_of :term_id
   validates_presence_of :title
-  validates_presence_of :status
   validates_uniqueness_of :folder_id
-  validates_inclusion_of :status, in: %w[draft open archived]
-
   # FIXME: Group work
-  validates :groups_count, inclusion: { in: (1..COURSE_GROUP_MAX_SIZE).to_a }
-
+  validates_inclusion_of :groups_count, in: (1..COURSE_GROUP_MAX_SIZE).to_a
+  validates_inclusion_of :status, in: %w[draft open archived]
   accepts_nested_attributes_for :goals, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: COURSE_GOAL_MAX_SIZE
 
   # ====================================================================

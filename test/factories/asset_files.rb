@@ -14,7 +14,7 @@
 
 FactoryGirl.define do
   factory :asset_file do
-    sequence(:content_id) { |i| i }
+    association :content
     sequence(:upload_file_name) { |i| "UploadFile#{i}" }
   end
 end

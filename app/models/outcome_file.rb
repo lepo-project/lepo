@@ -18,8 +18,8 @@ class OutcomeFile < ApplicationRecord
                     url: ':relative_url_root/system/users/:outcome_manager_folder_id/assignment_outcomes/:outcome_folder_id/:filename'
   validates_attachment_size :upload, less_than: OUTCOME_MAX_FILE_SIZE.megabytes
   do_not_validate_attachment_file_type :upload
-
   belongs_to :outcome, touch: true
   validates_presence_of :outcome_id
   validates_presence_of :upload_file_name
+  validates_uniqueness_of :upload_file_name, scope: [:outcome_id]
 end

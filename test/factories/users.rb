@@ -29,15 +29,27 @@
 
 FactoryGirl.define do
   factory :user, class: User do
-    # test user with local authentication
     sequence(:user_id) { |i| "user#{i}-test" }
     password 'temporary'
+    password_confirmation 'temporary'
     role 'user'
     familyname 'Test'
     familyname_alt 'Test'
     sequence(:givenname) { |i| "User#{i}" }
     sequence(:givenname_alt) { |i| "User#{i}" }
-    # test user with ldap authentication
+
+    factory :admin_user do
+      role 'admin'
+    end
+
+    factory :manager_user do
+      role 'manager'
+    end
+
+    factory :suspended_user do
+      role 'suspended'
+    end
+
     factory :ldap_user do
       authentication 'ldap'
       hashed_password nil

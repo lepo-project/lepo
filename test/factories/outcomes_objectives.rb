@@ -13,8 +13,8 @@
 
 FactoryGirl.define do
   factory :outcomes_objective do
-    sequence(:objective_id) { |i| i }
-    sequence(:outcome_id) { |i| i }
+    association :outcome
+    association :objective
     self_achievement 10
     eval_achievement 10
   end

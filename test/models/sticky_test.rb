@@ -24,13 +24,11 @@ class StickyTest < ActiveSupport::TestCase
   # test for valid sticky data
   test 'a sticky with valid data is valid' do
     assert build(:sticky).valid?
+    assert build(:course_sticky).valid?
+    assert build(:note_sticky).valid?
+    assert build(:course_note_sticky).valid?
   end
 
-  # test for validates_presence_of :category
-  test 'a sticky without category is invalid' do
-    assert_invalid build(:sticky, category: ''), :category
-    assert_invalid build(:sticky, category: nil), :category
-  end
   # test for validates_presence_of :content_id, if: "target_type == 'page'"
   test 'a sticky without content_id is invalid' do
     assert_invalid build(:sticky, content_id: ''), :content_id
@@ -47,5 +45,17 @@ class StickyTest < ActiveSupport::TestCase
   test 'a sticky without target_id is invalid' do
     assert_invalid build(:sticky, target_id: ''), :target_id
     assert_invalid build(:sticky, target_id: nil), :target_id
+  end
+
+  # test for validates_inclusion_of :category, in: %w[private course]
+  test 'a sticky with category that is not incluede in [private course] is invalid' do
+    assert_invalid build(:sticky, category: ''), :category
+    assert_invalid build(:sticky, category: nil), :category
+  end
+
+  # test for validates_inclusion_of :target_type, in: %w[page note]
+  test 'a sticky with target_type that is not incluede in [page note] is invalid' do
+    assert_invalid build(:sticky, target_type: ''), :target_type
+    assert_invalid build(:sticky, target_type: nil), :target_type
   end
 end

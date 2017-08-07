@@ -12,7 +12,7 @@
 
 FactoryGirl.define do
   factory :note_star do
-    sequence(:manager_id) { |i| i }
-    sequence(:note_id) { |i| i }
+    association :manager, factory: :user
+    association :note
   end
 end

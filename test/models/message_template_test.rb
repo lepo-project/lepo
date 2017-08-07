@@ -35,16 +35,15 @@ class MessageTemplateTest < ActiveSupport::TestCase
     assert_invalid build(:message_template, manager_id: nil), :manager_id
   end
 
-  # test for validates_presence_of :objective_id
-  test 'a message_template without objective_id is invalid' do
-    assert_invalid build(:message_template, objective_id: ''), :objective_id
-    assert_invalid build(:message_template, objective_id: nil), :objective_id
-  end
-
   # test for validates_presence_of :message
   test 'a message_template without message is invalid' do
     assert_invalid build(:message_template, message: ''), :message
     assert_invalid build(:message_template, message: nil), :message
   end
 
+  # test for validates_presence_of :objective_id
+  test 'a message_template without objective_id is invalid' do
+    assert_invalid build(:message_template, objective_id: ''), :objective_id
+    assert_invalid build(:message_template, objective_id: nil), :objective_id
+  end
 end

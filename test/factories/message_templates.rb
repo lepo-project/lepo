@@ -14,9 +14,9 @@
 
 FactoryGirl.define do
   factory :message_template do
-    sequence(:content_id) { |i| i }
-    sequence(:manager_id) { |i| i }
-    sequence(:objective_id) { |i| i }
+    association :content
+    association :manager, factory: :user
+    association :objective
     sequence(:message) { |i| "Message #{i}" }
   end
 end

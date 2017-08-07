@@ -13,8 +13,8 @@
 
 FactoryGirl.define do
   factory :outcome_message do
-    sequence(:manager_id) { |i| i }
-    sequence(:outcome_id) { |i| i }
+    association :manager, factory: :user
+    association :outcome
     sequence(:message) { |i| "Outcome Message #{i}" }
     score 10
   end

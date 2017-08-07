@@ -16,19 +16,19 @@
 
 class Outcome < ApplicationRecord
   include RandomString
-  belongs_to :manager, class_name: 'User'
   belongs_to :course
   belongs_to :lesson
+  belongs_to :manager, class_name: 'User'
   has_one :outcome_text, -> { order(updated_at: :desc) }
   has_many :outcome_files, -> { order(updated_at: :desc) }
   has_many :outcome_messages, -> { order(updated_at: :desc) }
   has_many :outcomes_objectives, -> { order(objective_id: :asc) }
   has_many :objectives, -> { order(id: :asc) }, through: :outcomes_objectives
+  validates_presence_of :course_id
   validates_presence_of :lesson_id
   validates_presence_of :manager_id
-  validates_presence_of :status
   validates_uniqueness_of :lesson_id, scope: [:manager_id]
-  validates :score, inclusion: 0..10, allow_nil: true
+  validates_inclusion_of :score, in: (0..10).to_a, allow_nil: true
   validates_inclusion_of :status, in: %w[draft submit self_submit return]
 
   accepts_nested_attributes_for :outcome_messages, allow_destroy: true

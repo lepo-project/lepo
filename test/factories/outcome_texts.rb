@@ -11,7 +11,7 @@
 
 FactoryGirl.define do
   factory :outcome_text do
-    sequence(:outcome_id) { |i| i }
+    association :outcome
     entry 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
   end
 end

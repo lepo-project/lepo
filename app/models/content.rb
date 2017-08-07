@@ -29,16 +29,13 @@ class Content < ApplicationRecord
   has_many :objectives, -> { order(id: :asc) }, dependent: :destroy
   has_many :page_files, -> { order(display_order: :asc) }, dependent: :destroy
   has_many :stickies, -> { where('stickies.target_type = ?', 'page') }, dependent: :destroy
+  validates_presence_of :folder_id
+  validates_presence_of :overview
+  validates_presence_of :title
+  validates_uniqueness_of :folder_id
   validates_inclusion_of :as_category, in: %w[text file choice outside]
   validates_inclusion_of :category, in: %w[upload]
   validates_inclusion_of :status, in: %w[open archived]
-  validates_presence_of :as_category
-  validates_presence_of :category
-  validates_presence_of :folder_id
-  validates_presence_of :overview
-  validates_presence_of :status
-  validates_presence_of :title
-  validates_uniqueness_of :folder_id
   #  validate :presence_of_objective  # doesn't work for update(2011-01-09)
   #  validate_on_create :presence_of_objective
 

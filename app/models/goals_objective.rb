@@ -11,8 +11,8 @@
 #
 
 class GoalsObjective < ApplicationRecord
-  belongs_to :lesson
   belongs_to :goal
+  belongs_to :lesson
   belongs_to :objective
   validates_presence_of :goal_id
   validates_presence_of :lesson_id

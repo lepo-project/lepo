@@ -13,7 +13,7 @@
 
 FactoryGirl.define do
   factory :objective do
-    sequence(:content_id) { |i| i }
+    association :content
     sequence(:title) { |i| "Content Objective #{i}" }
     criterion 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
     allocation 10

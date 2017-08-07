@@ -16,11 +16,10 @@ class CourseMember < ApplicationRecord
   belongs_to :user
   validates_presence_of :course_id
   validates_presence_of :user_id
-  validates_presence_of :role
   validates_uniqueness_of :course_id, scope: [:user_id]
-  validates_inclusion_of :role, in: %w[manager assistant learner]
   # FIXME: Group work
-  validates :group_id, numericality: { only_integer: true, less_than: COURSE_GROUP_MAX_SIZE }
+  validates_inclusion_of :group_id, in: (0...COURSE_GROUP_MAX_SIZE).to_a
+  validates_inclusion_of :role, in: %w[manager assistant learner]
 
   def deletable?
     stickies = Sticky.where(course_id: course_id, manager_id: user_id)
