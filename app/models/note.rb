@@ -18,7 +18,7 @@
 class Note < ApplicationRecord
   belongs_to :manager, class_name: 'User'
   belongs_to :course
-  has_many :s, dependent: :destroy
+  has_many :note_stars, dependent: :destroy
   has_many :snippets, -> { order(display_order: :asc, updated_at: :asc) }
   has_many :stickies, -> { where('stickies.target_type = ?', 'note') }, foreign_key: 'target_id', dependent: :destroy
   has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
@@ -26,7 +26,7 @@ class Note < ApplicationRecord
   has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
   has_many :direct_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'direct').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
   has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'web').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
-  has_many :stared_users, -> { where('s.stared = ?', true) }, through: :s, source: :manager
+  has_many :stared_users, -> { where('note_stars.stared = ?', true) }, through: :note_stars, source: :manager
   validates_presence_of :manager_id
   validates_presence_of :title
   validates_inclusion_of :peer_reviews_count, in: (0..STORY_PEER_REVIEW_MAX_SIZE).to_a
