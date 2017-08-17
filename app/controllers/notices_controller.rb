@@ -3,8 +3,19 @@ class NoticesController < ApplicationController
     # ====================================================================
     # Public Functions
     # ====================================================================
-    def ajax_edit_notice
+    def ajax_archive_notice
+      @notice = Notice.find(params[:notice_id])
+      @notice.update_attributes(status: 'archived')
       render_notice
+    end
+
+    def ajax_archive_notice_from_course_top
+      notice = Notice.find(params[:notice_id])
+      notice.update_attributes(status: 'archived')
+      @course = Course.find session[:nav_id]
+      @goals = get_goal_resources @course
+      @marked_lessons = marked_lessons @course.id
+      render 'layouts/renders/resource', locals: { resource: 'index' }
     end
 
     def ajax_create_notice
@@ -21,33 +32,22 @@ class NoticesController < ApplicationController
       render_notice
     end
 
+    def ajax_edit_notice
+      render_notice
+    end
+
     def ajax_notice_pref
       ajax_edit_notice
-    end
-
-    def ajax_reedit_notice
-      @editting_notice = Notice.find(params[:notice_id])
-      render_notice
-    end
-
-    def ajax_expire_notice
-      @notice = Notice.find(params[:notice_id])
-      @notice.update_attributes(status: 'expired')
-      render_notice
-    end
-
-    def ajax_expire_notice_from_course_top
-      notice = Notice.find(params[:notice_id])
-      notice.update_attributes(status: 'expired')
-      @course = Course.find session[:nav_id]
-      @goals = get_goal_resources @course
-      @marked_lessons = marked_lessons @course.id
-      render 'layouts/renders/resource', locals: { resource: 'index' }
     end
 
     def ajax_open_notice
       @notice = Notice.find(params[:notice_id])
       @notice.update_attributes(status: 'open')
+      render_notice
+    end
+
+    def ajax_reedit_notice
+      @editting_notice = Notice.find(params[:notice_id])
       render_notice
     end
 
@@ -71,7 +71,7 @@ class NoticesController < ApplicationController
       course_id = session[:nav_id].to_i
       @course_id = course_id > 0 ? course_id : 0
       @open_notices = Notice.where(course_id: @course_id, status: 'open').order(updated_at: :desc)
-      @expired_notices = Notice.where(course_id: @course_id, status: 'expired').order(updated_at: :desc).limit(100)
+      @archived_notices = Notice.where(course_id: @course_id, status: 'archived').order(updated_at: :desc).limit(100)
     end
 
     def render_notice

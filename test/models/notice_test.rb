@@ -20,7 +20,7 @@ class NoticeTest < ActiveSupport::TestCase
   # test for valid notice data
   test 'a notice with valid data is valid' do
     assert build(:notice).valid?
-    assert build(:expired_notice).valid?
+    assert build(:archived_notice).valid?
   end
 
   # test for validates_presence_of :manager_id
@@ -35,8 +35,8 @@ class NoticeTest < ActiveSupport::TestCase
     assert_invalid build(:notice, message: nil), :message
   end
 
-  # test for validates_inclusion_of :status, in: %w[open expired]
-  test 'a notice with status that is not included in [open expired] is invalid' do
+  # test for validates_inclusion_of :status, in: %w[open archived]
+  test 'a notice with status that is not included in [open archived] is invalid' do
     assert_invalid build(:notice, status: ''), :status
     assert_invalid build(:notice, status: nil), :status
   end

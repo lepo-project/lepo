@@ -23,7 +23,7 @@
 <% when "ajax_edit", "ajax_new" %>
 <%= render(partial: "courses/toolbar_edit") %>
 
-<% when "ajax_edit_notice", "ajax_create_notice", "ajax_destroy_notice", "ajax_reedit_notice", "ajax_expire_notice", "ajax_open_notice", "ajax_update_notice" %>
+<% when "ajax_edit_notice", "ajax_create_notice", "ajax_destroy_notice", "ajax_reedit_notice", "ajax_archive_notice", "ajax_open_notice", "ajax_update_notice" %>
 <div id="toolbar-btns">
   <%= link_to({action: "ajax_index", nav_section: session[:nav_section], nav_id: session[:nav_id]}, {class: "toolbar-btn", remote: true}) do %>
   <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
