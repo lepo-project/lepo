@@ -504,13 +504,13 @@ module ApplicationHelper
     card['footnotes'].push('[更新]') if notice.created_at != notice.updated_at
 
     case action_name
-    when 'ajax_edit_notice', 'ajax_notice_pref', 'ajax_create_notice', 'ajax_destroy_notice', 'ajax_reedit_notice', 'ajax_expire_notice', 'ajax_open_notice', 'ajax_update_notice'
+    when 'ajax_edit_notice', 'ajax_notice_pref', 'ajax_create_notice', 'ajax_destroy_notice', 'ajax_reedit_notice', 'ajax_archive_notice', 'ajax_open_notice', 'ajax_update_notice'
       course_id = course.new_record? ? 0 : course.id
       card['operations'] = notice_card_operations(notice, border_category, course_id)
     when 'signin'
       card['operations'] = nil
     else
-      card['operations'] = [{ label: '公開終了', url: { action: 'ajax_expire_notice_from_course_top', id: course.id, notice_id: notice.id } }] if course.staff? session[:id]
+      card['operations'] = [{ label: '公開終了', url: { action: 'ajax_archive_notice_from_course_top', id: course.id, notice_id: notice.id } }] if course.staff? session[:id]
     end
     card
   end
@@ -519,7 +519,7 @@ module ApplicationHelper
     operations = []
     case border_category
     when 'course'
-      operations.push(label: '公開終了', url: { action: 'ajax_expire_notice', id: course_id, notice_id: notice.id })
+      operations.push(label: '公開終了', url: { action: 'ajax_archive_notice', id: course_id, notice_id: notice.id })
       if notice.manager_id == session[:id]
         operations.push(label: t('views.edit'), url: { action: 'ajax_reedit_notice', id: course_id, notice_id: notice.id })
       end

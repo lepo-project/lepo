@@ -12,16 +12,16 @@
       <% end %>
       <% end %>
 
-      <% if @open_notices.size + @expired_notices.size > 0 %>
+      <% if @open_notices.size + @archived_notices.size > 0 %>
       <div class="bordered-block">
         <h2>既存のお知らせ</h2>
         <% if @open_notices.size > 0 %>
         <h3>公開中のお知らせ</h3>
         <%= render partial: "layouts/notices/notice_card", collection: @open_notices, locals: {border_category: "course"} %>
         <% end %>
-        <% if @expired_notices.size > 0 %>
+        <% if @archived_notices.size > 0 %>
         <h3>公開を終了したお知らせ</h3>
-        <%= render partial: "layouts/notices/notice_card", collection: @expired_notices, locals: {border_category: "pending"} %>
+        <%= render partial: "layouts/notices/notice_card", collection: @archived_notices, locals: {border_category: "pending"} %>
         <% end %>
       </div>
       <% end %>

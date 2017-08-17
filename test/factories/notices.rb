@@ -17,8 +17,8 @@ FactoryGirl.define do
     association :course
     message 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
 
-    factory :expired_notice do
-      status 'expired'
+    factory :archived_notice do
+      status 'archived'
     end
   end
 end

@@ -18,7 +18,7 @@
   <% end %>
 </div>
 
-<% when 'ajax_notice_pref', 'ajax_edit_notice', 'ajax_create_notice', 'ajax_destroy_notice', 'ajax_reedit_notice', 'ajax_expire_notice', 'ajax_expire_notice_from_course_top', 'ajax_open_notice', 'ajax_update_notice' %>
+<% when 'ajax_notice_pref', 'ajax_edit_notice', 'ajax_create_notice', 'ajax_destroy_notice', 'ajax_reedit_notice', 'ajax_archive_notice', 'ajax_archive_notice_from_course_top', 'ajax_open_notice', 'ajax_update_notice' %>
 <nav id="sub-nav">
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [t('activerecord.models.notice')]]} %>
 </nav>
