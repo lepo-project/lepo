@@ -8,8 +8,6 @@
   <div class="loc-subheader">提出物</div>
   <% case @content.as_category when "file" %>
   <%= render partial: "outcomes/file_outcome", locals: {outcome_files: outcome.outcome_files, outcome_id: outcome.id, outcome_status: outcome.status} %>
-  <% when "choice" %>
-  <%= render partial: "outcomes/choice_outcome" %>
   <% end %>
 
   <%= form_for(outcome, url: {controller: "outcomes", action: "ajax_update", id: outcome.id}, html: {name: 'outcome_form', remote: true}) do |outcome_form| %>

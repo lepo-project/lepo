@@ -33,7 +33,7 @@ class Content < ApplicationRecord
   validates_presence_of :overview
   validates_presence_of :title
   validates_uniqueness_of :folder_id
-  validates_inclusion_of :as_category, in: %w[text file choice outside]
+  validates_inclusion_of :as_category, in: %w[text file outside]
   validates_inclusion_of :category, in: %w[upload]
   validates_inclusion_of :status, in: %w[open archived]
   #  validate :presence_of_objective  # doesn't work for update(2011-01-09)

@@ -335,7 +335,6 @@ ja:
     cancel: キャンセル
     candidate: 候補
     content:
-      as_choice: 選択式テスト
       as_file: ファイル提出
       as_outside: システム外
       as_text: 文章記述
