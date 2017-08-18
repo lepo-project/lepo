@@ -98,8 +98,6 @@ module ApplicationHelper
       'ファイル提出'
     when 'outside'
       'システム外'
-    when 'choice'
-      '選択式テスト'
     end
   end
 
@@ -627,7 +625,6 @@ module ApplicationHelper
 
   def get_assignment_categories
     [[assignment_category_text('outside'), 'outside'], [assignment_category_text('text'), 'text'], [assignment_category_text('file'), 'file']]
-    #    [assignment_category_text('choice'), 'choice'],
   end
 
   def note_courses

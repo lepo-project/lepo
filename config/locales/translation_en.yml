@@ -335,7 +335,6 @@ en:
     cancel: Cancel
     candidate: Candidate
     content:
-      as_choice: Choice Exam.
       as_file: File Upload
       as_outside: Out System
       as_text: Writing
