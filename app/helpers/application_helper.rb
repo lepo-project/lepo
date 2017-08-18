@@ -208,7 +208,7 @@ module ApplicationHelper
   def lesson_evaluation_text(evaluator_id)
     return '' unless evaluator_id
     return t('views.content.self_evaluation') if evaluator_id.zero?
-    return t('views.content.teacher_evaluation')
+    t('views.content.teacher_evaluation')
   end
 
   def lesson_evaluator_text(evaluator_id)
@@ -573,7 +573,7 @@ module ApplicationHelper
   end
 
   def managers_of_course(category, user, course_id, manager_ids)
-      { controller: 'course_members', action: 'ajax_get_managers', category: category, manager_id: user.id, course_id: course_id, manager_ids: manager_ids}
+    { controller: 'course_members', action: 'ajax_get_managers', category: category, manager_id: user.id, course_id: course_id, manager_ids: manager_ids }
   end
 
   # 4. for others =============================================================================

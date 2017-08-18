@@ -1,37 +1,37 @@
 <% course_id = -1 if course_id.nil? %>
-    <div class="form-group row">
-      <% manager_ids = managers.pluck(:id) %>
-      <% if 'draft' == status %>
-        <label for="manager-id-name-field" class="col-md-3 col-form-label text-sm-right" ></label>
-        <div class="col-md-7">
-          <input type="text" class="form-control" id="manager-id-name-field" placeholder="<%= t('views.system_messages.input_id_or_name') %>">
-          <input type="hidden" id="manager-id-field" value="">
-        </div>
-        <% url = managers_of_course 'add', User.new, course_id, manager_ids %>
-        <%= link_to( url, remote: true, id: 'add-tmp-manager-id') do %>
-          <button type="button" class="btn-primary" id="add-tmp-manager"><%= t('views.add') %></button>
-        <% end %>
-      <% end %>
-    </div>
+<div class="form-group row">
+  <% manager_ids = managers.pluck(:id) %>
+  <% if 'draft' == status %>
+  <label for="manager-id-name-field" class="col-md-3 col-form-label text-sm-right" ></label>
+  <div class="col-md-7">
+    <input type="text" class="form-control" id="manager-id-name-field" placeholder="<%= t('views.system_messages.input_id_or_name') %>">
+    <input type="hidden" id="manager-id-field" value="">
+  </div>
+  <% url = managers_of_course 'add', User.new, course_id, manager_ids %>
+  <%= link_to( url, remote: true, id: 'add-tmp-manager-id') do %>
+  <button type="button" class="btn-primary" id="add-tmp-manager"><%= t('views.add') %></button>
+  <% end %>
+  <% end %>
+</div>
 
-    <%= render partial: 'layouts/system_message', locals: {message: message, message_category: message_category} if ! defined?(message).nil? %>
-    <div class='form-list'>
-        <% managers.each do |m| %>
-            <%= fields_for "managers[]", m do |mf| %>
-                <%= m.fullname %>
-                <%= mf.hidden_field :id  %>
-            <% end %>
-            <% if "draft" == status %>
-                <% url = managers_of_course 'release', m, course_id, manager_ids %>
-                <%= link_to( url, remote: true, id: course_id) do %>
-                   <button type="button" class="btn-danger">
-                    <%= t('views.unregister') %>
-                   </button>
-                <% end %>
-            <% end %>
-            &nbsp;
-        <% end %>
-    </div>
+<%= render partial: 'layouts/system_message', locals: {message: message, message_category: message_category} if ! defined?(message).nil? %>
+<div class='form-list'>
+  <% managers.each do |m| %>
+  <%= fields_for "managers[]", m do |mf| %>
+  <%= m.fullname %>
+  <%= mf.hidden_field :id  %>
+  <% end %>
+  <% if "draft" == status %>
+  <% url = managers_of_course 'release', m, course_id, manager_ids %>
+  <%= link_to( url, remote: true, id: course_id) do %>
+  <button type="button" class="btn-danger">
+    <%= t('views.unregister') %>
+  </button>
+  <% end %>
+  <% end %>
+  &nbsp;
+  <% end %>
+</div>
 
 
 <script>

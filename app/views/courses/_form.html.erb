@@ -72,12 +72,12 @@
 <% if User.system_staff? session[:id] %>
 <div class="bordered-block">
   <h2><%= t('activerecord.attributes.course.managers') %></h2>
-    <div class="offset-sm-3">
-      <div class="form-text"><%= t('views.system_messages.auto_register_of_course_manager') if @course.new_record? %></div>
-    </div>
-      <div id="course-manager-select">
-        <%= render partial: 'course_manager_select' , locals: {course_id: @course.id, managers: @course.managers, status: @course.status} %>
-      </div>
+  <div class="offset-sm-3">
+    <div class="form-text"><%= t('views.system_messages.auto_register_of_course_manager') if @course.new_record? %></div>
+  </div>
+  <div id="course-manager-select">
+    <%= render partial: 'course_manager_select' , locals: {course_id: @course.id, managers: @course.managers, status: @course.status} %>
+  </div>
 </div>
 <% end %>
 

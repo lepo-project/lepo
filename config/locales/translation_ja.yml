@@ -467,7 +467,6 @@ ja:
       auto_register_of_course_manager: 教師を指定しない場合は、コース作成ユーザを教師に自動登録します
       input_id_or_name: IDまたは氏名の一部を入力して選択
       no_contents: 表示する教材はありません
-      no_contents: 表示する教材はありません。
       no_dashboard_resources: 現在、ダッシュボードに表示する情報はありません
       no_lessons: 表示するレッスンはありません
       no_messages: メッセージはありません
