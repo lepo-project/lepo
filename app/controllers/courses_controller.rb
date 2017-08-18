@@ -115,28 +115,29 @@ class CoursesController < ApplicationController
 
   def ajax_create
     @course = Course.new(course_params)
-    if !@course.term_id
+    unless @course.term_id
       flash[:message] = 'コースを登録できる学期がありません。システム管理者に相談して下さい。'
       flash[:message_category] = 'error'
       @course.fill_goals
       render 'layouts/renders/resource', locals: { resource: 'new' }
-    else
-      if @course.save
-        course_member = CourseMember.new(course_id: @course.id, user_id: session[:id], role: 'manager')
-        if course_member.save
-          set_nav_session 'repository', 'courses', @course.id
-          get_content_array # for new lesson creation
-          render 'layouts/renders/all', locals: { resource: 'edit_lessons' }
-        else
-          flash[:message] = 'コースと教師の関連づけに失敗しました'
-          flash[:message_category] = 'error'
-          @course.fill_goals
-          render 'layouts/renders/resource', locals: { resource: 'new' }
-        end
+      return
+    end
+    if @course.save
+      if register_course_managers
+        set_nav_session 'repository', 'courses', @course.id
+        get_content_array # for new lesson creation
+        render 'layouts/renders/all', locals: { resource: 'edit_lessons' }
       else
+        flash[:message] = 'コースと教師の関連づけに失敗しました'
+        flash[:message_category] = 'error'
         @course.fill_goals
         render 'layouts/renders/resource', locals: { resource: 'new' }
       end
+    else
+      flash[:message] = 'コースの作成に失敗しました'
+      flash[:message_category] = 'error'
+      @course.fill_goals
+      render 'layouts/renders/resource', locals: { resource: 'new' }
     end
   end
 
@@ -188,6 +189,11 @@ class CoursesController < ApplicationController
 
     if all_blank_title? course_form[:goals_attributes]
       flash[:message] = '到達目標を、1つ以上設定する必要があります'
+      flash[:message_category] = 'error'
+      @course.fill_goals
+      render 'layouts/renders/resource', locals: { resource: 'edit' }
+    elsif !register_course_managers
+      flash[:message] = 'コースと教師の関連づけに失敗しました'
       flash[:message_category] = 'error'
       @course.fill_goals
       render 'layouts/renders/resource', locals: { resource: 'edit' }
@@ -469,5 +475,22 @@ class CoursesController < ApplicationController
     @course = Course.find(course_id)
     @course.fill_goals
     render 'layouts/renders/resource', locals: { resource: 'courses/edit' }
+  end
+
+  def register_course_managers
+    current_ids = @course.managers.pluck(:id)
+    ids = params[:managers].nil? ? [] : ids_from_user_hash_l(params[:managers].values)
+    if ids.empty?
+      ids = current_ids.empty? ? [session[:id]] : current_ids.dup
+    end
+    CourseMember.update_managers @course.id, current_ids, ids
+  end
+
+  def ids_from_user_hash_l(values)
+    ids = []
+    values.each do |v|
+      ids.push(v['id'].to_i) unless Integer(v['id']).nil?
+    end
+    ids
   end
 end

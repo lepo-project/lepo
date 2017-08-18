@@ -91,6 +91,18 @@ class User < ApplicationRecord
     nil
   end
 
+  def self.autocomplete(search_word)
+    case AUTOCOMPLETE_CATEGORY
+    when 'fullname'
+      users = where('user_id LIKE ? OR familyname LIKE ? OR givenname LIKE? ', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:user_id)
+    when 'fullname_alt'
+      users = where('user_id LIKE ? OR familyname LIKE ? OR givenname LIKE ?  OR familyname_alt LIKE ? OR givenname_alt LIKE ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:user_id)
+    else
+      users = where('user_id LIKE ?', "%#{search_word}%").where.not(role: 'suspended').order(:user_id)
+    end
+    users.select("id, user_id || ' / ' || familyname || givenname AS id_fullname")
+  end
+
   def self.content_manageable?(id)
     user = find(id)
     user.content_manageable?

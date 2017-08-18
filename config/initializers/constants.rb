@@ -2,13 +2,13 @@
 
 # LePo specific constants begin here
 # site name shown at title bar and signin page
-SITE_NAME = 'LePo'
+SITE_NAME = 'LePo'.freeze
 
 # set true for https
 SSL_ACCESS = false
 
 # IP addresses that system manager can singnin
-SYSTEM_MANAGE_IPS = ['127.0.0.1']
+SYSTEM_MANAGE_IPS = ['127.0.0.1'].freeze
 
 # max size[MB]/file for user, course and assignment profile image file
 IMAGE_MAX_FILE_SIZE = 3
@@ -45,7 +45,7 @@ COURSE_GROUP_MAX_SIZE = 9
 COURSE_LESSON_MAX_SIZE = 99
 
 # initial setting for lesson status
-LESSON_STATUS_DEFAULT = 'open'
+LESSON_STATUS_DEFAULT = 'open'.freeze
 
 # max size[MB]/file for assignment outcome file
 OUTCOME_MAX_FILE_SIZE = 10
@@ -58,6 +58,18 @@ USER_SEARCH_MAX_SIZE = 100
 
 # max peer review number per learner
 STORY_PEER_REVIEW_MAX_SIZE = 9
+
+# autocomplete category: user_id, fullname, fullname_alt
+AUTOCOMPLETE_CATEGORY = 'fullname_alt'.freeze
+
+# time delay for autocomplete
+AUTOCOMPLETE_DELAY = 100
+
+# max autocomplete number
+AUTOCOMPLETE_MAX_SIZE = 20
+
+# min character length for autocomplete
+AUTOCOMPLETE_MIN_LENGTH = 1
 
 # FIXME: PushNotification
 # FCM_AUTHORIZATION_KEY = ''
