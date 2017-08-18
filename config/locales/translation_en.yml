@@ -388,6 +388,7 @@ en:
       uploaded_media_count: uploaded media count
       written_char_count: written char count
     ok: OK
+    open_courses: Open Courses
     operations: Operations
     pages: Pages
     password_confirmation: Password (Confirmation)
@@ -418,7 +419,6 @@ en:
     recommended_browser: Recommended Web Browser
     repository: Repository
     required: Required
-    open_courses: Open Courses
     search: Search
     setup:
       header: Welcome to LePo !
