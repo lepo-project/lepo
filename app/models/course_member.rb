@@ -41,4 +41,28 @@ class CourseMember < ApplicationRecord
     end
     false
   end
+
+  def self.update_managers(course_id, current_ids, ids)
+    transaction do
+      # unregister
+      current_ids.each do |c_id|
+        if ids.include? c_id
+          # neednot add or delete
+          ids.delete c_id
+        else
+          course_member = CourseMember.find_by(course_id: course_id, user_id: c_id, role: 'manager')
+          course_member.destroy! if course_member.deletable?
+        end
+      end
+      # register
+      ids.each do |id|
+        course_member = CourseMember.new(course_id: course_id, user_id: id, role: 'manager')
+        course_member.save!
+      end
+    end
+    return true
+  rescue => e
+    logger.info(e.inspect)
+    return false
+  end
 end

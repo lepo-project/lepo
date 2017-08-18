@@ -599,6 +599,10 @@ module ApplicationHelper
     end
   end
 
+  def managers_of_course(category, user, course_id, manager_ids)
+      { controller: 'course_members', action: 'ajax_get_managers', category: category, manager_id: user.id, course_id: course_id, manager_ids: manager_ids}
+  end
+
   # 4. for others =============================================================================
   def available_links
     user_id = session[:id]

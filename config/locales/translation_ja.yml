@@ -222,7 +222,7 @@ ja:
         outcome: :activerecord.models.outcome
 
       outcomes_objective:
-        eval_achievement: 教員評価
+        eval_achievement: 教師評価
         objective: :activerecord.models.objective
         outcome: :activerecord.models.outcome
         self_achievement: 自己評価
@@ -300,6 +300,7 @@ ja:
         image_updated_at: 画像ファイルの更新日時
         last_signin_at: 最後のサインイン日時
         lessons: :activerecord.models.lesson
+        notes: :activerecord.models.note
         outcome_messages: :activerecord.models.outcome_message
         outcomes: :activerecord.models.outcome
         role: 役割
@@ -308,7 +309,6 @@ ja:
         snippets: :activerecord.models.snippet
         stickies: :activerecord.models.sticky
         sticky_stars: :activerecord.models.sticky_star
-        notes: :activerecord.models.note
         token: トークン
         web_url: Web URL
 
@@ -331,6 +331,7 @@ ja:
           suspended: 利用停止
 
   views:
+    add: 追加
     assignment: 課題
     cancel: キャンセル
     candidate: 候補
@@ -387,6 +388,7 @@ ja:
       uploaded_media_count: アップロードした画像等の数
       written_char_count: 書き込んだ文字の数
     ok: 完了
+    open_courses: 実行中のコース
     operations: 操作
     pages: ページ
     password_confirmation: Password（確認用）
@@ -417,7 +419,6 @@ ja:
     recommended_browser: 推奨するWebブラウザ
     repository: 保管庫
     required: 必須項目
-    open_courses: 実行中のコース
     search: 検索
     setup:
       header: 学習支援システム LePo にようこそ!
@@ -463,6 +464,9 @@ ja:
       course: コースふせん
       private: 個人ふせん
     system_messages:
+      auto_register_of_course_manager: 教師を指定しない場合は、コース作成ユーザを教師に自動登録します
+      input_id_or_name: IDまたは氏名の一部を入力して選択
+      no_contents: 表示する教材はありません
       no_contents: 表示する教材はありません。
       no_dashboard_resources: 現在、ダッシュボードに表示する情報はありません
       no_lessons: 表示するレッスンはありません
@@ -476,5 +480,6 @@ ja:
       pages: ページ
       pieces: 個
       points: 点
+    unregister: 解除
     updated_at: 最終更新日
     user_account: ユーザアカウント

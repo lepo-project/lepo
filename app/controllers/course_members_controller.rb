@@ -122,6 +122,44 @@ class CourseMembersController < ApplicationController
     render 'layouts/renders/main_pane', locals: { resource: 'course_members/edit_group' }
   end
 
+  def ajax_get_managers
+    manager_ids = params[:manager_ids].nil? ? [] : params[:manager_ids]
+    case params[:category]
+    when 'release' then
+      course_user = CourseMember.find_by(course_id: params[:course_id], user_id: params[:manager_id])
+      if course_user.nil? || course_user.deletable?
+        manager_ids.delete(params[:manager_id])
+      else
+        flash.now[:message] = 'レッスンの評価担当者、またはコース内でふせんを記載している場合は削除できません。'
+        flash[:message_category] = 'error'
+      end
+    when 'add' then
+      user = User.find_by_id(params[:manager_id])
+      manager_ids.push(user.id) unless user.nil?
+    end
+    managers = []
+    manager_ids.each do |manager_id|
+      user = User.find_by_id(manager_id)
+      managers.push(user) unless user.nil?
+    end
+    render 'courses/renders/tmp_managers', locals: { managers: managers, course_id: session[:nav_id], message: flash.now[:message], message_category: flash[:message_category] }
+  end
+
+  def autocomplete_manager
+    if invalid_autocomplete_request?(params[:search_word])
+      render json: []
+    else
+      users = User.autocomplete params[:search_word]
+      user_suggestions = []
+      excludes = exclude_members(params[:tmp_managers], params[:course_id])
+      users.each do |u|
+        user_suggestions.push(value: u.id, label: u.id_fullname) unless excludes.include?(u.id)
+      end
+      user_suggestions.slice!(AUTOCOMPLETE_MAX_SIZE...user_suggestions.size)
+      render json: user_suggestions
+    end
+  end
+
   # ====================================================================
   # Private Functions
   # ====================================================================
@@ -156,5 +194,25 @@ class CourseMembersController < ApplicationController
         flash[:message_category] = 'error'
       end
     end
+  end
+
+  def invalid_autocomplete_request?(param)
+    request.get? || param.nil? || param.empty? || !User.system_staff?(session[:id])
+  end
+
+  def exclude_members(tmp_managers, course_id)
+    excludes = tmp_managers.nil? ? [] : tmp_managers.map(&:to_i)
+    # Considering that the value of course_id is -1 (new course), use find_by instead of find
+    course = Course.find_by(id: course_id)
+    return excludes if course.nil?
+    learners = course.learners
+    learners.each do |l|
+      excludes.push(l.id)
+    end
+    assistants = course.assistants
+    assistants.each do |a|
+      excludes.push(a.id)
+    end
+    excludes
   end
 end

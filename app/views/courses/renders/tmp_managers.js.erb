@@ -1,0 +1,3 @@
+$("#course-manager-select").html(
+  "<%= j render(partial: 'courses/course_manager_select', locals: {course_id: course_id, managers: managers, status: 'draft', message: message, message_category: message_category}) %>"
+);

@@ -1,0 +1,68 @@
+<% course_id = -1 if course_id.nil? %>
+    <div class="form-group row">
+      <% manager_ids = managers.pluck(:id) %>
+      <% if 'draft' == status %>
+        <label for="manager-id-name-field" class="col-md-3 col-form-label text-sm-right" ></label>
+        <div class="col-md-7">
+          <input type="text" class="form-control" id="manager-id-name-field" placeholder="<%= t('views.system_messages.input_id_or_name') %>">
+          <input type="hidden" id="manager-id-field" value="">
+        </div>
+        <% url = managers_of_course 'add', User.new, course_id, manager_ids %>
+        <%= link_to( url, remote: true, id: 'add-tmp-manager-id') do %>
+          <button type="button" class="btn-primary" id="add-tmp-manager"><%= t('views.add') %></button>
+        <% end %>
+      <% end %>
+    </div>
+
+    <%= render partial: 'layouts/system_message', locals: {message: message, message_category: message_category} if ! defined?(message).nil? %>
+    <div class='form-list'>
+        <% managers.each do |m| %>
+            <%= fields_for "managers[]", m do |mf| %>
+                <%= m.fullname %>
+                <%= mf.hidden_field :id  %>
+            <% end %>
+            <% if "draft" == status %>
+                <% url = managers_of_course 'release', m, course_id, manager_ids %>
+                <%= link_to( url, remote: true, id: course_id) do %>
+                   <button type="button" class="btn-danger">
+                    <%= t('views.unregister') %>
+                   </button>
+                <% end %>
+            <% end %>
+            &nbsp;
+        <% end %>
+    </div>
+
+
+<script>
+$(function() {
+  $("#manager-id-name-field").autocomplete({
+    source: function (request, response) {
+      $.ajax({
+        type: "POST",
+        url: "/course_members/autocomplete_manager",
+        data: {
+          search_word: request.term,
+          tmp_managers: <%= raw manager_ids.to_json %>,
+          course_id: <%= course_id %>
+        },
+        success: response,
+        dataType: 'json'
+      });
+    },
+    select: function (event, ui){
+      $('#manager-id-name-field').val(ui.item.label);
+      $('#manager-id-field').val(ui.item.value);
+      return false;
+    }
+  }, {autoFocus: true, delay: <%= AUTOCOMPLETE_DELAY %>, minLength: <%= AUTOCOMPLETE_MIN_LENGTH %> });
+
+  $("#add-tmp-manager").click(function(e){
+    var id = $('#manager-id-field').val();
+    var cid = "#add-tmp-manager-id";
+    var url  = $(cid).attr('href').replace(/&manager_id=.*$/,"");
+    url += "&manager_id=" + id;
+    $(cid).attr('href', url);
+  });
+});
+</script>
