@@ -63,7 +63,7 @@
       <% if (((@user.role == 'admin') || (@user.role == 'manager')) && (@selected_user.role != 'admin')) %>
       <%= f.select :role, [[t('activerecord.others.user.role.manager'), 'manager'], [t('activerecord.others.user.role.user'), 'user'], [t('activerecord.others.user.role.suspended'), 'suspended']], {}, {class: "form-control"} %>
       <% else %>
-      <span><%= role_text @selected_user.role %></span>
+      <span><%= t("activerecord.others.user.role.#{@selected_user.role}") %></span>
       <% end %>
     </div>
   </div>

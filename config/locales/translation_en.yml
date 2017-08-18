@@ -57,15 +57,12 @@ en:
         as_category: As category
         as_overview: As overview
         asset_files: Asset files
-        assistants: Assistants
         attachment_files: Attachment files
         category: Category
         condition: Condition
         content_members: Content Members
         courses: Courses
-        instructors: Instructors
         lessons: Lessons
-        managers: Manager
         objectives: Objectives
         overview: Overview
         page_files: Page files
@@ -318,8 +315,11 @@ en:
         url: Url
 
     others:
-      content:
-        manager: Manager
+      content_member:
+        role:
+          manager: Manager
+          assistant: Assistant
+          user: User
       user:
         authentication:
           local: Local

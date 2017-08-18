@@ -170,7 +170,7 @@ class ContentsController < ApplicationController
     when 'repository'
       @contents = Content.associated_by session[:id], 'manager'
       @contents += Content.associated_by session[:id], 'assistant'
-      @contents += Content.associated_by session[:id], 'instructor'
+      @contents += Content.associated_by session[:id], 'user'
     end
     @contents.sort! { |a, b| (a.status_display_order <=> b.status_display_order).nonzero? || (b.updated_at <=> a.updated_at) }
   end

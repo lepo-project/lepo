@@ -16,11 +16,11 @@ class ContentMember < ApplicationRecord
   validates_presence_of :content_id
   validates_presence_of :user_id
   validates_uniqueness_of :content_id, scope: [:user_id]
-  validates_inclusion_of :role, in: %w[manager assistant instructor]
+  validates_inclusion_of :role, in: %w[manager assistant user]
   validate :content_manageable_user, if: "role != 'assistant'"
 
   def content_manageable_user
-    errors.add(:base, 'Content manager and instructor must be content_manageable.') unless user.content_manageable?
+    errors.add(:base, 'Content manager and user must be content_manageable.') unless user.content_manageable?
   end
 
   def deletable?
@@ -30,7 +30,7 @@ class ContentMember < ApplicationRecord
       return false
     when 'assistant'
       return stickies.size.zero?
-    when 'instructor'
+    when 'user'
       return stickies.size.zero?
     end
     false

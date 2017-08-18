@@ -129,11 +129,7 @@ module ApplicationHelper
     return if member_role.empty?
     case model_category
     when 'content'
-      if member_role == 'manager'
-        t('activerecord.others.content.manager')
-      else
-        t('activerecord.attributes.content.' + member_role + 's')
-      end
+      t("activerecord.others.content_member.role.#{member_role}")
     when 'course'
       t('activerecord.attributes.course.' + member_role + 's')
     when 'system'
@@ -351,29 +347,6 @@ module ApplicationHelper
       '利用者'
     when 'system'
       'システム'
-    end
-  end
-
-  def role_text(role)
-    case role
-    when 'admin'
-      'システム最高管理者'
-    when 'manager'
-      '管理者'
-    when 'assistant'
-      'アシスタント'
-    when 'learner'
-      '学生'
-    when 'observer'
-      '観察者'
-    when 'pending'
-      'コース未登録'
-    when 'instructor'
-      '利用許可者'
-    when 'user'
-      '一般ユーザ'
-    else # 'new'
-      '-----'
     end
   end
 
@@ -780,9 +753,9 @@ module ApplicationHelper
   def member_role_options(update_model)
     case update_model
     when 'content_member'
-      options = [[t('activerecord.others.content.manager') + t('views.candidate'), 'manager']]
-      options.push [t('activerecord.attributes.content.assistants') + t('views.candidate'), 'assistant']
-      options.push [t('activerecord.attributes.content.instructors') + t('views.candidate'), 'instructor']
+      options = [[t('activerecord.others.content_member.role.manager') + t('views.candidate'), 'manager']]
+      options.push [t('activerecord.others.content_member.role.assistant') + t('views.candidate'), 'assistant']
+      options.push [t('activerecord.others.content_member.role.user') + t('views.candidate'), 'user']
     when 'course_member'
       options = [[t('activerecord.attributes.course.managers') + t('views.candidate'), 'manager']]
       options.push [t('activerecord.attributes.course.assistants') + t('views.candidate'), 'assistant']

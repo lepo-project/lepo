@@ -301,7 +301,7 @@ class CoursesController < ApplicationController
     @course.managers.each do |cm|
       @content_array += Content.associated_by_with_status cm.id, 'manager', 'open'
       @content_array += Content.associated_by_with_status cm.id, 'assistant', 'open'
-      @content_array += Content.associated_by_with_status cm.id, 'instructor', 'open'
+      @content_array += Content.associated_by_with_status cm.id, 'user', 'open'
     end
     @content_array.sort! { |a, b| a.updated_at <=> b.updated_at }
     @content_array.reverse!

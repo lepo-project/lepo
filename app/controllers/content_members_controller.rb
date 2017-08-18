@@ -36,8 +36,8 @@ class ContentMembersController < ApplicationController
     case @member_role
     when 'assistant'
       candidates = delete_existing candidates, @content.assistants
-    when 'instructor'
-      candidates = delete_existing candidates, @content.instructors
+    when 'user'
+      candidates = delete_existing candidates, @content.users
     end
     current_roles = []
     candidates.each do |cn|
@@ -65,7 +65,7 @@ class ContentMembersController < ApplicationController
         update_role manager_id, params[:content_id], 'assistant' if params[:update_to] == 'manager'
         update_role params[:user_id], params[:content_id], params[:update_to]
       end
-      flash.now[:message] = 'この教材のメンバー編集権限がなくなりました' if (session[:id] == params[:user_id].to_i) && (params[:update_to] == 'instructor')
+      flash.now[:message] = 'この教材のメンバー編集権限がなくなりました' if (session[:id] == params[:user_id].to_i) && (params[:update_to] == 'user')
       flash[:message_category] = 'error'
     end
 
@@ -91,7 +91,7 @@ class ContentMembersController < ApplicationController
     @content.fill_objectives
     @manager = @content.manager
     @assistants = User.sort_by_user_id @content.assistants
-    @instructors = User.sort_by_user_id @content.instructors
+    @users = User.sort_by_user_id @content.users
   end
 
   def update_role(user_id, content_id, role)

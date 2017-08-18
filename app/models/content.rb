@@ -24,7 +24,7 @@ class Content < ApplicationRecord
   has_many :courses, through: :lessons
   has_many :content_members, dependent: :destroy
   has_many :assistants, -> { where('content_members.role = ?', 'assistant') }, through: :content_members, source: :user
-  has_many :instructors, -> { where('content_members.role = ?', 'instructor') }, through: :content_members, source: :user
+  has_many :users, -> { where('content_members.role = ?', 'user') }, through: :content_members, source: :user
   has_many :lessons
   has_many :objectives, -> { order(id: :asc) }, dependent: :destroy
   has_many :page_files, -> { order(display_order: :asc) }, dependent: :destroy

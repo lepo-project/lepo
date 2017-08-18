@@ -25,11 +25,11 @@ FactoryGirl.define do
       end
     end
 
-    factory :content_instructor do
+    factory :content_user do
       association :user, factory: :admin_user
-      role 'instructor'
+      role 'user'
 
-      factory :content_instructor_for_user do
+      factory :content_user_for_user do
         association :user, role: 'user'
       end
     end
