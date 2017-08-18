@@ -53,7 +53,7 @@
           <div class="x-small col"><%= link_to_resource("<i class='#{icon_info[:class]}'></i>", content.id, {title: icon_info[:text]}) %></div>
           <div class="small col">
             <% role = ContentMember.find_by_user_id_and_content_id(session[:id], content.id).role %>
-            <%= link_to_resource("#{role_text role}", content.id, {}) %>
+            <%= link_to_resource(t("activerecord.others.content_member.role.#{role}"), content.id, {}) %>
           </div>
           <div class="xxx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('views.pages')})", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource("#{content.lessons.size.to_s}", content.id, {}) %></div>

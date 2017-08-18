@@ -57,15 +57,12 @@ ja:
         as_category: 課題カテゴリ
         as_overview: 課題概要
         asset_files: :activerecord.models.asset_file
-        assistants: アシスタント
         attachment_files: :activerecord.models.attachment_file
         category: カテゴリー
         condition: 学習の条件
         content_members: コンテンツユーザ
         courses: :activerecord.models.course
-        instructors: 教材利用者
         lessons: :activerecord.models.lesson
-        managers: 管理者
         objectives: 目標
         overview: 概要
         page_files: :activerecord.models.page_file
@@ -318,8 +315,11 @@ ja:
         url: URL
 
     others:
-      content:
-        manager: 教師
+      content_member:
+        role:
+          manager: 管理者
+          assistant: アシスタント
+          user: 利用者
       user:
         authentication:
           local: ローカル

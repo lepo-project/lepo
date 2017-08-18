@@ -20,7 +20,7 @@ class ContentMemberTest < ActiveSupport::TestCase
   test 'a content_member with valid data is valid' do
     assert build(:content_assistant).valid?
     assert build(:content_manager).valid?
-    assert build(:content_instructor).valid?
+    assert build(:content_user).valid?
   end
 
   # test for validates_presence_of :content_id
@@ -41,8 +41,8 @@ class ContentMemberTest < ActiveSupport::TestCase
     assert_invalid build(:content_assistant, content_id: assistant.content_id, user_id: assistant.user_id), :content_id
   end
 
-  # test for validates_inclusion_of :role, in: %w[manager assistant instructor]
-  test 'a content_member with role that is not included in [manager assistant instructor] is invalid' do
+  # test for validates_inclusion_of :role, in: %w[manager assistant user]
+  test 'a content_member with role that is not included in [manager assistant user] is invalid' do
     assert_invalid build(:content_assistant, role: ''), :role
     assert_invalid build(:content_assistant, role: nil), :role
   end
@@ -50,6 +50,6 @@ class ContentMemberTest < ActiveSupport::TestCase
   # test for validate :content_manageable_user, if: "role != 'assistant'"
   test 'a content_member with incorrect role association is invalid' do
     assert build(:content_manager_for_user).invalid?
-    assert build(:content_instructor_for_user).invalid?
+    assert build(:content_user_for_user).invalid?
   end
 end

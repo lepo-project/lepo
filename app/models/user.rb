@@ -182,13 +182,9 @@ class User < ApplicationRecord
     # condition 1
     return true if %w[admin manager].include? role
     course_members.each do |cm|
-      # condition 2: content manager and instructors must be course manager or assistant
+      # condition 2: content manager and users must be course manager or assistant
       return true if cm.role == 'manager' || cm.role == 'assistant'
     end
-    # content_members.each do |cm|
-    #   # condition 3: content manager and instructors must be assistant of other content
-    #   return true if cm.role == 'assistant'
-    # end
     false
   end
 

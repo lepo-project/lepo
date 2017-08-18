@@ -41,7 +41,7 @@
 					<div class="form-group row control-group-text-line">
 						<%= f.label :role, 'アカウント種別', class: "col-md-3 col-form-label text-sm-right control-text-line", style: "line-height: 60%;" %>
 						<div class="col-md-7">
-							<%= role_text @user.role %>
+							<%= t("activerecord.others.user.role.#{@user.role}") %>
 						</div>
 					</div>
 
