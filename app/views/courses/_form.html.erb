@@ -7,14 +7,14 @@
 
   <div class="form-group row">
     <%= f.label :title, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.title'), class: "col-md-3 col-form-label text-sm-right" %>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <%= f.text_field :title, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group row">
     <%= f.label :term_id, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.term'), class: "col-md-3 col-form-label text-sm-right" %>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <% if @course.new_record? %>
       <%= f.select :term_id, Term.selectables("hereafter"), {}, {class: "form-control"} %>
       <% else %>
@@ -25,7 +25,7 @@
 
   <div class="form-group row">
     <%= f.label :overview, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.overview'), class: "col-md-3 col-form-label text-sm-right" %>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <%= f.text_area :overview, class: "form-control", rows: "8" %>
       <div class="form-text">改行を続けて挿入した位置で、文章を折りたたんで表示</div>
     </div>
@@ -33,7 +33,7 @@
 
   <div class="form-group row">
     <%= f.label :image, 'イメージ画像', class: "col-md-3 col-form-label text-sm-right" %>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <%= f.file_field :image, style: "color: #fff;" %>
       <div style="background-color: #fff; width: 80px;">
         <%= render partial: 'layouts/image' , locals: {obj: @course, fa_class: 'fa-flag', size: 'l'}%>
@@ -50,7 +50,7 @@
 
   <div class="form-group row">
     <%= f.label :groups_count, 'グループ数', class: "col-md-3 col-form-label text-sm-right" %>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <%= f.select :groups_count, (1..COURSE_GROUP_MAX_SIZE).to_a, {}, {class: "form-control"} %>
       <ul class="form-list">
         <li>グループで分類して、公開ノートを表示可能</li>
@@ -61,7 +61,7 @@
 
   <div class="form-group row">
     <%= f.label :status, raw("<span class='required'>*</span>状態"), class: "col-md-3 col-form-label text-sm-right" %>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <div id="status-flow">
         <%= render partial: 'layouts/status_form', locals: {current_status: @course.status, selected_status: @course.status} %>
       </div>
@@ -71,10 +71,9 @@
 
 <% if User.system_staff? session[:id] %>
 <div class="bordered-block">
-  <h2><%= t('activerecord.attributes.course.managers') %></h2>
-  <div class="offset-sm-3">
-    <div class="form-text"><%= t('views.system_messages.auto_register_of_course_manager') if @course.new_record? %></div>
-  </div>
+  <h2><%= t('activerecord.attributes.course.managers') %>
+    <div class="header-explanation"><%= t('views.system_messages.auto_register_of_course_manager') if @course.new_record? %></div>
+  </h2>
   <div id="course-manager-select">
     <%= render partial: 'course_manager_select' , locals: {course_id: @course.id, managers: @course.managers, status: @course.status} %>
   </div>
@@ -92,7 +91,7 @@
   <% end %>
 
   <div class="form-group row">
-    <div class="offset-sm-3 col-md-7">
+    <div class="col-md-9 ml-auto">
       <div class="form-text">不必要な目標は空欄に設定</div>
     </div>
   </div>

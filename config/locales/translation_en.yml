@@ -464,7 +464,7 @@ en:
       course: Course
       private: Private
     system_messages:
-      auto_register_of_course_manager: If no manager is specified, user who creates the course is registered as manager.
+      auto_register_of_course_manager: If not specified, the course creater becomes manager.
       input_id_or_name: Input part of user ID or name, and select user.
       no_contents: No contents to display
       no_dashboard_resources: Currently no information on the dashboard
