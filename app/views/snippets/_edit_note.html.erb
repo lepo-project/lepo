@@ -3,30 +3,30 @@
     <div class="col-md-12">
       <div class="head">
         <div class="header-explanation"><%= t('views.required') %>：<span class="required">*</span></div>
-        <h1><%= (@note.status == "private") ? "個人" : "コース" %>ノートの設定</h1>
+        <h1><%= (@note.status == "private") ? '個人' : 'コース' %>ノートの設定</h1>
         <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
 
         <%= form_for @note, url: {action: :ajax_update_note, note_id: @note.id}, html: {id: 'note_form', name: 'note_form'}, remote: true do |f| %>
         <div class="form-group row">
-          <%= f.label :title, raw("<span class='required'>*</span>#{t('activerecord.attributes.note.title')}"), class: "col-md-2 col-form-label text-sm-right" %>
+          <%= f.label :title, raw("<span class='required'>*</span>#{t('activerecord.attributes.note.title')}"), class: 'col-md-2 col-form-label text-sm-right' %>
           <div class="col-md-10">
-            <%= f.text_field :title, class: "form-control" %>
+            <%= f.text_field :title, class: 'form-control' %>
           </div>
         </div>
         <div id="overview-row" class="form-group row">
-          <%= f.label :overview, t('activerecord.attributes.note.overview'), class: "col-md-2 col-form-label text-sm-right" %>
+          <%= f.label :overview, t('activerecord.attributes.note.overview'), class: 'col-md-2 col-form-label text-sm-right' %>
           <div class="col-md-10">
-            <%= f.text_area :overview, id: "overview-form", class: "form-control", rows: 8 %>
+            <%= f.text_area :overview, id: 'overview-form', class: 'form-control', rows: 8 %>
             <div style="margin-top: 2px; text-align:right;">
               <span id="char-count"></span>
             </div>
           </div>
         </div>
         <div class="form-group row">
-          <%= f.label :course_id, t('activerecord.attributes.note.course'), class: "col-md-2 col-form-label text-sm-right" %>
+          <%= f.label :course_id, t('activerecord.attributes.note.course'), class: 'col-md-2 col-form-label text-sm-right' %>
           <div class="col-md-10">
-            <% if (@note.stickies.size == 0) && ((@note.status == "private") || ((@note.status == "course") && (@note.master_id == 0))) %>
-            <%= f.select :course_id, note_courses, {}, {class: "form-control"} %>
+            <% if (@note.stickies.size == 0) && ((@note.status == 'private') || ((@note.status == 'course') && (@note.master_id == 0))) %>
+            <%= f.select :course_id, note_courses, {}, {class: 'form-control'} %>
             <% else %>
             <div style="margin-top: 5px;">
               <label><%= @note.course ? @note.course.title : "" %></label>
@@ -39,10 +39,10 @@
         <div class="bordered-block" style="margin-bottom: 20px;">
           <h3>コーススタッフのみ設定可能</h3>
           <div class="form-group row">
-            <%= f.label :status, 'コース公開', class: "col-md-3 col-form-label text-sm-right" %>
+            <%= f.label :status, 'コース公開', class: 'col-md-3 col-form-label text-sm-right' %>
             <% if @note.stickies.size == 0 %>
             <div class="col-md-9">
-              <%= f.select :status, note_statuses(@note), {}, {class: "form-control"} %>
+              <%= f.select :status, note_statuses(@note), {}, {class: 'form-control'} %>
               <ul class="form-list">
                 <li>コースノートを学生に配布すると、取り消せません</li>
                 <li>相互評価に設定できるのは、一度に1つのマスターノートのみです</li>
@@ -59,9 +59,9 @@
           </div>
           <% if (@note.status == "master_review") %>
           <div class="form-group row">
-            <%= f.label :peer_reviews_count, '評価ノート数', class: "col-md-3 col-form-label text-sm-right" %>
+            <%= f.label :peer_reviews_count, '評価ノート数', class: 'col-md-3 col-form-label text-sm-right' %>
             <div class="col-md-9">
-              <%= f.select :peer_reviews_count, (0..STORY_PEER_REVIEW_MAX_SIZE).to_a, {}, {class: "form-control"} %>
+              <%= f.select :peer_reviews_count, (0..STORY_PEER_REVIEW_MAX_SIZE).to_a, {}, {class: 'form-control'} %>
               <ul class="form-list">
                 <li>相互評価をしない場合は0を設定</li>
                 <li>相互評価開始後に評価対象数を変更すると、評価対象ノートも変更</li>
@@ -73,11 +73,11 @@
         <% end %>
 
         <div style="margin-left: 60px;">
-          <%= link_to({action: 'ajax_show', id: @note.id}, {id: "cancel-btn", class: "btn btn-large btn-secondary", title: "cancel", remote: true}) do %>
-          <i class="fa fa-times-circle fa-lg"></i> <%= t("views.cancel") %>
+          <%= link_to({action: 'ajax_show', id: @note.id}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
+          <i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
           <% end %>
-          <%= render partial: "layouts/submit_complete_btn" %>
-          <% if @note.status == "private" %>
+          <%= render partial: 'layouts/submit_complete_btn' %>
+          <% if @note.status == 'private' %>
           <div id="destroy_note" type="destroy" class="btn btn-large btn-danger" style="margin-left: 40px;">
             <i class="fa fa-trash-o fa-lg"></i> <%= t('views.delete') %>
           </div>

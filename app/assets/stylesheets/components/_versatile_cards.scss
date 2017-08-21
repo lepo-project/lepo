@@ -383,7 +383,7 @@
     color: #000;
     margin-bottom: 1rem;
     padding-top: 0;
-    .card-block {
+    .card-body {
       padding: 0.5rem 0.5rem 0.25rem;
       .card-subtitle {
         margin: 0.5rem;
@@ -396,9 +396,9 @@
         text-align: center;
       }
     }
-    .card-block-flex {
+    .card-body-flex {
       display: flex;
-      padding: 0.5rem;
+      padding: 0 0.5rem 0.5rem;
       .side-area {
         text-align: center;
         width: 80px;

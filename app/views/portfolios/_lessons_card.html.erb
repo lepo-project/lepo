@@ -1,6 +1,6 @@
 <div class="resources-card card">
   <h2 class="card-header"><%= t("activerecord.models.lesson") %></h2>
-  <div class="card-block" style="padding-top:0;">
+  <div class="card-body" style="padding-top:0;">
     <% if @course.lessons.empty? %>
     <%= t('views.system_messages.no_lessons') %>
     <% else %>

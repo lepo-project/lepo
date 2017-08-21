@@ -18,15 +18,9 @@
       line-height: 20px;
     }
   }
-  .card-block {
-    padding: 0.5rem 0.5rem 0.25rem;
-    .card-subtitle {
-      margin-bottom: 0.5rem;
-    }
-  }
-  .card-block-flex {
+  .card-body-flex {
     display: flex;
-    padding: 0.5rem;
+    padding: 0 0.5rem 0.5rem;
     .side-area {
       text-align: center;
       width: 80px;

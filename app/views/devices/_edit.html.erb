@@ -25,7 +25,7 @@
 					</div>
 				</div>
 			</div>
-			<%= link_to({action: 'ajax_index', nav_section: 'home'}, {id: 'cancel-btn', class: 'btn btn-large btn-secondary', title: 'cancel', remote: true}) do %>
+			<%= link_to({action: 'ajax_index', nav_section: 'home'}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
 			<i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
 			<% end %>
 			<%= render partial: 'layouts/submit_complete_btn' %>

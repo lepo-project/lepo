@@ -1,12 +1,12 @@
 <div class="resources-card card">
   <% if session[:nav_section] == 'home' %>
   <h2 class="card-header"><%= t('views.manual') %></h2>
-  <div class="card-block" style="color:#000;">
+  <div class="card-body" style="color:#000;">
     <p class="card-text" style="color:#000;margin-bottom:20px;">
       下の教材一覧には、LePoの操作マニュアルなどが表示されます。
     </p>
     <% else %>
-    <div class="card-block" style="color:#000;">
+    <div class="card-body" style="color:#000;">
       <% end %>
       <% if @contents.empty? %>
       <%= t('views.system_messages.no_contents') %>

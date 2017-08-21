@@ -3,7 +3,7 @@
     <div class="col-md-12" style="max-width:720px;">
       <div class="card">
         <h2 class="card-header">ノート機能の準備</h2>
-        <div class="card-block" style="line-height: 150%;">
+        <div class="card-body" style="line-height: 150%;">
           <p class="card-text">
             ノート機能により、Webページ上のさまざまな情報をLePoに保存できます。保存した情報は、ノート内で自分の記載した文章やアップロードした画像ファイルと共に、表示順を指定することができます。
           </p>
@@ -28,34 +28,34 @@
       <% if @user.notes.size.zero? %>
       <div class="card">
         <h2 class="card-header">標準ノートの設定</h2>
-        <div class="card-block" style="line-height: 150%;">
+        <div class="card-body" style="line-height: 150%;">
           現在、管理しているノートがないため、標準ノートの設定はできません。
         </div>
       </div>
-      <%= render partial: 'layouts/complete_btn', locals: {nav_section: "home"} %>
+      <%= render partial: 'layouts/complete_btn', locals: {nav_section: 'home'} %>
       <% else %>
       <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
       <%= form_for @user, url: {action: :ajax_update_default_note, id: @user.id}, html: {id: 'user_form', name: 'user_form'}, remote: true do |f| %>
       <div class="card">
         <h2 class="card-header">標準ノートの設定</h2>
-        <div class="card-block" style="line-height: 150%;">
+        <div class="card-body" style="line-height: 150%;">
           <p class="card-text">
             +Noteボタンで収集したWeb情報は、以下で指定する標準ノートに直接保存されます。
           </p>
           <% notes = @user.notes.map {|note| [note.title, note.id]} %>
           <% notes.unshift ['設定なし', 0] %>
           <div class="form-group row">
-            <%= f.label :default_note_id, '標準ノート', class: "col-md-3 col-form-label" %>
+            <%= f.label :default_note_id, '標準ノート', class: 'col-md-3 col-form-label' %>
             <div class="col-md-7">
-              <%= f.select :default_note_id, notes, {}, {class: "form-control"} %>
+              <%= f.select :default_note_id, notes, {}, {class: 'form-control'} %>
             </div>
           </div>
         </div>
       </div>
-      <%= link_to({action: 'ajax_index', nav_section: 'home'}, {id: "cancel-btn", class: "btn btn-large btn-secondary", title: "cancel", remote: true}) do %>
-      <i class="fa fa-times-circle fa-lg"></i> <%= t("views.cancel") %>
+      <%= link_to({action: 'ajax_index', nav_section: 'home'}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
+      <i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
       <% end %>
-      <%= render partial: "layouts/submit_complete_btn" %>
+      <%= render partial: 'layouts/submit_complete_btn' %>
       <% end %>
       <% end %>
     </div>

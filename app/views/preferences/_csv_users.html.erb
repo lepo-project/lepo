@@ -4,7 +4,7 @@
     <%= form_tag({action: "ajax_csv_candidates"}, remote: true) do %>
     <% candidates_csv = @candidates_csv ? @candidates_csv : '' %>
     <%= text_area_tag "candidates_csv", candidates_csv, class: "form-control", style: "max-width: 720px; margin-bottom: 6px;", rows: "5" %>
-    <button type="submit" class="btn btn-secondary">
+    <button type="submit" class="btn btn-light">
       <i class="fa fa-plus-circle fa-lg"></i> CSV形式の確認
     </button>
     <% end %>

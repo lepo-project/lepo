@@ -2,7 +2,7 @@
 	<h2 class="card-header" style="margin-bottom:0;">
 		<%= sticky_category_text view_category %>
 	</h2>
-	<div class="card-block" style="background-color: #f4f4f4; padding: 0;">
+	<div class="card-body" style="background-color: #eee; padding: 0;">
 		<% if (view_category == "course") || (view_category == "private") %>
 		<%= render partial: "stickies/sticky_btns", locals: {hash: {action: "ajax_arrange_stickies", content_id: content_id, view_category: view_category}} %>
 		<% end %>

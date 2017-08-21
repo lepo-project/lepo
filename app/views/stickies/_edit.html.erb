@@ -1,27 +1,27 @@
 <% if sticky.new_record? %>
 <% id = 0 %>
-<% form_id = ((sticky.category == "course") ? "create_course_sticky" : "create_private_sticky") %>
-<% url = {action: "ajax_create_sticky", view_category: view_category} %>
+<% form_id = ((sticky.category == 'course') ? 'create_course_sticky' : 'create_private_sticky') %>
+<% url = {action: 'ajax_create_sticky', view_category: view_category} %>
 <% else %>
 <% id = sticky.id %>
-<% form_id = "update_sticky_" + id.to_s %>
-<% url = {action: "ajax_update_sticky", id: id, view_category: view_category} %>
+<% form_id = 'update_sticky_' + id.to_s %>
+<% url = {action: 'ajax_update_sticky', id: id, view_category: view_category} %>
 <% end %>
 
 <div id="<%= form_id %>" class="sticky <%= sticky.category %>-border to-be-hidden" style="display: none;">
   <div class="clearfix" style="margin: 4px;" >
     <%= form_for(sticky, url: url, html: {id: 'sticky_form', name: 'sticky_form', remote: true}) do |sticky_form| %>
     <div id="new-sticky">
-      <%= sticky_form.text_area :message, id: "sticky_message", class: "elastic_textarea" %>
+      <%= sticky_form.text_area :message, id: 'sticky_message', class: 'elastic_textarea' %>
       <%= sticky_form.hidden_field(:course_id, value: sticky.course_id) if sticky.course_id %>
       <%= sticky_form.hidden_field(:target_type, value: sticky.target_type) %>
       <%= sticky_form.hidden_field(:target_id, value: sticky.target_id) %>
       <%= sticky_form.hidden_field(:category, value: sticky.category) %>
-      <%= sticky_form.hidden_field(:content_id, value: sticky.content_id) if (sticky.target_type == "page") %>
+      <%= sticky_form.hidden_field(:content_id, value: sticky.content_id) if (sticky.target_type == 'page') %>
     </div>
     <div style="margin: 2px;">
-      <%= sticky_form.submit sticky_category_text(sticky.category)+'を貼る', class: "btn btn-sm btn-primary", style: "float:left; margin-right:4px;" %>
-      <a id="cancel_<%= form_id %>" class="btn btn-sm btn-secondary" style="float:left;cursor:pointer;" title="cancel"><%= t("views.cancel") %></a>
+      <%= sticky_form.submit sticky_category_text(sticky.category)+'を貼る', class: 'btn btn-sm btn-primary', style: 'float:left; margin-right:4px;' %>
+      <a id="cancel_<%= form_id %>" class='btn btn-sm btn-light' style='float:left;cursor:pointer;' title='cancel'><%= t('views.cancel') %></a>
     </div>
     <% end %>
   </div>

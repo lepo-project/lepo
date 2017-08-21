@@ -6,4 +6,7 @@
 
 #resource #setup-resource {
 	@include background-image;
+	#setup-card {
+		max-width: 720px;
+	}
 }

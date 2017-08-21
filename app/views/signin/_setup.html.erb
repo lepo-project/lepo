@@ -6,7 +6,7 @@
         <div class="card-header">
           <h1 class="card-title" style="margin-bottom:0;padding-bottom:0;"><%= t('views.setup.header') %></h1>
         </div>
-        <div class="card-block">
+        <div class="card-body">
           <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: 'error'} %>
           <% initial_setup = User.all.size.zero? %>
           <% if initial_setup %>
@@ -27,7 +27,7 @@
                 </h5>
               </div>
               <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="card-block">
+                <div class="card-body">
                   <p>
                     <%= t('views.setup.license.message1') %>
                   </p>
@@ -50,7 +50,7 @@
                 </h5>
               </div>
               <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="card-block">
+                <div class="card-body">
                   <h5>/config/initializers/constans.rb</h5>
                   <ul>
                     <li><%= t('views.setup.config.message1') %></li>
@@ -78,7 +78,7 @@
                 </h5>
               </div>
               <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                <div class="card-block">
+                <div class="card-body">
                   <% if initial_setup %>
                   <p>
                     <%= t('views.setup.admin_account.message1') %>
@@ -94,24 +94,24 @@
                   <%= form_tag({action: "ajax_create_admin_account"}, remote: true) do %>
                   <div class="form-group row">
                     <label class="col-md-4 col-form-label text-sm-right" for="user_id">User ID</label>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                       <%= text_field_tag :user_id, params[:user_id], {placeholder: "User ID", class: "form-control"} %>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-md-4 col-form-label text-sm-right" for="password">Password</label>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                       <%= password_field_tag :password, params[:password], {placeholder: "Password", class: "form-control", autocomplete: 'off'} %>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-md-4 col-form-label text-sm-right" for="password"><%= t('views.password_confirmation') %></label>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                       <%= password_field_tag :password_confirmation, params[:password_confirmation], {placeholder: "#{t('views.password_confirmation')}", class: "form-control", autocomplete: 'off'} %>
                     </div>
                   </div>
                   <div class="form-group row">
-                    <div class="controls col-md-6 offset-sm-4">
+                    <div class="controls col-md-8 ml-auto">
                       <%= submit_tag t("views.ok"), class: "btn btn-primary btn-block" %>
                     </div>
                   </div>

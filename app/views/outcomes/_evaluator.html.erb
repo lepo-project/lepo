@@ -78,7 +78,7 @@
 
         </div>
         <div class="show_message_form" style="display:<%= ((outcome.status == 'self_submit') || ((outcome.status == 'submit') && (@lesson_role == 'manager'))) ? 'block' : 'none' %>">
-          <a id="create_outcome_message_<%= outcome.id %>" class="btn btn-secondary" style="cursor:pointer;"><i class='fa fa-comment fa-lg'></i> メッセージを作成</a>
+          <a id="create_outcome_message_<%= outcome.id %>" class="btn btn-light" style="cursor:pointer;"><i class='fa fa-comment fa-lg'></i> メッセージを作成</a>
         </div>
       </div>
       <% end %>

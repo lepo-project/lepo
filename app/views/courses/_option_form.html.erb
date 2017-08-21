@@ -10,7 +10,7 @@
       <% if Term.selectables("hereafter").size > 0 %>
       <%= form_for :course, url: {action: "ajax_duplicate", original_id: @course.id}, html: {class: "form-inline", multipart: true}, remote: true do |f| %>
       <%= f.select :term_id, Term.selectables("hereafter"), {}, {class: "form-control"} %> の <%= f.text_field :title, {class: "form-control", placeholder: @course.title} %> として
-      <button type="submit" class="btn btn-sm btn-secondary">コースの複製</button>
+      <button type="submit" class="btn btn-sm btn-light">コースの複製</button>
       <% end %>
       <% else %>
       <p>コースを複製できる学期がありません。システム管理者に相談して下さい。</p>
