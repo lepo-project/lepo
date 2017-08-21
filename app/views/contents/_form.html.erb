@@ -76,13 +76,13 @@
   </div>
 </div>
 
-<% if submit_action == "ajax_create" %>
-<%= link_to({action: 'ajax_index', nav_section: "repository"}, {id: "cancel-btn", class: "btn btn-large btn-secondary", title: "cancel", remote: true}) do %>
-<i class="fa fa-times-circle fa-lg"></i> <%= t("views.cancel") %>
+<% if submit_action == 'ajax_create' %>
+<%= link_to({action: 'ajax_index', nav_section: 'repository'}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
+<i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
 <% end %>
 <% else %>
-<%= link_to({action: 'ajax_show', id: @content.id}, {id: "cancel-btn", class: "btn btn-large btn-secondary", title: "cancel", remote: true}) do %>
-<i class="fa fa-times-circle fa-lg"></i> <%= t("views.cancel") %>
+<%= link_to({action: 'ajax_show', id: @content.id}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
+<i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
 <% end %>
 <% end %>
 <button type="submit" class="btn btn-large btn-primary" style="margin-left: 10px;">

@@ -10,41 +10,41 @@
 
 			<div class="bordered-block">
 				<div class="form-group row">
-					<%= f.label :familyname, raw("<span class='required'>*</span>氏名（姓）"), class: "col-md-3 col-form-label text-sm-right" %>
+					<%= f.label :familyname, raw("<span class='required'>*</span>氏名（姓）"), class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
-						<%= f.text_field :familyname, class: "form-control" %>
+						<%= f.text_field :familyname, class: 'form-control' %>
 					</div>
 				</div>
 				<div class="form-group row">
-					<%= f.label :givenname, raw("<span class='required'>*</span>（名）"), class: "col-md-3 col-form-label text-sm-right" %>
+					<%= f.label :givenname, raw("<span class='required'>*</span>（名）"), class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
-						<%= f.text_field :givenname, class: "form-control" %>
+						<%= f.text_field :givenname, class: 'form-control' %>
 					</div>
 				</div>
 				<div class="form-group row">
-					<%= f.label :familyname_alt, '氏名のよみ（セイ）', class: "col-md-3 col-form-label text-sm-right" %>
+					<%= f.label :familyname_alt, '氏名のよみ（セイ）', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
-						<%= f.text_field :familyname_alt, class: "form-control" %>
+						<%= f.text_field :familyname_alt, class: 'form-control' %>
 						<div class="form-text">カタカナで入力</div>
 					</div>
 				</div>
 				<div class="form-group row">
-					<%= f.label :givenname_alt, '（メイ）', class: "col-md-3 col-form-label text-sm-right" %>
+					<%= f.label :givenname_alt, '（メイ）', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
-						<%= f.text_field :givenname_alt, class: "form-control" %>
+						<%= f.text_field :givenname_alt, class: 'form-control' %>
 						<div class="form-text">カタカナで入力</div>
 					</div>
 				</div>
 				<div class="form-group row">
-					<%= f.label :image, 'ユーザイメージ', class: "col-md-3 col-form-label text-sm-right" %>
+					<%= f.label :image, 'ユーザイメージ', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
-						<%= f.file_field :image, {class: "form-control-file", style: "color: #aaa;"} %>
+						<%= f.file_field :image, {class: 'form-control-file', style: 'color: #aaa;'} %>
 						<div style="background-color:#fff; width:80px;">
 							<%= render partial: 'layouts/image', locals: {obj: @user, fa_class: 'fa-user', size: 'l'} %>
 						</div>
 						<% if !@user.new_record? && @user.image? %>
-						<%= link_to({action: 'ajax_destroy_user_image'}, {title: "destroy_image", remote: true}) do %>
-						<button class="btn btn-secondary btn-sm" style="margin: 4px 0;">
+						<%= link_to({action: 'ajax_destroy_user_image'}, {title: 'destroy_image', remote: true}) do %>
+						<button class="btn btn-light btn-sm" style="margin: 4px 0;">
 							<i class="fa fa-times-circle fa-lg" style="color: #f33;"></i> アップロード済み画像を削除
 						</button>
 						<% end %>
@@ -53,22 +53,22 @@
 					</div>
 				</div>
 				<div class="form-group row">
-					<%= f.label :description, '自己紹介', class: "col-md-3 col-form-label text-sm-right" %>
+					<%= f.label :description, '自己紹介', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
-						<%= f.text_area :description, class: "form-control", rows: 8 %>
+						<%= f.text_area :description, class: 'form-control', rows: 8 %>
 						<div class="form-text">絵文字や一部の記号は使用できません。「完了」ボタンを押しても保存できない場合は、記号を取り除いてください</div>
 					</div>
 				</div>
 				<div class="form-group row">
-					<%= f.label :web_url, 'WebページURL', class: "col-md-3 col-form-label text-sm-right" %>
+					<%= f.label :web_url, 'WebページURL', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
-						<%= f.text_field :web_url, class: "form-control" %>
+						<%= f.text_field :web_url, class: 'form-control' %>
 					</div>
 				</div>
 			</div>
 
-			<%= link_to({action: 'ajax_index', nav_section: 'home'}, {id: "cancel-btn", class: "btn btn-large btn-secondary", title: "cancel", remote: true}) do %>
-			<i class="fa fa-times-circle fa-lg"></i> <%= t("views.cancel") %>
+			<%= link_to({action: 'ajax_index', nav_section: 'home'}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
+			<i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
 			<% end %>
 			<%= render partial: "layouts/submit_complete_btn" %>
 			<% end %>

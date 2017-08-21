@@ -3,12 +3,12 @@
 		<div class="header-explanation"><%= USER_SEARCH_MAX_SIZE %>ユーザまでを上限に、ユーザID / 氏名で検索</div>
 	</h2>
 	<div style="margin:4px">
-		<%= form_tag({action: "ajax_search_accounts"}, class: "form-inline", remote: true) do %>
-		<%= text_field_tag "search_word", @search_word, class: "col-md-4 form-control-lg", placeholder: 'キーワード' %>
+		<%= form_tag({action: 'ajax_search_accounts'}, class: 'form-inline', remote: true) do %>
+		<%= text_field_tag "search_word", @search_word, class: 'col-md-4 form-control-lg', placeholder: 'キーワード' %>
 		<div style="margin: 0 0.5rem;">を</div>
-		<%= select_tag "role", options_for_select(member_role_options('system'), @role),  class: "form-control form-control-lg" %>
+		<%= select_tag "role", options_for_select(member_role_options('system'), @role),  class: 'form-control form-control-lg' %>
 		<div style="margin: 0 0.5rem;">について</div>
-		<button type="submit" class="btn btn-secondary" style="margin-left: 8px;">
+		<button type="submit" class="btn btn-light" style="margin-left: 8px;">
 			<i class="fa fa-search fa-lg"></i> 検索
 		</button>
 		<% end %>

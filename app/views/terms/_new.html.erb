@@ -45,7 +45,7 @@
 				<%= f.text_field :title, {class: 'form-control', placeholder: 'タイトル', style: 'margin-right:2px;'} %>
 				<%= f.date_select :start_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %> <div style="float:left;margin:0 10px;">-</div><%= f.date_select :end_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %>
 				<div style="clear: both;width:100%;text-align:right;">（ 登録しているコースの数： <%= term.courses.length %> ）</div>
-				<button type="submit" class="btn btn-secondary" style="min-width:60px;">
+				<button type="submit" class="btn btn-primary" style="min-width:60px;">
 					<i class="fa fa-check-circle fa-lg"></i> 更新
 				</button>
 				<% if term.courses.length.zero? %>

@@ -244,7 +244,7 @@
       }
       &.btn {
         color: #000;
-        &.btn-primary, &.btn-info, &.btn-success, &.btn-warning, &.btn-danger, &.btn-inverse {
+        &.btn-primary, &.btn-secondary, &.btn-success, &.btn-danger, &.btn-info, &.btn-dark {
           color: #fff;
         }
         &:hover {

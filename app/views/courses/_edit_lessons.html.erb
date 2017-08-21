@@ -57,7 +57,7 @@
       </div>
 
       <p>
-        <%= link_to raw("<i class='fa fa-arrow-left fa-lg'></i> 戻る"), {action: 'ajax_edit', id: @course.id}, {id: 'cancel-btn', class: 'btn btn-large btn-secondary', title: 'cancel', remote: true} %>
+        <%= link_to raw("<i class='fa fa-arrow-left fa-lg'></i> 戻る"), {action: 'ajax_edit', id: @course.id}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true} %>
         <%= link_to raw("<i class='fa fa-check-circle fa-lg'></i> 完了"), get_url_hash(@course.id, @course.status), {id: 'complete-btn', class: 'btn btn-large btn-primary', title: 'complete', style: 'margin-left: 10px;', remote: true} %>
       </p>
 
