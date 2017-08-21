@@ -1,6 +1,6 @@
 <% note_class = droppable ? "note-card card droppable" : "note-card card" %>
 <div id="note_<%= note.id %>" class="<%= note_class %>">
-  <div class="card-block">
+  <div class="card-body">
     <% if !droppable %>
     <div class="triangle-corner <%= note_star_btn_class session[:id], note %>">
       <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {controller: "notes", action: "ajax_toggle_star", id: note.id, resource: resource}, {remote: true}) %>
@@ -23,7 +23,7 @@
     <% end %>
   </div>
 
-  <div class="card-block-flex">
+  <div class="card-body-flex">
     <div class="side-area">
       <% obj = (@course && @course.learner?(@user.id) && note.anonymous?(@user.id)) ? nil : note.manager %>
       <%= render partial: "layouts/image", locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>

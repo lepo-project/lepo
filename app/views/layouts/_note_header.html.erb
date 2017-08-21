@@ -1,5 +1,5 @@
 <div id="note-header" class="note-header-card card">
-  <div class="card-block">
+  <div class="card-body">
     <% if controller_name == "notes" %>
     <div class="triangle-corner <%= note_star_btn_class session[:id], @note %>">
       <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: "ajax_toggle_star", id: @note.id, resource: "show"}, {remote: true}) %>
@@ -11,7 +11,7 @@
     <h1 class="card-title"><%= @note.title %></h1>
   </div>
 
-  <div class="card-block-flex">
+  <div class="card-body-flex">
     <div class="side-area">
       <% obj = (@course && @course.learner?(@user.id) && @note.anonymous?(@user.id)) ? nil : @note.manager %>
       <%= render partial: "layouts/image", locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>

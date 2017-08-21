@@ -4,7 +4,7 @@
   </h2>
 
   <% goals.each do |goal| %>
-  <div class="goal card-block">
+  <div class="goal card-body">
     <div class="main-area">
       <div class="card-title">
         <%= goal["title"] %>
@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <div id="goal<%= goal['id'] %>-details" class="objectives collapse card-block">
+  <div id="goal<%= goal['id'] %>-details" class="objectives collapse card-body">
     <h3>対応するレッスン目標</h3>
     <% if goal["objectives"].size > 0 %>
     <% goal["objectives"].each do |o| %>
