@@ -5,13 +5,7 @@ class CoursesController < ApplicationController
   # Public Functions
   # ====================================================================
   def ajax_index
-    set_nav_session params[:nav_section], 'courses', params[:nav_id]
-    @user = User.find session[:id]
-    @course = Course.find session[:nav_id]
-    @goals = get_goal_resources @course
-    @marked_lessons = marked_lessons @course.id
-    @lesson_resources = get_lesson_resources @course.lessons
-    render 'layouts/renders/all', locals: { resource: 'index' }
+    render_course_index(params[:nav_section], params[:nav_id])
   end
 
   def ajax_delete_image
@@ -204,9 +198,7 @@ class CoursesController < ApplicationController
         check_course_groups course_form[:groups_count]
         case @course.status
         when 'archived'
-          session[:nav_section] = 'repository'
-          @marked_lessons = marked_lessons @course.id
-          render 'layouts/renders/all', locals: { resource: 'index' }
+          render_course_index('repository', @course.id)
         else
           get_content_array # for new lesson creation
           flash.discard
@@ -492,5 +484,15 @@ class CoursesController < ApplicationController
       ids.push(v['id'].to_i) unless Integer(v['id']).nil?
     end
     ids
+  end
+
+  def render_course_index(nav_section, nav_id)
+    set_nav_session params[nav_section], 'courses', nav_id
+    @user = User.find session[:id]
+    @course = Course.find nav_id
+    @goals = get_goal_resources @course
+    @marked_lessons = marked_lessons @course.id
+    @lesson_resources = get_lesson_resources @course.lessons
+    render 'layouts/renders/all', locals: { resource: 'index' }
   end
 end
