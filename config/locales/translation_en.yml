@@ -464,7 +464,9 @@ en:
       course: Course
       private: Private
     system_messages:
-      auto_register_of_course_manager: If not specified, the course creater becomes manager.
+      courses:
+        auto_register_of_course_manager: If not specified, the course creater becomes manager.
+        no_course_manager_form: For open / archive status, managers can be edit at the course member page
       input_id_or_name: Input part of user ID or name, and select user.
       no_contents: No contents to display
       no_dashboard_resources: Currently no information on the dashboard

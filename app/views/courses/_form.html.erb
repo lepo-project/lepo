@@ -72,7 +72,13 @@
 <% if User.system_staff? session[:id] %>
 <div class="bordered-block">
   <h2><%= t('activerecord.attributes.course.managers') %>
-    <div class="header-explanation"><%= t('views.system_messages.auto_register_of_course_manager') if @course.new_record? %></div>
+    <div class="header-explanation">
+      <% if @course.new_record? %>
+      <%= t('views.system_messages.courses.auto_register_of_course_manager') %>
+      <% elsif @course.status != 'draft' %>
+      <%= t('views.system_messages.courses.no_course_manager_form') %>
+      <% end %>
+    </div>
   </h2>
   <div id="course-manager-select">
     <%= render partial: 'course_manager_select' , locals: {course_id: @course.id, managers: @course.managers, status: @course.status} %>
