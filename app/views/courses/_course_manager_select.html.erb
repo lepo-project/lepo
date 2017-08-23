@@ -21,7 +21,7 @@
   <%= m.fullname %>
   <%= mf.hidden_field :id  %>
   <% end %>
-  <% if "draft" == status %>
+  <% if 'draft' == status %>
   <% url = managers_of_course 'release', m, course_id, manager_ids %>
   <%= link_to( url, remote: true, id: course_id) do %>
   <button type="button" class="btn-danger">
