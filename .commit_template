@@ -1,15 +1,15 @@
 
 
 # ==== Emojis ====
-# 👊  :punch: when fixing a bug
+# 🔧  :wrench: when fixing a bug
 # ✨  :sparkles: when adding or improving a function
 # 🎉  :tada: when adding or improving an important function
 # ♻️  :recycle: when refactoring code
-# ✂️  :scissors: when removing code or files
+# 🔥  :fire: when removing code or files
 # 💚  :green_heart: when fixing the test or CI build
 # 👕  :shirt: when removing linter warnings
 # 🚀  :rocket: when improving performance
-# ⬆️  :arrow_up: when upgrading dependencies
+# 🆙  :up: when upgrading dependencies
 # 🔒  :lock: when dealing with security
 
 # ==== Format ====
