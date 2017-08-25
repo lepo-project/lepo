@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     def ajax_new_user_pref
       current_user_info
-      render 'layouts/renders/main_pane', locals: { resource: 'new_user_pref' }
+      render 'layouts/renders/main_pane', locals: { resource: 'users/new_user_pref' }
     end
 
     def ajax_profile_pref
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       current_user_info
       @candidates_csv = params[:candidates_csv] ? params[:candidates_csv] : ''
       @candidates = csv_to_user_candidates params[:candidates_csv], @user.system_admin?
-      render 'layouts/renders/resource', locals: { resource: 'new_user_pref' }
+      render 'layouts/renders/resource', locals: { resource: 'users/new_user_pref' }
     end
 
     def ajax_create_user
@@ -199,7 +199,7 @@ class UsersController < ApplicationController
 
     def render_main_pane(render_resource)
       @user = User.find session[:id]
-      render 'layouts/renders/main_pane', locals: { resource: render_resource }
+      render 'layouts/renders/main_pane', locals: { resource: 'users/' + render_resource }
     end
 
     def update_user(render_resource)

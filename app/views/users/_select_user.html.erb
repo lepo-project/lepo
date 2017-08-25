@@ -1,0 +1,6 @@
+<% if @candidates %>
+<div class="bordered-block clearfix">
+	<h2>2. ユーザの選択</h2>
+	<%= render(partial: 'users/user_candidates', locals: {title: '現在のメンバー', users: @candidates}) %>
+</div>
+<% end %>

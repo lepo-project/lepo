@@ -48,8 +48,8 @@
 
 	<div class="row">
 		<div class="col-md-12">
-			<%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
-			<%= render(partial: "csv_users") %>
+			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+			<%= render partial: 'users/csv_users' %>
 
 			<% current_users = [[@admin, 'admin', '']] %>
 			<% current_users = current_users.concat(@managers.zip Array.new(@managers.size, 'manager'), Array.new(@managers.size, 'suspended')) %>
