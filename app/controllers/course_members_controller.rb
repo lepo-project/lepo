@@ -16,9 +16,9 @@ class CourseMembersController < ApplicationController
     get_resources
     @stickies = course_stickies_by_user @user.id, session[:nav_id]
     if transition
-      render 'layouts/renders/all', locals: { resource: 'layouts/user' }
+      render 'layouts/renders/all', locals: { resource: 'users/user' }
     else
-      render 'layouts/renders/main_pane', locals: { resource: 'layouts/user' }
+      render 'layouts/renders/main_pane', locals: { resource: 'users/user' }
     end
   end
 

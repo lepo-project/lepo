@@ -1,0 +1,27 @@
+//
+// CSS for course-members-resource
+//
+
+#resource #course-member-resource {
+  .edit-group {
+    a {
+      color: #fff;
+      &:hover {
+        color: #0af;
+        text-decoration: none;
+      }
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      li {
+        float: left;
+        margin-right: 16px;
+        a {
+          display: block;
+          margin-top: 2px;
+        }
+      }
+    }
+  }
+}

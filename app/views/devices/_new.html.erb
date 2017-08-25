@@ -1,5 +1,5 @@
 <!-- FIXME: PushNotification -->
-<div id="user-resource" class="scroll-pane">
+<div id="device-resource" class="scroll-pane">
 	<div class="row">
 		<div class="col-md-12">
 			<h1>端末登録
@@ -30,7 +30,7 @@
 					<%= f.hidden_field :registration_id, id: 'registration_id', cols: '50', rows: '4', readonly: true %>
 					<%= f.label :registration_id, raw("<span class='required'>*</span>通知の有無"), class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
-						<button id="js-push-button" disabled>
+						<button id="js-push-button" class="btn btn-primary" disabled>
 							プッシュ通知を有効にする
 						</button>
 					</div>
