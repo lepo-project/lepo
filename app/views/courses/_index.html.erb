@@ -9,7 +9,7 @@
       <!-- Course Notices -->
       <% notices = Notice.for_course @course.id %>
       <% if notices.size > 0 %>
-      <%= render partial: 'layouts/notices/notice_card', collection: notices, locals: {border_category: 'course'} %>
+      <%= render partial: 'notices/notice_card', collection: notices, locals: {border_category: 'course'} %>
       <% end %>
 
       <!-- Course Activities -->

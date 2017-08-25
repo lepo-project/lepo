@@ -227,7 +227,7 @@ class User < ApplicationRecord
 
   def preferences
     preferences = [%w[preferences ajax_profile_pref], %w[links ajax_new], %w[preferences ajax_default_note_pref]]
-    # # FIXME: PushNotification
+    # FIXME: PushNotification
     # preferences = [%w[preferences ajax_profile_pref], %w[links ajax_new], %w[preferences ajax_default_note_pref], %w[devices ajax_index]]
 
     # ajax_account_pref for password update is displayed only when authentication is local

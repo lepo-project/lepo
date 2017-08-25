@@ -28,7 +28,7 @@
       <% system_notices = Notice.for_system %>
       <% if system_notices.size > 0 %>
       <div class="block">
-        <%= render partial: "layouts/notices/notice_card", collection: system_notices, locals: {border_category: "course"} %>
+        <%= render partial: "notices/notice_card", collection: system_notices, locals: {border_category: "course"} %>
       </div>
       <% end %>
     </div>

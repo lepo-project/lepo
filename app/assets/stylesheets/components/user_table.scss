@@ -1,0 +1,23 @@
+//
+// CSS for user-table
+//
+
+@import 'components/image';
+
+#resource {
+  .user-table {
+    .image-td {
+      @include image-40px;
+      text-align: center;
+      width: 80px;
+    }
+    .name-td {
+      font-size: 1.1rem;
+      vertical-align: middle;
+    }
+    .button-td {
+      padding-right: 1rem;
+      text-align: right;
+    }
+  }
+}

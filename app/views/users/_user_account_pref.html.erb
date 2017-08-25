@@ -1,0 +1,22 @@
+<div id="user-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>ユーザアカウントの設定</h1>
+      <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+      <div class="block">
+        <%= render(partial: 'users/search_users') %>
+        <%= render(partial: 'users/select_user') %>
+        <%= render(partial: 'users/update_user') %>
+      </div>
+      <%= render partial: 'layouts/complete_btn', locals: {nav_section: 'home'} %>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function () {
+  if ($('#candidates_csv').val() == "") {
+    $('#candidates_csv').focus();
+  }
+})
+</script>

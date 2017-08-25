@@ -10,7 +10,7 @@
       <%  if snippet.importable? @user.id %>
       <%= link_to(raw("<i class='fa fa-plus'></i> MyNote"), {action: 'ajax_import_snippet', snippet_id: snippet.id}, {remote: true, title: '自分のノートに取込み'}) %>
       <% else %>
-      <%= raw("<span class='badge badge-default'>取り込み済み</span>") if snippet.imported? @user.id %>
+      <%= raw("<span class='badge badge-secondary'>取り込み済み</span>") if snippet.imported? @user.id %>
       <% end %>
 
       <% if controller_name == 'snippets' %>

@@ -5,27 +5,9 @@
 @import 'components/versatile_cards';
 
 #resource #snippet-resource {
-  @include group-card;
-  @include snippet-card;
-  @include source-card;
   @include note-card;
   @include note-header-card;
-
-  div#snippets {
-    div.body {
-      font-size: 11pt;
-      line-height: 140%;
-    }
-    h2 {
-      border: 0;
-      font-size: 16pt;
-      margin: 20px 0 10px;
-    }
-    h3 {
-      font-size: 12pt;
-      margin: 12px 0 6px;
-    }
-  }
+  @include snippet-card;
 
   div.head {
     margin-bottom: 1rem;
@@ -42,9 +24,6 @@
     margin-left: 12px;
     width: 100px;
   }
-  .snippet-direct {
-    margin: 10px 0;
-  }
   .operation-direct {
     clear: both;
     height: 20px;
@@ -57,25 +36,6 @@
       &:hover {
         color: #fff;
         text-decoration: underline;
-      }
-    }
-  }
-  #references {
-    margin-top: 30px;
-    h1 {
-      margin: 0;
-    }
-    ol {
-      margin-top: 0;
-      li {
-        margin-left: 0;
-        a {
-          color: #fff;
-          text-decoration: none;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
       }
     }
   }

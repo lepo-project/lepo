@@ -77,7 +77,7 @@ class NoticesController < ApplicationController
     def render_notice
       get_notices
       @user = User.find session[:id] if controller_name != 'courses'
-      render 'layouts/renders/main_pane', locals: { resource: 'layouts/notices/edit' }
+      render 'layouts/renders/main_pane', locals: { resource: 'notices/edit' }
     end
   end
 end

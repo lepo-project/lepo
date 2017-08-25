@@ -1,0 +1,24 @@
+//
+// CSS for snippets
+//
+
+#resource #snippet-resource, #resource #note-resource {
+  div#snippets {
+    div.body {
+      font-size: 11pt;
+      line-height: 140%;
+    }
+    h2 {
+      border: 0;
+      font-size: 16pt;
+      margin: 20px 0 10px;
+    }
+    h3 {
+      font-size: 12pt;
+      margin: 12px 0 6px;
+    }
+  }
+  .snippet-direct {
+    margin: 10px 0;
+  }
+}

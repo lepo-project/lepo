@@ -2,8 +2,6 @@
 // CSS for user-resource
 //
 
-@import 'components/image';
-
 #resource #user-resource {
   ol {
     margin: 0 8px 8px;
@@ -18,41 +16,5 @@
   }
   .block a:hover, .block a:hover div {
     text-decoration: underline;
-  }
-  .edit-group {
-    a {
-      color: #fff;
-      &:hover {
-        color: #0af;
-        text-decoration: none;
-      }
-    }
-    ul {
-      margin: 0;
-      padding: 0;
-      li {
-        float: left;
-        margin-right: 16px;
-        a {
-          display: block;
-          margin-top: 2px;
-        }
-      }
-    }
-  }
-  .user-table {
-    .image-td {
-      @include image-40px;
-      text-align: center;
-      width: 80px;
-    }
-    .name-td {
-      font-size: 1.1rem;
-      vertical-align: middle;
-    }
-    .button-td {
-      padding-right: 1rem;
-      text-align: right;
-    }
   }
 }
