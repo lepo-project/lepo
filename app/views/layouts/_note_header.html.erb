@@ -59,8 +59,8 @@ $(function () {
     var url = this.href;
     var parts = url.split("#");
     var header = $("#"+parts[1]).offset();
-    var pane_top = $("#snippet-resource").offset();
-    $('#snippet-resource').animate({scrollTop:(header.top-pane_top.top)}, 500);
+    var pane_top = $(".scroll-pane").offset();
+    $(".scroll-pane").animate({scrollTop:(header.top-pane_top.top)}, 500);
   });
 });
 </script>
