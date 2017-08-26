@@ -26,7 +26,7 @@ class CourseTest < ActiveSupport::TestCase
   # test for valid course data
   test 'a course with valid data is valid' do
     assert build(:course).valid?
-    assert build(:draft_course).valid?
+    assert build(:open_course).valid?
     assert build(:archived_course).valid?
   end
 

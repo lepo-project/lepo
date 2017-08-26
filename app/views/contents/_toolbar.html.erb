@@ -5,7 +5,7 @@
 <% case controller.action_name when 'index', 'ajax_index' %>
 <% if (session[:nav_section] == 'repository') && (User.content_manageable? session[:id]) %>
 <div id="toolbar-btns">
-  <%= link_to({action: 'ajax_new', category: 'upload'}, {class: 'toolbar-btn', remote: true}) do %>
+  <%= link_to({action: 'ajax_new', category: 'upload'}, {id: 'new-content-btn', class: 'toolbar-btn', remote: true}) do %>
   <i class='fa fa-plus'></i> <%= t('activerecord.models.content') %>
   <% end %>
 </div>
@@ -13,7 +13,7 @@
 
 <% when 'ajax_edit', 'ajax_new' %>
 <div id="toolbar-btns">
-  <% if controller.action_name == "ajax_new" %>
+  <% if controller.action_name == 'ajax_new' %>
   <%= link_to({action: 'ajax_index', nav_section: 'repository'}, {class: 'toolbar-btn', remote: true}) do %>
   <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
   <% end %>
@@ -22,7 +22,7 @@
   <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
   <% end %>
   <% end %>
-  <%= link_to('javascript:void(0);', onclick: "$('#content_form').submit()", class: 'toolbar-btn') do %>
+  <%= link_to('javascript:void(0);', id: 'next-btn', onclick: "$('#content-form').submit()", class: 'toolbar-btn') do %>
   <i class="fa fa-arrow-right"></i> <%= t('views.navs.save_and_next') %>
   <% end %>
 </div>
