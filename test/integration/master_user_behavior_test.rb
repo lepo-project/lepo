@@ -9,21 +9,20 @@ class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
       assert_not page.has_selector?('#signin-resource')
 
       # after initial setup
-      create(:user, role: 'admin')
+      create(:admin_user)
       visit root_path
       assert page.has_selector?('#signin-resource')
       assert_not page.has_selector?('#setup-resource')
     end
   end
 
-  test 'new course creation behavior' do
-    user = create(:user, role: 'admin')
+  test 'course creation behavior' do
+    user = create(:admin_user)
     signin_with user.user_id, user.password
     assert page.has_selector?('#dashboard-resource')
-    # create_new_term
 
-    new_course_creation_from_sub_pane
-    new_course_creation_from_main_pane
+    course_creation_from_sub_pane
+    course_creation_from_main_pane
   end
 
   # ====================================================================
@@ -31,14 +30,7 @@ class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
   # ====================================================================
   private
 
-  # def create_new_term
-  #   click_main_nav_item I18n.t('views.navs.preferences'), '#preference-resource'
-  #   click_on('term-pref')
-  #
-  #   term = build(:term)
-  # end
-
-  def new_course_creation_from_sub_pane
+  def course_creation_from_sub_pane
     term = create(:term)
 
     assert_not page.has_selector?('#sub-pane .dropdown-menu')
@@ -54,10 +46,10 @@ class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('#course-resource')
   end
 
-  def new_course_creation_from_main_pane
+  def course_creation_from_main_pane
     term = create(:term)
 
-    click_main_nav_item I18n.t('views.navs.preferences'), '#preference-resource'
+    click_main_nav_item '#nav-home', I18n.t('views.navs.preferences'), '#preference-resource'
     assert page.has_selector?('#preference-resource')
     click_on('new-course-pref')
     fill_in_course_form term, true

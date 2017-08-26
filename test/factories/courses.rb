@@ -23,8 +23,8 @@ FactoryGirl.define do
     sequence(:title) { |i| "Course #{i} Title" }
     overview 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
 
-    factory :draft_course do
-      status 'draft'
+    factory :open_course do
+      status 'open'
     end
 
     factory :archived_course do

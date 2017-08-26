@@ -48,8 +48,8 @@ class ActionDispatch::IntegrationTest
     assert instance.errors.messages[property].any?
   end
 
-  def click_main_nav_item(link_text, assertion_selector)
-    within('#main-nav') do
+  def click_main_nav_item(nav_id, link_text, assertion_selector)
+    within('#main-nav > ' + nav_id) do
       click_on(link_text)
     end
     assert page.has_selector?(assertion_selector)

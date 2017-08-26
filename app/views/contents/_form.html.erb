@@ -1,35 +1,35 @@
-<%= form_for(@content, url: {action: submit_action, id: @content.id}, html: {id: 'content_form', name: 'content_form', class: "form-horizontal", remote: true}) do |content_form| %>
+<%= form_for(@content, url: {action: submit_action, id: @content.id}, html: {id: 'content-form', name: 'content-form', class: "form-horizontal", remote: true}) do |f| %>
 <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
-<%#= content_form.error_messages %>
+<%#= f.error_messages %>
 
 <div class="bordered-block">
   <h2>基本情報</h2>
   <div class="form-group row">
-    <%= content_form.label :title, raw("<span class='required'>*</span>タイトル"), class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :title, raw("<span class='required'>*</span>タイトル"), class: "col-md-3 col-form-label text-sm-right" %>
     <div class="col-md-7">
-      <%= content_form.text_field :title, class: "form-control" %>
+      <%= f.text_field :title, class: "form-control" %>
     </div>
   </div>
   <div class="form-group row">
-    <%= content_form.label :overview, raw("<span class='required'>*</span>概要"), class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :overview, raw("<span class='required'>*</span>概要"), class: "col-md-3 col-form-label text-sm-right" %>
     <div class="col-md-7">
-      <%= content_form.text_area :overview, class: "form-control", rows: "8" %>
+      <%= f.text_area :overview, class: "form-control", rows: "8" %>
     </div>
   </div>
   <div class="form-group row">
-    <%= content_form.label :condition, '学習の条件', class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :condition, '学習の条件', class: "col-md-3 col-form-label text-sm-right" %>
     <div class="col-md-7">
-      <%= content_form.text_area :condition, class: "form-control", rows: "5" %>
+      <%= f.text_area :condition, class: "form-control", rows: "5" %>
       <div class="form-text">学習に必要な知識や器具があれば記載</div>
     </div>
   </div>
   <div class="form-group row">
-    <%= content_form.label :status, raw("<span class='required'>*</span>コースへの新規登録"), class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :status, raw("<span class='required'>*</span>コースへの新規登録"), class: "col-md-3 col-form-label text-sm-right" %>
     <div class="col-md-7">
-      <%= content_form.select :status, [["可能", "open"], ["不可能（アーカイブ）", "archived"]], {}, {class: "form-control"} %>
+      <%= f.select :status, [["可能", "open"], ["不可能（アーカイブ）", "archived"]], {}, {class: "form-control"} %>
     </div>
   </div>
-  <%= content_form.hidden_field :category, value: @content.category %>
+  <%= f.hidden_field :category, value: @content.category %>
 </div>
 
 <div class="bordered-block">
@@ -39,7 +39,7 @@
   </h2>
   <% editable = @content.editable_objectives? %>
   <% required = true %>
-  <%= content_form.fields_for :objectives do |objective_form| %>
+  <%= f.fields_for :objectives do |objective_form| %>
   <%= render partial: 'objective_form', locals: {required: required, editable: editable, objective_form: objective_form} %>
   <% required = false %>
   <% end %>
@@ -64,14 +64,14 @@
     <label class="col-md-3 col-form-label text-sm-right"><span class="required">*</span>種別</label>
 
     <div class="col-md-7">
-      <%= content_form.select :as_category, get_assignment_categories, {}, {class: "form-control"} %>
+      <%= f.select :as_category, get_assignment_categories, {}, {class: "form-control"} %>
     </div>
   </div>
 
   <div class="form-group row">
     <label class="col-md-3 col-form-label text-sm-right">概要</label>
     <div class="col-md-7">
-      <%= content_form.text_area :as_overview, class: "form-control", rows: "5" %>
+      <%= f.text_area :as_overview, class: "form-control", rows: "5" %>
     </div>
   </div>
 </div>
@@ -85,7 +85,7 @@
 <i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
 <% end %>
 <% end %>
-<button type="submit" class="btn btn-large btn-primary" style="margin-left: 10px;">
+<button type="submit" id="submit-btn" class="btn btn-large btn-primary" style="margin-left: 10px;">
   <i class="fa fa-arrow-right fa-lg"></i> <%= t('views.navs.save_and_next') %>
 </button>
 <% end %>
