@@ -466,7 +466,11 @@ en:
     system_messages:
       courses:
         auto_register_of_course_manager: If not specified, the course creater becomes manager.
+        disabled_to_be_draft: Draft status can not select from open / archived status.
         no_course_manager_form: For open / archive status, managers can be edit at the course member page
+        select_archived_status: archived (course members can view the course from the archive)
+        select_draft_status: draft (course staffs can manage the course from the archive)
+        select_open_status: open (ourse members can do learning activities in the course)
       input_id_or_name: Input part of user ID or name, and select user.
       no_contents: No contents to display
       no_dashboard_resources: Currently no information on the dashboard

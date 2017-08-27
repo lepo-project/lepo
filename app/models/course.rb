@@ -198,19 +198,6 @@ class Course < ApplicationRecord
     courses.delete_if { |c| (c.status == 'open') || ((c.status == 'draft') && (c.learner? user_id)) }
   end
 
-  def self.transitionable?(from_status, to_status)
-    return true if from_status == to_status
-    case from_status
-    when 'draft'
-      return true if to_status != 'archived'
-    when 'open'
-      return true if to_status == 'archived'
-    when 'archived'
-      return true if to_status == 'open'
-    end
-    false
-  end
-
   def deletable?(user_id)
     return false if new_record?
     lessons.size.zero? && (staff? user_id)

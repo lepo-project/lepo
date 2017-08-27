@@ -103,10 +103,6 @@ class CoursesController < ApplicationController
     render 'layouts/renders/all_with_sub_toolbar', locals: { resource: 'new' }
   end
 
-  def ajax_set_status
-    render 'layouts/renders/status_flow', locals: { current_status: params[:current_status], selected_status: params[:selected_status] }
-  end
-
   def ajax_create
     @course = Course.new(course_params)
     unless @course.term_id
@@ -180,6 +176,7 @@ class CoursesController < ApplicationController
   def ajax_update
     @course = Course.find(params[:id].to_i)
     course_form = course_params
+    course_form[:status] = @course.status if @course.status != 'draft' && course_form[:status] == 'draft'
 
     if all_blank_title? course_form[:goals_attributes]
       flash[:message] = '到達目標を、1つ以上設定する必要があります'
