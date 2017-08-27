@@ -6,7 +6,7 @@ require 'csv'
 # Table name: users
 #
 #  id                 :integer          not null, primary key
-#  user_id            :string
+#  signin_name        :string           not null
 #  authentication     :string           default("local")
 #  hashed_password    :string
 #  salt               :string
