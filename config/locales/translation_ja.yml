@@ -466,7 +466,11 @@ ja:
     system_messages:
       courses:
         auto_register_of_course_manager: 指定しない場合は、コース作成ユーザを教師に自動登録
+        disabled_to_be_draft: 公開中/アーカイブの状態から、準備中には戻せません
         no_course_manager_form: 公開中またはアーカイブのコースでは、コースメンバーページから編集可能
+        select_archived_status: アーカイブ（保管庫からコースを閲覧可）
+        select_draft_status: 準備中（コーススタッフのみ、保管庫からコースを管理可）
+        select_open_status: 公開中（コースを閲覧/学習活動可）
       input_id_or_name: IDまたは氏名の一部を入力して選択
       no_contents: 表示する教材はありません
       no_dashboard_resources: 現在、ダッシュボードに表示する情報はありません

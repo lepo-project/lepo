@@ -77,16 +77,6 @@ class Content < ApplicationRecord
     contents
   end
 
-  def self.transitionable?(from_status, to_status)
-    # FIXME: status
-    return true if from_status == to_status
-    case from_status
-    when 'open'
-      return true if to_status == 'archived'
-    end
-    false
-  end
-
   def fill_objectives
     (CONTENT_OBJECTIVE_MAX_SIZE - objectives.size).times do |_o|
       objectives.build

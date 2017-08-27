@@ -11,6 +11,16 @@ module CoursesHelper
     [c1, c2]
   end
 
+  def course_disabled_status_hash(current_status)
+    current_status == 'draft' ? {} : { disabled: 'draft' }
+  end
+
+  def course_status_array
+    array = [[t('views.system_messages.courses.select_draft_status'), 'draft']]
+    array.push [t('views.system_messages.courses.select_open_status'), 'open']
+    array.push [t('views.system_messages.courses.select_archived_status'), 'archived']
+  end
+
   def lesson_icon(status, marked_lessons, lesson_id, lesson_role, learner_size)
     return { class: 'fa fa-lock fa-lg', text: '非公開' } if status == 'draft'
     return { class: 'fa fa-comment fa-lg icon-red', text: '未確認' } if marked_lessons && marked_lessons[lesson_id] && (marked_lessons[lesson_id] > 0)
