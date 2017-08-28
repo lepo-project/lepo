@@ -5,29 +5,29 @@ require 'csv'
 #
 # Table name: users
 #
-#  id                 :integer          not null, primary key
-#  signin_name        :string
-#  authentication     :string           default("local")
-#  hashed_password    :string
-#  salt               :string
-#  token              :string
-#  role               :string           default("user")
-#  familyname         :string
-#  familyname_alt     :string
-#  givenname          :string
-#  givenname_alt      :string
-#  folder_id          :string
-#  image_file_name    :string
-#  image_content_type :string
-#  image_file_size    :integer
-#  image_updated_at   :datetime
-#  web_url            :string
-#  description        :text
-#  default_note_id    :integer          default(0)
-#  last_signin_at     :datetime
-#  archived_at        :datetime
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                   :integer          not null, primary key
+#  signin_name          :string
+#  authentication       :string           default("local")
+#  hashed_password      :string
+#  salt                 :string
+#  token                :string
+#  role                 :string           default("user")
+#  family_name          :string
+#  phonetic_family_name :string
+#  given_name           :string
+#  phonetic_given_name  :string
+#  folder_id            :string
+#  image_file_name      :string
+#  image_content_type   :string
+#  image_file_size      :integer
+#  image_updated_at     :datetime
+#  web_url              :string
+#  description          :text
+#  default_note_id      :integer          default(0)
+#  last_signin_at       :datetime
+#  archived_at          :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 class User < ApplicationRecord
@@ -55,7 +55,7 @@ class User < ApplicationRecord
   has_many :stickies, foreign_key: :manager_id
   has_many :sticky_stars, foreign_key: :manager_id
   has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
-  validates_presence_of :familyname
+  validates_presence_of :family_name
   validates_presence_of :folder_id
   validates_presence_of :hashed_password, if: "authentication == 'local'"
   validates_presence_of :salt, if: "authentication == 'local'"
@@ -94,13 +94,13 @@ class User < ApplicationRecord
   def self.autocomplete(search_word)
     case AUTOCOMPLETE_CATEGORY
     when 'fullname'
-      users = where('signin_name LIKE ? OR familyname LIKE ? OR givenname LIKE? ', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
+      users = where('signin_name LIKE ? OR family_name LIKE ? OR given_name LIKE? ', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     when 'fullname_alt'
-      users = where('signin_name LIKE ? OR familyname LIKE ? OR givenname LIKE ?  OR familyname_alt LIKE ? OR givenname_alt LIKE ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
+      users = where('signin_name LIKE ? OR family_name LIKE ? OR given_name LIKE ?  OR phonetic_family_name LIKE ? OR phonetic_given_name LIKE ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     else
       users = where('signin_name LIKE ?', "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     end
-    users.select("id, signin_name || ' / ' || familyname || givenname AS id_fullname")
+    users.select("id, signin_name || ' / ' || family_name || given_name AS id_fullname")
   end
 
   def self.content_manageable?(id)
@@ -161,14 +161,14 @@ class User < ApplicationRecord
     role_array = specific_role ? [role] : %w[admin manager user suspended]
     results = User.where('signin_name like ? and role in (?)', "%#{keyword}%", role_array).order(signin_name: :asc).limit(max_search_num).to_a
     rest_search_num = max_search_num - results.size
-    results += User.where('familyname like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
+    results += User.where('family_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
     rest_search_num = max_search_num - results.size
-    results += User.where('givenname like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
+    results += User.where('given_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
 
     rest_search_num = max_search_num - results.size
-    results += User.where('familyname_alt like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
+    results += User.where('phonetic_family_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
     rest_search_num = max_search_num - results.size
-    results += User.where('givenname_alt like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
+    results += User.where('phonetic_given_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
 
     results.sort! { |a, b| a.signin_name <=> b.signin_name }
     results.uniq
@@ -176,16 +176,16 @@ class User < ApplicationRecord
 
   def fullname
     fullname = ''
-    fullname += familyname if familyname
-    fullname += ' ' + givenname if givenname
+    fullname += family_name if family_name
+    fullname += ' ' + given_name if given_name
     fullname = '---' if fullname == ''
     fullname
   end
 
   def fullname_alt
     fullname_alt = ''
-    fullname_alt += familyname_alt if familyname_alt
-    fullname_alt += ' ' + givenname_alt if givenname_alt
+    fullname_alt += phonetic_family_name if phonetic_family_name
+    fullname_alt += ' ' + phonetic_given_name if phonetic_given_name
     fullname_alt = '---' if fullname_alt == ''
     fullname_alt
   end

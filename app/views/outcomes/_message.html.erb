@@ -1,10 +1,10 @@
 <% side = message_side message.manager_id, outcome_manager_id %>
 <div class="dialogue-card <%= side %>">
-  <div class="side-area" title="<%= message.manager.familyname %> <%= message.manager.givenname %>">
+  <div class="side-area" title="<%= message.manager.family_name %> <%= message.manager.given_name %>">
     <div class="image">
       <%= render partial: 'layouts/image', locals: {obj: message.manager, fa_class: 'fa-user', size: 'm'} %>
     </div>
-    <div class="side-caption"><%= message.manager.familyname %></div>
+    <div class="side-caption"><%= message.manager.family_name %></div>
   </div>
   <% popover_side = side == 'left' ? 'right' : 'left' %>
   <div class="main-area popover popover-<%= popover_side %>" data-toggle="popover" data-placement="<%= popover_side %>">

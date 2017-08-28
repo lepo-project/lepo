@@ -53,9 +53,9 @@ class UsersController < ApplicationController
       role = (params[:role] == 'admin') || (params[:role] == 'manager' && !@user.system_admin?) ? 'user' : params[:role]
       case params[:authentication]
       when 'local'
-        user = User.new(role: role, authentication: 'local', signin_name: params[:signin_name], password: params[:password], familyname: params[:familyname], givenname: params[:givenname], familyname_alt: params[:familyname_alt], givenname_alt: params[:givenname_alt])
+        user = User.new(role: role, authentication: 'local', signin_name: params[:signin_name], password: params[:password], family_name: params[:family_name], given_name: params[:given_name], phonetic_family_name: params[:phonetic_family_name], phonetic_given_name: params[:phonetic_given_name])
       when 'ldap'
-        user = User.new(role: role, authentication: 'ldap', signin_name: params[:signin_name], familyname: params[:familyname], givenname: params[:givenname], familyname_alt: params[:familyname_alt], givenname_alt: params[:givenname_alt])
+        user = User.new(role: role, authentication: 'ldap', signin_name: params[:signin_name], family_name: params[:family_name], given_name: params[:given_name], phonetic_family_name: params[:phonetic_family_name], phonetic_given_name: params[:phonetic_given_name])
       end
       unless user.save
         flash.now[:message] = 'ユーザの新規作成に失敗しました'
@@ -157,10 +157,10 @@ class UsersController < ApplicationController
         authentication = row[1].strip
         signin_name = row[2].strip
         password = row[3].nil? ? '' : row[3].strip
-        familyname = row[4].strip
-        givenname = row[5].nil? ? '' : row[5].strip
-        familyname_alt = row[6].nil? ? '' : row[6].strip
-        givenname_alt = row[7].nil? ? '' : row[7].strip
+        family_name = row[4].strip
+        given_name = row[5].nil? ? '' : row[5].strip
+        phonetic_family_name = row[6].nil? ? '' : row[6].strip
+        phonetic_given_name = row[7].nil? ? '' : row[7].strip
 
         if role == 'manager' && !manager_creatable
           flash[:message] = 'システム管理者は、システム最高管理者のみ登録出来ます'
@@ -172,14 +172,14 @@ class UsersController < ApplicationController
         if user
           candidates.push [user, user.role, '']
         else
-          candidates.push [User.new(signin_name: signin_name, authentication: authentication, password: password, role: role, familyname: familyname, givenname: givenname, familyname_alt: familyname_alt, givenname_alt: givenname_alt), '', role]
+          candidates.push [User.new(signin_name: signin_name, authentication: authentication, password: password, role: role, family_name: family_name, given_name: given_name, phonetic_family_name: phonetic_family_name, phonetic_given_name: phonetic_given_name), '', role]
         end
       end
       candidates
     end
 
     def appropriate_user_format?(row)
-      # role,authentication,signin_name,password,familyname,givenname,familyname_alt,givenname_alt
+      # role,authentication,signin_name,password,family_name,given_name,phonetic_family_name,phonetic_given_name
       return false if row.size != 8
       return false if row[0].nil? || row[1].nil? || row[2].nil? || row[4].nil?
       true
@@ -194,7 +194,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:signin_name, :password, :password_confirmation, :role, :familyname, :familyname_alt, :givenname, :givenname_alt, :image, :web_url, :description, :default_note_id)
+      params.require(:user).permit(:signin_name, :password, :password_confirmation, :role, :family_name, :phonetic_family_name, :given_name, :phonetic_given_name, :image, :web_url, :description, :default_note_id)
     end
 
     def render_main_pane(render_resource)

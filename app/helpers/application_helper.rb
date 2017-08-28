@@ -116,7 +116,7 @@ module ApplicationHelper
     when 1
       return User.find(managers[0]).fullname
     else
-      return User.find(managers[0]).familyname + ', 他' + (manager_num - 1).to_s + '名'
+      return User.find(managers[0]).family_name + ', 他' + (manager_num - 1).to_s + '名'
     end
   end
 
@@ -566,7 +566,7 @@ module ApplicationHelper
       if update_to == 'suspended'
         { action: 'ajax_update_role', user_id: user.id, update_to: 'suspended', form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
       else
-        params = { role: user.role, authentication: user.authentication, signin_name: user.signin_name, password: user.password, familyname: user.familyname, givenname: user.givenname, familyname_alt: user.familyname_alt, givenname_alt: user.givenname_alt, candidates_csv: candidates_csv }
+        params = { role: user.role, authentication: user.authentication, signin_name: user.signin_name, password: user.password, family_name: user.family_name, given_name: user.given_name, phonetic_family_name: user.phonetic_family_name, phonetic_given_name: user.phonetic_given_name, candidates_csv: candidates_csv }
         { action: 'ajax_create_user' }.merge params
       end
     end

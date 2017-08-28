@@ -286,10 +286,10 @@ en:
         course_members: Courses Members
         description: Description
         devices: Devices
-        familyname: Familyname
-        familyname_alt: Familyname alt
-        givenname: Givenname
-        givenname_alt: Givenname alt
+        family_name: Family name
+        phonetic_family_name: Phonetic family name
+        given_name: Given name
+        phonetic_given_name: Phonetic given name
         hashed_password: Hashed password
         image_content_type: Image content type
         image_file_name: Image file name
