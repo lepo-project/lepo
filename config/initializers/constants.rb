@@ -59,7 +59,7 @@ USER_SEARCH_MAX_SIZE = 100
 # max peer review number per learner
 STORY_PEER_REVIEW_MAX_SIZE = 9
 
-# autocomplete category: user_id, fullname, fullname_alt
+# autocomplete category: signin_name, fullname, fullname_alt
 AUTOCOMPLETE_CATEGORY = 'fullname_alt'.freeze
 
 # time delay for autocomplete

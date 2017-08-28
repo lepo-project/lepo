@@ -63,9 +63,8 @@ class Outcome < ApplicationRecord
       outcomes_draft = []
 
       course = Course.find(course_id)
-      learners = User.sort_by_user_id course.learners
-      learners.each do |manager|
-        outcome = Outcome.find_by_manager_id_and_lesson_id(manager.id, lesson_id)
+      course.learners.each do |learner|
+        outcome = Outcome.find_by_manager_id_and_lesson_id(learner.id, lesson_id)
         if outcome
           case outcome.status
           when 'submit'
@@ -76,7 +75,7 @@ class Outcome < ApplicationRecord
             outcomes.push outcome
           end
         else
-          outcomes_draft.push Outcome.new(manager_id: manager.id, course_id: course_id, lesson_id: lesson_id)
+          outcomes_draft.push Outcome.new(manager_id: learner.id, course_id: course_id, lesson_id: lesson_id)
         end
       end
       outcomes_submit.sort! { |a, b| a.updated_at <=> b.updated_at }

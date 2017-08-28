@@ -29,7 +29,7 @@
 
 FactoryGirl.define do
   factory :user, class: User do
-    sequence(:user_id) { |i| "user#{i}-test" }
+    sequence(:signin_name) { |i| "user#{i}-test" }
     password 'temporary'
     password_confirmation 'temporary'
     role 'user'

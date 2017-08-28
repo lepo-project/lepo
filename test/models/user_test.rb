@@ -63,14 +63,14 @@ class UserTest < ActiveSupport::TestCase
     assert_invalid build(:user, salt: nil), :salt
   end
 
+  # test for validates_presence_of :signin_name
+  test 'a user without signin_name is invalid' do
+    assert_invalid build(:user, signin_name: ''), :signin_name
+    assert_invalid build(:user, signin_name: nil), :signin_name
+  end
+
   # test for validates_presence_of :token
   # this test is no need because of before_validation callback
-
-  # test for validates_presence_of :user_id
-  test 'a user without user_id is invalid' do
-    assert_invalid build(:user, user_id: ''), :user_id
-    assert_invalid build(:user, user_id: nil), :user_id
-  end
 
   # test for validates_uniqueness_of :folder_id
   test 'some users with same folder_id are invalid' do
@@ -78,16 +78,16 @@ class UserTest < ActiveSupport::TestCase
     assert_invalid build(:user, folder_id: user.folder_id), :folder_id
   end
 
+  # test for validates_uniqueness_of :signin_name
+  test 'some users with same signin_name are invalid' do
+    user = create(:user)
+    assert_invalid build(:user, signin_name: user.signin_name), :signin_name
+  end
+
   # test for validates_uniqueness_of :token
   test 'some users with same token are invalid' do
     user = create(:user)
     assert_invalid build(:user, token: user.token), :token
-  end
-
-  # test for validates_uniqueness_of :user_id
-  test 'some users with same user_id are invalid' do
-    user = create(:user)
-    assert_invalid build(:user, user_id: user.user_id), :user_id
   end
 
   # test for validates_inclusion_of :authentication, in: %w[local ldap]

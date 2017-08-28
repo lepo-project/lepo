@@ -566,7 +566,7 @@ module ApplicationHelper
       if update_to == 'suspended'
         { action: 'ajax_update_role', user_id: user.id, update_to: 'suspended', form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
       else
-        params = { role: user.role, authentication: user.authentication, user_id: user.user_id, password: user.password, familyname: user.familyname, givenname: user.givenname, familyname_alt: user.familyname_alt, givenname_alt: user.givenname_alt, candidates_csv: candidates_csv }
+        params = { role: user.role, authentication: user.authentication, signin_name: user.signin_name, password: user.password, familyname: user.familyname, givenname: user.givenname, familyname_alt: user.familyname_alt, givenname_alt: user.givenname_alt, candidates_csv: candidates_csv }
         { action: 'ajax_create_user' }.merge params
       end
     end

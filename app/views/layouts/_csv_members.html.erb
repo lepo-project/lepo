@@ -2,7 +2,7 @@
 
 <div class="bordered-block <%= 'selected' if selected_form %>">
   <h2>メンバーのCSV検索と登録
-    <div class="header-explanation">形式： user_id, role ( manager / assistant / <%= (update_model == 'content_member') ? 'user' : 'learner' %> ) </div>
+    <div class="header-explanation">形式： signin_name, role ( manager / assistant / <%= (update_model == 'content_member') ? 'user' : 'learner' %> ) </div>
   </h2>
   <div style="margin:4px">
     <%= form_tag({action: 'ajax_csv_candidates'}, remote: true) do %>

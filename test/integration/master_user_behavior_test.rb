@@ -18,7 +18,7 @@ class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
 
   test 'course creation behavior' do
     user = create(:admin_user)
-    signin_with user.user_id, user.password
+    signin_with user.signin_name, user.password
     assert page.has_selector?('#dashboard-resource')
 
     course_creation_from_sub_pane

@@ -33,7 +33,7 @@ class Course < ApplicationRecord
   has_many :contents, -> { order(display_order: :asc) }, through: :lessons
   has_many :course_members, dependent: :destroy
   has_many :goals, -> { order(id: :asc) }, dependent: :destroy
-  has_many :learners, -> { where('course_members.role = ?', 'learner').order(user_id: :asc) }, through: :course_members, source: :user
+  has_many :learners, -> { where('course_members.role = ?', 'learner').order(signin_name: :asc) }, through: :course_members, source: :user
   has_many :lessons, -> { order(display_order: :asc) }
   has_many :managers, -> { where('course_members.role = ?', 'manager') }, through: :course_members, source: :user
   has_many :master_draft_notes, -> { where('notes.status = ?', 'master_draft').order(updated_at: :desc) }, class_name: 'Note'
@@ -65,7 +65,7 @@ class Course < ApplicationRecord
   # FIXME: Group work
   def learners_in_group(index)
     user_ids = course_members.where('course_members.role = ? and course_members.group_id = ?', 'learner', index).order(user_id: :asc).pluck(:user_id)
-    User.where(id: user_ids).order(user_id: :asc)
+    User.where(id: user_ids).order(signin_name: :asc)
   end
 
   def duplicate_goals_to(course_id)

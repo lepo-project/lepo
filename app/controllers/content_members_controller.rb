@@ -90,8 +90,8 @@ class ContentMembersController < ApplicationController
     @content = Content.find(params[:content_id])
     @content.fill_objectives
     @manager = @content.manager
-    @assistants = User.sort_by_user_id @content.assistants
-    @users = User.sort_by_user_id @content.users
+    @assistants = User.sort_by_signin_name @content.assistants
+    @users = User.sort_by_signin_name @content.users
   end
 
   def update_role(user_id, content_id, role)

@@ -2,7 +2,7 @@
 
 <div class="bordered-block <%= 'selected' if selected_form %> clearfix">
   <h2>メンバーの検索と登録
-    <div class="header-explanation">ユーザID / 氏名で検索</div>
+    <div class="header-explanation"><%= t('activerecord.attributes.user.signin_name') %> / 氏名で検索</div>
   </h2>
   <div style="margin:4px">
     <%= form_tag({action: 'ajax_search_candidates'}, class: "form-inline", remote: true) do %>

@@ -43,7 +43,7 @@ class PortfoliosController < ApplicationController
     @lessons = @course.lessons
     @last_sticky_dates = last_sticky_dates @lessons
 
-    @learners = User.sort_by_user_id @course.learners
+    @learners = User.sort_by_signin_name @course.learners
     @myself = User.find(session[:id])
   end
 end

@@ -8,13 +8,13 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     signin_with '', ''
     assert page.has_selector?('#signin-resource')
     assert_not page.has_selector?('#dashboard-resource')
-    signin_with user.user_id, ''
+    signin_with user.signin_name, ''
     assert page.has_selector?('#signin-resource')
     assert_not page.has_selector?('#dashboard-resource')
     signin_with '', user.password
     assert page.has_selector?('#signin-resource')
     assert_not page.has_selector?('#dashboard-resource')
-    signin_with user.user_id, user.password
+    signin_with user.signin_name, user.password
     assert page.has_selector?('#dashboard-resource')
     assert_not page.has_selector?('#signin-resource')
 
@@ -31,7 +31,7 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     open_course = create(:open_course)
     create(:course_manager, user_id: user.id, course_id: course.id)
     create(:course_manager, user_id: user.id, course_id: open_course.id)
-    signin_with user.user_id, user.password
+    signin_with user.signin_name, user.password
     # nav-home
     click_main_nav_item '#nav-home', I18n.t('views.navs.note_management'), '#snippet-resource'
     click_main_nav_item '#nav-home', I18n.t('views.navs.support'), '#content-resource'
@@ -55,7 +55,7 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     user = create(:user)
     course = create(:course)
     create(:course_manager, user_id: user.id, course_id: course.id)
-    signin_with user.user_id, user.password
+    signin_with user.signin_name, user.password
 
     content_creation_from_sub_pane
     content_creation_from_main_pane

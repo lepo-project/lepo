@@ -33,9 +33,9 @@
 						<div class="header-explanation">変更不可</div>
 					</h2>
 					<div class="form-group row control-group-text-line">
-						<%= f.label :user_id, 'ユーザID', class: "col-md-3 col-form-label text-sm-right control-text-line", style: "line-height: 60%;" %>
+						<%= f.label :signin_name, t('activerecord.attributes.user.signin_name'), class: "col-md-3 col-form-label text-sm-right control-text-line", style: "line-height: 60%;" %>
 						<div class="col-md-7">
-							<%= @user.user_id %>
+							<%= @user.signin_name %>
 						</div>
 					</div>
 					<div class="form-group row control-group-text-line">

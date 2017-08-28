@@ -404,12 +404,12 @@ module PortfoliosHelper
     from_day = to_day - 6.days
     access_num_week2 = Signin.where(updated_at: from_day..to_day).or(Signin.where(user_id: user.id))
 
-    signin_hash user.user_id, user.fullname, user.last_signin_at, access_num_week1.size, access_num_week2.size
+    signin_hash user.signin_name, user.fullname, user.last_signin_at, access_num_week1.size, access_num_week2.size
   end
 
-  def signin_hash(user_id, fullname, last_signin_at, access_num_week1, access_num_week2)
+  def signin_hash(signin_name, fullname, last_signin_at, access_num_week1, access_num_week2)
     report = {}
-    report['user_id'] = user_id
+    report['signin_name'] = signin_name
     report['fullname'] = fullname
     report['last_signin_at'] = last_signin_at
     report['access_num_week1'] = access_num_week1
