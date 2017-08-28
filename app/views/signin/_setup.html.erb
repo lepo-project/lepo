@@ -93,9 +93,9 @@
                   </ul>
                   <%= form_tag({action: "ajax_create_admin_account"}, remote: true) do %>
                   <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-sm-right" for="user_id">User ID</label>
+                    <label class="col-md-4 col-form-label text-sm-right" for="signin_name"><%= t('activerecord.attributes.user.signin_name') %></label>
                     <div class="col-md-8">
-                      <%= text_field_tag :user_id, params[:user_id], {placeholder: "User ID", class: "form-control"} %>
+                      <%= text_field_tag :signin_name, params[:signin_name], {placeholder: t('activerecord.attributes.user.signin_name'), class: "form-control"} %>
                     </div>
                   </div>
                   <div class="form-group row">

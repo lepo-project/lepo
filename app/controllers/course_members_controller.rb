@@ -168,9 +168,9 @@ class CourseMembersController < ApplicationController
 
   def get_resources
     @course = Course.find(session[:nav_id])
-    @managers = User.sort_by_user_id @course.managers
-    @assistants = User.sort_by_user_id @course.assistants
-    @learners = User.sort_by_user_id @course.learners
+    @managers = User.sort_by_signin_name @course.managers
+    @assistants = User.sort_by_signin_name @course.assistants
+    @learners = User.sort_by_signin_name @course.learners
     @myself = User.find(session[:id])
   end
 

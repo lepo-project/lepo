@@ -53,9 +53,9 @@ class UsersController < ApplicationController
       role = (params[:role] == 'admin') || (params[:role] == 'manager' && !@user.system_admin?) ? 'user' : params[:role]
       case params[:authentication]
       when 'local'
-        user = User.new(role: role, authentication: 'local', user_id: params[:user_id], password: params[:password], familyname: params[:familyname], givenname: params[:givenname], familyname_alt: params[:familyname_alt], givenname_alt: params[:givenname_alt])
+        user = User.new(role: role, authentication: 'local', signin_name: params[:signin_name], password: params[:password], familyname: params[:familyname], givenname: params[:givenname], familyname_alt: params[:familyname_alt], givenname_alt: params[:givenname_alt])
       when 'ldap'
-        user = User.new(role: role, authentication: 'ldap', user_id: params[:user_id], familyname: params[:familyname], givenname: params[:givenname], familyname_alt: params[:familyname_alt], givenname_alt: params[:givenname_alt])
+        user = User.new(role: role, authentication: 'ldap', signin_name: params[:signin_name], familyname: params[:familyname], givenname: params[:givenname], familyname_alt: params[:familyname_alt], givenname_alt: params[:givenname_alt])
       end
       unless user.save
         flash.now[:message] = 'ユーザの新規作成に失敗しました'
@@ -155,7 +155,7 @@ class UsersController < ApplicationController
 
         role = row[0].strip == 'manager' ? 'manager' : 'user'
         authentication = row[1].strip
-        user_id = row[2].strip
+        signin_name = row[2].strip
         password = row[3].nil? ? '' : row[3].strip
         familyname = row[4].strip
         givenname = row[5].nil? ? '' : row[5].strip
@@ -168,18 +168,18 @@ class UsersController < ApplicationController
           return candidates
         end
 
-        user = User.find_by_user_id(user_id)
+        user = User.find_by_signin_name(signin_name)
         if user
           candidates.push [user, user.role, '']
         else
-          candidates.push [User.new(user_id: user_id, authentication: authentication, password: password, role: role, familyname: familyname, givenname: givenname, familyname_alt: familyname_alt, givenname_alt: givenname_alt), '', role]
+          candidates.push [User.new(signin_name: signin_name, authentication: authentication, password: password, role: role, familyname: familyname, givenname: givenname, familyname_alt: familyname_alt, givenname_alt: givenname_alt), '', role]
         end
       end
       candidates
     end
 
     def appropriate_user_format?(row)
-      # role,authentication,user_id,password,familyname,givenname,familyname_alt,givenname_alt
+      # role,authentication,signin_name,password,familyname,givenname,familyname_alt,givenname_alt
       return false if row.size != 8
       return false if row[0].nil? || row[1].nil? || row[2].nil? || row[4].nil?
       true
@@ -194,7 +194,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:user_id, :password, :password_confirmation, :role, :familyname, :familyname_alt, :givenname, :givenname_alt, :image, :web_url, :description, :default_note_id)
+      params.require(:user).permit(:signin_name, :password, :password_confirmation, :role, :familyname, :familyname_alt, :givenname, :givenname_alt, :image, :web_url, :description, :default_note_id)
     end
 
     def render_main_pane(render_resource)

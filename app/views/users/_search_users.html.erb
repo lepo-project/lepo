@@ -1,6 +1,6 @@
 <div class="bordered-block">
 	<h2>1. ユーザの検索
-		<div class="header-explanation"><%= USER_SEARCH_MAX_SIZE %>ユーザまでを上限に、ユーザID / 氏名で検索</div>
+		<div class="header-explanation"><%= USER_SEARCH_MAX_SIZE %>ユーザを上限に、<%= t('activerecord.attributes.user.signin_name') %> / 氏名で検索</div>
 	</h2>
 	<div style="margin:4px">
 		<%= form_tag({action: 'ajax_search_accounts'}, class: 'form-inline', remote: true) do %>

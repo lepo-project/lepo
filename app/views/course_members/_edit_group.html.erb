@@ -6,13 +6,13 @@
 				<!-- #FIXME: Group work -->
 				<table class="table edit-group">
 					<tr>
-						<th>id</th>
+						<th><%= t('activerecord.attributes.user.signin_name') %></th>
 						<th>氏名</th>
 						<th>班</th>
 					</tr>
 					<% @course.learners.each do |l| %>
 					<tr>
-						<td><%= l.user_id %></td>
+						<td><%= l.signin_name %></td>
 						<td><%= l.fullname %></td>
 						<td>
 							<div class="btn-group" data-toggle="buttons-radio">

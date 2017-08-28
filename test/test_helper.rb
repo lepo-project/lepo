@@ -55,10 +55,10 @@ class ActionDispatch::IntegrationTest
     assert page.has_selector?(assertion_selector)
   end
 
-  def signin_with(user_id, password)
+  def signin_with(signin_name, password)
     visit root_path
     within('#signin-form') do
-      fill_in 'user_id', with: user_id
+      fill_in 'signin_name', with: signin_name
       fill_in 'password', with: password
       click_on 'signin-submit-btn'
     end

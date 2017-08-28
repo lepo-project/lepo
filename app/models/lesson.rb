@@ -47,10 +47,6 @@ class Lesson < ApplicationRecord
     course_member ? course_member.role : 'observer'
   end
 
-  def outcome_by_user_id(user_id)
-    Lepo.find_by_lesson_id_and_manager_id id, user_id
-  end
-
   def evaluator?(user_id)
     evaluator_id == user_id
   end

@@ -6,7 +6,7 @@ require 'csv'
 # Table name: users
 #
 #  id                 :integer          not null, primary key
-#  user_id            :string
+#  signin_name        :string
 #  authentication     :string           default("local")
 #  hashed_password    :string
 #  salt               :string
@@ -59,11 +59,11 @@ class User < ApplicationRecord
   validates_presence_of :folder_id
   validates_presence_of :hashed_password, if: "authentication == 'local'"
   validates_presence_of :salt, if: "authentication == 'local'"
+  validates_presence_of :signin_name
   validates_presence_of :token
-  validates_presence_of :user_id
   validates_uniqueness_of :folder_id
+  validates_uniqueness_of :signin_name
   validates_uniqueness_of :token
-  validates_uniqueness_of :user_id
   validates_inclusion_of :authentication, in: %w[local ldap]
   validates_inclusion_of :role, in: %w[admin manager user suspended]
   validates_confirmation_of :password
@@ -74,10 +74,10 @@ class User < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.authenticate(user_id, password)
-    user = find_by_user_id(user_id)
+  def self.authenticate(signin_name, password)
+    user = find_by_signin_name(signin_name)
 
-    # No user_id in DB
+    # No signin_name in DB
     return nil unless user
 
     # authentication for user
@@ -86,7 +86,7 @@ class User < ApplicationRecord
       expected_password = encrypted_password(password, user.salt)
       return user if (user.hashed_password == expected_password) && !user.archived_at
     when 'ldap'
-      return user if user.ldap_authenticate(user_id, password)
+      return user if user.ldap_authenticate(signin_name, password)
     end
     nil
   end
@@ -94,13 +94,13 @@ class User < ApplicationRecord
   def self.autocomplete(search_word)
     case AUTOCOMPLETE_CATEGORY
     when 'fullname'
-      users = where('user_id LIKE ? OR familyname LIKE ? OR givenname LIKE? ', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:user_id)
+      users = where('signin_name LIKE ? OR familyname LIKE ? OR givenname LIKE? ', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     when 'fullname_alt'
-      users = where('user_id LIKE ? OR familyname LIKE ? OR givenname LIKE ?  OR familyname_alt LIKE ? OR givenname_alt LIKE ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:user_id)
+      users = where('signin_name LIKE ? OR familyname LIKE ? OR givenname LIKE ?  OR familyname_alt LIKE ? OR givenname_alt LIKE ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     else
-      users = where('user_id LIKE ?', "%#{search_word}%").where.not(role: 'suspended').order(:user_id)
+      users = where('signin_name LIKE ?', "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     end
-    users.select("id, user_id || ' / ' || familyname || givenname AS id_fullname")
+    users.select("id, signin_name || ' / ' || familyname || givenname AS id_fullname")
   end
 
   def self.content_manageable?(id)
@@ -146,8 +146,8 @@ class User < ApplicationRecord
     where('(role = ?) || (role = ?)', 'admin', 'manager')
   end
 
-  def self.sort_by_user_id(users)
-    users.to_a.sort! { |a, b| a.user_id <=> b.user_id }
+  def self.sort_by_signin_name(users)
+    users.to_a.sort! { |a, b| a.signin_name <=> b.signin_name }
   end
 
   def self.fullname_for_id(user_id)
@@ -159,7 +159,7 @@ class User < ApplicationRecord
   def self.search(keyword, role = '', max_search_num = 50)
     specific_role = %w[admin manager user suspended].include? role
     role_array = specific_role ? [role] : %w[admin manager user suspended]
-    results = User.where('user_id like ? and role in (?)', "%#{keyword}%", role_array).order(user_id: :asc).limit(max_search_num).to_a
+    results = User.where('signin_name like ? and role in (?)', "%#{keyword}%", role_array).order(signin_name: :asc).limit(max_search_num).to_a
     rest_search_num = max_search_num - results.size
     results += User.where('familyname like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
     rest_search_num = max_search_num - results.size
@@ -170,7 +170,7 @@ class User < ApplicationRecord
     rest_search_num = max_search_num - results.size
     results += User.where('givenname_alt like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
 
-    results.sort! { |a, b| a.user_id <=> b.user_id }
+    results.sort! { |a, b| a.signin_name <=> b.signin_name }
     results.uniq
   end
 
@@ -217,10 +217,10 @@ class User < ApplicationRecord
     self.hashed_password = User.encrypted_password(password, salt)
   end
 
-  def ldap_authenticate(user_id, password)
+  def ldap_authenticate(signin_name, password)
     @ldap_config = YAML.safe_load(ERB.new(File.read("#{Rails.root}/config/ldap.yml")).result)[Rails.env]
     ldap = initialize_ldap_authentication
-    result = ldap.bind_as(base: @ldap_config['base'], filter: "(#{@ldap_config['attributes']['id']}=#{user_id})", password: password)
+    result = ldap.bind_as(base: @ldap_config['base'], filter: "(#{@ldap_config['attributes']['id']}=#{signin_name})", password: password)
     return true if result
     false
   end

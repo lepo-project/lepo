@@ -301,7 +301,7 @@ ja:
         outcome_messages: :activerecord.models.outcome_message
         outcomes: :activerecord.models.outcome
         role: 役割
-        salt: ソルト
+        signin_name: User ID
         signins: :activerecord.models.signin
         snippets: :activerecord.models.snippet
         stickies: :activerecord.models.sticky

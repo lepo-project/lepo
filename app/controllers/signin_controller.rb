@@ -11,7 +11,7 @@ class SigninController < ApplicationController
   def ajax_authenticate
     return unless request.post?
 
-    user = User.authenticate(params[:user_id], params[:password])
+    user = User.authenticate(params[:signin_name], params[:password])
     if user
       if (user.system_staff? && !inside_ip?(SYSTEM_MANAGE_IPS)) || user.role == 'suspended'
         # system administrator can only signin from SYSTEM_MANAGE_IPS
@@ -35,7 +35,7 @@ class SigninController < ApplicationController
 
   def ajax_create_admin_account
     if User.all.size.zero?
-      user = User.new(user_id: params[:user_id], password: params[:password], password_confirmation: params[:password_confirmation], role: 'admin', familyname: 'LePo', givenname: 'Master', familyname_alt: 'LePo', givenname_alt: 'Master')
+      user = User.new(signin_name: params[:signin_name], password: params[:password], password_confirmation: params[:password_confirmation], role: 'admin', familyname: 'LePo', givenname: 'Master', familyname_alt: 'LePo', givenname_alt: 'Master')
       if user.save
         Link.create manager_id: user.id, title: 'LePo Project', url: 'http://lepo.info/', display_order: 1
       else

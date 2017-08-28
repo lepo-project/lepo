@@ -301,7 +301,7 @@ en:
         outcome_messages: Outcome messages
         outcomes: Outcomes
         role: Role
-        salt: Salt
+        signin_name: User ID
         signins: Signins
         snippets: Snippets
         stickies: Stickies

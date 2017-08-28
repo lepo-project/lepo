@@ -275,10 +275,10 @@ class ApplicationController < ActionController::Base
         return candidates
       end
 
-      user_id = row[0].strip
+      signin_name = row[0].strip
       member_role = row[1].strip
 
-      user = User.find_by_user_id(user_id)
+      user = User.find_by_signin_name(signin_name)
       if user
         current_relation = ContentMember.find_by_content_id_and_user_id(resource_id, user.id) if category == 'content'
         current_relation = CourseMember.find_by_course_id_and_user_id(resource_id, user.id) if category == 'course'
@@ -295,7 +295,7 @@ class ApplicationController < ActionController::Base
   end
 
   def appropriate_member_format?(row)
-    # user_id, category
+    # signin_name, category
     return false if row.size != 2
     return false if row[0].nil? || row[1].nil?
     true

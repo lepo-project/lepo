@@ -3,7 +3,7 @@
 # Table name: users
 #
 #  id                 :integer          not null, primary key
-#  user_id            :string
+#  signin_name        :string
 #  authentication     :string           default("local")
 #  hashed_password    :string
 #  salt               :string
@@ -29,7 +29,7 @@
 
 FactoryGirl.define do
   factory :user, class: User do
-    sequence(:user_id) { |i| "user#{i}-test" }
+    sequence(:signin_name) { |i| "user#{i}-test" }
     password 'temporary'
     password_confirmation 'temporary'
     role 'user'
