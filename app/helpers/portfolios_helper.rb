@@ -52,7 +52,7 @@ module PortfoliosHelper
 
     goals.each_with_index do |goal, i|
       reports[i] = goal_allocation(goal, open_lessons, eval_lessons)
-      reports[i][:fullname] = user.fullname
+      reports[i][:full_name] = user.full_name
       reports[i][:average_self_achievement] = ratio(average_reports[i][:average_self_achievement], reports[i][:self_allocation], 0)
       reports[i][:average_eval_achievement] = ratio(average_reports[i][:average_eval_achievement], reports[i][:eval_allocation], 0)
       if course_role == 'learner'
@@ -77,7 +77,7 @@ module PortfoliosHelper
 
     objectives.each_with_index do |obj, i|
       reports[i] = { title: obj.title, self_allocation: obj.allocation, eval_allocation: obj.allocation }
-      reports[i][:fullname] = user.fullname
+      reports[i][:full_name] = user.full_name
       reports[i][:average_self_achievement] = ratio(average_reports[i][:average_self_achievement], obj.allocation * outcomes.size, 0)
       reports[i][:average_eval_achievement] = ratio(average_reports[i][:average_eval_achievement], obj.allocation * outcomes.size, 0)
 
@@ -155,12 +155,12 @@ module PortfoliosHelper
     sticky_stars = Sticky.where("category = 'course' and course_id = ? and manager_id = ?", course.id, user.id).sum(:stars_count)
     note_stars = Note.where("status = 'course' and course_id = ? and manager_id = ?", course.id, user.id).sum(:stars_count)
     stars_rank = star_rank user.id, course
-    star_hash user.fullname, sticky_stars, note_stars, stars_rank, 'info'
+    star_hash user.full_name, sticky_stars, note_stars, stars_rank, 'info'
   end
 
-  def star_hash(fullname, sticky_stars, note_stars, stars_rank, badge_class)
+  def star_hash(full_name, sticky_stars, note_stars, stars_rank, badge_class)
     report = {}
-    report['fullname'] = fullname
+    report['full_name'] = full_name
     report['sticky_stars'] = sticky_stars
     report['note_stars'] = note_stars
     report['stars_rank'] = stars_rank
@@ -253,7 +253,7 @@ module PortfoliosHelper
   def user_achievement(user, course_id, lessons)
     open_lessons = Lesson.select_open lessons
     eval_lessons = Lesson.select_evaluator open_lessons
-    return achievement_hash(user.fullname, '', '', '', '', 0, 0, 'info') if open_lessons.size.zero?
+    return achievement_hash(user.full_name, '', '', '', '', 0, 0, 'info') if open_lessons.size.zero?
 
     self_lesson = 0
     lesson_score = 0
@@ -278,15 +278,15 @@ module PortfoliosHelper
 
     self_lesson = ratio self_lesson, open_lessons.size, 0
     self_achievement = ratio self_achievement, open_lessons.size * 10, 0
-    return achievement_hash(user.fullname, self_lesson, self_achievement, '', '', open_lessons.size, 0, 'info') if eval_lessons.size.zero?
+    return achievement_hash(user.full_name, self_lesson, self_achievement, '', '', open_lessons.size, 0, 'info') if eval_lessons.size.zero?
 
     eval_achievement = ratio eval_achievement, eval_lessons.size * 10, 0
-    achievement_hash user.fullname, self_lesson, self_achievement, eval_achievement, lesson_score, open_lessons.size, eval_lessons.size, 'info'
+    achievement_hash user.full_name, self_lesson, self_achievement, eval_achievement, lesson_score, open_lessons.size, eval_lessons.size, 'info'
   end
 
-  def achievement_hash(fullname, self_lesson, self_achievement, eval_achievement, lesson_score, self_lesson_size, eval_lesson_size, bar_class)
+  def achievement_hash(full_name, self_lesson, self_achievement, eval_achievement, lesson_score, self_lesson_size, eval_lesson_size, bar_class)
     report = {}
-    report['fullname'] = fullname
+    report['full_name'] = full_name
     report['self_lesson'] = self_lesson
     report[:self_achievement] = self_achievement
     report[:eval_achievement] = eval_achievement
@@ -404,13 +404,13 @@ module PortfoliosHelper
     from_day = to_day - 6.days
     access_num_week2 = Signin.where(updated_at: from_day..to_day).or(Signin.where(user_id: user.id))
 
-    signin_hash user.signin_name, user.fullname, user.last_signin_at, access_num_week1.size, access_num_week2.size
+    signin_hash user.signin_name, user.full_name, user.last_signin_at, access_num_week1.size, access_num_week2.size
   end
 
-  def signin_hash(signin_name, fullname, last_signin_at, access_num_week1, access_num_week2)
+  def signin_hash(signin_name, full_name, last_signin_at, access_num_week1, access_num_week2)
     report = {}
     report['signin_name'] = signin_name
-    report['fullname'] = fullname
+    report['full_name'] = full_name
     report['last_signin_at'] = last_signin_at
     report['access_num_week1'] = access_num_week1
     report['access_num_week2'] = access_num_week2

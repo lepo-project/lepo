@@ -6,9 +6,9 @@
   <ul class="list-group list-group-flush">
     <% learners.each do |l| %>
     <% if (l.id == @user.id) %>
-    <li class="list-group-item"><i class='fa fa-user fa-lg'></i> <%= l.fullname %></li>
+    <li class="list-group-item"><i class='fa fa-user fa-lg'></i> <%= l.full_name %></li>
     <% else %>
-    <li class="list-group-item" style="text-indent: 1.7rem;"> <%= l.fullname %></li>
+    <li class="list-group-item" style="text-indent: 1.7rem;"> <%= l.full_name %></li>
     <% end %>
     <% end %>
   </ul>

@@ -114,9 +114,9 @@ module ApplicationHelper
     manager_num = managers.size
     case manager_num
     when 1
-      return User.find(managers[0]).fullname
+      return User.find(managers[0]).full_name
     else
-      return User.find(managers[0]).family_name + ', 他' + (manager_num - 1).to_s + '名'
+      return User.find(managers[0]).short_name + ', 他' + (manager_num - 1).to_s + '名'
     end
   end
 
@@ -214,7 +214,7 @@ module ApplicationHelper
   def lesson_evaluator_text(evaluator_id)
     return '' unless evaluator_id
     return t('views.content.self_evaluation') if evaluator_id.zero?
-    t('views.content.evaluator') + ' ：' + User.find(evaluator_id).fullname
+    t('views.content.evaluator') + ' ：' + User.find(evaluator_id).full_name
   end
 
   def page_num_text(page_num, max_page_num)
@@ -264,7 +264,7 @@ module ApplicationHelper
     if manager_flag
       title += ': '
       stickies.each_with_index do |st, i|
-        title += User.fullname_for_id(st.manager_id)
+        title += User.full_name_for_id(st.manager_id)
         title += ', ' if i != (stickies.size - 1)
       end
     end
@@ -276,7 +276,7 @@ module ApplicationHelper
     if manager_flag
       title += ': '
       stared_users.each_with_index do |st, i|
-        title += User.fullname_for_id(st.id)
+        title += User.full_name_for_id(st.id)
         title += ', ' if i != (stared_users.size - 1)
       end
     end
@@ -469,7 +469,7 @@ module ApplicationHelper
     else
       card['icon'] = 'fa fa-user'
     end
-    card['caption'] = notice.manager.fullname
+    card['caption'] = notice.manager.full_name
     card['body'] = notice.message
     card['footnotes'] = [format_time(notice.updated_at, 'ymdhm')]
     card['footnotes'].push('[更新]') if notice.created_at != notice.updated_at
@@ -538,7 +538,7 @@ module ApplicationHelper
     else
       card['icon'] = 'fa fa-user'
     end
-    card['header'] = link_to_if(user.web_url?, user.fullname + ' [' + user.fullname_alt + ']', user.web_url, target: '_blank')
+    card['header'] = link_to_if(user.web_url?, user.full_name + ' [' + user.phonetic_full_name + ']', user.web_url, target: '_blank')
     card['body'] = user.description
     card['summary'] = false
     if user.updated_at
@@ -731,7 +731,7 @@ module ApplicationHelper
       end
     when 'note'
       note = Note.find(sticky.target_id)
-      sticky_title = note.title + ' by ' + note.manager.fullname
+      sticky_title = note.title + ' by ' + note.manager.full_name
 
       course_id_for_link = sticky.course_id_for_link
       if course_id_for_link > 0

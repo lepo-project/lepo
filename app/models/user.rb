@@ -93,14 +93,14 @@ class User < ApplicationRecord
 
   def self.autocomplete(search_word)
     case AUTOCOMPLETE_CATEGORY
-    when 'fullname'
+    when 'full_name'
       users = where('signin_name LIKE ? OR family_name LIKE ? OR given_name LIKE? ', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
-    when 'fullname_alt'
+    when 'phonetic_full_name'
       users = where('signin_name LIKE ? OR family_name LIKE ? OR given_name LIKE ?  OR phonetic_family_name LIKE ? OR phonetic_given_name LIKE ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     else
       users = where('signin_name LIKE ?', "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     end
-    users.select("id, signin_name || ' / ' || family_name || given_name AS id_fullname")
+    users.select("id, signin_name || ' / ' || family_name || given_name AS id_full_name")
   end
 
   def self.content_manageable?(id)
@@ -150,9 +150,9 @@ class User < ApplicationRecord
     users.to_a.sort! { |a, b| a.signin_name <=> b.signin_name }
   end
 
-  def self.fullname_for_id(user_id)
+  def self.full_name_for_id(user_id)
     user = find(user_id)
-    return user.fullname if user
+    return user.full_name if user
     ''
   end
 
@@ -174,20 +174,25 @@ class User < ApplicationRecord
     results.uniq
   end
 
-  def fullname
-    fullname = ''
-    fullname += family_name if family_name
-    fullname += ' ' + given_name if given_name
-    fullname = '---' if fullname == ''
-    fullname
+  def full_name
+    # rather than using the family_name or given_name directly in the view files, use the full_name or short_name
+    full_name = family_name
+    full_name += ' ' + given_name if given_name
+    full_name
   end
 
-  def fullname_alt
-    fullname_alt = ''
-    fullname_alt += phonetic_family_name if phonetic_family_name
-    fullname_alt += ' ' + phonetic_given_name if phonetic_given_name
-    fullname_alt = '---' if fullname_alt == ''
-    fullname_alt
+  def phonetic_full_name
+    # rather than using the phonetic_family_name or phonetic_given_name directly in the view files, use the phonetic_full_name
+    phonetic_full_name = ''
+    phonetic_full_name += phonetic_family_name if phonetic_family_name
+    phonetic_full_name += ' ' + phonetic_given_name if phonetic_given_name
+    phonetic_full_name = '---' if phonetic_full_name.empty?
+    phonetic_full_name
+  end
+
+  def short_name
+    # rather than using the family_name or given_name directly in the view files, use the full_name or short_name
+    family_name
   end
 
   def content_manageable?

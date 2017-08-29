@@ -4,7 +4,7 @@
       <div>
         <%= link_to(get_short_string(snippet.reference_num + ' ' + display_title(snippet.source), 25), snippet.source.url, {target: '_blank'}) %>
         <% if snippet.master_note && session[:nav_section] == 'open_courses' && session[:nav_id].to_i == snippet.note.course_id %>
-        ( 取り込み元ノート: <%= link_to(raw("<i class='fa fa-file-text'></i>#{snippet.master_note.manager.family_name}"), {controller: 'notes', action: 'ajax_show_from_others', nav_id: snippet.note.course_id, id: snippet.master_note.id}, {remote: true}) %> )
+        ( 取り込み元ノート: <%= link_to(raw("<i class='fa fa-file-text'></i>#{snippet.master_note.manager.short_name}"), {controller: 'notes', action: 'ajax_show_from_others', nav_id: snippet.note.course_id, id: snippet.master_note.id}, {remote: true}) %> )
         <% end %>
       </div>
       <%  if snippet.importable? @user.id %>
@@ -19,7 +19,7 @@
       <div>
         取り込んだノート:
         <% snippet.imported_snippets.each do |rs| %>
-        <%= link_to(raw("<i class='fa fa-file-text'></i>#{rs.manager.family_name}"), {controller: 'notes', action: 'ajax_show_from_others', nav_id: snippet.note.course_id, id: rs.note_id}, {remote: true}) if rs.note_id %>&nbsp;&nbsp;
+        <%= link_to(raw("<i class='fa fa-file-text'></i>#{rs.manager.short_name}"), {controller: 'notes', action: 'ajax_show_from_others', nav_id: snippet.note.course_id, id: rs.note_id}, {remote: true}) if rs.note_id %>&nbsp;&nbsp;
         <% end %>
       </div>
       <% end %>

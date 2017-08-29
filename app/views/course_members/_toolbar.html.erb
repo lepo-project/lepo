@@ -29,6 +29,6 @@
 
 <% when "ajax_show" -%>
 <nav id="sub-nav">
-  <%= render partial: "layouts/breadcrumb", locals: {crumbs: [[t("views.navs.top"), {action: "ajax_index", nav_section: session[:nav_section], nav_id: @course.id}], [@user.fullname]]} %>
+  <%= render partial: "layouts/breadcrumb", locals: {crumbs: [[t("views.navs.top"), {action: "ajax_index", nav_section: session[:nav_section], nav_id: @course.id}], [@user.full_name]]} %>
 </nav>
 <% end -%>

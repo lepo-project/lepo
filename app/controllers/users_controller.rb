@@ -112,7 +112,7 @@ class UsersController < ApplicationController
         end
 
         if update_result
-          flash[:message] = selected_user.fullname + 'さんのアカウントを更新しました。'
+          flash[:message] = selected_user.full_name + 'さんのアカウントを更新しました。'
           flash[:message_category] = 'info'
         else
           flash[:message] = '入力した情報に誤りがあります。'

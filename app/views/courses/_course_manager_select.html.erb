@@ -18,7 +18,7 @@
 <div class='form-list'>
   <% managers.each do |m| %>
   <%= fields_for "managers[]", m do |mf| %>
-  <%= m.fullname %>
+  <%= m.full_name %>
   <%= mf.hidden_field :id  %>
   <% end %>
   <% if 'draft' == status %>

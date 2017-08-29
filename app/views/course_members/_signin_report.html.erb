@@ -1,5 +1,5 @@
 <tr>
-	<td class="width160"><%= signin_report["fullname"] %></td>
+	<td class="width160"><%= signin_report["full_name"] %></td>
 	<% if signin_report["last_signin_at"].kind_of?(Time) %>
 	<td class="width160 text-center"><%= format_time(signin_report["last_signin_at"], "mdhm") %></td>
 	<% else %>

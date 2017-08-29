@@ -1,6 +1,6 @@
 <% report = achievement_report %>
 <tr>
-	<td><%= report["fullname"] %></td>
+	<td><%= report["full_name"] %></td>
 	<%= render "bar", style: report["bar_class"], ratio: report["self_lesson"], display: report["self_lesson_size"] > 0 %>
 	<%= render "bar", style: report["bar_class"], ratio: report[:self_achievement], display: report["self_lesson_size"] > 0 %>
 	<% if eval_category != "none" %>
