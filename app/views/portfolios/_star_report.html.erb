@@ -1,6 +1,6 @@
 <% report = star_report %>
 <tr>
-	<td><%= report["fullname"] %></td>
+	<td><%= report["full_name"] %></td>
 	<%= render "tag", style: report["badge_class"], number: report["sticky_stars"], display: true %>
 	<%= render "tag", style: report["badge_class"], number: report["note_stars"], display: true %>
 	<%= render "tag", style: report["badge_class"], number: report["stars_rank"], display: report["stars_rank"] >= 0 %>

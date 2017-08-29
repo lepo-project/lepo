@@ -2,29 +2,29 @@
 #
 # Table name: users
 #
-#  id                 :integer          not null, primary key
-#  signin_name        :string
-#  authentication     :string           default("local")
-#  hashed_password    :string
-#  salt               :string
-#  token              :string
-#  role               :string           default("user")
-#  familyname         :string
-#  familyname_alt     :string
-#  givenname          :string
-#  givenname_alt      :string
-#  folder_id          :string
-#  image_file_name    :string
-#  image_content_type :string
-#  image_file_size    :integer
-#  image_updated_at   :datetime
-#  web_url            :string
-#  description        :text
-#  default_note_id    :integer          default(0)
-#  last_signin_at     :datetime
-#  archived_at        :datetime
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                   :integer          not null, primary key
+#  signin_name          :string
+#  authentication       :string           default("local")
+#  hashed_password      :string
+#  salt                 :string
+#  token                :string
+#  role                 :string           default("user")
+#  family_name          :string
+#  phonetic_family_name :string
+#  given_name           :string
+#  phonetic_given_name  :string
+#  folder_id            :string
+#  image_file_name      :string
+#  image_content_type   :string
+#  image_file_size      :integer
+#  image_updated_at     :datetime
+#  web_url              :string
+#  description          :text
+#  default_note_id      :integer          default(0)
+#  last_signin_at       :datetime
+#  archived_at          :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 require 'test_helper'
@@ -42,10 +42,10 @@ class UserTest < ActiveSupport::TestCase
     assert build(:ldap_user).valid?
   end
 
-  # test for validates_presence_of :familyname
-  test 'a user without familyname is invalid' do
-    assert_invalid build(:user, familyname: ''), :familyname
-    assert_invalid build(:user, familyname: nil), :familyname
+  # test for validates_presence_of :family_name
+  test 'a user without family_name is invalid' do
+    assert_invalid build(:user, family_name: ''), :family_name
+    assert_invalid build(:user, family_name: nil), :family_name
   end
 
   # test for validates_presence_of :folder_id

@@ -153,7 +153,7 @@ class CourseMembersController < ApplicationController
       user_suggestions = []
       excludes = exclude_members(params[:tmp_managers], params[:course_id])
       users.each do |u|
-        user_suggestions.push(value: u.id, label: u.id_fullname) unless excludes.include?(u.id)
+        user_suggestions.push(value: u.id, label: u.id_full_name) unless excludes.include?(u.id)
       end
       user_suggestions.slice!(AUTOCOMPLETE_MAX_SIZE...user_suggestions.size)
       render json: user_suggestions

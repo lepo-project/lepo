@@ -2,29 +2,29 @@
 #
 # Table name: users
 #
-#  id                 :integer          not null, primary key
-#  signin_name        :string
-#  authentication     :string           default("local")
-#  hashed_password    :string
-#  salt               :string
-#  token              :string
-#  role               :string           default("user")
-#  familyname         :string
-#  familyname_alt     :string
-#  givenname          :string
-#  givenname_alt      :string
-#  folder_id          :string
-#  image_file_name    :string
-#  image_content_type :string
-#  image_file_size    :integer
-#  image_updated_at   :datetime
-#  web_url            :string
-#  description        :text
-#  default_note_id    :integer          default(0)
-#  last_signin_at     :datetime
-#  archived_at        :datetime
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id                   :integer          not null, primary key
+#  signin_name          :string
+#  authentication       :string           default("local")
+#  hashed_password      :string
+#  salt                 :string
+#  token                :string
+#  role                 :string           default("user")
+#  family_name          :string
+#  phonetic_family_name :string
+#  given_name           :string
+#  phonetic_given_name  :string
+#  folder_id            :string
+#  image_file_name      :string
+#  image_content_type   :string
+#  image_file_size      :integer
+#  image_updated_at     :datetime
+#  web_url              :string
+#  description          :text
+#  default_note_id      :integer          default(0)
+#  last_signin_at       :datetime
+#  archived_at          :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 FactoryGirl.define do
@@ -33,10 +33,10 @@ FactoryGirl.define do
     password 'temporary'
     password_confirmation 'temporary'
     role 'user'
-    familyname 'Test'
-    familyname_alt 'Test'
-    sequence(:givenname) { |i| "User#{i}" }
-    sequence(:givenname_alt) { |i| "User#{i}" }
+    family_name 'Test'
+    phonetic_family_name 'Test'
+    sequence(:given_name) { |i| "User#{i}" }
+    sequence(:phonetic_given_name) { |i| "User#{i}" }
 
     factory :admin_user do
       role 'admin'

@@ -44,7 +44,7 @@ COURSE_GROUP_MAX_SIZE = 9
 # max lesson number per course
 COURSE_LESSON_MAX_SIZE = 99
 
-# initial setting for lesson status
+# initial setting for lesson status: draft / open
 LESSON_STATUS_DEFAULT = 'open'.freeze
 
 # max size[MB]/file for assignment outcome file
@@ -59,8 +59,8 @@ USER_SEARCH_MAX_SIZE = 100
 # max peer review number per learner
 STORY_PEER_REVIEW_MAX_SIZE = 9
 
-# autocomplete category: signin_name, fullname, fullname_alt
-AUTOCOMPLETE_CATEGORY = 'fullname_alt'.freeze
+# autocomplete category: signin_name / full_name / phonetic_full_name
+AUTOCOMPLETE_CATEGORY = 'phonetic_full_name'.freeze
 
 # time delay for autocomplete
 AUTOCOMPLETE_DELAY = 100

@@ -10,7 +10,7 @@
         <%= outcome_status_text outcome.status, outcome.score %>
       </div>
       <div class="heading-item">
-        <%= outcome.manager.fullname %> (<%= outcome.manager.signin_name %>)
+        <%= outcome.manager.full_name %> (<%= outcome.manager.signin_name %>)
         <% if @course && (@course.groups_count > 1) %>
         / <%= (@course.group_id_for outcome.manager_id) + 1 %><%= t('activerecord.attributes.course_member.group') %>
         <% end %>

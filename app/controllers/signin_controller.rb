@@ -35,7 +35,7 @@ class SigninController < ApplicationController
 
   def ajax_create_admin_account
     if User.all.size.zero?
-      user = User.new(signin_name: params[:signin_name], password: params[:password], password_confirmation: params[:password_confirmation], role: 'admin', familyname: 'LePo', givenname: 'Master', familyname_alt: 'LePo', givenname_alt: 'Master')
+      user = User.new(signin_name: params[:signin_name], password: params[:password], password_confirmation: params[:password_confirmation], role: 'admin', family_name: 'LePo', given_name: 'Master', phonetic_family_name: 'LePo', phonetic_given_name: 'Master')
       if user.save
         Link.create manager_id: user.id, title: 'LePo Project', url: 'http://lepo.info/', display_order: 1
       else

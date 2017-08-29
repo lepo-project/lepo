@@ -1,5 +1,5 @@
 <div id="sticky_<%= sticky.id %>" class="sticky <%= sticky.category %>-border">
-  <div class="side-area" title="<%= sticky.manager.familyname %> <%= sticky.manager.givenname %>">
+  <div class="side-area" title="<%= sticky.manager.full_name %>">
 
     <!-- FIXME: note_sticky  -->
     <% if sticky.target_type == "page" %>
@@ -11,7 +11,7 @@
     <div class="side-image">
       <%= render partial: "layouts/image", locals: {obj: sticky.manager, fa_class: 'fa-user', size: 'm'} %>
     </div>
-    <div class="side-caption word-wrap"><%= sticky.manager.familyname %></div>
+    <div class="side-caption word-wrap"><%= sticky.manager.short_name %></div>
   </div>
   <div class="main-area">
     <div class="header">

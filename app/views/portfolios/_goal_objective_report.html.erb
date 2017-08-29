@@ -3,7 +3,7 @@
 	<td rowspan="<%= (@course_role == "learner")? 2:1 %>" ><%= report[:title] %></td>
 
 	<% if @course_role == "learner" %>
-	<td class="text-right"><%= report[:fullname] %></td>
+	<td class="text-right"><%= report[:full_name] %></td>
 	<%= render "bar", style: "info", ratio: report[:self_achievement], display: (report[:self_allocation] > 0) %>
 	<% if eval_report %>
 	<%= render "bar", style: "info", ratio: report[:eval_achievement], display: (report[:eval_allocation] > 0) %>

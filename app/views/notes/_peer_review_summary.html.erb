@@ -7,22 +7,22 @@
   <% members.each do |m| %>
   <% group_notes = @notes.select{|s| (s.group_id == @group_id) && (@course.learner? s.manager_id)} %>
   <% group_notes = group_notes.sort! {|a, b| a.id <=> b.id} %>
-  <h3><%= m.fullname %>（<%= m.signin_name %>）</h3>
+  <h3><%= m.full_name %>（<%= m.signin_name %>）</h3>
   <ul>
     <% user_peer_review = get_peer_review group_notes, @group_id, m.id %>
     <% user_peer_review[:eval].each do |upr| %>
-    <li>評価対象：<%= upr.manager.fullname %></li>
+    <li>評価対象：<%= upr.manager.full_name %></li>
     <% end %>
   </ul>
   <ul>
     <% stickies = Sticky.where(course_id: @course.id, manager_id: m.id, target_type: "note") %>
     <% stickies.each do |s| %>
     <% note = Note.find(s.target_id) %>
-    <li>ふせん：<%= note.manager.fullname %> 「<%= s.message %>」</li>
+    <li>ふせん：<%= note.manager.full_name %> 「<%= s.message %>」</li>
     <% end %>
     <% stars = NoteStar.where(manager_id: m.id, stared: true) %>
     <% stars.each do |s| %>
-    <li>スター：<%= s.note.manager.fullname %></li>
+    <li>スター：<%= s.note.manager.full_name %></li>
     <% end %>
   </ul>
   <% end %>

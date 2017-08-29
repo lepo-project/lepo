@@ -1,6 +1,6 @@
 <% if @selected_user %>
 <div class="bordered-block">
-  <h2>3. アカウントの設定：<%= @selected_user.fullname %>さん</h2>
+  <h2>3. アカウントの設定：<%= @selected_user.full_name %>さん</h2>
   <%= form_for @selected_user, url: {action: :ajax_update_user_account, id: @selected_user.id, search_word: @search_word}, html: {id: 'user_form', class: "form-horizontal", name: 'user_form', multipart: true}, remote: true do |f| %>
   <%#= f.error_messages %>
 

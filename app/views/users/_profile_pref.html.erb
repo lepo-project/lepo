@@ -10,28 +10,28 @@
 
 			<div class="bordered-block">
 				<div class="form-group row">
-					<%= f.label :familyname, raw("<span class='required'>*</span>氏名（姓）"), class: 'col-md-3 col-form-label text-sm-right' %>
+					<%= f.label :family_name, raw("<span class='required'>*</span>氏名（姓）"), class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">
-						<%= f.text_field :familyname, class: 'form-control' %>
+						<%= f.text_field :family_name, class: 'form-control' %>
 					</div>
 				</div>
 				<div class="form-group row">
-					<%= f.label :givenname, raw("<span class='required'>*</span>（名）"), class: 'col-md-3 col-form-label text-sm-right' %>
+					<%= f.label :given_name, '（名）', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">
-						<%= f.text_field :givenname, class: 'form-control' %>
+						<%= f.text_field :given_name, class: 'form-control' %>
 					</div>
 				</div>
 				<div class="form-group row">
-					<%= f.label :familyname_alt, '氏名のよみ（セイ）', class: 'col-md-3 col-form-label text-sm-right' %>
+					<%= f.label :phonetic_family_name, '氏名のよみ（セイ）', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">
-						<%= f.text_field :familyname_alt, class: 'form-control' %>
+						<%= f.text_field :phonetic_family_name, class: 'form-control' %>
 						<div class="form-text">カタカナで入力</div>
 					</div>
 				</div>
 				<div class="form-group row">
-					<%= f.label :givenname_alt, '（メイ）', class: 'col-md-3 col-form-label text-sm-right' %>
+					<%= f.label :phonetic_given_name, '（メイ）', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">
-						<%= f.text_field :givenname_alt, class: 'form-control' %>
+						<%= f.text_field :phonetic_given_name, class: 'form-control' %>
 						<div class="form-text">カタカナで入力</div>
 					</div>
 				</div>
@@ -79,6 +79,6 @@
 
 <script>
 $(function () {
-	$('#user_familyname').focus();
+	$('#user_family_name').focus();
 })
 </script>

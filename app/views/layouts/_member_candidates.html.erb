@@ -11,7 +11,7 @@
           <%= render partial: 'layouts/image', locals: {obj: user[0], fa_class: 'fa-user', size: 'm'} %>
         </td>
         <td class="name-td">
-          <%= user[0].fullname + ' / ' + user[0].fullname_alt %>
+          <%= user[0].full_name + ' / ' + user[0].phonetic_full_name %>
           <span class="badge badge-secondary"><%= member_role_text category, user[1] %></span>
         </td>
         <td class="button-td">

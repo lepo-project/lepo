@@ -286,10 +286,10 @@ ja:
         course_members: コースユーザ
         description: 説明
         devices: デバイス
-        familyname: 姓
-        familyname_alt: 姓よみ
-        givenname: 名
-        givenname_alt: 名よみ
+        family_name: 姓
+        phonetic_family_name: 姓よみ
+        given_name: 名
+        phonetic_given_name: 名よみ
         hashed_password: ハッシュ化したパスワード
         image_content_type: 画像コンテンツタイプ
         image_file_name: 画像ファイル名
