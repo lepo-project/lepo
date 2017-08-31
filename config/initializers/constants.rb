@@ -57,7 +57,7 @@ OUTCOME_MAX_SIZE = 9
 USER_SEARCH_MAX_SIZE = 50
 
 # max peer review number per learner
-STORY_PEER_REVIEW_MAX_SIZE = 9
+NOTE_PEER_REVIEW_MAX_SIZE = 9
 
 # time delay for autocomplete
 AUTOCOMPLETE_DELAY = 100

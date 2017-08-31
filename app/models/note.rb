@@ -29,7 +29,7 @@ class Note < ApplicationRecord
   has_many :stared_users, -> { where('note_stars.stared = ?', true) }, through: :note_stars, source: :manager
   validates_presence_of :manager_id
   validates_presence_of :title
-  validates_inclusion_of :peer_reviews_count, in: (0..STORY_PEER_REVIEW_MAX_SIZE).to_a
+  validates_inclusion_of :peer_reviews_count, in: (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a
   validates_inclusion_of :status, in: %w[private course master_draft master_review master_open]
 
   # ====================================================================
