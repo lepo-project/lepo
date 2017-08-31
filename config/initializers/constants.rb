@@ -54,13 +54,10 @@ OUTCOME_MAX_FILE_SIZE = 10
 OUTCOME_MAX_SIZE = 9
 
 # max number of user search results for system administrator
-USER_SEARCH_MAX_SIZE = 100
+USER_SEARCH_MAX_SIZE = 50
 
 # max peer review number per learner
 STORY_PEER_REVIEW_MAX_SIZE = 9
-
-# autocomplete category: signin_name / full_name / phonetic_full_name
-AUTOCOMPLETE_CATEGORY = 'phonetic_full_name'.freeze
 
 # time delay for autocomplete
 AUTOCOMPLETE_DELAY = 100
@@ -70,6 +67,9 @@ AUTOCOMPLETE_MAX_SIZE = 20
 
 # min character length for autocomplete
 AUTOCOMPLETE_MIN_LENGTH = 1
+
+# autocomplete name category: signin / signin_full / signin_full_phonetic
+AUTOCOMPLETE_NAME_CATEGORY = 'signin_full_phonetic'.freeze
 
 # FIXME: PushNotification
 # FCM_AUTHORIZATION_KEY = ''

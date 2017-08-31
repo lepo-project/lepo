@@ -277,7 +277,6 @@ ja:
         title: タイトル
 
       user:
-        archived_at: アーカイブ日時：
         attendances: 出席者
         authentication: 認証方式
         contents: 内容
@@ -295,7 +294,7 @@ ja:
         image_file_name: 画像ファイル名
         image_file_size: 画像ファイルのサイズ
         image_updated_at: 画像ファイルの更新日時
-        last_signin_at: 最後のサインイン日時
+        last_signin_at: 最終サインイン日時
         lessons: :activerecord.models.lesson
         notes: :activerecord.models.note
         outcome_messages: :activerecord.models.outcome_message
@@ -320,6 +319,8 @@ ja:
           manager: 管理者
           assistant: アシスタント
           user: 利用者
+      created_at: 作成日時
+      updated_at: 更新日時
       user:
         authentication:
           local: ローカル
@@ -479,6 +480,9 @@ ja:
       no_note_resources: 現在、管理しているノートはありません
       no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
       no_search_results: 検索条件を満たす結果はありません
+      preferences:
+        self_password_edit: 自分のパスワードは、設定 > アカウントから変更
+        no_password_edit: 変更しない場合は空欄
     system_version: システムのバージョン
     units:
       characters: 字

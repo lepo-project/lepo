@@ -102,17 +102,18 @@ class UsersController < ApplicationController
     end
 
     def ajax_update_user_account
-      if User.system_staff? session[:id]
-        selected_user = User.find(params[:id])
+      user = User.find session[:id]
+      if user.system_staff?
+        selected_user = User.find params[:id]
         original_role = selected_user.role
         if params[:user][:password].nil? || selected_user.authentication == 'ldap'
-          update_result = selected_user.update_attributes(role: params[:user][:role])
-        else
+          update_result = selected_user.update_attributes(role: params[:user][:role]) if User.role_editable? user.role, original_role
+        elsif User.password_editable? user.role, original_role
           update_result = selected_user.update_attributes(user_params)
         end
 
         if update_result
-          flash[:message] = selected_user.full_name + 'さんのアカウントを更新しました。'
+          flash[:message] = selected_user.full_name + 'のアカウントを更新しました。'
           flash[:message_category] = 'info'
         else
           flash[:message] = '入力した情報に誤りがあります。'
