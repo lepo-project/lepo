@@ -61,7 +61,7 @@
           <div class="form-group row">
             <%= f.label :peer_reviews_count, '評価ノート数', class: 'col-md-3 col-form-label text-sm-right' %>
             <div class="col-md-9">
-              <%= f.select :peer_reviews_count, (0..STORY_PEER_REVIEW_MAX_SIZE).to_a, {}, {class: 'form-control'} %>
+              <%= f.select :peer_reviews_count, (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a, {}, {class: 'form-control'} %>
               <ul class="form-list">
                 <li>相互評価をしない場合は0を設定</li>
                 <li>相互評価開始後に評価対象数を変更すると、評価対象ノートも変更</li>

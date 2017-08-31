@@ -42,12 +42,12 @@ class NoteTest < ActiveSupport::TestCase
     assert_invalid build(:note, title: nil), :title
   end
 
-  # test for validates_inclusion_of :peer_reviews_count, in: (0..STORY_PEER_REVIEW_MAX_SIZE).to_a
-  test 'a note with peer_reviews_count that is not included in (0..STORY_PEER_REVIEW_MAX_SIZE).to_a is invalid' do
+  # test for validates_inclusion_of :peer_reviews_count, in: (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a
+  test 'a note with peer_reviews_count that is not included in (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a is invalid' do
     assert_invalid build(:note, peer_reviews_count: ''), :peer_reviews_count
     assert_invalid build(:note, peer_reviews_count: nil), :peer_reviews_count
     assert_invalid build(:note, peer_reviews_count: -1), :peer_reviews_count
-    assert_invalid build(:note, peer_reviews_count: STORY_PEER_REVIEW_MAX_SIZE + 1), :peer_reviews_count
+    assert_invalid build(:note, peer_reviews_count: NOTE_PEER_REVIEW_MAX_SIZE + 1), :peer_reviews_count
   end
 
   # test for validates_inclusion_of :status, in: %w[private course master_draft master_review master_open]
