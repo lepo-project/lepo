@@ -15,6 +15,7 @@ class SigninController < ApplicationController
     if user
       if (user.system_staff? && !inside_ip?(SYSTEM_MANAGE_IPS)) || user.role == 'suspended'
         # system administrator can only signin from SYSTEM_MANAGE_IPS
+        # suspended user can not signin
         flash[:message] = t('views.signin.errors.message1')
         render 'layouts/renders/resource', locals: { resource: 'index' }
       else

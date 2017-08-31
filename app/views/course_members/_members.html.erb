@@ -9,7 +9,7 @@
           <%= render partial: "layouts/image", locals: {obj: user, fa_class: 'fa-user', size: 'm'} %>
         </td>
         <td class="name-td">
-          <%= link_to user.full_name + " / " + user.phonetic_full_name, {controller: 'course_members', action: 'ajax_show', id: user.id}, remote: true %>
+          <%= link_to user.full_name_all, {controller: 'course_members', action: 'ajax_show', id: user.id}, remote: true %>
         </td>
       </tr>
       <% end %>

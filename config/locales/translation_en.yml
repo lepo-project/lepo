@@ -277,7 +277,6 @@ en:
         title: Title
 
       user:
-        archived_at: Archived at
         attendances: Attendances
         authentication: Authentication
         contents: Contents
@@ -320,6 +319,8 @@ en:
           manager: Manager
           assistant: Assistant
           user: User
+      created_at: created at
+      updated_at: updated at
       user:
         authentication:
           local: Local
@@ -479,6 +480,9 @@ en:
       no_note_resources: Currently no notes managed
       no_snippets: Currently no snippets
       no_search_results: No Search Results
+      preferences:
+        self_password_edit: Self account password can be edit from Settings> Account
+        no_password_edit: Leave blank for no password change
     system_version: System Version
     units:
       characters: characters

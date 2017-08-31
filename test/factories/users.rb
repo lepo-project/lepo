@@ -22,7 +22,6 @@
 #  description          :text
 #  default_note_id      :integer          default(0)
 #  last_signin_at       :datetime
-#  archived_at          :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #

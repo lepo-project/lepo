@@ -8,7 +8,7 @@
           <%= render partial: "layouts/image", locals: {obj: user, fa_class: 'fa-user', size: 'm'} %>
         </td>
         <td class="name-td">
-          <%= user.full_name + ' / ' + user.phonetic_full_name %>
+          <%= user.full_name_all %>
           <span class="badge badge-secondary"><%= member_role_text 'system', user.role %></span>
         </td>
         <td class="button-td">

@@ -538,7 +538,7 @@ module ApplicationHelper
     else
       card['icon'] = 'fa fa-user'
     end
-    card['header'] = link_to_if(user.web_url?, user.full_name + ' [' + user.phonetic_full_name + ']', user.web_url, target: '_blank')
+    card['header'] = link_to_if(user.web_url?, user.full_name_all, user.web_url, target: '_blank')
     card['body'] = user.description
     card['summary'] = false
     if user.updated_at

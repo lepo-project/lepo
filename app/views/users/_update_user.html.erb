@@ -1,74 +1,90 @@
 <% if @selected_user %>
 <div class="bordered-block">
-  <h2>3. アカウントの設定：<%= @selected_user.full_name %>さん</h2>
+  <h2>3. アカウントの設定：<%= @selected_user.full_name %></h2>
   <%= form_for @selected_user, url: {action: :ajax_update_user_account, id: @selected_user.id, search_word: @search_word}, html: {id: 'user_form', class: "form-horizontal", name: 'user_form', multipart: true}, remote: true do |f| %>
   <%#= f.error_messages %>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label"><%= t('views.preferences.account') %><%= t('activerecord.others.created_at') %></label>
+    <div class="col-md-7"><%= format_time @selected_user.created_at, "ymdhm" %></div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label"><%= t('views.preferences.account') %><%= t('activerecord.others.updated_at') %></label>
+    <div class="col-md-7"><%= format_time @selected_user.updated_at, "ymdhm" %></div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label"><%= t('activerecord.attributes.user.last_signin_at') %></label>
+    <div class="col-md-7"><%= last_signin_at_text(@selected_user.last_signin_at) %></div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-3 col-form-label"><%= t('activerecord.attributes.user.authentication') %></label>
+    <div class="col-md-7"><%= t('activerecord.others.user.authentication.' + @selected_user.authentication) %></div>
+  </div>
+
+  <% password_editable = User.password_editable? @user.role, @selected_user.role %>
+  <div class="form-group row">
+    <%= f.label :password, 'パスワード', class: "col-md-3 col-form-label" %>
+    <div class="col-md-7">
+      <% if password_editable %>
+      <%= f.password_field :password, class: "form-control" %>
+      <ul class="form-list">
+        <li><span style="font-weight: bold;">英数字<%= USER_PASSWORD_MIN_LENGTH %>〜<%= USER_PASSWORD_MAX_LENGTH %>文字</span>で設定</li>
+        <li><%= t('views.system_messages.preferences.no_password_edit') %></li>
+        <li><%= t('views.system_messages.preferences.self_password_edit') %></li>
+      </ul>
+      <% else %>
+      <div> ***** </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="form-group row">
+    <%= f.label :password_confirmation, 'パスワードの再入力', class: "col-md-3 col-form-label" %>
+    <div class="col-md-7">
+      <% if password_editable %>
+      <%= f.password_field :password_confirmation, class: "form-control" %>
+      <% else %>
+      <div> ***** </div>
+      <% end %>
+    </div>
+  </div>
 
   <div class="form-group row">
     <label class="col-md-3 col-form-label">学習コース</label>
     <div class="col-md-7">
       <% courses = Course.associated_by @selected_user.id, "learner" %>
+      <% if courses.size.zero? %>
+      <%= t('views.none') %>
+      <% else %>
       <% courses.each do |course| %>
       <%= course.title %>&nbsp;
       <% end %>
+      <% end %>
     </div>
   </div>
-  <div class="form-group row">
-    <label class="col-md-3 col-form-label"><%= t('activerecord.attributes.user.last_signin_at') %></label>
-    <div class="col-md-7"><%= last_signin_at_text(@selected_user.last_signin_at) %></div>
-  </div>
-  <div class="form-group row">
-    <label class="col-md-3 col-form-label">アカウント作成</label>
-    <div class="col-md-7"><%= format_time @selected_user.created_at, "ymdhm" %></div>
-  </div>
-  <div class="form-group row">
-    <label class="col-md-3 col-form-label"><%= t('activerecord.attributes.user.authentication') %></label>
-    <div class="col-md-7"><%= t('activerecord.others.user.authentication.' + @selected_user.authentication) %></div>
-  </div>
+
   <div class="form-group row">
     <label class="col-md-3 col-form-label"><%= t('views.content.manage') %></label>
     <div class="col-md-7"><%= @selected_user.content_manageable? ? t('views.possible') : t('views.impossible') %></div>
   </div>
 
-  <% editable = ((@user.role == 'manager') && (@selected_user.role == 'user')) || (@user.role == 'admin') %>
-  <div class="form-group row">
-    <%= f.label :password, 'パスワード', class: "col-md-3 col-form-label" %>
-    <div class="col-md-7">
-      <% if editable %>
-      <%= f.password_field :password, class: "form-control" %>
-      <ul class="form-list">
-        <li><span style="font-weight: bold;">英数字<%= USER_PASSWORD_MIN_LENGTH %>〜<%= USER_PASSWORD_MAX_LENGTH %>文字</span>で設定</li>
-        <li>変更しない場合は空欄</li>
-      </ul>
-      <% else %>
-      <div> *** </div>
-      <% end %>
-    </div>
-  </div>
-  <div class="form-group row">
-    <%= f.label :password_confirmation, 'パスワードの確認', class: "col-md-3 col-form-label" %>
-    <div class="col-md-7">
-      <% if editable %>
-      <%= f.password_field :password_confirmation, class: "form-control" %>
-      <div class="form-text">同じパスワードを再入力</div>
-      <% else %>
-      <div> *** </div>
-      <% end %>
-    </div>
-  </div>
-
+  <% role_editable = User.role_editable? @user.role, @selected_user.role %>
   <div class="form-group row">
     <%= f.label :password_confirmation, 'アカウント種別', class: "col-md-3 col-form-label" %>
     <div class="col-md-7">
-      <% if (((@user.role == 'admin') || (@user.role == 'manager')) && (@selected_user.role != 'admin')) %>
-      <%= f.select :role, [[t('activerecord.others.user.role.manager'), 'manager'], [t('activerecord.others.user.role.user'), 'user'], [t('activerecord.others.user.role.suspended'), 'suspended']], {}, {class: "form-control"} %>
+      <% if role_editable %>
+      <% role_candidates = [[t('activerecord.others.user.role.user'), 'user'], [t('activerecord.others.user.role.suspended'), 'suspended']] %>
+      <% role_candidates.unshift [t('activerecord.others.user.role.manager'), 'manager'] if @user.role == 'admin' %>
+      <%= f.select :role, role_candidates, {}, {class: "form-control"} %>
       <% else %>
       <span><%= t("activerecord.others.user.role.#{@selected_user.role}") %></span>
       <% end %>
     </div>
   </div>
 
-  <% if editable %>
+  <% if password_editable || role_editable %>
   <div class="control-group">
     <%= link_to raw("<i class='fa fa-times-circle fa-lg'></i> #{t('views.cancel')}"), {action: 'ajax_search_accounts', search_word: @search_word, role: @role}, {id: 'cancel-btn', class: 'btn btn-light', style: 'color:#000; text-decoration: none;', title: 'cancel', remote: true} %>
     <button type="submit" class="btn btn-primary" style="margin-left: 10px;">
