@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     end
 
     def ajax_new_user_pref
-      current_user_info
+      existing_users_info
       render 'layouts/renders/main_pane', locals: { resource: 'users/new_user_pref' }
     end
 
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     end
 
     def ajax_csv_candidates
-      current_user_info
+      existing_users_info
       @candidates_csv = params[:candidates_csv] ? params[:candidates_csv] : ''
       @candidates = csv_to_user_candidates params[:candidates_csv], @user.system_admin?
       render 'layouts/renders/resource', locals: { resource: 'users/new_user_pref' }
@@ -91,7 +91,7 @@ class UsersController < ApplicationController
     end
 
     def ajax_update_role
-      current_user_info
+      existing_users_info
       if params[:update_to] == 'suspended'
         user = User.find(params[:user_id])
         if user && user.role != 'admin'
@@ -186,7 +186,7 @@ class UsersController < ApplicationController
       true
     end
 
-    def current_user_info
+    def existing_users_info
       @admin = User.system_admin
       @managers = User.system_managers
       @users = User.system_users(10)
