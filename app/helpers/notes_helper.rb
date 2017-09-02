@@ -42,4 +42,28 @@ module NotesHelper
     end
     peer_review
   end
+
+  def note_snippet_text(manager_flag, stickies)
+    title = 'ふせんの数[枚]'
+    if manager_flag
+      title += ': '
+      stickies.each_with_index do |st, i|
+        title += User.full_name_for_id(st.manager_id)
+        title += ', ' if i != (stickies.size - 1)
+      end
+    end
+    title
+  end
+
+  def note_star_text(manager_flag, stared_users)
+    title = 'スターの数[個]'
+    if manager_flag
+      title += ': '
+      stared_users.each_with_index do |st, i|
+        title += User.full_name_for_id(st.id)
+        title += ', ' if i != (stared_users.size - 1)
+      end
+    end
+    title
+  end
 end
