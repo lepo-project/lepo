@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   include HttpAcceptLanguage::AutoLocale
   after_action :discard_flash_if_xhr
   before_action :authorize
+  helper_method :current_user
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   def key_binder
@@ -44,6 +45,10 @@ class ApplicationController < ActionController::Base
     reset_session
     flash[:message] = 'サインインしてください'
     render 'layouts/renders/signout'
+  end
+
+  def current_user
+    @current_user ||= User.find_by(id: session[:id])
   end
 
   def delete_existing(candidates, exists)
@@ -130,12 +135,11 @@ class ApplicationController < ActionController::Base
   end
 
   def get_outcome_resources(lesson, content)
-    @myself = User.find(session[:id])
-    @lesson_role = lesson.user_role @myself.id
+    @lesson_role = lesson.user_role current_user.id
     if !@lesson.new_record? && @lesson_role != 'assistant'
-      @outcomes = Outcome.get_all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, @myself.id
+      @outcomes = Outcome.get_all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, current_user.id
     else
-      @outcomes = [Outcome.new_with_associations(@myself.id, 0, 0, 'observer')]
+      @outcomes = [Outcome.new_with_associations(current_user.id, 0, 0, 'observer')]
     end
 
     # OutcomesObjectives setting

@@ -29,7 +29,7 @@
   <div class="loc-subbody">
     <%= outcome_form.fields_for :outcome_messages, Outcome.reflect_on_association(:outcome_messages).klass.new do |message_form| %>
     <%= message_form.text_area :message, style: "width: 100%; height:4em; padding:0;" %>
-    <%= message_form.hidden_field :manager_id, value: @myself.id %>
+    <%= message_form.hidden_field :manager_id, value: current_user.id %>
     <% end %>
   </div>
 

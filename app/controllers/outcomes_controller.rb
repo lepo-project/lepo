@@ -78,7 +78,7 @@ class OutcomesController < ApplicationController
     @message_templates = get_message_templates(@course.manager?(session[:id]))
 
     # latest_item = @outcome.outcome_messages[0]
-    # if (latest_item.manager_id == @myself.id)
+    # if (latest_item.manager_id == current_user.id)
     #   @outcome_message = latest_item
     # else
     #   @outcome_message = OutcomeMessage.new()

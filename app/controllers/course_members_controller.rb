@@ -173,7 +173,6 @@ class CourseMembersController < ApplicationController
     @managers = User.sort_by_signin_name @course.managers
     @assistants = User.sort_by_signin_name @course.assistants
     @learners = User.sort_by_signin_name @course.learners
-    @myself = User.find(session[:id])
   end
 
   def update_role(user_id, course_id, role)
