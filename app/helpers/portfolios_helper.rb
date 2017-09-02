@@ -418,12 +418,12 @@ module PortfoliosHelper
   end
 
   # def out_organization_ratio accesses
-  # 	out_organization_accesses = accesses.select{|a| !a.inside}
-  # 	if accesses.size == 0
-  # 		out_organization_ratio = 0
-  # 	else
-  # 		out_organization_ratio = (out_organization_accesses.size*100)/accesses.size
-  # 	end
-  # 	return out_organization_ratio
+  #    out_organization_accesses = accesses.select{|a| !a.inside}
+  #    if accesses.size == 0
+  #            out_organization_ratio = 0
+  #    else
+  #            out_organization_ratio = (out_organization_accesses.size*100)/accesses.size
+  #    end
+  #    return out_organization_ratio
   # end
 end

@@ -16,10 +16,6 @@ module ApplicationHelper
     (value.to_f / data_num).round(decimal_num)
   end
 
-  def div_str(str)
-    sanitize(str, tags: ['div'], attributes: %w[id class])
-  end
-
   def get_summary(txt)
     double_return_index = txt.index('<br /><br />')
     if double_return_index
@@ -197,29 +193,6 @@ module ApplicationHelper
     end
   end
 
-  def resource_text(resource)
-    case resource
-    when 'contents'
-      '教材'
-    when 'courses'
-      'コース'
-    when 'course_members'
-      'メンバー'
-    when 'lessons'
-      'レッスン'
-    when 'snippets'
-      '切り抜き'
-    when 'stickies'
-      'ふせん'
-    when 'notes'
-      'ノート'
-    when 'users'
-      '利用者'
-    when 'system'
-      'システム'
-    end
-  end
-
   def sticky_category_short_text(category)
     case category
     when 'course'
@@ -246,17 +219,6 @@ module ApplicationHelper
       '公開中'
     when 'archived'
       'アーカイブ'
-    end
-  end
-
-  def status_explanation_text(status)
-    case status
-    when 'draft'
-      'コース管理者とアシスタントのみ、保管庫からコースを閲覧可'
-    when 'open'
-      'コースの全員が、コースを閲覧可'
-    when 'archived'
-      'コースの全員が、保管庫からコースを閲覧可・活動は不可'
     end
   end
 
@@ -614,14 +576,6 @@ module ApplicationHelper
 
   def link_to_resource(body, resource_id, html_options, action = 'ajax_show')
     link_to(sanitize("<div>#{body}</div>"), { action: action, id: resource_id }, html_options.merge(remote: true))
-  end
-
-  def marked_resource_num(marked_resources)
-    marked_num = 0
-    marked_resources.each do |_key, value|
-      marked_num += value.to_i
-    end
-    marked_num
   end
 
   def member_role_options(update_model)

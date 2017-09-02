@@ -23,7 +23,7 @@ module PreferencesHelper
       when 'ajax_profile_pref'
         t('views.preferences.profile') + ' : ' + t('views.preferences.profile_summary')
       when 'ajax_default_note_pref'
-        t('views.preferences.note') +   ' : ' + t('views.preferences.note_summary')
+        t('views.preferences.note') + ' : ' + t('views.preferences.note_summary')
       when 'ajax_user_account_pref'
         t('views.preferences.user_account') + ' : ' + t('views.preferences.user_account_summary')
       end

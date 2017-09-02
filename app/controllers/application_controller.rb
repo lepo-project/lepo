@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   include HttpAcceptLanguage::AutoLocale
   after_action :discard_flash_if_xhr
   before_action :authorize
-  helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   def key_binder
