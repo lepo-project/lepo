@@ -27,10 +27,8 @@ class ApplicationController < ActionController::Base
 
   # 0. general =================================================================
   def all_blank_title?(attributes)
-    attributes.each_value do |attribute|
-      return false unless attribute[:title].blank?
-    end
-    true
+    not_blank_titles = attributes.values.pluck(:title).delete_if { |t| t == '' }
+    not_blank_titles.size.zero?
   end
 
   def app_protocol

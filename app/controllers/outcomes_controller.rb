@@ -59,7 +59,7 @@ class OutcomesController < ApplicationController
     score = 0
     achievement_name = @outcome.manager_id == session[:id] ? 'self_achievement' : 'eval_achievement'
 
-    objectives.each_value do |o|
+    objectives.each do |_key, o|
       score += o[achievement_name].to_i
     end
     score

@@ -189,7 +189,7 @@ class CoursesController < ApplicationController
       @course.fill_goals
       render 'layouts/renders/resource', locals: { resource: 'edit' }
     else
-      set_destroy_for_blank(course_form[:goals_attributes])
+      destroy_blank_goals(course_form[:goals_attributes])
 
       if @course.update_attributes course_form
         check_course_groups course_form[:groups_count]
@@ -435,7 +435,7 @@ class CoursesController < ApplicationController
     end
   end
 
-  def set_destroy_for_blank(attributes)
+  def destroy_blank_goals(attributes)
     attributes.each do |_key, attribute|
       next unless attribute[:id] && attribute[:title].blank?
       goal = Goal.find(attribute[:id])
