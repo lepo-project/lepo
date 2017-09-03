@@ -84,7 +84,7 @@ class Content < ApplicationRecord
   end
 
   def manager
-    content_manager = content_members.find_by_role('manager')
+    content_manager = content_members.find_by(role: 'manager')
     content_manager.user
   end
 

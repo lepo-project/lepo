@@ -248,7 +248,7 @@ class SnippetsController < ApplicationController
     token = params[:tk]
     # version = params[:v]
 
-    user = User.find_by_token(token) if token
+    user = User.find_by(token: token) if token
     if !token || !user
       @warning_message = '「+Note」ボタンを更新してください'
       render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 5000)

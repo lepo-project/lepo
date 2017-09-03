@@ -279,7 +279,7 @@ class ApplicationController < ActionController::Base
       signin_name = row[0].strip
       member_role = row[1].strip
 
-      user = User.find_by_signin_name(signin_name)
+      user = User.find_by(signin_name: signin_name)
       if user
         current_relation = ContentMember.find_by_content_id_and_user_id(resource_id, user.id) if category == 'content'
         current_relation = CourseMember.find_by_course_id_and_user_id(resource_id, user.id) if category == 'course'

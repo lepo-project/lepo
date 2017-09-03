@@ -67,7 +67,7 @@ class NotesController < ApplicationController
   end
 
   def ajax_toggle_star
-    @note = Note.find_by_id(params[:id])
+    @note = Note.find_by(id: params[:id])
     if @note
       user_id = session[:id]
       note_star = NoteStar.find_by_manager_id_and_note_id(user_id, @note.id)

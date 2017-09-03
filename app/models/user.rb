@@ -74,7 +74,7 @@ class User < ApplicationRecord
   # Public Functions
   # ====================================================================
   def self.authenticate(signin_name, password)
-    user = find_by_signin_name(signin_name)
+    user = find_by(signin_name: signin_name)
 
     # No signin_name in DB
     return nil unless user
@@ -125,7 +125,7 @@ class User < ApplicationRecord
   end
 
   def self.system_admin
-    find_by_role 'admin'
+    find_by(role: 'admin')
   end
 
   def self.system_managers

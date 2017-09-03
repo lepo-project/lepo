@@ -134,12 +134,12 @@ class CourseMembersController < ApplicationController
         flash[:message_category] = 'error'
       end
     when 'add' then
-      user = User.find_by_id(params[:manager_id])
+      user = User.find_by(id: params[:manager_id])
       manager_ids.push(user.id) unless user.nil?
     end
     managers = []
     manager_ids.each do |manager_id|
-      user = User.find_by_id(manager_id)
+      user = User.find_by(id: manager_id)
       managers.push(user) unless user.nil?
     end
     render 'courses/renders/tmp_managers', locals: { managers: managers, course_id: session[:nav_id], message: flash.now[:message], message_category: flash[:message_category] }

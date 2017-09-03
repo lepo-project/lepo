@@ -167,7 +167,7 @@ class UsersController < ApplicationController
           return candidates
         end
 
-        user = User.find_by_signin_name(signin_name)
+        user = User.find_by(signin_name: signin_name)
         if user
           candidates.push [user, user.role, '']
         else
