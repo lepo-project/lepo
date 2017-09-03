@@ -418,6 +418,7 @@ ja:
       user_account_summary: 既存ユーザの検索と編集
       user_preferences: ユーザ設定
     recommended_browser: 推奨するWebブラウザ
+    released_at: 公開日
     repository: 保管庫
     required: 必須項目
     search: 検索
