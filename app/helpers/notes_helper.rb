@@ -27,7 +27,7 @@ module NotesHelper
       group_notes.each_with_index do |gn, i|
         # FIXME: PeerReview
         # no note or notes inherited from one original master note should exist in one course in peer-review status
-        # wrong assumption: course note made by @user in a group_notes must be one
+        # wrong assumption: course note made by current_user in a group_notes must be one
         user_index = i if gn.manager_id == user_id
       end
 

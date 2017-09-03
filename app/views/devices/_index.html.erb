@@ -16,10 +16,10 @@
 
 			<div class="bordered-block">
 				<h2>プッシュ通知をする機器</h2>
-				<% if @user.devices.length == 0 %>
+				<% if current_user.devices.length == 0 %>
 				<p>プッシュ通知をする機器が、登録されていません。</p>
 				<% else %>
-				<%= render(partial: 'device', collection: @user.devices) %>
+				<%= render(partial: 'device', collection: current_user.devices) %>
 				<% end %>
 				<%= link_to({action: 'ajax_new'}, {class: 'btn btn-primary', remote: true}) do %>
 				<i class='fa fa-plus'></i> <%= t('views.new_device') %>

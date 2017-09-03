@@ -1,6 +1,6 @@
 keyBinder($(document));
 try {
-  sessionStorage.setItem("nav-open-courses-class", "<%= @user.system_staff? ? 'nav-hidden' : '' %>");
+  sessionStorage.setItem("nav-open-courses-class", "<%= current_user.system_staff? ? 'nav-hidden' : '' %>");
   sessionStorage.setItem("nav-repository-class", "nav-hidden");
 } catch(err) {
   console.error(err);

@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize
-    return if User.find_by_id(session[:id])
+    return if User.find_by(id: session[:id])
     # For snippet import through bookmarklet
     return if (controller_name == 'snippets') && (action_name == 'create_web_snippet')
     # For mainly expired session
@@ -133,11 +133,11 @@ class ApplicationController < ActionController::Base
   end
 
   def get_outcome_resources(lesson, content)
-    @lesson_role = lesson.user_role current_user.id
+    @lesson_role = lesson.user_role session[:id]
     if !@lesson.new_record? && @lesson_role != 'assistant'
-      @outcomes = Outcome.get_all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, current_user.id
+      @outcomes = Outcome.get_all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, session[:id]
     else
-      @outcomes = [Outcome.new_with_associations(current_user.id, 0, 0, 'observer')]
+      @outcomes = [Outcome.new_with_associations(session[:id], 0, 0, 'observer')]
     end
 
     # OutcomesObjectives setting

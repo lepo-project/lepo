@@ -24,7 +24,7 @@
     <div class="col-md-7"><%= t('activerecord.others.user.authentication.' + @selected_user.authentication) %></div>
   </div>
 
-  <% password_editable = User.password_editable? @user.role, @selected_user.role %>
+  <% password_editable = User.password_editable? current_user.role, @selected_user.role %>
   <div class="form-group row">
     <%= f.label :password, 'パスワード', class: "col-md-3 col-form-label" %>
     <div class="col-md-7">
@@ -70,13 +70,13 @@
     <div class="col-md-7"><%= @selected_user.content_manageable? ? t('views.possible') : t('views.impossible') %></div>
   </div>
 
-  <% role_editable = User.role_editable? @user.role, @selected_user.role %>
+  <% role_editable = User.role_editable? current_user.role, @selected_user.role %>
   <div class="form-group row">
     <%= f.label :password_confirmation, 'アカウント種別', class: "col-md-3 col-form-label" %>
     <div class="col-md-7">
       <% if role_editable %>
       <% role_candidates = [[t('activerecord.others.user.role.user'), 'user'], [t('activerecord.others.user.role.suspended'), 'suspended']] %>
-      <% role_candidates.unshift [t('activerecord.others.user.role.manager'), 'manager'] if @user.role == 'admin' %>
+      <% role_candidates.unshift [t('activerecord.others.user.role.manager'), 'manager'] if current_user.role == 'admin' %>
       <%= f.select :role, role_candidates, {}, {class: "form-control"} %>
       <% else %>
       <span><%= t("activerecord.others.user.role.#{@selected_user.role}") %></span>

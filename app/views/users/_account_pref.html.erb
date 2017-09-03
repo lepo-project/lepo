@@ -3,7 +3,7 @@
 		<div class="col-md-12">
 			<h1>アカウントの設定</h1>
 			<%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
-			<%= form_for @user, url: {action: :ajax_update_account, id: @user.id}, html: {id: 'user_form', name: 'user_form', multipart: true}, remote: true do |f| %>
+			<%= form_for current_user, url: {action: :ajax_update_account}, html: {id: 'user_form', name: 'user_form', multipart: true}, remote: true do |f| %>
 			<%#= f.error_messages %>
 
 			<div class="bordered-block">
@@ -34,20 +34,20 @@
 					<div class="form-group row control-group-text-line">
 						<%= f.label :signin_name, t('activerecord.attributes.user.signin_name'), class: "col-md-3 col-form-label text-sm-right control-text-line", style: "line-height: 60%;" %>
 						<div class="col-md-7">
-							<%= @user.signin_name %>
+							<%= current_user.signin_name %>
 						</div>
 					</div>
 					<div class="form-group row control-group-text-line">
 						<%= f.label :role, 'アカウント種別', class: "col-md-3 col-form-label text-sm-right control-text-line", style: "line-height: 60%;" %>
 						<div class="col-md-7">
-							<%= t("activerecord.others.user.role.#{@user.role}") %>
+							<%= t("activerecord.others.user.role.#{current_user.role}") %>
 						</div>
 					</div>
 
 					<div class="form-group row control-group-text-line">
 						<label class="col-md-3 col-form-label text-sm-right control-text-line" style="line-height: 60%;"><%= t('views.content.manage') %></label>
 						<div class="col-md-7">
-							<%= @user.content_manageable? ? t('views.possible') : t('views.impossible') %>
+							<%= current_user.content_manageable? ? t('views.possible') : t('views.impossible') %>
 						</div>
 					</div>
 

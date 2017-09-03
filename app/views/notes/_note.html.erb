@@ -12,7 +12,7 @@
     </h3>
     <% else %>
     <div class="card-subtitle text-right text-muted">
-      <%= raw("<span class='badge badge-primary'>#{t('views.default')} </span> ") if note.id == @user.default_note_id %>
+      <%= raw("<span class='badge badge-primary'>#{t('views.default')} </span> ") if note.id == current_user.default_note_id %>
       <%= raw("<i class='fa fa-lock'></i> ") if !note.review_or_open? %>
       <%= t('views.note.' + note.status) %>
       <%= ': ' + get_short_string(note.course.title, 16) if note.course && controller_name == 'snippets' %>
@@ -25,7 +25,7 @@
 
   <div class="card-body-flex">
     <div class="side-area">
-      <% obj = (@course && @course.learner?(@user.id) && note.anonymous?(@user.id)) ? nil : note.manager %>
+      <% obj = (@course && @course.learner?(session[:id]) && note.anonymous?(session[:id])) ? nil : note.manager %>
       <%= render partial: "layouts/image", locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>
       <div class='caption'>
         <% if obj.nil? %>
@@ -48,13 +48,13 @@
       <i class='fa fa-picture-o fa-lg'></i><%= note.snippets_count "media" %>
     </div>
     <% if note.stickies.size > 0 %>
-    <% title = (@user && @course)? note_snippet_text(@course.manager?(@user.id), note.stickies) : t('views.note.sticky_count') %>
+    <% title = (current_user && @course)? note_snippet_text(@course.manager?(session[:id]), note.stickies) : t('views.note.sticky_count') %>
     <div class="align-left" title="<%= title %>">
       <i class='fa fa-comments fa-lg'></i><%= note.stickies.size %>
     </div>
     <% end %>
     <% if (note.stars_count > 0) %>
-    <% title = (@user && @course)? note_star_text(@course.manager?(@user.id), note.stared_users) : t('views.note.star_count') %>
+    <% title = (current_user && @course)? note_star_text(@course.manager?(session[:id]), note.stared_users) : t('views.note.star_count') %>
     <div class="align-left" title="<%= title %>">
       <i class='fa fa-star fa-lg'></i><%= note.stars_count %>
     </div>

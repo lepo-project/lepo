@@ -6,7 +6,6 @@ class ContentsController < ApplicationController
   def ajax_index
     set_nav_session params[:nav_section], 'contents'
     get_content_resources
-    @user = User.find session[:id]
     render 'layouts/renders/all', locals: { resource: 'index' }
   end
 

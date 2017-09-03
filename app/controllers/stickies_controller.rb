@@ -150,7 +150,7 @@ class StickiesController < ApplicationController
         stickies = course.hot_stickies
         render 'stickies/renders/hot_stickies', locals: { stickies: stickies, view_category: view_category, content_id: content_id }
       when 'user'
-        stickies = course_stickies_by_user @user.id, session[:nav_id]
+        stickies = course_stickies_by_user session[:id], session[:nav_id]
         render 'stickies/renders/stickies', locals: { stickies: stickies, view_category: view_category, content_id: content_id }
       when 'search'
         @stickies = searched_stickies params[:keyword]

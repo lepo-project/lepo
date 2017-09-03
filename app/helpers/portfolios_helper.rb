@@ -45,7 +45,7 @@ module PortfoliosHelper
     open_lessons = Lesson.select_open lessons
     eval_lessons = Lesson.select_evaluator open_lessons
     course_outcomes = course.outcomes.select(&:score)
-    user_outcomes = course_outcomes.select { |co| co.manager_id == current_user.id }
+    user_outcomes = course_outcomes.select { |co| co.manager_id == session[:id] }
 
     average_reports = average_goal(goals, open_lessons, eval_lessons, course_outcomes, course.learners.size)
     user_reports = user_goal(goals, open_lessons, eval_lessons, user_outcomes) if course_role == 'learner'
@@ -69,7 +69,7 @@ module PortfoliosHelper
     return no_learner_reports(objectives) if learners.size.zero?
 
     outcomes = lesson.outcomes.select(&:report_candidate?)
-    user_outcomes = outcomes.select { |oc| oc.manager_id == current_user.id }
+    user_outcomes = outcomes.select { |oc| oc.manager_id == session[:id] }
     user_outcome = user_outcomes[0] if user_outcomes.size == 1
 
     average_reports = average_objective(objectives, outcomes)

@@ -43,14 +43,13 @@ class UsersController < ApplicationController
     def ajax_csv_candidates
       existing_users_info
       @candidates_csv = params[:candidates_csv] ? params[:candidates_csv] : ''
-      @candidates = csv_to_user_candidates params[:candidates_csv], @user.system_admin?
+      @candidates = csv_to_user_candidates params[:candidates_csv], current_user.system_admin?
       render 'layouts/renders/resource', locals: { resource: 'users/new_user_pref' }
     end
 
     def ajax_create_user
-      @user = User.find session[:id]
       @candidates_csv = params[:candidates_csv] ? params[:candidates_csv] : ''
-      role = (params[:role] == 'admin') || (params[:role] == 'manager' && !@user.system_admin?) ? 'user' : params[:role]
+      role = (params[:role] == 'admin') || (params[:role] == 'manager' && !current_user.system_admin?) ? 'user' : params[:role]
       case params[:authentication]
       when 'local'
         user = User.new(role: role, authentication: 'local', signin_name: params[:signin_name], password: params[:password], family_name: params[:family_name], given_name: params[:given_name], phonetic_family_name: params[:phonetic_family_name], phonetic_given_name: params[:phonetic_given_name])
@@ -102,13 +101,12 @@ class UsersController < ApplicationController
     end
 
     def ajax_update_user_account
-      user = User.find session[:id]
-      if user.system_staff?
+      if current_user.system_staff?
         selected_user = User.find params[:id]
         original_role = selected_user.role
         if params[:user][:password].nil? || selected_user.authentication == 'ldap'
-          update_result = selected_user.update_attributes(role: params[:user][:role]) if User.role_editable? user.role, original_role
-        elsif User.password_editable? user.role, original_role
+          update_result = selected_user.update_attributes(role: params[:user][:role]) if User.role_editable? current_user.role, original_role
+        elsif User.password_editable? current_user.role, original_role
           update_result = selected_user.update_attributes(user_params)
         end
 
@@ -191,7 +189,6 @@ class UsersController < ApplicationController
       @managers = User.system_managers
       @users = User.system_users(10)
       @users_size = User.system_users_size
-      @user = User.find session[:id]
     end
 
     def user_params
@@ -199,14 +196,12 @@ class UsersController < ApplicationController
     end
 
     def render_main_pane(render_resource)
-      @user = User.find session[:id]
       render 'layouts/renders/main_pane', locals: { resource: 'users/' + render_resource }
     end
 
     def update_user(render_resource)
-      @user = User.find session[:id]
-      if @user.update_attributes(user_params)
-        @stickies = Sticky.size_by_user @user.id
+      if current_user.update_attributes(user_params)
+        @stickies = Sticky.size_by_user session[:id]
         render 'layouts/renders/main_pane', locals: { resource: 'index' }
       else
         flash[:message] = '入力した情報に誤りがあります。'

@@ -485,7 +485,6 @@ class CoursesController < ApplicationController
 
   def render_course_index(nav_section, course_id)
     set_nav_session nav_section, 'courses', course_id
-    @user = User.find session[:id]
     @course = Course.find course_id
     @goals = get_goal_resources @course
     @marked_lessons = marked_lessons @course.id

@@ -4,8 +4,7 @@ class DashboardController < ApplicationController
   # ====================================================================
   def ajax_index
     set_nav_session 'home', 'dashboard'
-    @user = User.find session[:id]
-    get_dashboard_resources @user
+    get_dashboard_resources current_user
     render 'layouts/renders/all', locals: { resource: 'index' }
   end
 end

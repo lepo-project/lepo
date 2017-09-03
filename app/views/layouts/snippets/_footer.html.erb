@@ -7,10 +7,10 @@
         ( 取り込み元ノート: <%= link_to(raw("<i class='fa fa-file-text'></i>#{snippet.master_note.manager.short_name}"), {controller: 'notes', action: 'ajax_show_from_others', nav_id: snippet.note.course_id, id: snippet.master_note.id}, {remote: true}) %> )
         <% end %>
       </div>
-      <%  if snippet.importable? @user.id %>
+      <%  if snippet.importable? session[:id] %>
       <%= link_to(raw("<i class='fa fa-plus'></i> MyNote"), {action: 'ajax_import_snippet', snippet_id: snippet.id}, {remote: true, title: '自分のノートに取込み'}) %>
       <% else %>
-      <%= raw("<span class='badge badge-secondary'>取り込み済み</span>") if snippet.imported? @user.id %>
+      <%= raw("<span class='badge badge-secondary'>取り込み済み</span>") if snippet.imported? session[:id] %>
       <% end %>
 
       <% if controller_name == 'snippets' %>
