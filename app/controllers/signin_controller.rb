@@ -24,8 +24,7 @@ class SigninController < ApplicationController
         Signin.create(user_id: user.id, src_ip: src_ip)
         session[:id] = user.id
         set_nav_session 'home', 'dashboard', 0
-        @user = User.find session[:id]
-        get_dashboard_resources @user
+        get_dashboard_resources current_user
         render 'layouts/renders/all_for_signin'
       end
     else

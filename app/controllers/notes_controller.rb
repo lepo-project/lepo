@@ -67,7 +67,7 @@ class NotesController < ApplicationController
   end
 
   def ajax_toggle_star
-    @note = Note.find_by_id(params[:id])
+    @note = Note.find_by(id: params[:id])
     if @note
       user_id = session[:id]
       note_star = NoteStar.find_by_manager_id_and_note_id(user_id, @note.id)
@@ -117,11 +117,10 @@ class NotesController < ApplicationController
   private
 
   def get_resources
-    @user = User.find session[:id]
     @course = Course.find(session[:nav_id])
 
-    private_notes = Note.where(course_id: session[:nav_id], status: 'private', manager_id: @user.id).order(updated_at: :desc).to_a
-    @notes = private_notes + @course.staff_course_notes.to_a + @course.learner_course_notes(@user.id, @course.staff?(@user.id))
+    private_notes = Note.where(course_id: session[:nav_id], status: 'private', manager_id: session[:id]).order(updated_at: :desc).to_a
+    @notes = private_notes + @course.staff_course_notes.to_a + @course.learner_course_notes(session[:id], @course.staff?(session[:id]))
   end
 
   def get_stickies(course_id, note_id)

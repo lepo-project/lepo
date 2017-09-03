@@ -20,7 +20,7 @@
       <!-- Peer Review -->
       <% if @course.master_review_notes.size > 0 %>
       <% group_notes = group_notes.sort! {|a, b| a.id <=> b.id} %>
-      <% peer_review = get_peer_review group_notes, @group_id, @user.id %>
+      <% peer_review = get_peer_review group_notes, @group_id, session[:id] %>
       <% if peer_review[:eval].length > 0 %>
       <div style="margin-top: 5px;">
         <h2>相互評価の対象ノート</h2>
@@ -35,7 +35,7 @@
         <%= render partial: "note", collection: peer_review[:noeval], locals: {resource: "group_index", droppable: false} %>
       </div>
       <% end %>
-      <%= render(partial: "peer_review_summary", locals: {group_notes: group_notes}) if @course.staff? @user.id %>
+      <%= render(partial: "peer_review_summary", locals: {group_notes: group_notes}) if @course.staff? session[:id] %>
 
       <% else %>
       <div style="margin-top: 10px;">

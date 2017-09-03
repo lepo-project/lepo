@@ -3,9 +3,9 @@ module PortfoliosHelper
   # Public Functions
   # ====================================================================
 
-  def star_reports(learners, user, course_role, course)
+  def star_reports(learners, course_role, course)
     reports = []
-    reports.push(user_stars(user, course)) if course_role == 'learner'
+    reports.push(user_stars(current_user, course)) if course_role == 'learner'
     reports.push average_stars(learners, course)
     reports
   end
@@ -18,9 +18,9 @@ module PortfoliosHelper
     reports
   end
 
-  def achievement_reports(learners, user, course_role, course_id, lessons)
+  def achievement_reports(learners, course_role, course_id, lessons)
     reports = []
-    reports.push(user_achievement(user, course_id, lessons)) if course_role == 'learner'
+    reports.push(user_achievement(current_user, course_id, lessons)) if course_role == 'learner'
     reports.push average_achievement(learners, course_id, lessons)
     reports
   end
@@ -37,7 +37,7 @@ module PortfoliosHelper
     reports
   end
 
-  def goal_reports(course, lessons, learners, user, course_role)
+  def goal_reports(course, lessons, learners, course_role)
     reports = []
     goals = course.goals
     return no_learner_reports(goals) if learners.size.zero?
@@ -45,14 +45,14 @@ module PortfoliosHelper
     open_lessons = Lesson.select_open lessons
     eval_lessons = Lesson.select_evaluator open_lessons
     course_outcomes = course.outcomes.select(&:score)
-    user_outcomes = course_outcomes.select { |co| co.manager_id == user.id }
+    user_outcomes = course_outcomes.select { |co| co.manager_id == session[:id] }
 
     average_reports = average_goal(goals, open_lessons, eval_lessons, course_outcomes, course.learners.size)
     user_reports = user_goal(goals, open_lessons, eval_lessons, user_outcomes) if course_role == 'learner'
 
     goals.each_with_index do |goal, i|
       reports[i] = goal_allocation(goal, open_lessons, eval_lessons)
-      reports[i][:full_name] = user.full_name
+      reports[i][:full_name] = current_user.full_name
       reports[i][:average_self_achievement] = ratio(average_reports[i][:average_self_achievement], reports[i][:self_allocation], 0)
       reports[i][:average_eval_achievement] = ratio(average_reports[i][:average_eval_achievement], reports[i][:eval_allocation], 0)
       if course_role == 'learner'
@@ -63,13 +63,13 @@ module PortfoliosHelper
     reports
   end
 
-  def objective_reports(lesson, learners, user, course_role)
+  def objective_reports(lesson, learners, course_role)
     reports = []
     objectives = lesson.content.objectives
     return no_learner_reports(objectives) if learners.size.zero?
 
     outcomes = lesson.outcomes.select(&:report_candidate?)
-    user_outcomes = outcomes.select { |oc| oc.manager_id == user.id }
+    user_outcomes = outcomes.select { |oc| oc.manager_id == session[:id] }
     user_outcome = user_outcomes[0] if user_outcomes.size == 1
 
     average_reports = average_objective(objectives, outcomes)
@@ -77,7 +77,7 @@ module PortfoliosHelper
 
     objectives.each_with_index do |obj, i|
       reports[i] = { title: obj.title, self_allocation: obj.allocation, eval_allocation: obj.allocation }
-      reports[i][:full_name] = user.full_name
+      reports[i][:full_name] = current_user.full_name
       reports[i][:average_self_achievement] = ratio(average_reports[i][:average_self_achievement], obj.allocation * outcomes.size, 0)
       reports[i][:average_eval_achievement] = ratio(average_reports[i][:average_eval_achievement], obj.allocation * outcomes.size, 0)
 
@@ -126,10 +126,10 @@ module PortfoliosHelper
     reports
   end
 
-  def signin_reports(learners, user)
+  def signin_reports(learners)
     reports = []
     reports.push average_signin(learners)
-    reports.push user_signin(user)
+    reports.push user_signin(current_user)
     reports
   end
 
@@ -418,12 +418,12 @@ module PortfoliosHelper
   end
 
   # def out_organization_ratio accesses
-  # 	out_organization_accesses = accesses.select{|a| !a.inside}
-  # 	if accesses.size == 0
-  # 		out_organization_ratio = 0
-  # 	else
-  # 		out_organization_ratio = (out_organization_accesses.size*100)/accesses.size
-  # 	end
-  # 	return out_organization_ratio
+  #    out_organization_accesses = accesses.select{|a| !a.inside}
+  #    if accesses.size == 0
+  #            out_organization_ratio = 0
+  #    else
+  #            out_organization_ratio = (out_organization_accesses.size*100)/accesses.size
+  #    end
+  #    return out_organization_ratio
   # end
 end

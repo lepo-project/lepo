@@ -6,16 +6,15 @@ class SnippetsController < ApplicationController
   # ====================================================================
   def ajax_index
     set_nav_session params[:nav_section], 'snippets'
-    get_resources
-    @snippets = Snippet.with_source_and_without_note_by @user.id
+    @notes = current_user.notes
+    @snippets = Snippet.with_source_and_without_note_by session[:id]
     render 'layouts/renders/all', locals: { resource: 'index' }
   end
 
   def ajax_create
-    get_resources
-
+    @notes = current_user.notes
     @snippet = Snippet.new(snippet_params)
-    @snippet.manager_id = @user.id
+    @snippet.manager_id = session[:id]
     @snippet.note_id = params[:note_id].to_i
     @snippet.category = params[:category]
     @snippet.source_type = 'direct'
@@ -35,11 +34,11 @@ class SnippetsController < ApplicationController
   end
 
   def ajax_upload
-    get_resources
+    @notes = current_user.notes
     display_order = params[:display_order].to_i
     note_id = params[:note_id].to_i
 
-    @snippet = Snippet.new(manager_id: @user.id, note_id: note_id, category: 'image', source_type: 'upload', display_order: display_order)
+    @snippet = Snippet.new(manager_id: session[:id], note_id: note_id, category: 'image', source_type: 'upload', display_order: display_order)
     Snippet.transaction do
       if @snippet.save
         param_hash = snippet_file_params
@@ -60,7 +59,6 @@ class SnippetsController < ApplicationController
 
   def ajax_update
     snippet = Snippet.find(params[:id])
-    @user = User.find session[:id]
 
     if params[:snippet][:description] == ''
       if snippet.deletable? session[:id]
@@ -83,7 +81,7 @@ class SnippetsController < ApplicationController
 
   def ajax_update_pdf
     snippet = Snippet.find(params[:id])
-    get_resources
+    @notes = current_user.notes
 
     snippet.update_attributes(snippet_params)
     if snippet.note_id
@@ -93,7 +91,7 @@ class SnippetsController < ApplicationController
       render 'snippets/renders/snippet', locals: { snippet: snippet }
     else
       # snippet outside of note
-      @snippets = Snippet.with_source_and_without_note_by @user.id
+      @snippets = Snippet.with_source_and_without_note_by session[:id]
       render 'layouts/renders/resource', locals: { resource: 'index' }
     end
   end
@@ -103,7 +101,6 @@ class SnippetsController < ApplicationController
     snippet_file = snippet.snippet_file
     snippet_file.update_attributes(snippet_file_params)
     snippet.update_attributes(description: snippet_file.upload.url)
-    @user = User.find session[:id]
     @note = Note.find snippet.note_id
     @snippets = @note.snippets
     render 'snippets/renders/snippet', locals: { snippet: snippet }
@@ -111,8 +108,8 @@ class SnippetsController < ApplicationController
 
   def ajax_destroy
     snippet = Snippet.find(params[:id])
-    get_resources
-    return unless snippet.deletable? @user.id
+    @notes = current_user.notes
+    return unless snippet.deletable? session[:id]
     note_id = snippet.note_id if snippet.note_id
     snippet.destroy
 
@@ -129,7 +126,7 @@ class SnippetsController < ApplicationController
       render 'snippets/renders/snippets'
       # render 'layouts/renders/resource', locals: { resource: 'show' }
     else
-      @snippets = Snippet.with_source_and_without_note_by @user.id
+      @snippets = Snippet.with_source_and_without_note_by session[:id]
       render 'layouts/renders/resource', locals: { resource: 'index' }
     end
   end
@@ -138,12 +135,12 @@ class SnippetsController < ApplicationController
     @note = Note.find params[:note_id]
     if @note.snippets.size.zero? && (@note.deletable? session[:id])
       @note.destroy
-      get_resources
-      @user.update_attributes(default_note_id: 0) if @user.default_note_id == params[:note_id].to_i
-      @snippets = Snippet.with_source_and_without_note_by @user.id
+      @notes = current_user.notes
+      current_user.update_attributes(default_note_id: 0) if current_user.default_note_id == params[:note_id].to_i
+      @snippets = Snippet.with_source_and_without_note_by session[:id]
       render 'layouts/renders/all', locals: { resource: 'index' }
     else
-      get_resources
+      @notes = current_user.notes
       @snippets = @note.snippets
       flash[:message] = '切り抜き または コースふせんのあるノートは削除できません'
       render 'layouts/renders/main_pane', locals: { resource: 'edit_note' }
@@ -151,7 +148,7 @@ class SnippetsController < ApplicationController
   end
 
   def ajax_edit_note
-    get_resources
+    @notes = current_user.notes
     @note = Note.find params[:note_id]
     @snippets = @note.snippets
     render 'layouts/renders/main_pane', locals: { resource: 'edit_note' }
@@ -165,28 +162,28 @@ class SnippetsController < ApplicationController
       snippet.update_attributes(note_id: nil, display_order: nil)
       @note = Note.find original_note_id
       @note.align_display_order
-      get_resources
+      @notes = current_user.notes
       @snippets = @note.snippets
       render 'layouts/renders/resource', locals: { resource: 'show' }
     elsif note_id.zero?
       title = '（タイトル未設定）'
       @note = Note.create(manager_id: session[:id], title: title)
       snippet.update_attributes(note_id: @note.id, display_order: 1) if snippet
-      get_resources
+      @notes = current_user.notes
       @snippets = @note.snippets
       render 'layouts/renders/resource', locals: { resource: 'edit_note' }
     elsif note_id > 0
       original_note_id = snippet.note_id
       note = Note.find note_id
       snippet.update_attributes(note_id: note_id, display_order: note.snippets.size + 1)
-      get_resources
+      @notes = current_user.notes
       if original_note_id
         @note = Note.find original_note_id
         @note.align_display_order
         @snippets = @note.snippets
         render 'layouts/renders/resource', locals: { resource: 'show' }
       else
-        @snippets = Snippet.with_source_and_without_note_by @user.id
+        @snippets = Snippet.with_source_and_without_note_by session[:id]
         render 'layouts/renders/resource', locals: { resource: 'index' }
       end
     end
@@ -195,7 +192,7 @@ class SnippetsController < ApplicationController
   def ajax_show
     note_id = params[:id].to_i
     @note = Note.find note_id
-    get_resources
+    @notes = current_user.notes
     @snippets = @note.snippets
     render 'layouts/renders/main_pane', locals: { resource: 'show' }
   end
@@ -203,7 +200,7 @@ class SnippetsController < ApplicationController
   def ajax_sort
     @note = Note.find params[:note_id].to_i
     params[:snippet].each_with_index { |id, i| Snippet.update(id, display_order: i + 1) }
-    get_resources
+    @notes = current_user.notes
     @snippets = @note.snippets
     render 'snippets/renders/snippets'
   end
@@ -239,7 +236,7 @@ class SnippetsController < ApplicationController
     end
 
     @snippets = @note.snippets
-    get_resources
+    @notes = current_user.notes
     render 'layouts/renders/main_pane', locals: { resource: 'show' }
   end
 
@@ -251,7 +248,7 @@ class SnippetsController < ApplicationController
     token = params[:tk]
     # version = params[:v]
 
-    user = User.find_by_token(token) if token
+    user = User.find_by(token: token) if token
     if !token || !user
       @warning_message = '「+Note」ボタンを更新してください'
       render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 5000)
@@ -308,11 +305,6 @@ class SnippetsController < ApplicationController
 
   def note_params
     params.require(:note).permit(:course_id, :overview, :status, :title, :peer_reviews_count)
-  end
-
-  def get_resources
-    @user = User.find session[:id]
-    @notes = @user.notes
   end
 
   def embed_url?(url)

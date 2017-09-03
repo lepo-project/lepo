@@ -33,13 +33,12 @@ class OutcomesController < ApplicationController
     @outcome.update_attributes(outcome_form)
 
     # FIXME: PushNotification
-    if @lesson.user_role(session[:id]) == 'evaluator'
-      user_id = @outcome.manager_id
-      @user = User.find(user_id)
-      # @user.devices.each do |device|
-      #   send_push_notification(device.registration_id)
-      # end
-    end
+    # if @lesson.user_role(session[:id]) == 'evaluator'
+    # learner = User.find_by(id: @outcome.manager_id)
+    # learner.devices.each do |device|
+    #   send_push_notification(device.registration_id)
+    # end
+    # end
 
     pg = get_page(@lesson.id, @content)
     @sticky = Sticky.new(content_id: @content.id, target_type: 'page', target_id: pg['file_id'])
@@ -60,7 +59,7 @@ class OutcomesController < ApplicationController
     score = 0
     achievement_name = @outcome.manager_id == session[:id] ? 'self_achievement' : 'eval_achievement'
 
-    objectives.each_value do |o|
+    objectives.each do |_key, o|
       score += o[achievement_name].to_i
     end
     score
@@ -78,7 +77,7 @@ class OutcomesController < ApplicationController
     @message_templates = get_message_templates(@course.manager?(session[:id]))
 
     # latest_item = @outcome.outcome_messages[0]
-    # if (latest_item.manager_id == @myself.id)
+    # if (latest_item.manager_id == session[:id])
     #   @outcome_message = latest_item
     # else
     #   @outcome_message = OutcomeMessage.new()

@@ -246,7 +246,7 @@ class Course < ApplicationRecord
   end
 
   def user_role(user_id)
-    return 'new' unless User.find_by_id(user_id)
+    return 'new' unless User.find_by(id: user_id)
     association = CourseMember.find_by_user_id_and_course_id(user_id, id)
     association ? association.role : 'pending'
   end

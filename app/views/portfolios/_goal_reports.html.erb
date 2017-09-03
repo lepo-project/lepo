@@ -18,6 +18,6 @@
       <th class="width120 text-center">教師評価</th>
     </tr>
     <% end %>
-    <%= render partial: "goal_objective_report", collection: goal_reports(@course, @lessons, @learners, @myself, @course_role), locals: {eval_report: (eval_category != "none")} %>
+    <%= render partial: "goal_objective_report", collection: goal_reports(@course, @lessons, @learners, @course_role), locals: {eval_report: (eval_category != "none")} %>
   </tbody>
 </table>

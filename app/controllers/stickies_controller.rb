@@ -86,7 +86,7 @@ class StickiesController < ApplicationController
 
     def ajax_toggle_star_sticky
       @keyword = params[:keyword] if params[:keyword]
-      sticky = Sticky.find_by_id(params[:id])
+      sticky = Sticky.find_by(id: params[:id])
       if sticky
         user_id = session[:id]
         sticky_star = StickyStar.find_by_manager_id_and_sticky_id(user_id, sticky.id)
@@ -150,7 +150,7 @@ class StickiesController < ApplicationController
         stickies = course.hot_stickies
         render 'stickies/renders/hot_stickies', locals: { stickies: stickies, view_category: view_category, content_id: content_id }
       when 'user'
-        stickies = course_stickies_by_user @user.id, session[:nav_id]
+        stickies = course_stickies_by_user session[:id], session[:nav_id]
         render 'stickies/renders/stickies', locals: { stickies: stickies, view_category: view_category, content_id: content_id }
       when 'search'
         @stickies = searched_stickies params[:keyword]

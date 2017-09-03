@@ -37,7 +37,7 @@
     <div class="loc-subbody">
       <%= outcome_form.fields_for :outcome_messages, Outcome.reflect_on_association(:outcome_messages).klass.new do |message_form| %>
       <%= message_form.text_area :message, style: 'width: 100%; height:4em; max-height: 20em; padding:0;', class: 'elastic_textarea' %>
-      <%= message_form.hidden_field :manager_id, value: @myself.id %>
+      <%= message_form.hidden_field :manager_id, value: session[:id] %>
       <% end %>
       <div style="margin: 8px 0 0; padding: 0;">
         <%= outcome_form.submit outcome_submit_text(@lesson.evaluator_id, @lesson_role), class: "btn btn-primary" %>

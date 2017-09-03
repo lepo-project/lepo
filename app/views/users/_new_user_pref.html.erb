@@ -51,11 +51,11 @@
 			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 			<%= render partial: 'users/csv_users' %>
 
-			<% current_users = [[@admin, 'admin', '']] %>
-			<% current_users = current_users.concat(@managers.zip Array.new(@managers.size, 'manager'), Array.new(@managers.size, 'suspended')) %>
-			<% current_users = current_users.concat(@users.zip Array.new(@users.size, 'user'), Array.new(@users.size, 'suspended')) %>
+			<% existing_users_array = [[@admin, 'admin', '']] %>
+			<% existing_users_array = existing_users_array.concat(@managers.zip Array.new(@managers.size, 'manager'), Array.new(@managers.size, 'suspended')) %>
+			<% existing_users_array = existing_users_array.concat(@users.zip Array.new(@users.size, 'user'), Array.new(@users.size, 'suspended')) %>
 			<% footer = @users.size < @users_size ? '一般ユーザ：利用停止中でないアカウントの内、最新10アカウントを表示（全' + @users_size.to_s + 'アカウントが利用中）' : '' %>
-			<%= render(partial: "layouts/member_candidates", locals: {title: '現在のメンバー', category: 'system', form_category: 'index', users: current_users, resource_id: 0, footer: footer}) %>
+			<%= render(partial: "layouts/member_candidates", locals: {title: '現在のメンバー', category: 'system', form_category: 'index', users: existing_users_array, resource_id: 0, footer: footer}) %>
 			<p>
 				<%= render partial: 'layouts/complete_btn', locals: {nav_section: "home"} %>
 			</p>

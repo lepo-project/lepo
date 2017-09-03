@@ -1,4 +1,4 @@
-<% report = achievement_reports(@learners, @myself, @course_role, @course.id, @lessons) %>
+<% report = achievement_reports(@learners, @course_role, @course.id, @lessons) %>
 <h2 class="card-header"><%= t('views.learning_progress') %></h2>
 <% if manager_report?(@course_role, @learners) %>
 <div class="card-right-top">

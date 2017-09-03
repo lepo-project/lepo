@@ -6,7 +6,7 @@
 
 			<div class="bordered-block">
 				<h2>
-					<%= @user.system_staff? ? "システム共通" : "利用者個人" %>のリンク
+					<%= current_user.system_staff? ? "システム共通" : "利用者個人" %>のリンク
 					<div class="header-explanation">同タイトルのリンク登録はURLを更新</div>
 				</h2>
 				<% if @link.errors.any? %>
@@ -45,7 +45,7 @@
 				</div>
 			</div>
 
-			<% if (@system_links.size > 0) && !@user.system_staff? %>
+			<% if (@system_links.size > 0) && !current_user.system_staff? %>
 			<div class="bordered-block">
 				<h2>システム共通のリンク
 					<div class="header-explanation">変更不可</div>

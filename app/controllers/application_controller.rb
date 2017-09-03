@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   include HttpAcceptLanguage::AutoLocale
   after_action :discard_flash_if_xhr
   before_action :authorize
-  helper :all # include all helpers, all the time
+  helper_method :current_user
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   def key_binder
@@ -27,10 +27,8 @@ class ApplicationController < ActionController::Base
 
   # 0. general =================================================================
   def all_blank_title?(attributes)
-    attributes.each_value do |attribute|
-      return false unless attribute[:title].blank?
-    end
-    true
+    not_blank_titles = attributes.values.pluck(:title).delete_if { |t| t == '' }
+    not_blank_titles.size.zero?
   end
 
   def app_protocol
@@ -38,13 +36,17 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize
-    return if User.find_by_id(session[:id])
+    return if User.find_by(id: session[:id])
     # For snippet import through bookmarklet
     return if (controller_name == 'snippets') && (action_name == 'create_web_snippet')
     # For mainly expired session
     reset_session
     flash[:message] = 'サインインしてください'
     render 'layouts/renders/signout'
+  end
+
+  def current_user
+    @current_user ||= User.find_by(id: session[:id])
   end
 
   def delete_existing(candidates, exists)
@@ -131,12 +133,11 @@ class ApplicationController < ActionController::Base
   end
 
   def get_outcome_resources(lesson, content)
-    @myself = User.find(session[:id])
-    @lesson_role = lesson.user_role @myself.id
+    @lesson_role = lesson.user_role session[:id]
     if !@lesson.new_record? && @lesson_role != 'assistant'
-      @outcomes = Outcome.get_all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, @myself.id
+      @outcomes = Outcome.get_all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, session[:id]
     else
-      @outcomes = [Outcome.new_with_associations(@myself.id, 0, 0, 'observer')]
+      @outcomes = [Outcome.new_with_associations(session[:id], 0, 0, 'observer')]
     end
 
     # OutcomesObjectives setting
@@ -278,7 +279,7 @@ class ApplicationController < ActionController::Base
       signin_name = row[0].strip
       member_role = row[1].strip
 
-      user = User.find_by_signin_name(signin_name)
+      user = User.find_by(signin_name: signin_name)
       if user
         current_relation = ContentMember.find_by_content_id_and_user_id(resource_id, user.id) if category == 'content'
         current_relation = CourseMember.find_by_course_id_and_user_id(resource_id, user.id) if category == 'course'

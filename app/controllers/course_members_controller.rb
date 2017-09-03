@@ -12,9 +12,9 @@ class CourseMembersController < ApplicationController
   end
 
   def ajax_show(transition = false)
-    @user = User.find(params[:id].to_i)
+    @selected_user = User.find(params[:id].to_i)
     get_resources
-    @stickies = course_stickies_by_user @user.id, session[:nav_id]
+    @stickies = course_stickies_by_user @selected_user.id, session[:nav_id]
     if transition
       render 'layouts/renders/all', locals: { resource: 'users/user' }
     else
@@ -134,12 +134,12 @@ class CourseMembersController < ApplicationController
         flash[:message_category] = 'error'
       end
     when 'add' then
-      user = User.find_by_id(params[:manager_id])
+      user = User.find_by(id: params[:manager_id])
       manager_ids.push(user.id) unless user.nil?
     end
     managers = []
     manager_ids.each do |manager_id|
-      user = User.find_by_id(manager_id)
+      user = User.find_by(id: manager_id)
       managers.push(user) unless user.nil?
     end
     render 'courses/renders/tmp_managers', locals: { managers: managers, course_id: session[:nav_id], message: flash.now[:message], message_category: flash[:message_category] }
@@ -173,7 +173,6 @@ class CourseMembersController < ApplicationController
     @managers = User.sort_by_signin_name @course.managers
     @assistants = User.sort_by_signin_name @course.assistants
     @learners = User.sort_by_signin_name @course.learners
-    @myself = User.find(session[:id])
   end
 
   def update_role(user_id, course_id, role)

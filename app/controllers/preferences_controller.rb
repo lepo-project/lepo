@@ -7,7 +7,6 @@ class PreferencesController < ApplicationController
   # ====================================================================
   def ajax_index
     set_nav_session params[:nav_section], 'preferences'
-    @user = User.find session[:id]
     render 'layouts/renders/all', locals: { resource: 'index' }
   end
 end

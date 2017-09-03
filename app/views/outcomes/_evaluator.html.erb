@@ -64,7 +64,7 @@
 
           <%= outcome_form.fields_for :outcome_messages, Outcome.reflect_on_association(:outcome_messages).klass.new do |message_form| %>
           <%= message_form.text_area :message, style: 'width: 100%; height:4em; max-height: 20em; padding:0;', class: "message_form_text elastic_textarea" %>
-          <%= message_form.hidden_field :manager_id, value: @myself.id %>
+          <%= message_form.hidden_field :manager_id, value: session[:id] %>
           <% end %>
 
           <div style="margin-top: 8px; height: 40px;">

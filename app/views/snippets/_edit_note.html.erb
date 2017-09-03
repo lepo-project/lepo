@@ -35,7 +35,7 @@
           </div>
         </div>
 
-        <% if @note.course_id && @note.course_id > 0 && (Note.course_note_manageable? @note.course_id, @user.id) %>
+        <% if @note.course_id && @note.course_id > 0 && (Note.course_note_manageable? @note.course_id, session[:id]) %>
         <div class="bordered-block" style="margin-bottom: 20px;">
           <h3>コーススタッフのみ設定可能</h3>
           <div class="form-group row">

@@ -6,7 +6,6 @@ class ContentsController < ApplicationController
   def ajax_index
     set_nav_session params[:nav_section], 'contents'
     get_content_resources
-    @user = User.find session[:id]
     render 'layouts/renders/all', locals: { resource: 'index' }
   end
 
@@ -84,7 +83,7 @@ class ContentsController < ApplicationController
       replace_page_with_fill_objectives 'edit'
       return
     else
-      set_destroy_for_blank(content_form[:objectives_attributes])
+      destroy_blank_objectives(content_form[:objectives_attributes])
 
       if @content.update_attributes content_form
         get_content_resources
@@ -242,9 +241,9 @@ class ContentsController < ApplicationController
     render 'layouts/renders/resource', locals: { resource: resource_name }
   end
 
-  def set_destroy_for_blank(attributes)
-    attributes.each_value do |attribute|
-      attribute['_destroy'] = 'true' if attribute[:title].blank?
+  def destroy_blank_objectives(objectives)
+    objectives.each do |_key, objective|
+      objective['_destroy'] = 'true' if objective[:title].blank?
     end
   end
 end

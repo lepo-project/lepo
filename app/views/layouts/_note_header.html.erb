@@ -13,7 +13,7 @@
 
   <div class="card-body-flex">
     <div class="side-area">
-      <% obj = (@course && @course.learner?(@user.id) && @note.anonymous?(@user.id)) ? nil : @note.manager %>
+      <% obj = (@course && @course.learner?(session[:id]) && @note.anonymous?(session[:id])) ? nil : @note.manager %>
       <%= render partial: "layouts/image", locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>
       <div class="caption">
         <% if obj.nil? %>

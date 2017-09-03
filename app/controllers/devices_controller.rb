@@ -4,22 +4,16 @@ class DevicesController < ApplicationController
   # Public Functions
   # ====================================================================
   def ajax_index
-    @user = User.find session[:id]
     render_device 'index'
   end
 
   def ajax_new
-    @user = User.find session[:id]
-    @device = @user.devices.build
+    @device = current_user.devices.build
     render_device 'new'
   end
 
   def ajax_create
-    @device = Device.new
-    @user = User.find session[:id]
-    @device.manager_id = @user.id
-    @device.title = params[:device][:title]
-    @device.registration_id = params[:device][:registration_id]
+    @device = Device.new(manager_id: session[:id], title: params[:device][:title], registration_id: params[:device][:registration_id])
     if @device.save
       render_device 'index'
     else
@@ -36,8 +30,7 @@ class DevicesController < ApplicationController
 
   def ajax_update
     @device = Device.find params[:id]
-    @user = User.find session[:id]
-    @device.manager_id = @user.id
+    @device.manager_id = session[:id]
     @device.title = params[:device][:title]
     @device.registration_id = params[:device][:registration_id]
     @device.save
@@ -47,7 +40,6 @@ class DevicesController < ApplicationController
   def ajax_destroy
     @device = Device.find params[:id]
     @device.destroy if @device
-    @user = User.find session[:id]
     render_device 'index'
   end
 

@@ -16,10 +16,6 @@ module ApplicationHelper
     (value.to_f / data_num).round(decimal_num)
   end
 
-  def div_str(str)
-    sanitize(str, tags: ['div'], attributes: %w[id class])
-  end
-
   def get_summary(txt)
     double_return_index = txt.index('<br /><br />')
     if double_return_index
@@ -50,20 +46,6 @@ module ApplicationHelper
   # 1. for html id / class  ===================================================================
   def selected_id(identical)
     identical ? 'selected' : ''
-  end
-
-  def template_btn_class(content_id, objective_id)
-    return 'btn btn-sm btn-success' if content_id.zero?
-    return 'btn btn-sm btn-warning' if objective_id > 0
-    'btn btn-sm btn-light'
-  end
-
-  def demerit_class(achievement, allocation)
-    achievement < allocation ? 'demerit' : ''
-  end
-
-  def dropdown_position(text, left_max_size)
-    text.size <= left_max_size ? '' : 'pull-right'
   end
 
   def required_class(required)
@@ -101,25 +83,6 @@ module ApplicationHelper
     end
   end
 
-  def content_category_text(category)
-    case category
-    when 'home'
-      'サポート'
-    when 'repository'
-      '管理している教材'
-    end
-  end
-
-  def course_manager_text(managers)
-    manager_num = managers.size
-    case manager_num
-    when 1
-      return User.find(managers[0]).full_name
-    else
-      return User.find(managers[0]).short_name + ', 他' + (manager_num - 1).to_s + '名'
-    end
-  end
-
   def last_signin_at_text(date_at)
     return 'LePo未利用' unless date_at
     format_time date_at, 'ymdhm'
@@ -134,74 +97,6 @@ module ApplicationHelper
       t('activerecord.attributes.course.' + member_role + 's')
     when 'system'
       t('activerecord.others.user.role.' + member_role)
-    end
-  end
-
-  def outcome_message_text(evaluator_id)
-    case evaluator_id
-    when 0
-      'コメント'
-    else
-      'メッセージ'
-    end
-  end
-
-  def outcome_num_text(past_messages_num)
-    submit_num = ((past_messages_num + 1) / 2)
-    return '(' + submit_num.to_s + '回目の提出)' if submit_num > 0
-    ''
-  end
-
-  def outcome_score_text(evaluator_id, score)
-    case evaluator_id
-    when 0
-      '目標達成率 ' + (score * 10).to_s + '%'
-    else
-      '得点 ' + score.to_s + '点'
-    end
-  end
-
-  def outcome_status_icon(outcome_status, score)
-    case outcome_status
-    when 'draft', 'self_submit', 'return'
-      'fa fa-check' if score && score > 0
-    when 'submit'
-      'fa fa-comment'
-    end
-  end
-
-  def outcome_status_text(outcome_status, score)
-    case outcome_status
-    when 'draft'
-      return '修正中' if score && score > 0
-      '未提出'
-    when 'submit'
-      '評価依頼中'
-    when 'self_submit'
-      '自己評価完了'
-    when 'return'
-      '評価完了'
-    end
-  end
-
-  def outcome_submit_text(evaluator_id, role)
-    case role
-    when 'learner'
-      case evaluator_id
-      when 0
-        '自己評価を保存'
-      else
-        '課題を提出'
-      end
-    when 'evaluator'
-      case evaluator_id
-      when 0
-        'メッセージを送信'
-      else
-        '評価を確定'
-      end
-    when 'manager'
-      'メッセージを送信'
     end
   end
 
@@ -254,35 +149,6 @@ module ApplicationHelper
     end
   end
 
-  def score_text(score, with_unit)
-    return with_unit ? (score.to_s + '点') : score.to_s if score
-    '未評価'
-  end
-
-  def note_snippet_text(manager_flag, stickies)
-    title = 'ふせんの数[枚]'
-    if manager_flag
-      title += ': '
-      stickies.each_with_index do |st, i|
-        title += User.full_name_for_id(st.manager_id)
-        title += ', ' if i != (stickies.size - 1)
-      end
-    end
-    title
-  end
-
-  def note_star_text(manager_flag, stared_users)
-    title = 'スターの数[個]'
-    if manager_flag
-      title += ': '
-      stared_users.each_with_index do |st, i|
-        title += User.full_name_for_id(st.id)
-        title += ', ' if i != (stared_users.size - 1)
-      end
-    end
-    title
-  end
-
   def note_status_text(status)
     case status
     when 'course'
@@ -327,29 +193,6 @@ module ApplicationHelper
     end
   end
 
-  def resource_text(resource)
-    case resource
-    when 'contents'
-      '教材'
-    when 'courses'
-      'コース'
-    when 'course_members'
-      'メンバー'
-    when 'lessons'
-      'レッスン'
-    when 'snippets'
-      '切り抜き'
-    when 'stickies'
-      'ふせん'
-    when 'notes'
-      'ノート'
-    when 'users'
-      '利用者'
-    when 'system'
-      'システム'
-    end
-  end
-
   def sticky_category_short_text(category)
     case category
     when 'course'
@@ -379,21 +222,10 @@ module ApplicationHelper
     end
   end
 
-  def status_explanation_text(status)
-    case status
-    when 'draft'
-      'コース管理者とアシスタントのみ、保管庫からコースを閲覧可'
-    when 'open'
-      'コースの全員が、コースを閲覧可'
-    when 'archived'
-      'コースの全員が、保管庫からコースを閲覧可・活動は不可'
-    end
-  end
-
   # 3. for card ===============================================================================
   def content_activity_card_hash(user)
-    managing_contents = Content.associated_by @user.id, 'manager'
-    assisting_contents = Content.associated_by @user.id, 'assistant'
+    managing_contents = Content.associated_by user.id, 'manager'
+    assisting_contents = Content.associated_by user.id, 'assistant'
     card = {}
     card['icon'] = 'fa fa-book'
     card['header'] = '教材に関する活動'
@@ -405,9 +237,9 @@ module ApplicationHelper
   end
 
   def course_activity_card_hash(user)
-    learning_courses = Course.associated_by @user.id, 'learner'
-    managing_courses = Course.associated_by @user.id, 'manager'
-    assisting_courses = Course.associated_by @user.id, 'assistant'
+    learning_courses = Course.associated_by user.id, 'learner'
+    managing_courses = Course.associated_by user.id, 'manager'
+    assisting_courses = Course.associated_by user.id, 'assistant'
     card = {}
     card['icon'] = 'fa fa-flag'
     card['header'] = 'コースに関する活動'
@@ -744,14 +576,6 @@ module ApplicationHelper
 
   def link_to_resource(body, resource_id, html_options, action = 'ajax_show')
     link_to(sanitize("<div>#{body}</div>"), { action: action, id: resource_id }, html_options.merge(remote: true))
-  end
-
-  def marked_resource_num(marked_resources)
-    marked_num = 0
-    marked_resources.each do |_key, value|
-      marked_num += value.to_i
-    end
-    marked_num
   end
 
   def member_role_options(update_model)

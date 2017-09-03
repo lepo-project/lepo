@@ -418,6 +418,7 @@ en:
       user_account_summary: search and edit for existing user
       user_preferences: User Preferences
     recommended_browser: Recommended Web Browser
+    released_at: Released at
     repository: Repository
     required: Required
     search: Search

@@ -3,10 +3,9 @@ class LinksController < ApplicationController
   # Public Functions
   # ====================================================================
   def ajax_create
-    @user = User.find session[:id]
     @link = Link.new(link_params)
-    @link.manager_id = @user.id
-    existing_link = Link.find_by_manager_id_and_title(@user.id, @link.title)
+    @link.manager_id = session[:id]
+    existing_link = Link.find_by_manager_id_and_title(session[:id], @link.title)
     if existing_link
       if existing_link.update_attributes(url: @link.url)
         flash.now[:message] = 'リンクを更新しました'
@@ -29,11 +28,10 @@ class LinksController < ApplicationController
   end
 
   def ajax_destroy
-    @user = User.find session[:id]
     link = Link.find(params[:link_id])
-    link.destroy if link.deletable? @user
+    link.destroy if link.deletable? current_user
 
-    links = @user.system_staff? ? Link.by_system_staffs : Link.by_user(@user.id)
+    links = current_user.system_staff? ? Link.by_system_staffs : Link.by_user(session[:id])
     links.each_with_index do |li, i|
       li.update_attributes(display_order: i + 1)
     end
@@ -41,7 +39,6 @@ class LinksController < ApplicationController
   end
 
   def ajax_new
-    @user = User.find session[:id]
     if (session[:nav_section] != 'home') || (session[:nav_controller] != 'preferences')
       # through sub-pane toolbar operation
       set_nav_session 'home', 'preferences', 0
@@ -53,7 +50,6 @@ class LinksController < ApplicationController
 
   def ajax_sort
     params[:link].each_with_index { |id, i| Link.update(id, display_order: i + 1) }
-    @user = User.find session[:id]
     render_link
   end
 
@@ -70,7 +66,7 @@ class LinksController < ApplicationController
   def render_link(render_all = true)
     @link = Link.new unless @link
     @system_links = Link.by_system_staffs
-    @editable_links = @user.system_staff? ? @system_links : Link.by_user(@user.id)
+    @editable_links = current_user.system_staff? ? @system_links : Link.by_user(session[:id])
     if render_all
       render 'layouts/renders/all_with_sub_toolbar', locals: { resource: 'new' }
     else

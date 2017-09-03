@@ -7,7 +7,7 @@ module SnippetsHelper
     # This code is inspired by the gem "rails-bookmarklet", https://github.com/oliverfriedmann/rails-bookmarklet.git
 
     full_url = system_url + '/snippets/create_web_snippet'
-    params = { 'u' => "'+encodeURIComponent(d.location.href)+'", 't' => "'+encodeURIComponent(d.title)+'", 'd' => "'+encodeURIComponent((window.getSelection)?window.getSelection().toString():d.selection.createRange().text)+'", 'c' => 't', 'tk' => @user.token, 'v' => '3.2' }
+    params = { 'u' => "'+encodeURIComponent(d.location.href)+'", 't' => "'+encodeURIComponent(d.title)+'", 'd' => "'+encodeURIComponent((window.getSelection)?window.getSelection().toString():d.selection.createRange().text)+'", 'c' => 't', 'tk' => current_user.token, 'v' => '3.2' }
 
     params.each do |key, value|
       unless (full_url.ends_with? '?') || (full_url.ends_with? '&')

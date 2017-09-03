@@ -16,7 +16,7 @@ end
 
 class ActionDispatch::IntegrationTest
   # For all integration tests with FactoryGirl + Capybara + JS driver
-  self.use_transactional_fixtures = false
+  self.use_transactional_tests = false
 
   # Make the Capybara DSL available in all integration tests
   include Capybara::DSL
