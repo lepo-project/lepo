@@ -12,9 +12,9 @@ class CourseMembersController < ApplicationController
   end
 
   def ajax_show(transition = false)
-    @user = User.find(params[:id].to_i)
+    @selected_user = User.find(params[:id].to_i)
     get_resources
-    @stickies = course_stickies_by_user @user.id, session[:nav_id]
+    @stickies = course_stickies_by_user @selected_user.id, session[:nav_id]
     if transition
       render 'layouts/renders/all', locals: { resource: 'users/user' }
     else

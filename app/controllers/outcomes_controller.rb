@@ -33,13 +33,12 @@ class OutcomesController < ApplicationController
     @outcome.update_attributes(outcome_form)
 
     # FIXME: PushNotification
-    if @lesson.user_role(session[:id]) == 'evaluator'
-      user_id = @outcome.manager_id
-      @user = User.find(user_id)
-      # @user.devices.each do |device|
-      #   send_push_notification(device.registration_id)
-      # end
-    end
+    # if @lesson.user_role(session[:id]) == 'evaluator'
+    # learner = User.find_by(id: @outcome.manager_id)
+    # learner.devices.each do |device|
+    #   send_push_notification(device.registration_id)
+    # end
+    # end
 
     pg = get_page(@lesson.id, @content)
     @sticky = Sticky.new(content_id: @content.id, target_type: 'page', target_id: pg['file_id'])

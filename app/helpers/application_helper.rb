@@ -224,8 +224,8 @@ module ApplicationHelper
 
   # 3. for card ===============================================================================
   def content_activity_card_hash(user)
-    managing_contents = Content.associated_by @user.id, 'manager'
-    assisting_contents = Content.associated_by @user.id, 'assistant'
+    managing_contents = Content.associated_by user.id, 'manager'
+    assisting_contents = Content.associated_by user.id, 'assistant'
     card = {}
     card['icon'] = 'fa fa-book'
     card['header'] = '教材に関する活動'
@@ -237,9 +237,9 @@ module ApplicationHelper
   end
 
   def course_activity_card_hash(user)
-    learning_courses = Course.associated_by @user.id, 'learner'
-    managing_courses = Course.associated_by @user.id, 'manager'
-    assisting_courses = Course.associated_by @user.id, 'assistant'
+    learning_courses = Course.associated_by user.id, 'learner'
+    managing_courses = Course.associated_by user.id, 'manager'
+    assisting_courses = Course.associated_by user.id, 'assistant'
     card = {}
     card['icon'] = 'fa fa-flag'
     card['header'] = 'コースに関する活動'
