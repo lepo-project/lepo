@@ -1,16 +1,16 @@
 <div id="snippet_<%= snippet.id %>" class="draggable">
   <div id="categorized-snippet-<%= snippet.id %>">
-    <%= render(partial: "layouts/snippets/#{snippet.category}", locals: {snippet: snippet, editable_snippet: editable_snippet}) %>
+    <%= render(partial: "snippets/items/#{snippet.category}", locals: {snippet: snippet, editable_snippet: editable_snippet}) %>
   </div>
   <% if editable_snippet %>
-  <% case snippet.source_type when "direct" %>
-  <%= render(partial: "snippets/edit", locals: {snippet: snippet, display_order: snippet.display_order, note_id: @note.id}) %>
-  <%= render(partial: "snippets/create_snippet_btns", locals: {display_order: snippet.display_order, note_id: @note.id}) %>
-  <% when "upload" %>
-  <%= render(partial: "snippets/edit_file", locals: {snippet: snippet, display_order: snippet.display_order, note_id: @note.id}) %>
-  <%= render(partial: "snippets/create_snippet_btns", locals: {display_order: snippet.display_order, note_id: @note.id}) %>
-  <% when "web" %>
-  <%= render(partial: "snippets/edit_pdf", locals: {snippet: snippet}) if snippet.category == "pdf" %>
+  <% case snippet.source_type when 'direct' %>
+  <%= render(partial: 'snippets/edit', locals: {snippet: snippet, display_order: snippet.display_order, note_id: @note.id}) %>
+  <%= render(partial: 'snippets/create_snippet_btns', locals: {display_order: snippet.display_order, note_id: @note.id}) %>
+  <% when 'upload' %>
+  <%= render(partial: 'snippets/edit_file', locals: {snippet: snippet, display_order: snippet.display_order, note_id: @note.id}) %>
+  <%= render(partial: 'snippets/create_snippet_btns', locals: {display_order: snippet.display_order, note_id: @note.id}) %>
+  <% when 'web' %>
+  <%= render(partial: 'snippets/edit_pdf', locals: {snippet: snippet}) if snippet.category == 'pdf' %>
   <% end %>
   <% end %>
 </div>

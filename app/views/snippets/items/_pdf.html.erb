@@ -1,12 +1,12 @@
-<% case snippet.source_type when "upload" %>
+<% case snippet.source_type when 'upload' %>
 <div class="snippet-direct">
   <div class="body" style="max-width: 560px; margin: 0 1rem 1rem;">
     <i class="fa fa-file-pdf-o"></i> アップロードPDF（<%= format_time snippet.snippet_file.created_at, 'mdhm' %>）： <a href="<%= snippet.description %>" target="_blank" class="bright-link"><%= snippet.snippet_file.upload_file_name %></a>
   </div>
-  <%= render(partial: "layouts/snippets/operations_upload", locals: {snippet: snippet})  if editable_snippet %>
+  <%= render(partial: 'snippets/items/operations_upload', locals: {snippet: snippet})  if editable_snippet %>
 </div>
 
-<% when "web" %>
+<% when 'web' %>
 <div class="snippet-card card">
   <div class="main-area">
     <div class="body" style="font-size:small;">
@@ -17,7 +17,7 @@
       <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
       <% end %>
     </div>
-    <%= render(partial: "layouts/snippets/footer", locals: {snippet: snippet}) %>
+    <%= render(partial: 'snippets/items/footer', locals: {snippet: snippet}) %>
   </div>
 </div>
 <% end %>

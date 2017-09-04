@@ -3,7 +3,7 @@
   <span class="badge badge-secondary"><%= t('views.snippet.header') %></span>
   <ol>
     <% headers.each do |header| %>
-    <li><%= link_to(sanitize(header.description), "#header_snippet_#{header.id}", {class: "scroll", target: "_self"})  %></li>
+    <li><%= link_to(sanitize(header.description), "#header_snippet_#{header.id}", {class: 'scroll', target: '_self'})  %></li>
     <% end %>
   </ol>
   <% end %>
