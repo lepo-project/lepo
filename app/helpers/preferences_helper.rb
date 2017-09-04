@@ -6,7 +6,12 @@ module PreferencesHelper
   def preference_title(controller_name, action_name)
     case controller_name
     when 'courses'
-      t('views.preferences.new_course') + ' : ' + t('views.preferences.new_course_summary')
+      case action_name
+      when 'ajax_new'
+        t('views.preferences.new_course') + ' : ' + t('views.preferences.new_course_summary')
+      when 'ajax_course_pref'
+        t('views.preferences.edit_course') + ' : ' + t('views.preferences.edit_course_summary')
+      end
     when 'devices'
       # FIXME: PushNotification
       t('views.preferences.device') + ' : ' + t('views.preferences.device_summary')
@@ -35,7 +40,12 @@ module PreferencesHelper
   def preference_title_id(controller_name, action_name)
     case controller_name
     when 'courses'
-      'new-course-pref'
+      case action_name
+      when 'ajax_new'
+        'new-course-pref'
+      when 'ajax_course_pref'
+        'edit-course-pref'
+      end
     when 'devices'
       # FIXME: PushNotification
       'device-pref'

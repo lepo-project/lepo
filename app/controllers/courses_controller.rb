@@ -270,11 +270,44 @@ class CoursesController < ApplicationController
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
   end
 
+  def ajax_course_pref
+    # for security reason
+    if User.system_staff? session[:id]
+      @user = User.find session[:id]
+      render 'layouts/renders/main_pane', locals: { resource: 'course_pref' }
+    else
+      head :ok
+    end
+  end
+
+  def ajax_search_courses
+    @candidates = Course.search(params[:term_id], params[:status], params[:title], params[:manager])
+    if @candidates.size.zero? || (!User.system_staff? session[:id])
+      ajax_index_no_course
+    end
+    render 'layouts/renders/main_pane_candidates', locals: { resource: 'select_course' }
+  end
+
+  def ajax_index_by_manager
+    course = Course.find_by(id: params[:id])
+    if course.nil? || (!User.system_staff? session[:id])
+      ajax_index_no_course
+      render 'layouts/renders/main_pane_candidates', locals: { resource: 'select_course' }
+    else
+      render_course_index(course.status, course.id)
+    end
+  end
   # ====================================================================
   # Private Functions
   # ====================================================================
 
   private
+
+  def ajax_index_no_course
+    @candidates = nil
+    flash[:message] = t('views.system_messages.no_courses_with_criteria')
+    flash[:message_category] = 'error'
+  end
 
   def course_params
     params.require(:course).permit(:image, :title, :term_id, :overview, :status, :groups_count, goals_attributes: %i[title id])

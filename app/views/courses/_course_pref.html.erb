@@ -1,0 +1,13 @@
+<div id="course-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <h1><%= t('.course_preferences') %></h1>
+      <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+      <div class="block">
+        <%= render(partial: "search_courses") %>
+        <%= render(partial: "select_course") %>
+      </div>
+      <%= render partial: 'layouts/complete_btn', locals: {controller_name: 'preferences', nav_section: "home"} %>
+    </div>
+  </div>
+</div>
