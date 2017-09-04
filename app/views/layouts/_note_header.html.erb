@@ -1,8 +1,8 @@
 <div id="note-header" class="note-header-card card">
   <div class="card-body">
-    <% if controller_name == "notes" %>
+    <% if controller_name == 'notes' %>
     <div class="triangle-corner <%= note_star_btn_class session[:id], @note %>">
-      <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: "ajax_toggle_star", id: @note.id, resource: "show"}, {remote: true}) %>
+      <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: 'ajax_toggle_star', id: @note.id, resource: 'show'}, {remote: true}) %>
     </div>
     <% end %>
     <div class="card-subtitle text-right text-muted">
@@ -14,7 +14,7 @@
   <div class="card-body-flex">
     <div class="side-area">
       <% obj = (@course && @course.learner?(session[:id]) && @note.anonymous?(session[:id])) ? nil : @note.manager %>
-      <%= render partial: "layouts/image", locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>
+      <%= render partial: 'layouts/image', locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>
       <div class="caption">
         <% if obj.nil? %>
         ---
@@ -25,7 +25,7 @@
     </div>
     <div class="main-area">
       <p class="overview"><%= @note.overview %></p>
-      <%= render(partial: "layouts/snippets/headers", locals: {headers: Snippet.headers(@snippets)}) %>
+      <%= render(partial: 'snippets/items/headers', locals: {headers: Snippet.headers(@snippets)}) %>
     </div>
   </div>
 
