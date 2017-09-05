@@ -47,7 +47,7 @@ module CoursesHelper
   end
 
   def status_select_options
-    [[t('activerecord.attributes.course.status_draft'),'draft'], [t('activerecord.attributes.course.status_open'),'open'],[t('activerecord.attributes.course.status_archived'),'archive']]
+    [[t('activerecord.others.course.status_draft'), 'draft'], [t('activerecord.others.course.status_open'), 'open'], [t('activerecord.others.course.status_archived'), 'archive']]
   end
 
   def course_managers_display_list(course)

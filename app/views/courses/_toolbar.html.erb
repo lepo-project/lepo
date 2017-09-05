@@ -5,7 +5,7 @@
   <%= render partial: "layouts/breadcrumb", locals: {crumbs: [[t("views.navs.top")]]} %>
 <% end %>
 </nav>
-<% case action_name when "ajax_index", "ajax_destroy", "ajax_update", "ajax_index_by_manager" %>
+<% case action_name when "ajax_index", "ajax_destroy", "ajax_update", "ajax_index_by_system_staff" %>
 <% if (@course.staff? session[:id]) || (User.system_staff? session[:id]) %>
 <div id="toolbar-btns">
   <div class="btn-group">

@@ -273,7 +273,6 @@ class CoursesController < ApplicationController
   def ajax_course_pref
     # for security reason
     if User.system_staff? session[:id]
-      @user = User.find session[:id]
       render 'layouts/renders/main_pane', locals: { resource: 'course_pref' }
     else
       head :ok
@@ -288,7 +287,7 @@ class CoursesController < ApplicationController
     render 'layouts/renders/main_pane_candidates', locals: { resource: 'select_course' }
   end
 
-  def ajax_index_by_manager
+  def ajax_index_by_system_staff
     course = Course.find_by(id: params[:id])
     if course.nil? || (!User.system_staff? session[:id])
       ajax_index_no_course

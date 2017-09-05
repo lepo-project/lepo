@@ -99,9 +99,6 @@ en:
         overview: Overview
         staff_course_notes: Staff course notes
         status: Status
-        status_archived: Archived
-        status_draft: Draft
-        status_open: Open
         term: :activerecord.models.term
         title: Title
 
@@ -322,6 +319,10 @@ en:
           manager: Manager
           assistant: Assistant
           user: User
+      course:
+        status_archived: Archived
+        status_draft: Draft
+        status_open: Open
       created_at: created at
       updated_at: updated at
       user:

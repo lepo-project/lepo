@@ -98,9 +98,6 @@ ja:
         overview: 概要
         staff_course_notes: スタッフのコースノート
         status: 状態
-        status_archived: アーカイブ
-        status_draft: 準備中
-        status_open: 公開中
         notes: :activerecord.models.note
         term: :activerecord.models.term
         title: タイトル
@@ -322,6 +319,10 @@ ja:
           manager: 管理者
           assistant: アシスタント
           user: 利用者
+      course:
+        status_archived: アーカイブ
+        status_draft: 準備中
+        status_open: 公開中      
       created_at: 作成日時
       updated_at: 更新日時
       user:
