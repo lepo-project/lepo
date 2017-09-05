@@ -319,6 +319,10 @@ en:
           manager: Manager
           assistant: Assistant
           user: User
+      course:
+        status_archived: Archived
+        status_draft: Draft
+        status_open: Open
       created_at: created at
       updated_at: updated at
       user:
@@ -330,6 +334,18 @@ en:
           manager: Manager
           user: User
           suspended: Suspended
+
+  courses:
+    course_pref: # app/views/courses/_course_pref.html.erb
+      course_preferences: Course Preferences
+    search_courses: # app/views/courses/_search_courses.html.erb
+      search_course: Search Course
+      exp_search_course: Search courses with term, title, manager, status up to a maximum of %{num}
+      placeholder_title: Input title
+      placeholder_manager: Input name
+    select_course: #app/views/courses/_select_course.html.erb
+      current_course: Current Course
+      select_course: Select Course
 
   views:
     add: Add
@@ -399,6 +415,8 @@ en:
       account_summary: password
       device: Push Notification
       device_summary: Devices for Push Notification
+      edit_course: Existing Course
+      edit_course_summary: search and edit for existing course
       link: Link
       link_summary: links shown in sidebar
       new_course: New Course
@@ -475,6 +493,7 @@ en:
         select_open_status: open (ourse members can do learning activities in the course)
       input_id_or_name: Input part of user ID or name, and select user.
       no_contents: No contents to display
+      no_courses_with_criteria: No courses with these criteria.
       no_dashboard_resources: Currently no information on the dashboard
       no_lessons: No lessons to display
       no_messages: No messages
@@ -491,5 +510,6 @@ en:
       pieces: pieces
       points: points
     unregister: UnReg
+    unspecified: Unspecified
     updated_at: Upated at
     user_account: User Account

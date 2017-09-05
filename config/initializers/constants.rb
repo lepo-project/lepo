@@ -71,5 +71,11 @@ AUTOCOMPLETE_MIN_LENGTH = 1
 # autocomplete name category: signin / signin_full / signin_full_phonetic
 AUTOCOMPLETE_NAME_CATEGORY = 'signin_full_phonetic'.freeze
 
+# max number of course search results for system administrator
+COURSE_SEARCH_MAX_SIZE = 50
+
+# max length of course manager display
+COURSE_MANAGER_DISPLAY_MAX_LENGTH = 16
+
 # FIXME: PushNotification
 # FCM_AUTHORIZATION_KEY = ''

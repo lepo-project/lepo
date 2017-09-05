@@ -247,7 +247,7 @@ class User < ApplicationRecord
   end
 
   def system_preferences
-    system_staff? ? [%w[preferences ajax_new_user_pref], %w[preferences ajax_user_account_pref], %w[courses ajax_new], %w[preferences ajax_notice_pref], %w[terms ajax_new]] : []
+    system_staff? ? [%w[preferences ajax_new_user_pref], %w[preferences ajax_user_account_pref], %w[courses ajax_new], %w[courses ajax_course_pref], %w[preferences ajax_notice_pref], %w[terms ajax_new]] : []
   end
 
   # ====================================================================

@@ -1,7 +1,11 @@
 <nav id="sub-nav">
+<% case action_name when "ajax_course_pref" %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top'), {controller: 'preferences', action: 'ajax_index', nav_section: session[:nav_section]}], [t('courses.course_pref.course_preferences') ]]} %>
+<% else %>
   <%= render partial: "layouts/breadcrumb", locals: {crumbs: [[t("views.navs.top")]]} %>
+<% end %>
 </nav>
-<% case action_name when "ajax_index", "ajax_destroy", "ajax_update" %>
+<% case action_name when "ajax_index", "ajax_destroy", "ajax_update", "ajax_index_by_system_staff" %>
 <% if (@course.staff? session[:id]) || (User.system_staff? session[:id]) %>
 <div id="toolbar-btns">
   <div class="btn-group">
@@ -10,7 +14,7 @@
       <%= link_to({action: "ajax_edit_notice"}, {class: "dropdown-item", remote: true}) do %>
       <i class="fa fa-bullhorn"></i> <%= t("activerecord.models.notice") %>
       <% end %>
-      <% if (@course.assistant? session[:id]) || (@course.manager? session[:id]) %>
+      <% if (@course.assistant? session[:id]) || (@course.manager? session[:id]) ||  (User.system_staff? session[:id]) %>
       <%= link_to({action: "ajax_edit", id: @course.id}, {class: "dropdown-item", remote: true}) do %>
       <i class="fa fa-pencil"></i> <%= t("views.edit") %>
       <% end %>

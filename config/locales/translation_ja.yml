@@ -319,6 +319,10 @@ ja:
           manager: 管理者
           assistant: アシスタント
           user: 利用者
+      course:
+        status_archived: アーカイブ
+        status_draft: 準備中
+        status_open: 公開中      
       created_at: 作成日時
       updated_at: 更新日時
       user:
@@ -330,6 +334,19 @@ ja:
           manager: システム管理者
           user: 一般ユーザ
           suspended: 利用停止
+
+  courses:
+    course_pref: # app/views/courses/_course_pref.html.erb
+      course_preferences: コース設定
+    search_courses: # app/views/courses/_search_courses.html.erb
+      select_course: コースの選択
+      search_course: コースの検索
+      exp_search_course: '%{num}コースまでを上限に、学期 / タイトル / 教師 / 状態で検索'
+      placeholder_title: タイトル名を入力
+      placeholder_manager: 氏名を入力
+    select_course: #app/views/courses/_select_course.html.erb
+      current_course: 現在のコース
+      select_course: コースの選択
 
   views:
     add: 追加
@@ -399,6 +416,8 @@ ja:
       account_summary: パスワード
       device: プッシュ通知
       device_summary: プッシュ通知をする機器
+      edit_course: 既存コース
+      edit_course_summary: 既存コースの検索と編集
       link: リンク
       link_summary: サイドバーに表示するリンク
       new_course: 新規コース
@@ -475,6 +494,7 @@ ja:
         select_open_status: 公開中（コースを閲覧/学習活動可）
       input_id_or_name: IDまたは氏名の一部を入力して選択
       no_contents: 表示する教材はありません
+      no_courses_with_criteria: 条件を満たすコースが見つかりません
       no_dashboard_resources: 現在、ダッシュボードに表示する情報はありません
       no_lessons: 表示するレッスンはありません
       no_messages: メッセージはありません
@@ -491,5 +511,6 @@ ja:
       pieces: 個
       points: 点
     unregister: 解除
+    unspecified: 指定なし
     updated_at: 最終更新日
     user_account: ユーザアカウント

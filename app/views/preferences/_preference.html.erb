@@ -5,9 +5,17 @@
       <% preferences.each do |pref| %>
       <tr>
         <td class="image-td">
-          <div class="icon" style="text-align: center;">
-            <i class="fa <%= preference_icon pref[0], pref[1] %>"></i>
-          </div>
+          <% icon_class = preference_icon pref[0], pref[1]  %>
+          <% if icon_class.class.equal?(Array) %>
+           <div class="icon fa-stack" style="text-align: center;">
+            <i class="fa <%= icon_class[0] %> fa-stack-1x" style="margin-left: -2px;"></i>
+            <i class="fa <%= icon_class[1] %> fa-stack-2x" style="font-size:1.5em; margin-top: 6px; margin-left: 6px"></i>
+           </div>
+          <% else %>
+           <div class="icon" style="text-align: center;">
+            <i class="fa <%= icon_class %>"></i>
+           </div>
+          <% end %>
         </td>
         <td class="name-td">
           <%= link_to preference_title(pref[0], pref[1]), {controller: pref[0], action: pref[1]}, {id: preference_title_id(pref[0], pref[1]), remote: true} %>

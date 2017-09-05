@@ -265,9 +265,30 @@ class Course < ApplicationRecord
     end
   end
 
+  def self.search(term_id, status, title_parts, manager_parts)
+    @candidates = Course.all
+    @candidates = @candidates.where(term_id: term_id) unless term_id.empty?
+    @candidates = @candidates.where(status: status) unless status.empty?
+    @candidates = @candidates.where('title like ?', '%' + title_parts + '%') if title_parts.present?
+    if manager_parts.present?
+      manager_parts = manager_parts.tr('　', ' ')
+      search_words = manager_parts.split(' ')
+      case search_words.length
+      when 2
+        manager_ids = User.where('family_name like ? and given_name like ?', "%#{search_words[0]}%", "%#{search_words[1]}%").or(User.where('family_name like ? and given_name like ? ', "%#{search_words[1]}%", "%#{search_words[0]}%")).pluck(:id)
+      else
+        manager_ids = User.search(manager_parts, '', User.count).pluck(:id)
+      end
+      course_ids = CourseMember.where(role: 'manager').where('user_id IN (?)', manager_ids).pluck(:course_id).uniq
+      @candidates = @candidates.where('id IN(?)', course_ids)
+    end
+    @candidates.limit(COURSE_SEARCH_MAX_SIZE)
+  end
+
   # ====================================================================
   # Private Functions
   # ====================================================================
+
   private
 
   def set_default_value

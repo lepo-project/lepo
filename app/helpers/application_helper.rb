@@ -167,7 +167,12 @@ module ApplicationHelper
   def preference_icon(controller_name, action_name)
     case controller_name
     when 'courses'
-      'fa-flag'
+      case action_name
+      when 'ajax_new'
+        'fa-flag'
+      when 'ajax_course_pref'
+        ['fa-flag-o', 'fa-pencil']
+      end
     when 'devices'
       # FIXME: PushNotification
       'fa-mobile'
@@ -655,4 +660,9 @@ module ApplicationHelper
     stared = user_stared_note? user_id, note
     stared ? 'stared' : ''
   end
+
+  def select_options_unspecified(options)
+    options.unshift([t('views.unspecified'), nil])
+  end
+
 end

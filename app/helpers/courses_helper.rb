@@ -45,4 +45,16 @@ module CoursesHelper
     # messages in the assignment page are limited for learner and managers
     message_manager_id == outcome_manager_id ? 'left' : 'right'
   end
+
+  def status_select_options
+    [[t('activerecord.others.course.status_draft'), 'draft'], [t('activerecord.others.course.status_open'), 'open'], [t('activerecord.others.course.status_archived'), 'archive']]
+  end
+
+  def course_managers_display_list(course)
+    managers = []
+    course.managers.each do |manager|
+      managers.push(manager.full_name)
+    end
+    managers.join(',')
+  end
 end

@@ -1,0 +1,40 @@
+<div class="card block">
+  <h2 class="card-header"><%= title %></h2>
+  <div class="card-body" style="padding: 1px;">
+    <table class="table table-sm table-striped course-table">
+      <% courses.each do |course| %>
+      <tr>
+        <td class="image-td">
+          <%= render partial: "layouts/image", locals: {obj: course, fa_class: 'fa-flag', size: 'm'} %>
+        </td>
+        <td class="name-td">
+          <%= course.term.title %>
+        </td>
+        <% managers = course_managers_display_list(course) %>
+        <td class="name-td">
+          <%= course.title  %> 
+        </td>
+        <td class="name-td">
+          <span class="badge badge-secondary"><%= t('activerecord.others.course.status_'+course.status) %></span>
+        </td>
+        <td class="name-td">
+           <span class="Label label-info" data-toggle="tooltip" data-original-title="<%= managers %>">
+            <%= managers.truncate(COURSE_MANAGER_DISPLAY_MAX_LENGTH) %></span>
+        </td>
+        <td class="button-td">
+          <%= link_to({action: "ajax_index_by_system_staff", id: course.id}, remote: true) do %>
+          <button type="button" class="btn btn-primary">
+            設定
+          </button>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+<script>
+$(function() {
+  $('[data-toggle="tooltip"]').tooltip( { trigger: "hover"})
+})
+</script>

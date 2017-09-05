@@ -4,6 +4,7 @@
 
 @import 'components/color';
 @import 'components/versatile_cards';
+@import 'components/image';
 
 #resource #course-resource {
   @include goal-card;
@@ -18,5 +19,20 @@
   div#self-eval-chart {
     height: 200px;
     width: 602px;
+  }
+  .course-table {
+    .image-td {
+      @include image-40px;
+      text-align: center;
+      width: 80px;
+    }
+    .name-td {
+      font-size: 1.1rem;
+      vertical-align: middle;
+    }
+    .button-td {
+      padding-right: 1rem;
+      text-align: right;
+    }
   }
 }
