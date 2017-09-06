@@ -38,7 +38,7 @@ module ApplicationHelper
   end
 
   def system_url
-    protocol = SSL_ACCESS ? 'https://' : 'http://'
+    protocol = SYSTEM_SSL_FLAG ? 'https://' : 'http://'
     return protocol + request.host_with_port + Rails.application.config.relative_url_root if Rails.application.config.relative_url_root
     protocol + request.host_with_port
   end

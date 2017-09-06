@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def app_protocol
-    SSL_ACCESS ? 'https://' : 'http://'
+    SYSTEM_SSL_FLAG ? 'https://' : 'http://'
   end
 
   def authorize
