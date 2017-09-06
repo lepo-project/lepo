@@ -33,9 +33,9 @@ FactoryGirl.define do
     password_confirmation 'temporary'
     role 'user'
     family_name 'Test'
-    phonetic_family_name 'Test'
+    phonetic_family_name 'Test' if USER_PHONETIC_NAME_FLAG
     sequence(:given_name) { |i| "User#{i}" }
-    sequence(:phonetic_given_name) { |i| "User#{i}" }
+    sequence(:phonetic_given_name) { |i| "User#{i}" } if USER_PHONETIC_NAME_FLAG
 
     factory :admin_user do
       role 'admin'

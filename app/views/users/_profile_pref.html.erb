@@ -21,6 +21,7 @@
 						<%= f.text_field :given_name, class: 'form-control' %>
 					</div>
 				</div>
+				<% if USER_PHONETIC_NAME_FLAG %>
 				<div class="form-group row">
 					<%= f.label :phonetic_family_name, '氏名のよみ（セイ）', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">
@@ -35,6 +36,7 @@
 						<div class="form-text">カタカナで入力</div>
 					</div>
 				</div>
+				<% end %>
 				<div class="form-group row">
 					<%= f.label :image, 'ユーザイメージ', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">

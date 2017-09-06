@@ -20,9 +20,6 @@ AUTOCOMPLETE_MAX_SIZE = 20
 # min character length for autocomplete
 AUTOCOMPLETE_MIN_LENGTH = 1
 
-# autocomplete name category: signin / signin_full / signin_full_phonetic
-AUTOCOMPLETE_NAME_CATEGORY = 'signin_full_phonetic'.freeze
-
 # character length for folder name of file upload
 FOLDER_NAME_LENGTH = 32
 
