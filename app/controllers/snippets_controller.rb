@@ -312,7 +312,7 @@ class SnippetsController < ApplicationController
   end
 
   def lepo_url?(url)
-    protocol = SSL_ACCESS ? 'https://' : 'http://'
+    protocol = SYSTEM_SSL_FLAG ? 'https://' : 'http://'
     url.include?(protocol + request.host_with_port)
   end
 

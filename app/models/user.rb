@@ -91,13 +91,10 @@ class User < ApplicationRecord
   end
 
   def self.autocomplete(search_word)
-    case AUTOCOMPLETE_NAME_CATEGORY
-    when 'signin_full'
-      users = where('signin_name LIKE ? OR family_name LIKE ? OR given_name LIKE? ', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
-    when 'signin_full_phonetic'
+    if USER_PHONETIC_NAME_FLAG
       users = where('signin_name LIKE ? OR family_name LIKE ? OR given_name LIKE ? OR phonetic_family_name LIKE ? OR phonetic_given_name LIKE ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     else
-      users = where('signin_name LIKE ?', "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
+      users = where('signin_name LIKE ? OR family_name LIKE ? OR given_name LIKE? ', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%").where.not(role: 'suspended').order(:signin_name)
     end
     users.select('id, signin_name, family_name, given_name')
   end
@@ -114,13 +111,11 @@ class User < ApplicationRecord
 
   def self.system_staff?(id)
     user = find(id)
-    # FIXME: role
     (user.role == 'admin') || (user.role == 'manager')
   end
 
   def self.system_admin?(id)
     user = find(id)
-    # FIXME: role
     user.role == 'admin'
   end
 
@@ -141,7 +136,6 @@ class User < ApplicationRecord
   end
 
   def self.system_staffs
-    # FIXME: role
     where('(role = ?) || (role = ?)', 'admin', 'manager')
   end
 
@@ -172,10 +166,12 @@ class User < ApplicationRecord
     rest_search_num = max_search_num - results.size
     results += User.where('given_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
 
-    rest_search_num = max_search_num - results.size
-    results += User.where('phonetic_family_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
-    rest_search_num = max_search_num - results.size
-    results += User.where('phonetic_given_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
+    if USER_PHONETIC_NAME_FLAG
+      rest_search_num = max_search_num - results.size
+      results += User.where('phonetic_family_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
+      rest_search_num = max_search_num - results.size
+      results += User.where('phonetic_given_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
+    end
 
     results.sort! { |a, b| a.signin_name <=> b.signin_name }
     results.uniq
@@ -188,12 +184,14 @@ class User < ApplicationRecord
   end
 
   def full_name_all
+    return full_name unless USER_PHONETIC_NAME_FLAG
     phonetic_full_name == ' ' ? full_name : full_name + ' / ' + phonetic_full_name
   end
 
   def phonetic_full_name
     # rather than using the phonetic_family_name or phonetic_given_name directly in the view files, use the phonetic_full_name
     # for the case phonetic_*_name is nil, to_s is added
+    return nil unless USER_PHONETIC_NAME_FLAG
     phonetic_family_name.to_s + ' ' + phonetic_given_name.to_s
   end
 

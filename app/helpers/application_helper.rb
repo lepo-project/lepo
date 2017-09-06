@@ -38,7 +38,7 @@ module ApplicationHelper
   end
 
   def system_url
-    protocol = SSL_ACCESS ? 'https://' : 'http://'
+    protocol = SYSTEM_SSL_FLAG ? 'https://' : 'http://'
     return protocol + request.host_with_port + Rails.application.config.relative_url_root if Rails.application.config.relative_url_root
     protocol + request.host_with_port
   end
@@ -403,8 +403,10 @@ module ApplicationHelper
       if update_to == 'suspended'
         { action: 'ajax_update_role', user_id: user.id, update_to: 'suspended', form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
       else
-        params = { role: user.role, authentication: user.authentication, signin_name: user.signin_name, password: user.password, family_name: user.family_name, given_name: user.given_name, phonetic_family_name: user.phonetic_family_name, phonetic_given_name: user.phonetic_given_name, candidates_csv: candidates_csv }
-        { action: 'ajax_create_user' }.merge params
+        params = { action: 'ajax_create_user', role: user.role, authentication: user.authentication, signin_name: user.signin_name, password: user.password, family_name: user.family_name, given_name: user.given_name, candidates_csv: candidates_csv }
+        params[:phonetic_family_name] = user.phonetic_family_name if USER_PHONETIC_NAME_FLAG
+        params[:phonetic_given_name] = user.phonetic_given_name if USER_PHONETIC_NAME_FLAG
+        params
       end
     end
   end

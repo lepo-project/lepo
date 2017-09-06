@@ -50,13 +50,11 @@ class UsersController < ApplicationController
     def ajax_create_user
       @candidates_csv = params[:candidates_csv] ? params[:candidates_csv] : ''
       role = (params[:role] == 'admin') || (params[:role] == 'manager' && !current_user.system_admin?) ? 'user' : params[:role]
-      case params[:authentication]
-      when 'local'
-        user = User.new(role: role, authentication: 'local', signin_name: params[:signin_name], password: params[:password], family_name: params[:family_name], given_name: params[:given_name], phonetic_family_name: params[:phonetic_family_name], phonetic_given_name: params[:phonetic_given_name])
-      when 'ldap'
-        user = User.new(role: role, authentication: 'ldap', signin_name: params[:signin_name], family_name: params[:family_name], given_name: params[:given_name], phonetic_family_name: params[:phonetic_family_name], phonetic_given_name: params[:phonetic_given_name])
-      end
-      unless user.save
+      user_hash = { role: role, authentication: params[:authentication], signin_name: params[:signin_name], family_name: params[:family_name], given_name: params[:given_name] }
+      user_hash[:password] = params[:password] if params[:authentication] == 'local'
+      user_hash[:phonetic_family_name] = params[:phonetic_family_name] if USER_PHONETIC_NAME_FLAG
+      user_hash[:phonetic_given_name] = params[:phonetic_given_name] if USER_PHONETIC_NAME_FLAG
+      unless User.create(user_hash)
         flash.now[:message] = 'ユーザの新規作成に失敗しました'
         flash[:message_category] = 'error'
       end
@@ -158,8 +156,10 @@ class UsersController < ApplicationController
         password = row[3].nil? ? '' : row[3].strip
         family_name = row[4].strip
         given_name = row[5].nil? ? '' : row[5].strip
-        phonetic_family_name = row[6].nil? ? '' : row[6].strip
-        phonetic_given_name = row[7].nil? ? '' : row[7].strip
+        if USER_PHONETIC_NAME_FLAG
+          phonetic_family_name = row[6].nil? ? '' : row[6].strip
+          phonetic_given_name = row[7].nil? ? '' : row[7].strip
+        end
 
         if role == 'manager' && !manager_creatable
           flash[:message] = 'システム管理者は、システム最高管理者のみ登録出来ます'
@@ -171,16 +171,23 @@ class UsersController < ApplicationController
         if user
           candidates.push [user, user.role, '']
         else
-          candidates.push [User.new(signin_name: signin_name, authentication: authentication, password: password, role: role, family_name: family_name, given_name: given_name, phonetic_family_name: phonetic_family_name, phonetic_given_name: phonetic_given_name), '', role]
+          user_hash = { signin_name: signin_name, authentication: authentication, password: password, role: role, family_name: family_name, given_name: given_name }
+          user_hash[:phonetic_family_name] = phonetic_family_name if USER_PHONETIC_NAME_FLAG
+          user_hash[:phonetic_given_name] = phonetic_given_name if USER_PHONETIC_NAME_FLAG
+          candidates.push [User.new(user_hash), '', role]
         end
       end
       candidates
     end
 
     def appropriate_user_format?(row)
-      # role,authentication,signin_name,password,family_name,given_name,phonetic_family_name,phonetic_given_name
-      return false if row.size != 8
+      # format: role,authentication,signin_name,password,family_name,given_name,phonetic_family_name,phonetic_given_name
+      return false if (row.size != 8) && USER_PHONETIC_NAME_FLAG
+      # format: role,authentication,signin_name,password,family_name,given_name
+      return false if (row.size != 6) && !USER_PHONETIC_NAME_FLAG
       return false if row[0].nil? || row[1].nil? || row[2].nil? || row[4].nil?
+      return false if %w[manager user].exclude? row[0]
+      return false if %w[local ldap].exclude? row[1]
       true
     end
 

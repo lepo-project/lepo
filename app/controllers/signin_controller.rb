@@ -13,8 +13,8 @@ class SigninController < ApplicationController
 
     user = User.authenticate(params[:signin_name], params[:password])
     if user
-      if (user.system_staff? && !inside_ip?(SYSTEM_MANAGE_IPS)) || user.role == 'suspended'
-        # system administrator can only signin from SYSTEM_MANAGE_IPS
+      if (user.system_staff? && !inside_ip?(SYSTEM_STAFF_SIGNIN_IP)) || user.role == 'suspended'
+        # system administrator can only signin from SYSTEM_STAFF_SIGNIN_IP
         # suspended user can not signin
         flash[:message] = t('views.signin.errors.message1')
         render 'layouts/renders/resource', locals: { resource: 'index' }
@@ -35,9 +35,13 @@ class SigninController < ApplicationController
 
   def ajax_create_admin_account
     if User.all.size.zero?
-      user = User.new(signin_name: params[:signin_name], password: params[:password], password_confirmation: params[:password_confirmation], role: 'admin', family_name: 'LePo', given_name: 'Master', phonetic_family_name: 'LePo', phonetic_given_name: 'Master')
+      user_hash = { signin_name: params[:signin_name], password: params[:password], password_confirmation: params[:password_confirmation], role: 'admin', family_name: 'LePo', given_name: 'Master' }
+      user_hash[:phonetic_family_name] = 'LePo' if USER_PHONETIC_NAME_FLAG
+      user_hash[:phonetic_given_name] = 'Master' if USER_PHONETIC_NAME_FLAG
+      user = User.new(user_hash)
       if user.save
-        Link.create manager_id: user.id, title: 'LePo Project', url: 'http://lepo.info/', display_order: 1
+        url = I18n.default_locale == :ja ? 'https://lepo.info/' : 'https://lepo.info/en'
+        Link.create manager_id: user.id, title: 'LePo Project', url: url, display_order: 1
       else
         flash[:message] = t('views.setup.errors.message1')
         flash[:message_category] = 'error'
