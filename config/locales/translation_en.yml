@@ -340,7 +340,7 @@ en:
       course_preferences: Course Preferences
     search_courses: # app/views/courses/_search_courses.html.erb
       search_course: Search Course
-      exp_search_course: Search courses with term, title, manager, status up to a maximum of %{num}
+      exp_search_course: Search courses with term, title, status, manager up to a maximum of %{num}
       placeholder_title: Input title
       placeholder_manager: Input name
     select_course: #app/views/courses/_select_course.html.erb

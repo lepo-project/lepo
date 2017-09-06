@@ -322,7 +322,7 @@ ja:
       course:
         status_archived: アーカイブ
         status_draft: 準備中
-        status_open: 公開中      
+        status_open: 公開中
       created_at: 作成日時
       updated_at: 更新日時
       user:
@@ -341,7 +341,7 @@ ja:
     search_courses: # app/views/courses/_search_courses.html.erb
       select_course: コースの選択
       search_course: コースの検索
-      exp_search_course: '%{num}コースまでを上限に、学期 / タイトル / 教師 / 状態で検索'
+      exp_search_course: '%{num}コースまでを上限に、学期 / タイトル / 状態/ 教師 で検索'
       placeholder_title: タイトル名を入力
       placeholder_manager: 氏名を入力
     select_course: #app/views/courses/_select_course.html.erb

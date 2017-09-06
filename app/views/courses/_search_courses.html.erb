@@ -2,39 +2,29 @@
 	<h2>1. <%= t('.search_course') %>
 		<div class="header-explanation"><%= t('.exp_search_course', num: COURSE_SEARCH_MAX_SIZE) %></div>
 	</h2>
-	<div style="margin:2px">
-		<%= form_tag({action: 'ajax_search_courses'}, class: 'form-group', remote: true) do %>
-		<div class="form-group">
-			<div class="form-group form-inline">
-				<div class="form-group col-md-5">
-			<%# --- term --- %>
-			<%= label :term_id, t('activerecord.models.term') + ':' , class: 'col-md-4 col-form-label text-sm-right' %>
-			<%= select_tag :term_id, options_for_select(select_options_unspecified(Term.selectables("all"))), class: 'form-control input-lg col-md-8' %>
-				</div>
-				<div class="form-group col-md-7">
-			<%# --- title --- %>
-			<%= label :title, t('activerecord.attributes.course.title') + ':' , class: 'col-md-4 col-form-label text-sm-right' %>
-			<%= text_field_tag :title, @search_word, class: 'form-control input-lg col-md-7', placeholder: t('.placeholder_title') %>
-				</div>
-			</div>
-			<div class="form-group form-inline">
-				<div class="form-group col-md-5">
-			<%# --- status --- %>
-			<%= label :status, t('activerecord.attributes.course.status') + ':' , class: 'col-md-4 col-form-label text-sm-right' %>
-			<%= select_tag :status, options_for_select(select_options_unspecified(status_select_options)), class: 'form-control input-lg col-md-8' %>
-				</div>
-				<div class="form-group col-md-7">
-			<%# --- manager --- %>
-			<%= label :manager, t('activerecord.attributes.course.managers') + ':', class: 'col-md-4 col-form-label text-sm-right'  %>
-			<%= text_field_tag :manager, @search_word, class: 'form-control input-lg col-md-7', placeholder:  t('.placeholder_manager') %>
-				</div>
-			</div>
-			<div class="form-group  col-md-11 text-right">
-				<button type="submit" class="btn btn-light center-block" style="margin-left: 8px;">
-					<i class="fa fa-search fa-lg"></i>  <%= t('views.search') %>
-				</button>
-			</div>
-		</div>
-		<% end %>
+
+	<%= form_tag({action: 'ajax_search_courses'}, remote: true) do %>
+	<div class="form-group form-row" style="width: 100%;">
+		<%# --- term --- %>
+		<%= label :term_id, t('activerecord.models.term'), class: 'col-md-2 col-form-label text-sm-right' %>
+		<%= select_tag :term_id, options_for_select(select_options_unspecified(Term.selectables("all"))), class: 'col-md-3 form-control input-lg' %>
+		<%# --- title --- %>
+		<%= label :title, t('activerecord.attributes.course.title'), class: 'col-md-2 col-form-label text-sm-right' %>
+		<%= text_field_tag :title, @search_word, class: 'col-md-4 form-control input-lg', placeholder: t('.placeholder_title') %>
 	</div>
+
+	<div class="form-group form-row" style="width: 100%;">
+		<%# --- status --- %>
+		<%= label :status, t('activerecord.attributes.course.status'), class: 'col-md-2 col-form-label text-sm-right' %>
+		<%= select_tag :status, options_for_select(select_options_unspecified(status_select_options)), class: 'col-md-3 form-control input-lg' %>
+		<%# --- manager --- %>
+		<%= label :manager, t('activerecord.attributes.course.managers'), class: 'col-md-2 col-form-label text-sm-right'  %>
+		<%= text_field_tag :manager, @search_word, class: 'col-md-4 form-control input-lg', placeholder:  t('.placeholder_manager') %>
+	</div>
+	<div class="form-group col-md-11 text-right">
+		<button type="submit" class="btn btn-light center-block" style="margin-left: 8px;">
+			<i class="fa fa-search fa-lg"></i>  <%= t('views.search') %>
+		</button>
+	</div>
+	<% end %>
 </div>
