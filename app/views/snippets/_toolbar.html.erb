@@ -11,7 +11,7 @@
 
 <% elsif (action == 'ajax_index') || (action == 'ajax_destroy_note') %>
 <nav id="sub-nav">
-  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top')]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top')]]} %>
 </nav>
 <div id="toolbar-btns">
   <%= link_to({action: 'ajax_paste', note_id: 0}, {class: 'toolbar-btn', remote: true}) do %>
@@ -21,12 +21,12 @@
 
 <% else %>
 <nav id="sub-nav">
-  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.navs.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [@note.title]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [@note.title]]} %>
 </nav>
 <% if @note.manager? session[:id] %>
 <div id="toolbar-btns">
   <div class="btn-group">
-    <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i> <%= t('views.navs.preferences') %></a>
+    <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i> <%= t('.preferences') %></a>
     <div class="dropdown-menu">
       <%= link_to({action: 'ajax_edit_note', note_id: @note.id}, {class: 'dropdown-item', remote: true}) do %>
       <i class="fa fa-pencil"></i> <%= t('views.edit') %>

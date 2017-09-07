@@ -304,7 +304,7 @@ class CoursesController < ApplicationController
 
   def ajax_index_no_course
     @candidates = nil
-    flash[:message] = t('views.system_messages.no_courses_with_criteria')
+    flash[:message] = t('controllers.no_courses_with_criteria')
     flash[:message_category] = 'error'
   end
 

@@ -6,7 +6,7 @@
     </div>
     <% end %>
     <div class="card-subtitle text-right text-muted">
-      <%= t('views.note.' + @note.status) %><%= t('activerecord.models.note') %>
+      <%= t('.' + @note.status) %><%= t('activerecord.models.note') %>
     </div>
     <h1 class="card-title"><%= @note.title %></h1>
   </div>
@@ -30,17 +30,17 @@
   </div>
 
   <div class="card-footer">
-    <div class="align-left" title="<%= t('views.note.char_count') %>">
-      <i class='fa fa-font fa-lg'></i><%= @note.snippets_char_count('all') %> <%= t('views.units.characters') %><span title="<%= t('views.note.written_char_count') %>">（<i class='fa fa-user fa-lg'></i><%= @note.snippets_char_count('direct') %> <%= t('views.units.characters') %>）</span>
+    <div class="align-left" title="<%= t('helpers.char_count') %>">
+      <i class='fa fa-font fa-lg'></i><%= @note.snippets_char_count('all') %> <%= t('views.units.characters') %><span title="<%= t('.written_char_count') %>">（<i class='fa fa-user fa-lg'></i><%= @note.snippets_char_count('direct') %> <%= t('views.units.characters') %>）</span>
     </div>
-    <div class="align-left" title="<%= t('views.note.media_count') %>">
-      <i class='fa fa-picture-o fa-lg'></i><%= @note.snippets_count "media" %> <%= t('views.units.pieces') %><span title="<%= t('views.note.uploaded_media_count') %>">（<i class='fa fa-user fa-lg'></i><%= @note.snippets_count "direct_media" %> <%= t('views.units.pieces') %>）</span>
+    <div class="align-left" title="<%= t('.media_count') %>">
+      <i class='fa fa-picture-o fa-lg'></i><%= @note.snippets_count "media" %> <%= t('views.units.pieces') %><span title="<%= t('.uploaded_media_count') %>">（<i class='fa fa-user fa-lg'></i><%= @note.snippets_count "direct_media" %> <%= t('views.units.pieces') %>）</span>
     </div>
-    <div class="align-left" title="<%= t('views.note.referenced_web_count') %>">
+    <div class="align-left" title="<%= t('.referenced_web_count') %>">
       <i class='fa fa-globe fa-lg'></i><%= @note.reference_ids.size %> <%= t('views.units.pages') %>
     </div>
     <% if @note.stars_count > 0 %>
-    <div class="align-left" title="<%= t('views.note.star_count') %>">
+    <div class="align-left" title="<%= t('.star_count') %>">
       <i class='fa fa-star fa-lg'></i><%= @note.stars_count %> <%= t('views.units.pieces') %>
     </div>
     <% end %>

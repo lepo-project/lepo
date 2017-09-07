@@ -12,9 +12,9 @@
     </h3>
     <% else %>
     <div class="card-subtitle text-right text-muted">
-      <%= raw("<span class='badge badge-primary'>#{t('views.default')} </span> ") if note.id == current_user.default_note_id %>
+      <%= raw("<span class='badge badge-primary'>#{t('.default')} </span> ") if note.id == current_user.default_note_id %>
       <%= raw("<i class='fa fa-lock'></i> ") if !note.review_or_open? %>
-      <%= t('views.note.' + note.status) %>
+      <%= t('.' + note.status) %>
       <%= ': ' + get_short_string(note.course.title, 16) if note.course && controller_name == 'snippets' %>
     </div>
     <h2 class="card-title">
@@ -41,20 +41,20 @@
   </div>
 
   <div class="card-footer">
-    <div class="align-left" title="<%= t('views.note.char_count') %>">
+    <div class="align-left" title="<%= t('helpers.char_count') %>">
       <i class='fa fa-font fa-lg'></i><%= note.snippets_char_count "all" %>
     </div>
-    <div class="align-left" title="<%= t('views.note.media_count') %>">
+    <div class="align-left" title="<%= t('.media_count') %>">
       <i class='fa fa-picture-o fa-lg'></i><%= note.snippets_count "media" %>
     </div>
     <% if note.stickies.size > 0 %>
-    <% title = (current_user && @course)? note_snippet_text(@course.manager?(session[:id]), note.stickies) : t('views.note.sticky_count') %>
+    <% title = (current_user && @course)? note_snippet_text(@course.manager?(session[:id]), note.stickies) : t('.sticky_count') %>
     <div class="align-left" title="<%= title %>">
       <i class='fa fa-comments fa-lg'></i><%= note.stickies.size %>
     </div>
     <% end %>
     <% if (note.stars_count > 0) %>
-    <% title = (current_user && @course)? note_star_text(@course.manager?(session[:id]), note.stared_users) : t('views.note.star_count') %>
+    <% title = (current_user && @course)? note_star_text(@course.manager?(session[:id]), note.stared_users) : t('.star_count') %>
     <div class="align-left" title="<%= title %>">
       <i class='fa fa-star fa-lg'></i><%= note.stars_count %>
     </div>

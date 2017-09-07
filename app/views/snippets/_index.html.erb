@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <div class="clearfix">
         <% if @notes.size == 0 %>
-        <%= render partial: "layouts/system_message", locals: {message: t('views.system_messages.no_note_resources'), message_category: 'info'} %>
+        <%= render partial: "layouts/system_message", locals: {message: t('.no_note_resources'), message_category: 'info'} %>
         <% else %>
         <%= render partial: "notes/note", collection: @notes, locals: {resource: "index", droppable: true} %>
         <% end %>
@@ -12,7 +12,7 @@
       <%= render partial: "layouts/system_message", locals: {message: raw("収集した情報はドラッグ＆ドロップ、またはメニュー<i class='fa fa-chevron-circle-down fa-lg'></i>内の操作でノートに貼り付けてください。"), message_category: 'info'} %>
       <% else %>
       <% if @notes.size > 0 %>
-      <%= render partial: "layouts/system_message", locals: {message: t('views.system_messages.no_snippets'), message_category: 'info'} %>
+      <%= render partial: "layouts/system_message", locals: {message: t('.no_snippets'), message_category: 'info'} %>
       <% end %>
       <% end %>
       <div id="snippets" class="block">

@@ -1,6 +1,6 @@
 <div id="header-snippets">
   <% if !headers.size.zero? %>
-  <span class="badge badge-secondary"><%= t('views.snippet.header') %></span>
+  <span class="badge badge-secondary"><%= t('.header') %></span>
   <ol>
     <% headers.each do |header| %>
     <li><%= link_to(sanitize(header.description), "#header_snippet_#{header.id}", {class: 'scroll', target: '_self'})  %></li>

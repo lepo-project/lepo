@@ -54,7 +54,7 @@ module ApplicationHelper
 
   # 2. for text ===============================================================================
   def display_title(obj)
-    obj.title.size.nonzero? ? obj.title : t('views.no_title')
+    obj.title.size.nonzero? ? obj.title : t('helpers.no_title')
   end
 
   def format_time(t, category)
@@ -102,22 +102,22 @@ module ApplicationHelper
 
   def lesson_evaluation_text(evaluator_id)
     return '' unless evaluator_id
-    return t('views.content.self_evaluation') if evaluator_id.zero?
-    t('views.content.teacher_evaluation')
+    return t('helpers.self_evaluation') if evaluator_id.zero?
+    t('helpers.teacher_evaluation')
   end
 
   def lesson_evaluator_text(evaluator_id)
     return '' unless evaluator_id
-    return t('views.content.self_evaluation') if evaluator_id.zero?
-    t('views.content.evaluator') + ' ：' + User.find(evaluator_id).full_name
+    return t('helpers.self_evaluation') if evaluator_id.zero?
+    t('helpers.evaluator') + ' ：' + User.find(evaluator_id).full_name
   end
 
   def page_num_text(page_num, max_page_num)
     case page_num
     when 0 then
-      t('views.content.cover_page')
+      t('helpers.cover_page')
     when max_page_num then
-      t('views.content.assignment_page')
+      t('helpers.assignment_page')
     else
       'P.' + page_num.to_s
     end
@@ -253,7 +253,7 @@ module ApplicationHelper
     card['body'] += "補助しているコース： #{assisting_courses.size}コース\n"
     card['summary'] = false
     card['footnotes'] = ['最終利用： ' + last_signin_at_text(user.last_signin_at)]
-    card['footnotes'].push("[#{t('views.content.manage')}: #{user.content_manageable? ? t('views.possible') : t('views.impossible')}]")
+    card['footnotes'].push("[#{t('helpers.contents_manage')}: #{user.content_manageable? ? t('.possible') : t('helpers.impossible')}]")
     card
   end
 
@@ -274,7 +274,7 @@ module ApplicationHelper
 
   def lesson_activity_card_hash(course_role, lesson_resources)
     card = {}
-    card['header'] = t('views.lesson_status')
+    card['header'] = t('helpers.lesson_status')
     case course_role
     when 'learner'
       non_self_eval_num = lesson_resources['non_self_eval'].size
@@ -480,14 +480,14 @@ module ApplicationHelper
     items = []
     case section
     when 'home'
-      items.push(nav_section: 'home', nav_controller: 'dashboard', title: t('views.navs.dashboard'), class: 'fa fa-dashboard fa-lg')
-      items.push(nav_section: 'home', nav_controller: 'snippets', title: t('views.navs.note_management'), class: 'fa fa-file-text fa-lg')
-      items.push(nav_section: 'home', nav_controller: 'contents', title: t('views.navs.support'), class: 'fa fa-question-circle fa-lg')
-      items.push(nav_section: 'home', nav_controller: 'preferences', title: t('views.navs.preferences'), class: 'fa fa-cog fa-lg')
+      items.push(nav_section: 'home', nav_controller: 'dashboard', title: t('helpers.dashboard'), class: 'fa fa-dashboard fa-lg')
+      items.push(nav_section: 'home', nav_controller: 'snippets', title: t('helpers.note_management'), class: 'fa fa-file-text fa-lg')
+      items.push(nav_section: 'home', nav_controller: 'contents', title: t('helpers.support'), class: 'fa fa-question-circle fa-lg')
+      items.push(nav_section: 'home', nav_controller: 'preferences', title: t('helpers.preferences'), class: 'fa fa-cog fa-lg')
     when 'open_courses'
       subsections.each do |course|
         items.push(nav_section: 'open_courses', nav_controller: 'courses', nav_id: course.id, title: course.title, class: 'fa fa-flag fa-lg')
-        items.push(nav_section: 'open_courses', nav_controller: 'portfolios', nav_id: course.id, title: t('views.navs.portfolio'), class: 'no-icon')
+        items.push(nav_section: 'open_courses', nav_controller: 'portfolios', nav_id: course.id, title: t('helpers.portfolio'), class: 'no-icon')
         # items.push(nav_section: 'open_courses', nav_controller: 'stickies', nav_id: course.id, title: t('activerecord.models.sticky'), class: 'no-icon')
         items.push(nav_section: 'open_courses', nav_controller: 'notes', nav_id: course.id, title: t('activerecord.models.note'), class: 'no-icon')
         items.push(nav_section: 'open_courses', nav_controller: 'course_members', nav_id: course.id, title: t('activerecord.models.course_member'), class: 'no-icon')
@@ -496,7 +496,7 @@ module ApplicationHelper
       items.push(nav_section: 'repository', nav_controller: 'contents', title: t('activerecord.models.content'), class: 'fa fa-book fa-lg')
       subsections.each do |course|
         items.push(nav_section: 'repository', nav_controller: 'courses', nav_id: course.id, title: course.title, class: 'fa fa-flag fa-lg')
-        items.push(nav_section: 'repository', nav_controller: 'portfolios', nav_id: course.id, title: t('views.navs.portfolio'), class: 'no-icon')
+        items.push(nav_section: 'repository', nav_controller: 'portfolios', nav_id: course.id, title: t('helpers.portfolio'), class: 'no-icon')
         items.push(nav_section: 'repository', nav_controller: 'notes', nav_id: course.id, title: t('activerecord.models.note'), class: 'no-icon')
         items.push(nav_section: 'repository', nav_controller: 'course_members', nav_id: course.id, title: t('activerecord.models.course_member'), class: 'no-icon')
       end
@@ -588,13 +588,13 @@ module ApplicationHelper
   def member_role_options(update_model)
     case update_model
     when 'content_member'
-      options = [[t('activerecord.others.content_member.role.manager') + t('views.candidate'), 'manager']]
-      options.push [t('activerecord.others.content_member.role.assistant') + t('views.candidate'), 'assistant']
-      options.push [t('activerecord.others.content_member.role.user') + t('views.candidate'), 'user']
+      options = [[t('activerecord.others.content_member.role.manager') + t('helpers.candidate'), 'manager']]
+      options.push [t('activerecord.others.content_member.role.assistant') + t('helpers.candidate'), 'assistant']
+      options.push [t('activerecord.others.content_member.role.user') + t('helpers.candidate'), 'user']
     when 'course_member'
-      options = [[t('activerecord.attributes.course.managers') + t('views.candidate'), 'manager']]
-      options.push [t('activerecord.attributes.course.assistants') + t('views.candidate'), 'assistant']
-      options.push [t('activerecord.attributes.course.learners') + t('views.candidate'), 'learner']
+      options = [[t('activerecord.attributes.course.managers') + t('helpers.candidate'), 'manager']]
+      options.push [t('activerecord.attributes.course.assistants') + t('helpers.candidate'), 'assistant']
+      options.push [t('activerecord.attributes.course.learners') + t('helpers.candidate'), 'learner']
     when 'system'
       options = [[t('activerecord.others.user.role.admin'), 'admin']]
       options.push [t('activerecord.others.user.role.manager'), 'manager']
@@ -664,7 +664,7 @@ module ApplicationHelper
   end
 
   def select_options_unspecified(options)
-    options.unshift([t('views.unspecified'), nil])
+    options.unshift([t('helpers.unspecified'), nil])
   end
 
 end

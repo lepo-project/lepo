@@ -4,12 +4,12 @@
   <% if 'draft' == status %>
   <label for="manager-id-name-field" class="col-md-3 col-form-label text-sm-right" ></label>
   <div class="col-md-7">
-    <input type="text" class="form-control" id="manager-id-name-field" placeholder="<%= t('views.system_messages.input_id_or_name') %>">
+    <input type="text" class="form-control" id="manager-id-name-field" placeholder="<%= t('.input_id_or_name') %>">
     <input type="hidden" id="manager-id-field" value="">
   </div>
   <% url = managers_of_course 'add', User.new, course_id, manager_ids %>
   <%= link_to( url, remote: true, id: 'add-tmp-manager-id') do %>
-  <button type="button" class="btn-primary" id="add-tmp-manager"><%= t('views.add') %></button>
+  <button type="button" class="btn-primary" id="add-tmp-manager"><%= t('.add') %></button>
   <% end %>
   <% end %>
 </div>
@@ -25,7 +25,7 @@
   <% url = managers_of_course 'release', m, course_id, manager_ids %>
   <%= link_to( url, remote: true, id: course_id) do %>
   <button type="button" class="btn-danger">
-    <%= t('views.unregister') %>
+    <%= t('.unregister') %>
   </button>
   <% end %>
   <% end %>

@@ -5,7 +5,7 @@
       <!-- Contents -->
       <%= render partial: 'contents/contents_card' if @contents.size > 0 %>
       <div class="card">
-        <h2 class="card-header"><%= t('views.recommended_browser') %></h2>
+        <h2 class="card-header"><%= t('.recommended_browser') %></h2>
         <div class="card-body">
           <p class="card-text">
             以下のwebブラウザで、LePoを利用してください。
@@ -21,7 +21,7 @@
       </div>
 
       <div class="card">
-        <h2 class="card-header"><%= t('views.shortcut_key') %></h2>
+        <h2 class="card-header"><%= t('.shortcut_key') %></h2>
         <div class="card-body">
           <p class="card-text">
             教材を表示している時は、以下のキー操作が利用できます。なお、これらのキー操作は?キーで確認できます。
@@ -46,7 +46,7 @@
       </div>
 
       <div class="card">
-        <h2 class="card-header"><%= t('views.course_content_management') %></h2>
+        <h2 class="card-header"><%= t('.course_content_management') %></h2>
           <div class="card-body">
           <p class="card-text">
             システム管理者のみコースの登録が可能であり、特定のユーザをコース管理者に指定してコース登録することで、そのユーザがコースを管理できるようになります。
@@ -58,10 +58,10 @@
       </div>
 
       <div class="card">
-        <h2 class="card-header"><%= t('views.system_version') %></h2>
+        <h2 class="card-header"><%= t('.system_version') %></h2>
         <div class="card-body">
           <p class="card-text">
-            0.1.2 （<%= t 'views.released_at' %> <%= l(Date.new(2017, 9, 3), format: :default) %>）
+            0.1.2 （<%= t '.released_at' %> <%= l(Date.new(2017, 9, 3), format: :default) %>）
           </p>
         </div>
       </div>

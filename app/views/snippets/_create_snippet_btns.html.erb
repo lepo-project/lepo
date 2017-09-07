@@ -1,14 +1,14 @@
 <button id="create-text-btn-<%= display_order %>" class="btn btn-sm btn-outline-light create-snippet-btn">
-  <i class="fa fa-plus"></i> <%= t('views.snippet.text') %>
+  <i class="fa fa-plus"></i> <%= t('.text') %>
 </button>
 <button id="create-file-btn-<%= display_order %>" class="btn btn-sm btn-outline-light create-snippet-btn">
-  <i class="fa fa-plus"></i> <%= t('views.snippet.file') %>
+  <i class="fa fa-plus"></i> <%= t('.file') %>
 </button>
 <button id="create-header-btn-<%= display_order %>" class="btn btn-sm btn-outline-light create-snippet-btn">
-  <i class="fa fa-plus"></i> <%= t('views.snippet.header') %>
+  <i class="fa fa-plus"></i> <%= t('.header') %>
 </button>
 <button id="create-subheader-btn-<%= display_order %>" class="btn btn-sm btn-outline-light create-snippet-btn">
-  <i class="fa fa-plus"></i> <%= t('views.snippet.subheader') %>
+  <i class="fa fa-plus"></i> <%= t('.subheader') %>
 </button>
 
 <%= render(partial: "snippets/create", locals: {display_order: display_order, note_id: note_id, category: "text"}) %>

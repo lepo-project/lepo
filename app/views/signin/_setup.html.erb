@@ -4,17 +4,17 @@
 
       <div id="setup-card" class="card">
         <div class="card-header">
-          <h1 class="card-title" style="margin-bottom:0;padding-bottom:0;"><%= t('views.setup.header') %></h1>
+          <h1 class="card-title" style="margin-bottom:0;padding-bottom:0;"><%= t('.header') %></h1>
         </div>
         <div class="card-body">
           <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: 'error'} %>
           <% initial_setup = User.all.size.zero? %>
           <% if initial_setup %>
-          <p><%= t('views.setup.message1') %></p>
+          <p><%= t('.message1') %></p>
           <% else %>
           <div class="alert alert-success" role="alert">
-            <p><%= t('views.setup.message2') %></p>
-            <p><%= t('views.setup.message3') %></p>
+            <p><%= t('.message2') %></p>
+            <p><%= t('.message3') %></p>
           </div>
           <% end %>
           <div id="accordion" role="tablist" aria-multiselectable="true">
@@ -22,17 +22,17 @@
               <div class="card-header" role="tab" id="headingOne">
                 <h5 class="mb-0">
                   <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    Step 1. <%= t('views.setup.license.header') %>
+                    Step 1. <%= t('.license_header') %>
                   </a>
                 </h5>
               </div>
               <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
                 <div class="card-body">
                   <p>
-                    <%= t('views.setup.license.message1') %>
+                    <%= t('.license_message1') %>
                   </p>
                   <p>
-                    <%= t('views.setup.license.message2') %>
+                    <%= t('.license_message2') %>
                   </p>
                   <p>
                     <a href="https://www.gnu.org/licenses/agpl-3.0.en.html" target="_blank">https://www.gnu.org/licenses/agpl-3.0.en.html</a>
@@ -45,7 +45,7 @@
               <div class="card-header" role="tab" id="headingTwo">
                 <h5 class="mb-0">
                   <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Step 2. <%= t('views.setup.config.header') %>
+                    Step 2. <%= t('.config_header') %>
                   </a>
                 </h5>
               </div>
@@ -53,18 +53,18 @@
                 <div class="card-body">
                   <h5>/config/initializers/constans.rb</h5>
                   <ul>
-                    <li><%= t('views.setup.config.message1') %></li>
+                    <li><%= t('.config_message1') %></li>
                   </ul>
                   <h5>/config/database.yml</h5>
                   <ul>
-                    <li><%= t('views.setup.config.message2') %></li>
+                    <li><%= t('.config_message2') %></li>
                   </ul>
                   <h5>/config/secrets.yml</h5>
                   <ul>
-                    <li><%= t('views.setup.config.message3') %></li>
-                    <li><%= t('views.setup.config.message4') %></li>
+                    <li><%= t('.config_message3') %></li>
+                    <li><%= t('.config_message4') %></li>
                   </ul>
-                  <p><%= t('views.setup.config.message5') %></p>
+                  <p><%= t('.config_message5') %></p>
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@
               <div class="card-header" role="tab" id="headingThree">
                 <h5 class="mb-0">
                   <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Step 3. <%= t('views.setup.admin_account.header') %>
+                    Step 3. <%= t('.admin_account_header') %>
                   </a>
                 </h5>
               </div>
@@ -81,14 +81,14 @@
                 <div class="card-body">
                   <% if initial_setup %>
                   <p>
-                    <%= t('views.setup.admin_account.message1') %>
+                    <%= t('.admin_account_message1') %>
                   </p>
                   <ul>
                     <li>
-                      <%= t('views.setup.admin_account.message2') %> : <%= USER_PASSWORD_MIN_LENGTH %> - <%= USER_PASSWORD_MAX_LENGTH %>
+                      <%= t('.admin_account_message2') %> : <%= USER_PASSWORD_MIN_LENGTH %> - <%= USER_PASSWORD_MAX_LENGTH %>
                     </li>
                     <li>
-                      <%= t('views.setup.admin_account.message3') %> : <%= SYSTEM_STAFF_SIGNIN_IP %>
+                      <%= t('.admin_account_message3') %> : <%= SYSTEM_STAFF_SIGNIN_IP %>
                     </li>
                   </ul>
                   <%= form_tag({action: "ajax_create_admin_account"}, remote: true) do %>
@@ -105,9 +105,9 @@
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-sm-right" for="password"><%= t('views.password_confirmation') %></label>
+                    <label class="col-md-4 col-form-label text-sm-right" for="password"><%= t('.password_confirmation') %></label>
                     <div class="col-md-8">
-                      <%= password_field_tag :password_confirmation, params[:password_confirmation], {placeholder: "#{t('views.password_confirmation')}", class: "form-control", autocomplete: 'off'} %>
+                      <%= password_field_tag :password_confirmation, params[:password_confirmation], {placeholder: "#{t('.password_confirmation')}", class: "form-control", autocomplete: 'off'} %>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -118,7 +118,7 @@
                   <% end %>
                   <% else %>
                   <p>
-                    <p><%= t('views.setup.admin_account.message4') %></p>
+                    <p><%= t('.admin_account_message4') %></p>
                   </p>
                   <% end %>
                 </div>

@@ -1,0 +1,7 @@
+en:
+  controllers:
+    no_courses_with_criteria: No courses with these criteria.
+    setup_error_message1: Creating admin account failed. Please check the input character string and try to create it again.
+    setup_error_message2: As the admin account has already been registered, you can not register again.
+    signin_error_message1: You are not allowed to access.
+    signin_error_message2: There is a mistake in User ID or Password.

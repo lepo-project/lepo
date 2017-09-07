@@ -2,8 +2,8 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="block">
-				<%= render partial: 'preference', locals: {header: "#{t('views.preferences.user_preferences')}", preferences: current_user.preferences} %>
-				<%= render partial: 'preference', locals: {header: "#{t('views.preferences.system_preferences')}", preferences: current_user.system_preferences} unless current_user.system_preferences.size.zero? %>
+				<%= render partial: 'preference', locals: {header: "#{t('.user_preferences')}", preferences: current_user.preferences} %>
+				<%= render partial: 'preference', locals: {header: "#{t('.system_preferences')}", preferences: current_user.system_preferences} unless current_user.system_preferences.size.zero? %>
 			</div>
 		</div>
 	</div>

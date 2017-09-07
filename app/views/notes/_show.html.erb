@@ -11,7 +11,7 @@
       <% references = @note.references %>
       <% unless references.size.zero? %>
       <div id="references" class="block">
-        <h1><%= t('views.note.references') %></h1>
+        <h1><%= t('.references') %></h1>
         <ol>
           <% references.each do |ref| %>
           <li><%= display_title ref %>, <%= link_to(ref.url, ref.url, { target: '_blank'}) %> (<%= ref.created_at.strftime('%Y年%-m月%-d日') %>閲覧)</li>

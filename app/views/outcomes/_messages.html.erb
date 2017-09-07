@@ -4,6 +4,6 @@
   <% if messages.size > 0 %>
   <%= render partial: 'outcomes/message', collection: messages, locals: {outcome_manager_id: outcome.manager_id} %>
   <% else %>
-  <%= render partial: 'layouts/system_message', locals: {message: t('views.system_messages.no_messages'), message_category: 'info'} %>
+  <%= render partial: 'layouts/system_message', locals: {message: t('.no_messages'), message_category: 'info'} %>
   <% end %>
 </div>
