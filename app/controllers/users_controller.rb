@@ -33,7 +33,6 @@ class UsersController < ApplicationController
     def ajax_user_account_pref
       # for security reason
       if User.system_staff? session[:id]
-        @role = 'user'
         render_main_pane 'user_account_pref'
       else
         render_main_pane 'account_pref'
@@ -64,7 +63,7 @@ class UsersController < ApplicationController
     def ajax_search_accounts
       @search_word = params[:search_word] ? params[:search_word] : ''
       @role = params[:role] ? params[:role] : ''
-      @candidates = User.search @search_word, @role, USER_SEARCH_MAX_SIZE
+      @candidates = User.search @search_word, @role
       if @candidates.size.zero? || (!User.system_staff? session[:id])
         @candidates = nil
         flash[:message] = '条件を満たすユーザが見つかりません'
@@ -79,7 +78,7 @@ class UsersController < ApplicationController
       @role = params[:role] ? params[:role] : ''
       if User.system_staff? session[:id]
         @selected_user = User.find(params[:id])
-        @candidates = User.search @search_word, @role, USER_SEARCH_MAX_SIZE
+        @candidates = User.search @search_word, @role
       else
         @selected_user = nil
         @candidates = nil
@@ -119,7 +118,7 @@ class UsersController < ApplicationController
       @search_word = params[:search_word] ? params[:search_word] : ''
       @selected_user = original_role == params[:user][:role] ? @selected_user : nil
       @role = original_role
-      @candidates = User.search @search_word, @role, USER_SEARCH_MAX_SIZE
+      @candidates = User.search @search_word, @role
       render_main_pane 'user_account_pref'
     end
 

@@ -441,6 +441,7 @@ ja:
     repository: 保管庫
     required: 必須項目
     search: 検索
+    search_word: 検索語句
     setup:
       header: 学習支援システム LePo にようこそ!
       message1: LePoを利用する前に、以下のステップを完了しましょう。

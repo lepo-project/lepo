@@ -229,7 +229,7 @@ class Course < ApplicationRecord
   end
 
   def manager_changeable?(user_id)
-    (managers.size > 1) && (manager?(user_id) || User.find(user_id).system_staff?)
+    (managers.size > 1) && (manager?(user_id) || User.system_staff?(user_id))
   end
 
   def staff?(user_id)

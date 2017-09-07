@@ -157,24 +157,17 @@ class User < ApplicationRecord
     ((operating_user_role == 'admin') && (object_user_role != 'admin')) || ((operating_user_role == 'manager') && (object_user_role == 'user' || object_user_role == 'suspended'))
   end
 
-  def self.search(keyword, role = '', max_search_num = 50)
+  def self.search(search_word, role = '', max_search_num = USER_SEARCH_MAX_SIZE)
     specific_role = %w[admin manager user suspended].include? role
     role_array = specific_role ? [role] : %w[admin manager user suspended]
-    results = User.where('signin_name like ? and role in (?)', "%#{keyword}%", role_array).order(signin_name: :asc).limit(max_search_num).to_a
-    rest_search_num = max_search_num - results.size
-    results += User.where('family_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
-    rest_search_num = max_search_num - results.size
-    results += User.where('given_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
 
+    results = User.where('role in (?)', role_array)
     if USER_PHONETIC_NAME_FLAG
-      rest_search_num = max_search_num - results.size
-      results += User.where('phonetic_family_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
-      rest_search_num = max_search_num - results.size
-      results += User.where('phonetic_given_name like ? and role in (?)', "%#{keyword}%", role_array).limit(rest_search_num).to_a if rest_search_num > 0
+      results = results.where('signin_name like ? or family_name like ? or given_name like ? or phonetic_family_name like ? or phonetic_given_name like ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%", "%#{search_word}%")
+    else
+      results = results.where('signin_name like ? or family_name like ? or given_name like ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%")
     end
-
-    results.sort! { |a, b| a.signin_name <=> b.signin_name }
-    results.uniq
+    results.uniq.order(signin_name: :asc).limit(max_search_num).to_a
   end
 
   def full_name
