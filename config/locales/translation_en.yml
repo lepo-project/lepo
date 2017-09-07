@@ -440,6 +440,7 @@ en:
     repository: Repository
     required: Required
     search: Search
+    search_word: search word
     setup:
       header: Welcome to LePo !
       message1: Before using LePo, let's complete the following steps.

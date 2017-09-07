@@ -4,19 +4,24 @@
   <h2>メンバーの検索と登録
     <div class="header-explanation"><%= t('activerecord.attributes.user.signin_name') %> / 氏名で検索</div>
   </h2>
-  <div style="margin:4px">
-    <%= form_tag({action: 'ajax_search_candidates'}, class: "form-inline", remote: true) do %>
+  <%= form_tag({action: 'ajax_search_candidates'}, remote: true) do %>
+  <div class="form-group form-row">
+    <%= label :search_word, 'User ID / 氏名' , class: 'col-md-2 col-form-label text-sm-right' %>
     <% search_word = @search_word ? @search_word : '' %>
-    <%= text_field_tag 'search_word', search_word, class: 'form-control form-control-lg', :placeholder => 'キーワード' %>
-    <div style="margin: 0 1rem;">を</div>
-    <%= select_tag "member_role", options_for_select(member_role_options(update_model), @member_role),  class: "form-control form-control-lg" %>
-    <div style="margin: 0 1rem;">として</div>
-    <%= hidden_field_tag "content_id", @content.id if update_model == "content_member" %>
-    <button type="submit" class="btn btn-primary" style="margin-left: 8px;">
-      <i class="fa fa-search fa-lg"></i> 検索
-    </button>
-    <% end %>
+    <%= text_field_tag 'search_word', search_word, class: 'col-md-4 form-control input-lg', placeholder: t('views.search_word') %>
+    <%= label :member_rolerole, '役割' , class: 'col-md-1 col-form-label text-sm-right' %>
+    <%= select_tag 'member_role', options_for_select(member_role_options(update_model), @member_role),  class: 'col-md-4 form-control input-lg' %>
+    <%= hidden_field_tag 'content_id', @content.id if update_model == 'content_member' %>
   </div>
+
+  <div class="form-group form-row text-right">
+    <div class="col-md-11">
+      <button type="submit" class="btn btn-light">
+        <i class="fa fa-search fa-lg"></i> <%= t('views.search') %>
+      </button>
+    </div>
+  </div>
+  <% end %>
 
   <% if selected_form %>
   <% category = (update_model == 'content_member') ? 'content' : 'course' %>
