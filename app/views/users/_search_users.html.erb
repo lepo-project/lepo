@@ -6,7 +6,7 @@
 	<%= form_tag({action: 'ajax_search_accounts'}, remote: true) do %>
 	<div class="form-group form-row">
 		<%= label :search_word, 'User ID / 氏名' , class: 'col-md-2 col-form-label text-sm-right' %>
-		<%= text_field_tag 'search_word', @search_word, class: 'col-md-4 form-control input-lg', placeholder: t('views.search_word') %>
+		<%= text_field_tag 'search_word', @search_word, class: 'col-md-4 form-control input-lg', placeholder: t('.search_word') %>
 		<%= label :role, '役割' , class: 'col-md-1 col-form-label text-sm-right' %>
 		<%= select_tag 'role', options_for_select(select_options_unspecified(member_role_options('system')), @role),  class: 'col-md-4 form-control input-lg' %>
 	</div>
@@ -14,7 +14,7 @@
 	<div class="form-group form-row text-right">
 		<div class="col-md-11">
 			<button type="submit" class="btn btn-light">
-				<i class="fa fa-search fa-lg"></i> <%= t('views.search') %>
+				<i class="fa fa-search fa-lg"></i> <%= t('.search') %>
 			</button>
 		</div>
 	</div>

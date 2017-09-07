@@ -3,7 +3,7 @@
 	<%= form_tag({action: "ajax_search_sticky"}, class: "form-inline", remote: true) do %>
 	<div class="input-append">
 		<%= text_field_tag :keyword, params[:keyword], {class: "span2 form-control"} %>
-		<button type="submit" class="btn btn-primary"><%= t("views.search") %></button>
+		<button type="submit" class="btn btn-primary"><%= t('.search') %></button>
 	</div>
 	<% end %>
 </div>

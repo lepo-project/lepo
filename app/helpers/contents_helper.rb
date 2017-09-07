@@ -4,7 +4,7 @@ module ContentsHelper
   # ====================================================================
 
   def content_crumbs(content_title, nav_section, _page_num)
-    c1 = [t('views.navs.top'), { action: 'ajax_index', nav_section: nav_section }]
+    c1 = [t('views.top'), { action: 'ajax_index', nav_section: nav_section }]
     # c2 = [get_short_string(content_title, 10), {action: 'ajax_show_page', page_num: 0}]
     c2 = [get_short_string(content_title, 10)]
     [c1, c2]

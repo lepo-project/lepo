@@ -8,32 +8,32 @@ module PreferencesHelper
     when 'courses'
       case action_name
       when 'ajax_new'
-        t('views.preferences.new_course') + ' : ' + t('views.preferences.new_course_summary')
+        t('helpers.new_course') + ' : ' + t('helpers.new_course_summary')
       when 'ajax_course_pref'
-        t('views.preferences.edit_course') + ' : ' + t('views.preferences.edit_course_summary')
+        t('helpers.edit_course') + ' : ' + t('helpers.edit_course_summary')
       end
     when 'devices'
       # FIXME: PushNotification
-      t('views.preferences.device') + ' : ' + t('views.preferences.device_summary')
+      t('helpers.device') + ' : ' + t('helpers.device_summary')
     when 'links'
-      t('views.preferences.link') + ' : ' + t('views.preferences.link_summary')
+      t('helpers.link') + ' : ' + t('helpers.link_summary')
     when 'preferences'
       case action_name
       when 'ajax_account_pref'
-        t('views.preferences.account') + ' : ' + t('views.preferences.account_summary')
+        t('helpers.account') + ' : ' + t('helpers.account_summary')
       when 'ajax_new_user_pref'
-        t('views.preferences.new_user') + ' : ' + t('views.preferences.new_user_summary')
+        t('helpers.new_user') + ' : ' + t('helpers.new_user_summary')
       when 'ajax_notice_pref'
-        t('views.preferences.system_notice') + ' : ' + t('views.preferences.system_notice_summary')
+        t('helpers.system_notice') + ' : ' + t('helpers.system_notice_summary')
       when 'ajax_profile_pref'
-        t('views.preferences.profile') + ' : ' + t('views.preferences.profile_summary')
+        t('helpers.profile') + ' : ' + t('helpers.profile_summary')
       when 'ajax_default_note_pref'
-        t('views.preferences.note') + ' : ' + t('views.preferences.note_summary')
+        t('helpers.note') + ' : ' + t('helpers.note_summary')
       when 'ajax_user_account_pref'
-        t('views.preferences.user_account') + ' : ' + t('views.preferences.user_account_summary')
+        t('helpers.user_account') + ' : ' + t('helpers.user_account_summary')
       end
     when 'terms'
-      t('views.preferences.term') + ' : ' + t('views.preferences.term_summary')
+      t('helpers.term') + ' : ' + t('helpers.term_summary')
     end
   end
 

@@ -1,9 +1,9 @@
 <% report = star_reports(@learners, @course_role, @course) %>
-<h2 class="card-header"><%= t('views.star_acquisition_status') %></h2>
+<h2 class="card-header"><%= t('.star_acquisition_status') %></h2>
 <% if manager_report?(@course_role, @learners) %>
 <div class="card-right-top">
   <a data-toggle="collapse" href="#star-report-details" aria-expanded="false" aria-controls="star-report-details">
-    <i class="fa fa-chevron-circle-down"></i> <%= t('views.show_learners_details') %>
+    <i class="fa fa-chevron-circle-down"></i> <%= t('.show_learners_details') %>
   </a>
 </div>
 <% end %>

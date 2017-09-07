@@ -1,0 +1,215 @@
+ja:
+  views:
+    cancel: キャンセル
+    delete: 削除
+    edit: 編集
+    ok: 完了
+    save_and_next: 保存して次へ
+    top: トップ
+    units:
+      characters: 字
+      pages: ページ
+      pieces: 個
+      points: 点
+
+  contents:
+    contents_card:
+      course_num: 利用コース数
+      manual: マニュアル
+      no_contents: 表示する教材はありません
+      pages: ページ
+      updated_at: 最終更新日
+    index:
+      course_content_management: コースと教材の管理
+      recommended_browser: 推奨するWebブラウザ
+      released_at: 公開日
+      shortcut_key: ショートカットキー
+      system_version: システムのバージョン
+
+  courses:
+    course_pref:
+      course_preferences: コース設定
+    course_manager_select:
+      add: 追加
+      input_id_or_name: IDまたは氏名の一部を入力して選択
+      unregister: 解除
+    form:
+      auto_register_of_course_manager: 指定しない場合は、コース作成ユーザを教師に自動登録
+      disabled_to_be_draft: 公開中/アーカイブの状態から、準備中には戻せません
+      no_course_manager_form: 公開中またはアーカイブのコースでは、コースメンバーページから編集可能
+    goal_card:
+      none: なし
+      show_details: 詳細を表示 / 非表示
+    lessons_card:
+      no_lessons: 表示するレッスンはありません
+      pages: :contents.contents_card.pages
+    search_courses:
+      search: 検索
+      search_course: コースの検索
+      select_course: コースの選択
+      exp_search_course: '%{num}コースまでを上限に、学期 / タイトル / 状態/ 教師 で検索'
+      placeholder_title: タイトル名を入力
+      placeholder_manager: 氏名を入力
+    select_course:
+      current_course: 現在のコース
+      select_course: コースの選択
+
+  course_members:
+    signin_reports:
+      show_learners_details: 学生の情報を表示 / 非表示
+
+  dashboard:
+    index:
+      no_dashboard_resources: 現在、ダッシュボードに表示する情報はありません
+
+  devices:
+    index:
+      new_device: 新規登録
+
+  layouts:
+    card_l:
+      show_rest: 続きを表示 / 非表示
+    cover_page:
+      as_file: ファイル提出
+      as_outside: システム外
+      as_text: 文章記述
+      assignment: 課題
+    main_nav:
+      home: ホーム
+      open_courses: 実行中のコース
+      repository: 保管庫
+    member_candidates:
+      no_search_results: 検索条件を満たす結果はありません
+    message_card:
+      shortcut_key: :contents.index.shortcut_key
+    note_header:
+      course: コース
+      master_draft: マスター
+      master_review: :views.note.master_draft
+      master_open: :views.note.master_draft
+      media_count: 画像等の数
+      private: 個人
+      referenced_web_count: 参考Webページ数
+      star_count: スター数
+      uploaded_media_count: アップロードした画像等の数
+      written_char_count: 書き込んだ文字の数
+    page_number:
+      portfolio: :helpers.portfolio
+    search_members:
+      search: :courses.search_courses.search
+      search_word: 検索語句
+    sub_toolbar:
+      add: :courses.course_manager_select.add
+      new_content: 教材を作成
+      new_course: コースを作成
+      new_link: リンクを作成
+      signout: サインアウト
+
+  notes:
+    note:
+      course: :layouts.note_header.course
+      default: 標準
+      master_draft: :layouts.note_header.master_draft
+      master_review: :layouts.note_header.master_draft
+      master_open: :layouts.note_header.master_draft
+      media_count: :layouts.note_header.media_count
+      private: layouts.note_header.private
+      star_count: :layouts.note_header.star_count
+      sticky_count: ふせんの数
+    show:
+      references: 参考資料
+
+  outcomes:
+    messages:
+      no_messages: メッセージはありません
+
+  portfolios:
+    achievement_reports:
+      learning_progress: 学習の進捗
+      show_learners_details: :course_members.signin_reports.show_learners_details
+    goal_reports:
+      goal_achievement_rate: コース目標の達成率
+    lessons_card:
+      no_lessons: :courses.lesson_card.no_lessons
+    star_reports:
+      show_learners_details: :course_members.signin_reports.show_learners_details
+      star_acquisition_status: スターの獲得状況
+    toolbar:
+      portfolio: :helpers.portfolio
+
+  preferences:
+    index:
+      system_preferences: システム設定（システム管理者限定）
+      user_preferences: ユーザ設定
+    toolbar:
+      new_user: :helpers.new_user
+      note: :helpers.note
+      user_account: :helpers.user_account
+
+  signin:
+    setup:
+      admin_account_header: システム最高管理者アカウント
+      admin_account_message1: 以下のフォームより、システム最高管理者のアカウントを作成しましょう。システム最高管理者のアカウントはシステムに1つだけ作成する必要があり、複数作成できるシステム管理者アカウントを管理します。
+      admin_account_message2: パスワードは英数字で、次の文字数の範囲で設定してください
+      admin_account_message3: システム最高管理者とシステム管理者は、次のIPアドレスからのみサインイン可能です。
+      admin_account_message4: システム最高管理者の作成は完了しています。
+      config_header: 設定ファイル
+      config_message1: ファイルの記載事項を確認し、必要に応じて適切な値を設定しましょう。
+      config_message2: 利用するデータベースの情報を、ファイルに設定しましょう。開発環境で SQLite3 を用いる場合は、ここでは修正せずに先に進んでも構いません。
+      config_message3: secret_key_base の値を、ファイルに設定しましょう。なお、Production 環境では、環境変数として secret_key_base の値を設定します。
+      config_message4: secret_key_base のランダム文字列を生成するには、「rails secret」コマンドなどが利用できます。
+      config_message5: 上記の設定ファイルの修正が終わったら、Railsサーバを再起動してからStep 3. に進みます。
+      header: 学習支援システム LePo にようこそ!
+      license_header: ライセンス
+      license_message1: このソフトウェアは、GNU Affero General Public License, version 3 に基づき、オープンソースソフトウェアとして公開しています。
+      license_message2: このライセンスについては、以下のリンクから確認して下さい。
+      message1: LePoを利用する前に、以下のステップを完了しましょう。
+      message2: システム最高管理者の作成が完了しました！
+      message3: ページを再読み込みしてサインインページを表示し、システム最高管理者でLePoにサインインしましょう。
+      password_confirmation: Password（確認用）
+    sub_toolbar:
+      add: :courses.course_manager_select.add
+      signout: :layouts.sub_toolbar.signout
+
+  snippets:
+    create_snippet_btns:
+      file: ファイル
+      header: 見出し
+      subheader: 小見出し
+      text: 文章
+    edit_note:
+      required: 必須項目
+    index:
+      no_note_resources: 現在、管理しているノートはありません
+      no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
+    items:
+      footer:
+        operations: 操作
+      headers:
+        header: :snippets.create_snippet_btns.header
+    toolbar:
+      preferences: :helpers.preferences
+
+  stickies:
+    sticky_reports:
+      search: :courses.search_courses.search
+    toolbar:
+      course_sticky: コースふせん
+      private_sticky: 個人ふせん
+
+  users:
+    account_pref:
+      impossible: :helpers.impossible
+      possible: :helpers.possible
+    search_users:
+      search: :courses.search_courses.search
+      search_word: :layouts.search_members.search_word
+    update_user:
+      account: :helpers.account
+      impossible: :helpers.impossible
+      no_password_edit: 変更しない場合は空欄
+      none: :courses.goal_card.none
+      possible: :helpers.possible
+      self_password_edit: 自分のパスワードは、設定 > アカウントから変更
+    user_account_pref:
+      user_account: :helpers.user_account

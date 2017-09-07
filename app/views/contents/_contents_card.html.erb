@@ -1,6 +1,6 @@
 <div class="resources-card card">
   <% if session[:nav_section] == 'home' %>
-  <h2 class="card-header"><%= t('views.manual') %></h2>
+  <h2 class="card-header"><%= t('.manual') %></h2>
   <div class="card-body" style="color:#000;">
     <p class="card-text" style="color:#000;margin-bottom:20px;">
       下の教材一覧には、LePoの操作マニュアルなどが表示されます。
@@ -9,7 +9,7 @@
     <div class="card-body" style="color:#000;">
       <% end %>
       <% if @contents.empty? %>
-      <%= t('views.system_messages.no_contents') %>
+      <%= t('.no_contents') %>
       <% else %>
       <!-- header -->
       <div class="row list-header">
@@ -19,7 +19,7 @@
             <div><%= t('activerecord.attributes.content.title') %></div>
           </div>
           <div class="medium col">
-            <div><%= t('views.updated_at') %></div>
+            <div><%= t('.updated_at') %></div>
           </div>
           <% when 'repository' %>
           <div class="x-small col">
@@ -31,10 +31,10 @@
             <div><%= t('activerecord.attributes.content.title') %></div>
           </div>
           <div class="medium col">
-            <div><%= t('views.courses') %></div>
+            <div><%= t('.course_num') %></div>
           </div>
           <div class="medium col">
-            <div><%= t('views.updated_at') %></div>
+            <div><%= t('.updated_at') %></div>
           </div>
           <% end %>
         </div>
@@ -45,7 +45,7 @@
       <div id="<%= selected_id(content == @content) %>" class="row <%= cycle('even-row', 'odd-row') %>">
         <div class="inner-row">
           <% case session[:nav_section] when 'home' %>
-          <div class="xx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('views.pages')})", content.id, {}) %></div>
+          <div class="xx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('.pages')})", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource("#{format_time content.updated_at, 'ymd'}", content.id, {}) %></div>
 
           <% when "repository" %>
@@ -55,7 +55,7 @@
             <% role = ContentMember.find_by_user_id_and_content_id(session[:id], content.id).role %>
             <%= link_to_resource(t("activerecord.others.content_member.role.#{role}"), content.id, {}) %>
           </div>
-          <div class="xxx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('views.pages')})", content.id, {}) %></div>
+          <div class="xxx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('.pages')})", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource("#{content.lessons.size.to_s}", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource("#{format_time content.updated_at, 'ymd'}", content.id, {}) %></div>
           <% end %>

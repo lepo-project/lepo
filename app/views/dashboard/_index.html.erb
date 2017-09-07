@@ -2,7 +2,7 @@
   <div class="row">
     <% if @cards.size == 0 %>
     <div class="col-md-12">
-      <%= render partial: 'layouts/system_message', locals: {message: t('views.system_messages.no_dashboard_resources'), message_category: 'info'} %>
+      <%= render partial: 'layouts/system_message', locals: {message: t('.no_dashboard_resources'), message_category: 'info'} %>
     </div>
     <% else %>
     <% @cards.each do |card| %>

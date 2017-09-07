@@ -1,0 +1,47 @@
+ja:
+  helpers:
+    account: アカウント
+    account_summary: パスワード
+    assignment_page: 課題
+    candidate: 候補
+    char_count: 文字数
+    contents_manage: 教材管理
+    cover_page: 表紙
+    current_lesson: 現在のレッスン
+    dashboard: ダッシュボード
+    device: プッシュ通知
+    device_summary: プッシュ通知をする機器
+    edit_course: 既存コース
+    edit_course_summary: 既存コースの検索と編集
+    evaluator: 評価担当者
+    impossible: 不可
+    lesson_status: レッスンの状態
+    link: リンク
+    link_summary: サイドバーに表示するリンク
+    messages_in_other_lesson: 他のレッスンのメッセージ
+    new_course: 新規コース
+    new_course_summary: 新規コースの作成（登録する学期が必要）
+    new_user: 新規ユーザ
+    new_user_summary: 新規ユーザの作成
+    no_title: （タイトルなし）
+    note: ノート
+    note_summary: +Note ボタン / 標準ノート
+    note_management: ノート管理
+    portfolio: 活動記録
+    possible: 可
+    preferences: 設定
+    profile: プロフィール
+    profile_summary: 氏名 / ユーザイメージ / 自己紹介文 / ･･･
+    select_archived_course: アーカイブ（保管庫からコースを閲覧可）
+    select_draft_course: 準備中（コーススタッフのみ、保管庫からコースを管理可）
+    select_open_course: 公開中（コースを閲覧/学習活動可）
+    self_evaluation: 自己評価
+    support: サポート
+    system_notice: システムのお知らせ
+    system_notice_summary: サインイン画面に表示するお知らせ
+    teacher_evaluation: 教師評価
+    term: 学期
+    term_summary: コースを開講する学期
+    unspecified: 指定なし
+    user_account: 既存ユーザ
+    user_account_summary: 既存ユーザの検索と編集

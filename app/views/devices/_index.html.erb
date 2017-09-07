@@ -22,7 +22,7 @@
 				<%= render(partial: 'device', collection: current_user.devices) %>
 				<% end %>
 				<%= link_to({action: 'ajax_new'}, {class: 'btn btn-primary', remote: true}) do %>
-				<i class='fa fa-plus'></i> <%= t('views.new_device') %>
+				<i class='fa fa-plus'></i> <%= t('.new_device') %>
 				<% end %>
 			</div>
 			<%= render partial: 'layouts/complete_btn', locals: {controller_name: 'preferences', nav_section: 'home'} %>

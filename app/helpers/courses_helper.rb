@@ -6,7 +6,7 @@ module CoursesHelper
   def course_crumbs(course_id, lesson_num, lesson_status, nav_section, _page_num)
     crumb_title = t('activerecord.models.lesson') + ' ' + lesson_num.to_s
     crumb_title += '（非公開）' if lesson_status == 'draft'
-    c1 = [t('views.navs.top'), { action: 'ajax_index', nav_section: nav_section, nav_id: course_id }]
+    c1 = [t('views.top'), { action: 'ajax_index', nav_section: nav_section, nav_id: course_id }]
     c2 = [crumb_title]
     [c1, c2]
   end
@@ -16,9 +16,9 @@ module CoursesHelper
   end
 
   def course_status_array
-    array = [[t('views.system_messages.courses.select_draft_status'), 'draft']]
-    array.push [t('views.system_messages.courses.select_open_status'), 'open']
-    array.push [t('views.system_messages.courses.select_archived_status'), 'archived']
+    array = [[t('helpers.select_draft_course'), 'draft']]
+    array.push [t('helpers.select_open_course'), 'open']
+    array.push [t('helpers.select_archived_course'), 'archived']
   end
 
   def lesson_icon(status, marked_lessons, lesson_id, lesson_role, learner_size)

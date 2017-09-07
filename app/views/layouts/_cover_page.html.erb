@@ -36,7 +36,7 @@
 
       <div class="loc outcome">
         <div class="loc-header">
-          <%= t('views.assignment') %> : <%= t('views.content.as_'+ @content.as_category) %>
+          <%= t('.assignment') %> : <%= t('.as_'+ @content.as_category) %>
 
           <% if @lesson and !@lesson.new_record? %>
           [ <%= lesson_evaluator_text @lesson.evaluator_id %> ]

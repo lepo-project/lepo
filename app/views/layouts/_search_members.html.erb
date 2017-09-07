@@ -8,7 +8,7 @@
   <div class="form-group form-row">
     <%= label :search_word, 'User ID / 氏名' , class: 'col-md-2 col-form-label text-sm-right' %>
     <% search_word = @search_word ? @search_word : '' %>
-    <%= text_field_tag 'search_word', search_word, class: 'col-md-4 form-control input-lg', placeholder: t('views.search_word') %>
+    <%= text_field_tag 'search_word', search_word, class: 'col-md-4 form-control input-lg', placeholder: t('.search_word') %>
     <%= label :member_rolerole, '役割' , class: 'col-md-1 col-form-label text-sm-right' %>
     <%= select_tag 'member_role', options_for_select(member_role_options(update_model), @member_role),  class: 'col-md-4 form-control input-lg' %>
     <%= hidden_field_tag 'content_id', @content.id if update_model == 'content_member' %>
@@ -17,7 +17,7 @@
   <div class="form-group form-row text-right">
     <div class="col-md-11">
       <button type="submit" class="btn btn-light">
-        <i class="fa fa-search fa-lg"></i> <%= t('views.search') %>
+        <i class="fa fa-search fa-lg"></i> <%= t('.search') %>
       </button>
     </div>
   </div>

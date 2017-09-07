@@ -1,34 +1,34 @@
 <div id="left-btns" class="btn-group dropup">
-  <button type="button" id="new-resource-btn" class="btn btn-link dropdown-toggle toolbar-btn" data-toggle="dropdown" ><i class="fa fa-plus"></i></button>
+  <button type="button" id="new-resource-btn" class="btn btn-link dropdown-toggle toolbar-btn" data-toggle="dropdown" title="<%= t('.add') %>"><i class="fa fa-plus"></i></button>
   <div class="dropdown-menu" style="margin: 0;">
     <% if User.system_staff? session[:id] %>
     <%= link_to({controller: 'courses', action: 'ajax_new'}, {class: 'dropdown-item', remote: true}) do %>
-    <i class="fa fa-flag fa-lg fa-fw"></i> <%= t('views.navs.new_course') %>
+    <i class="fa fa-flag fa-lg fa-fw"></i> <%= t('.new_course') %>
     <% end %>
     <% else %>
     <a class = "dropdown-item disabled" style="cursor:pointer;">
-      <i class="fa fa-flag fa-lg fa-fw"></i> <%= t('views.navs.new_course') %>
+      <i class="fa fa-flag fa-lg fa-fw"></i> <%= t('.new_course') %>
     </a>
     <% end %>
 
     <% if User.content_manageable? session[:id] %>
     <%= link_to({controller: 'contents', action: 'ajax_new', category: 'upload'}, {class: 'dropdown-item', remote: true}) do %>
-    <i class="fa fa-book fa-lg fa-fw"></i> <%= t('views.navs.new_content') %>
+    <i class="fa fa-book fa-lg fa-fw"></i> <%= t('.new_content') %>
     <% end %>
     <% else %>
     <a class = "dropdown-item disabled" style="cursor:pointer;">
-      <i class="fa fa-book fa-lg fa-fw"></i> <%= t('views.navs.new_content') %>
+      <i class="fa fa-book fa-lg fa-fw"></i> <%= t('.new_content') %>
     </a>
     <% end %>
 
     <%= link_to({controller: 'links', action: 'ajax_new'}, {class: 'dropdown-item', remote: true}) do %>
-    <i class="fa fa-link fa-lg fa-fw"></i> <%= t('views.navs.new_link') %>
+    <i class="fa fa-link fa-lg fa-fw"></i> <%= t('.new_link') %>
     <% end %>
   </div>
 </div>
 
 <div id="right-btns">
-  <%= link_to({controller: 'signin', action: 'signout'}, {id: 'signout-btn', class: 'toolbar-btn', title: "#{t('views.signout')}"}) do %>
+  <%= link_to({controller: 'signin', action: 'signout'}, {id: 'signout-btn', class: 'toolbar-btn', title: t('.signout')}) do %>
   <i class="fa fa-sign-out"></i>
   <% end %>
 </div>

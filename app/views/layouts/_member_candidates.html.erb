@@ -1,5 +1,5 @@
 <% if users.size == 0 %>
-<%= render partial: 'layouts/system_message', locals: {message: t('views.system_messages.no_search_results'), message_category: 'info'} %>
+<%= render partial: 'layouts/system_message', locals: {message: t('.no_search_results'), message_category: 'info'} %>
 <% else %>
 <div class="card block">
   <h2 class="card-header"><%= title %></h2>

@@ -1,0 +1,215 @@
+en:
+  views:
+    cancel: Cancel
+    delete: Delete
+    edit: Edit
+    ok: OK
+    save_and_next: Save & Next
+    top: Top
+    units:
+      characters: characters
+      pages: pages
+      pieces: pieces
+      points: points
+
+  contents:
+    contents_card:
+      course_num: Courses
+      manual: Manual
+      no_contents: No contents to display
+      pages: Pages
+      updated_at: Upated at
+    index:
+      course_content_management: Course & Content Management
+      recommended_browser: Recommended Web Browser
+      released_at: Released at
+      shortcut_key: Shortcut Key
+      system_version: System Version
+
+  courses:
+    course_pref:
+      course_preferences: Course Preferences
+    course_manager_select:
+      add: Add
+      input_id_or_name: Input part of user ID or name, and select user.
+      unregister: UnReg.
+    form:
+      auto_register_of_course_manager: If not specified, the course creater becomes manager.
+      disabled_to_be_draft: Draft status can not select from open / archived status.
+      no_course_manager_form: For open / archive status, managers can be edit at the course member page
+    goal_card:
+      none: none
+      show_details: Show / Hide Details
+    lessons_card:
+      no_lessons: No lessons to display
+      pages: :contents.contents_card.pages
+    search_courses:
+      search: Search
+      search_course: Search Course
+      select_course: Select course
+      exp_search_course: Search courses with term, title, status, manager up to a maximum of %{num}
+      placeholder_title: Input title
+      placeholder_manager: Input name
+    select_course:
+      current_course: Current Course
+      select_course: Select Course
+
+  course_members:
+    signin_reports:
+      show_learners_details: Show / Hide Learner Info.
+
+  dashboard:
+    index:
+      no_dashboard_resources: Currently no information on the dashboard
+
+  devices:
+    index:
+      new_device: New Device
+
+  layouts:
+    card_l:
+      show_rest: Show / Hide the rest
+    cover_page:
+      as_file: File Upload
+      as_outside: Out System
+      as_text: Writing
+      assignment: Assignment
+    main_nav:
+      home: Home
+      open_courses: Open Courses
+      repository: Repository
+    member_candidates:
+      no_search_results: No Search Results
+    message_card:
+      shortcut_key: :contents.index.shortcut_key
+    note_header:
+      course: Course
+      master_draft: Master
+      master_review: :views.note.master_draft
+      master_open: :views.note.master_draft
+      media_count: media count
+      private: Private
+      referenced_web_count: referenced web count
+      star_count: star count
+      uploaded_media_count: uploaded media count
+      written_char_count: written char count
+    page_number:
+      portfolio: :helpers.portfolio
+    search_members:
+      search: :courses.search_courses.search
+      search_word: search word
+    sub_toolbar:
+      add: :courses.course_manager_select.add
+      new_content: New Content
+      new_course: New Course
+      new_link: New Link
+      signout: Signout
+
+  notes:
+    note:
+      course: :layouts.note_header.course
+      default: Default
+      master_draft: :layouts.note_header.master_draft
+      master_review: :layouts.note_header.master_draft
+      master_open: :layouts.note_header.master_draft
+      media_count: :layouts.note_header.media_count
+      private: layouts.note_header.private
+      star_count: :layouts.note_header.star_count
+      sticky_count: sticky count
+    show:
+      references: References
+
+  outcomes:
+    messages:
+      no_messages: No messages
+
+  portfolios:
+    achievement_reports:
+      learning_progress: Learning Progress
+      show_learners_details: :course_members.signin_reports.show_learners_details
+    goal_reports:
+      goal_achievement_rate: Goal Achievement Rate
+    lessons_card:
+      no_lessons: :courses.lesson_card.no_lessons
+    star_reports:
+      show_learners_details: :course_members.signin_reports.show_learners_details
+      star_acquisition_status: Star Acquisition Status
+    toolbar:
+      portfolio: :helpers.portfolio
+
+  preferences:
+    index:
+      system_preferences: System Preferences (Limited for System Managers)
+      user_preferences: User Preferences
+    toolbar:
+      new_user: :helpers.new_user
+      note: :helpers.note
+      user_account: :helpers.user_account
+
+  signin:
+    setup:
+      admin_account_header: Administrator Account
+      admin_account_message1: Please create a system administrator account from the form below. One administrator account must be created in the system and it can manage some system manager accounts.
+      admin_account_message2: The password must be alphanumeric and within the range of the following number of characters.
+      admin_account_message3: System administrator and managers can sign-in only from the following IP addresses.
+      admin_account_message4: The creation of the administrator account has already been completed.
+      config_header: Config. Files
+      config_message1: Please check the configurations in the above file and set appropriate values ​​as necessary.
+      config_message2: Please set the information of the database to use in the above file. When using SQLite 3 in the development environment, you can skip this step here.
+      config_message3: Please set values for secret_key_base in the above file. For the production environment, set the value of secret_key_base as an environment variable.
+      config_message4: To generate random string of secret_key_base, you can use "rails secret" command etc.
+      config_message5: After correcting the config files, restart the Rails server and proceed to Step 3.
+      header: Welcome to LePo !
+      license_header: License
+      license_message1: This software is released under the GNU Affero General Public License, version 3 as open source software.
+      license_message2: For this license, please check the link below.
+      message1: Before using LePo, let's complete the following steps.
+      message2: Creation of administrator account is complete !
+      message3: Please reload the page, display the sign in page, and sign-in to LePo as administrator.
+      password_confirmation: Password (Confirmation)
+    sub_toolbar:
+      add: :courses.course_manager_select.add
+      signout: :layouts.sub_toolbar.signout
+
+  snippets:
+    create_snippet_btns:
+      file: File
+      header: Header
+      subheader: Subheader
+      text: Text
+    edit_note:
+      required: Required
+    index:
+      no_note_resources: Currently no notes managed
+      no_snippets: Currently no snippets
+    items:
+      footer:
+        operations: Operations
+      headers:
+        header: :snippets.create_snippet_btns.header
+    toolbar:
+      preferences: :helpers.preferences
+
+  stickies:
+    sticky_reports:
+      search: :courses.search_courses.search
+    toolbar:
+      course_sticky: Course
+      private_sticky: Private
+
+  users:
+    account_pref:
+      impossible: :helpers.impossible
+      possible: :helpers.possible
+    search_users:
+      search: :courses.search_courses.search
+      search_word: :layouts.search_members.search_word
+    update_user:
+      account: :helpers.account
+      impossible: :helpers.impossible
+      no_password_edit: Leave blank for no password change
+      none: :courses.goal_card.none
+      possible: :helpers.possible
+      self_password_edit: Self account password can be edit from Settings> Account
+    user_account_pref:
+      user_account: :helpers.user_account

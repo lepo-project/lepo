@@ -64,7 +64,7 @@
     <div class="col-md-8">
       <%= f.select :status, course_status_array, course_disabled_status_hash(@course.status), {class: "form-control"} %>
       <ul class="form-list">
-        <li><%= t('views.system_messages.courses.disabled_to_be_draft') %></li>
+        <li><%= t('.disabled_to_be_draft') %></li>
       </ul>
     </div>
   </div>
@@ -75,9 +75,9 @@
   <h2><%= t('activerecord.attributes.course.managers') %>
     <div class="header-explanation">
       <% if @course.new_record? %>
-      <%= t('views.system_messages.courses.auto_register_of_course_manager') %>
+      <%= t('.auto_register_of_course_manager') %>
       <% elsif @course.status != 'draft' %>
-      <%= t('views.system_messages.courses.no_course_manager_form') %>
+      <%= t('.no_course_manager_form') %>
       <% end %>
     </div>
   </h2>
@@ -109,7 +109,7 @@
 <% end %>
 
 <button type="submit" id="submit-btn" class="btn btn-large btn-primary" style="margin-left: 10px;">
-  <i class="fa fa-arrow-right fa-lg"></i> <%= t('views.navs.save_and_next') %>
+  <i class="fa fa-arrow-right fa-lg"></i> <%= t('views.save_and_next') %>
 </button>
 <% end %>
 <script>

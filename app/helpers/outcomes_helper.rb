@@ -16,9 +16,9 @@ module OutcomesHelper
     end
 
     menu_items.each do |mi|
-      mi[0] = mi[1] == current_lesson.id ? '***** ' + t('views.content.current_lesson') + ' *****' : mi[0]
+      mi[0] = mi[1] == current_lesson.id ? '***** ' + t('helpers.current_lesson') + ' *****' : mi[0]
     end
-    label = [t('views.content.messages_in_other_lesson'), -1]
+    label = [t('helpers.messages_in_other_lesson'), -1]
     menu_items.unshift(label)
   end
 

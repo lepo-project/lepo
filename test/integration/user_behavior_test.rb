@@ -33,19 +33,19 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     create(:course_manager, user_id: user.id, course_id: open_course.id)
     signin_with user.signin_name, user.password
     # nav-home
-    click_main_nav_item '#nav-home', I18n.t('views.navs.note_management'), '#snippet-resource'
-    click_main_nav_item '#nav-home', I18n.t('views.navs.support'), '#content-resource'
-    click_main_nav_item '#nav-home', I18n.t('views.navs.preferences'), '#preference-resource'
+    click_main_nav_item '#nav-home', I18n.t('helpers.note_management'), '#snippet-resource'
+    click_main_nav_item '#nav-home', I18n.t('helpers.support'), '#content-resource'
+    click_main_nav_item '#nav-home', I18n.t('helpers.preferences'), '#preference-resource'
     # nav-open-courses
     click_main_nav_item '#nav-open-courses', open_course.title, '#course-resource'
-    click_main_nav_item '#nav-open-courses', I18n.t('views.navs.portfolio'), '#portfolio-resource'
+    click_main_nav_item '#nav-open-courses', I18n.t('helpers.portfolio'), '#portfolio-resource'
     click_main_nav_item '#nav-open-courses', I18n.t('activerecord.models.note'), '#note-resource'
     click_main_nav_item '#nav-open-courses', I18n.t('activerecord.models.course_member'), '#course-member-resource'
     # nav-repository
     find('#main-nav > #nav-repository').click
     click_main_nav_item '#nav-repository', I18n.t('activerecord.models.content'), '#content-resource'
     click_main_nav_item '#nav-repository', course.title, '#course-resource'
-    click_main_nav_item '#nav-repository', I18n.t('views.navs.portfolio'), '#portfolio-resource'
+    click_main_nav_item '#nav-repository', I18n.t('helpers.portfolio'), '#portfolio-resource'
     click_main_nav_item '#nav-repository', I18n.t('activerecord.models.note'), '#note-resource'
     click_main_nav_item '#nav-repository', I18n.t('activerecord.models.course_member'), '#course-member-resource'
   end
@@ -69,7 +69,7 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     assert_not page.has_selector?('#sub-pane .dropdown-menu')
     click_on('new-resource-btn')
     assert page.has_selector?('#sub-pane .dropdown-menu')
-    click_on(I18n.t('views.navs.new_content'))
+    click_on(I18n.t('layouts.sub_toolbar.new_content'))
     fill_in_content_form true
     click_on('cancel-btn')
     assert page.has_selector?('#edit-content')

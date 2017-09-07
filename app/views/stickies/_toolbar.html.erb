@@ -5,9 +5,9 @@
 <% end %>
 
 <% when "show" %>
-<a id="create_private_sticky_btn" style="cursor:pointer;"><div class='create-btn private-border'><i class='fa fa-plus'></i><%= t('views.sticky.private') %></div></a>
+<a id="create_private_sticky_btn" style="cursor:pointer;"><div class='create-btn private-border'><i class='fa fa-plus'></i><%= t('.private_sticky') %></div></a>
 <% if (session[:nav_section] == "open_courses") || ((session[:nav_section] == "repository") && (session[:nav_controller] == "courses")) %>
-<a id="create_course_sticky_btn" style="cursor:pointer;"><div class='create-btn course-border'><i class='fa fa-plus'></i><%= t('views.sticky.course') %></div></a>
+<a id="create_course_sticky_btn" style="cursor:pointer;"><div class='create-btn course-border'><i class='fa fa-plus'></i><%= t('.course_sticky') %></div></a>
 <% end %>
 <%= link_to({action: "ajax_arrange_sticky_panel", content_id: @sticky.content_id, target_type: "page", target_id: @sticky.target_id, sticky_panel: "mini"}, {remote: true, id: "sticky-num-indicator"}) do %>
 <%= stickies.size %> &#9660;
@@ -29,7 +29,7 @@
 <% end %>
 
 <% when "show" %>
-<a id="create_course_sticky_btn" style="cursor:pointer;"><div class='create-btn course-border'><i class='fa fa-plus'></i><%= t('views.sticky.course') %></div></a>
+<a id="create_course_sticky_btn" style="cursor:pointer;"><div class='create-btn course-border'><i class='fa fa-plus'></i><%= t('.course_sticky') %></div></a>
 <%= link_to({action: "ajax_arrange_sticky_panel", target_type: "note", target_id: @sticky.target_id, sticky_panel: "mini"}, {remote: true, id: "sticky-num-indicator"}) do %>
 <%= stickies.size %> &#9660;
 <% end %>

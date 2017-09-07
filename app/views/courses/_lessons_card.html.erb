@@ -1,7 +1,7 @@
 <div class="resources-card card">
   <div class="card-body">
     <% if @course.lessons.empty? %>
-    <%= t('views.system_messages.no_lessons') %>
+    <%= t('.no_lessons') %>
     <% else %>
     <div class="row list-header">
       <div class="inner-row">
@@ -24,7 +24,7 @@
     <div id='<%= selected_id(lesson == @lesson) %>' class="row <%= cycle('even-row', 'odd-row') %>">
       <div class="inner-row">
         <div class="x-small col"><%= link_to_lesson("<i class='#{icon_info[:class]}'></i>", @course.id, lesson.id, {title: icon_info[:text]}) %></div>
-        <div class="xxxxxx-large col"><%= link_to_lesson(lesson.display_order.to_s + '. ' + content.title + " (#{content.page_files.size}#{t("views.pages")})", @course.id, lesson.id, {}) %></div>
+        <div class="xxxxxx-large col"><%= link_to_lesson(lesson.display_order.to_s + '. ' + content.title + " (#{content.page_files.size}#{t('.pages')})", @course.id, lesson.id, {}) %></div>
         <div class="x-large col"><%= link_to_lesson("#{assignment_category_text(content.as_category)} (#{lesson_evaluation_text lesson.evaluator_id})", @course.id, lesson.id, {}) %></div>
       </div>
     </div>
@@ -35,7 +35,7 @@
           <div><i class="fa fa-lock fa-lg"></i></div>
         </div>
         <div class="xxxxxx-large col">
-          <div><%= lesson.display_order.to_s + '. ' + content.title + " (#{content.page_files.size}#{t("views.pages")})" %></div>
+          <div><%= lesson.display_order.to_s + '. ' + content.title + " (#{content.page_files.size}#{t('.pages')})" %></div>
         </div>
         <div class="x-large col">
           <div><%= assignment_category_text(content.as_category) %>

@@ -1,0 +1,47 @@
+en:
+  helpers:
+    account: Account
+    account_summary: password
+    assignment_page: Asg.
+    candidate: Candidate
+    char_count: character count
+    contents_manage: Contents Manage
+    cover_page: Cover
+    current_lesson: Current Lesson
+    dashboard: Dashboard
+    device: Push Notification
+    device_summary: Devices for Push Notification
+    edit_course: Existing Course
+    edit_course_summary: search and edit for existing course
+    evaluator: Evaluator
+    impossible: Impossible
+    lesson_status: Lesson Status
+    link: Link
+    link_summary: links shown in sidebar
+    messages_in_other_lesson: Messages in other lesson
+    new_course: New Course
+    new_course_summary: new course creation (term to register is necessary)
+    new_user: New User
+    new_user_summary: new user creation
+    no_title: ( No Title )
+    note: Note
+    note_summary: +Note Button / Default Note
+    note_management: Note Management
+    portfolio: Portfolio
+    possible: Possible
+    preferences: Preferences
+    profile: Profile
+    profile_summary: name / user image / self introduction / ...
+    select_archived_course: archived (course members can view the course from the archive)
+    select_draft_course: draft (course staffs can manage the course from the archive)
+    select_open_course: open (ourse members can do learning activities in the course)
+    self_evaluation: Self Evaluation
+    support: Support
+    system_notice: System Notice
+    system_notice_summary: system notices shown in signin page
+    teacher_evaluation: Teacher Evaluation
+    term: Term
+    term_summary: school terms for courses
+    unspecified: Unspecified
+    user_account: Existing User
+    user_account_summary: search and edit for existing user

@@ -1,0 +1,7 @@
+ja:
+  controllers:
+    no_courses_with_criteria: 条件を満たすコースが見つかりません
+    setup_error_message1: 最高管理者アカウントの作成に失敗しました。入力した文字列を確認し、再度、作成してみましょう。
+    setup_error_message2: 既に最高管理者アカウントが登録されているため、再度、登録することはできません
+    signin_error_message1: アクセスを許可されていません
+    signin_error_message2: User ID または Password に間違いがあります

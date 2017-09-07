@@ -36,7 +36,7 @@ class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
     assert_not page.has_selector?('#sub-pane .dropdown-menu')
     click_on('new-resource-btn')
     assert page.has_selector?('#sub-pane .dropdown-menu')
-    click_on(I18n.t('views.navs.new_course'))
+    click_on(I18n.t('layouts.sub_toolbar.new_course'))
     fill_in_course_form term, true
     click_on('cancel-btn')
     assert page.has_selector?('#edit-course')
@@ -49,7 +49,7 @@ class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
   def course_creation_from_main_pane
     term = create(:term)
 
-    click_main_nav_item '#nav-home', I18n.t('views.navs.preferences'), '#preference-resource'
+    click_main_nav_item '#nav-home', I18n.t('helpers.preferences'), '#preference-resource'
     assert page.has_selector?('#preference-resource')
     click_on('new-course-pref')
     fill_in_course_form term, true

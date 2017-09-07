@@ -74,7 +74,7 @@ class Note < ApplicationRecord
     end
 
     unless references.size.zero?
-      export_html += '<h2>' + ApplicationController.helpers.t('views.note.references') + '</h2>'
+      export_html += '<h2>' + ApplicationController.helpers.t('notes.show.references') + '</h2>'
       references.each_with_index do |ref, i|
         export_html += '<p>' + (i + 1).to_s + '. &quot;' + ApplicationController.helpers.display_title(ref) + '&quot;, ' + ref.url + ' (' + ref.created_at.strftime('%Y年%-m月%-d日') + '閲覧)</p>'
       end

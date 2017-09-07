@@ -1,12 +1,12 @@
 <section id="nav-home">
-  <h1><%= t('views.home') %></h1>
+  <h1><%= t('.home') %></h1>
   <ul>
     <%= render(partial: 'layouts/nav_item', collection: main_nav_items('home')) %>
   </ul>
 </section>
 
 <section id="nav-open-courses">
-  <h1><a style="cursor:pointer;"><span class="indicator" style="font-size:smaller;"></span> <%= t('views.open_courses') %></a></h1>
+  <h1><a style="cursor:pointer;"><span class="indicator" style="font-size:smaller;"></span> <%= t('.open_courses') %></a></h1>
   <% courses = Course.open_with(session[:id]) %>
   <ul>
     <%= render(partial: 'layouts/nav_item', collection: main_nav_items('open_courses', courses)) %>
@@ -14,7 +14,7 @@
 </section>
 
 <section id="nav-repository">
-  <h1><a style="cursor:pointer;"><span class="indicator" style="font-size:smaller;"></span> <%= t('views.repository') %></a></h1>
+  <h1><a style="cursor:pointer;"><span class="indicator" style="font-size:smaller;"></span> <%= t('.repository') %></a></h1>
   <% courses = Course.not_open_with session[:id] %>
   <ul>
     <%= render(partial: 'layouts/nav_item', collection: main_nav_items('repository', courses)) %>

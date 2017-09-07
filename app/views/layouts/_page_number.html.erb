@@ -14,7 +14,7 @@
       <% end %>
       <% if defined? lesson_id %>
       <div class="dropdown-divider"></div>
-      <%= link_to(t('views.navs.portfolio'), {controller: 'portfolios', action: 'ajax_show_with_transition', id: lesson_id}, {class: 'dropdown-item', remote: true}) %>
+      <%= link_to(t('.portfolio'), {controller: 'portfolios', action: 'ajax_show_with_transition', id: lesson_id}, {class: 'dropdown-item', remote: true}) %>
       <% end %>
     </div>
   </div>
