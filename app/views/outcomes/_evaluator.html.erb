@@ -68,8 +68,8 @@
           <% end %>
 
           <div style="margin-top: 8px; height: 40px;">
-            <button type="submit" class="btn btn-large btn-primary" style="float: left;">
-              <i class="fa fa-comment fa-lg"></i> <%= outcome_submit_text(@lesson.evaluator_id, @lesson_role) %>
+            <button type="submit" class="btn btn-primary btn-lg" style="float: left;">
+              <i class="fa fa-comment"></i> <%= outcome_submit_text(@lesson.evaluator_id, @lesson_role) %>
             </button>
             <div class="create_btn">
               <%= render partial: '/message_templates/create_btn', locals: {lesson_id: @lesson.id, evaluator_id: @lesson.evaluator_id, outcome_id: outcome.id} %>

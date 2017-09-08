@@ -69,8 +69,10 @@
       </div>
 
       <p>
-        <%= link_to raw("<i class='fa fa-arrow-left fa-lg'></i> 戻る"), {action: 'ajax_edit', id: @content.id}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true} %>
-        <%= link_to raw("<i class='fa fa-check-circle fa-lg'></i> 完了"), {action: 'ajax_show', id: @content.id}, {id: 'complete-btn', class: 'btn btn-large btn-primary', title: 'complete', style: 'margin-left: 10px;', remote: true} %>
+        <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_edit', id: @content.id}, id_attr: 'back-btn'} %>
+        <span style="margin-left: 1rem;">
+          <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_show', id: @content.id}, id_attr: 'ok-btn', class_attr: 'btn btn-light btn-lg'} %>
+        </span>
       </p>
 
     </div>

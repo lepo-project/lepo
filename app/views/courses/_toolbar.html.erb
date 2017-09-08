@@ -27,7 +27,7 @@
 
 <% when 'ajax_edit_notice', 'ajax_create_notice', 'ajax_destroy_notice', 'ajax_reedit_notice', 'ajax_archive_notice', 'ajax_open_notice', 'ajax_update_notice' %>
 <div id="toolbar-btns">
-  <%= render partial: 'layouts/buttons/toolbar_ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: session[:nav_id]}, id_attr: 'toolbar-ok-btn'} %>
+  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: session[:nav_id]}, id_attr: 'toolbar-ok-btn'} %>
 </div>
 
 <% when 'ajax_create', 'ajax_update' %>

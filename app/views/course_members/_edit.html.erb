@@ -33,7 +33,7 @@
       <% current_course_members = current_course_members.concat(@course.learners.zip Array.new(@course.learners.size, 'learner'), Array.new(@course.learners.size, 'none')) %>
       <%= render(partial: 'layouts/member_candidates', locals: {title: '現在のメンバー', category: 'course', form_category: 'index', users: current_course_members, resource_id: @course.id, footer:''}) %>
       <p>
-        <%= link_to raw("<i class='fa fa-check-circle fa-lg'></i> 完了"), {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, {id: 'complete-btn', class: 'btn btn-large btn-primary', title: 'complete', remote: true} %>
+        <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, id_attr: 'ok-btn', class_attr: 'btn btn-primary btn-lg'} %>
       </p>
     </div>
   </div>

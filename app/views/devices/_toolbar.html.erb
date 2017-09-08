@@ -2,5 +2,5 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {controller: 'preferences', action: 'ajax_index', nav_section: session[:nav_section]}], [t('activerecord.models.device')]]} %>
 </nav>
 <div id="toolbar-btns">
-  <%= render partial: 'layouts/buttons/toolbar_ok', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: session[:nav_section]}, id_attr: 'toolbar-ok-btn'} %>
+  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: session[:nav_section]}, id_attr: 'toolbar-ok-btn'} %>
 </div>

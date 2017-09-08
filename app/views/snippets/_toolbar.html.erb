@@ -2,7 +2,7 @@
 <% if (action == 'ajax_edit_note') || ((action == 'ajax_destroy_note') && !@note.destroyed?) %>
 <div id="toolbar-btns">
   <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
-  <%= render partial: 'layouts/buttons/toolbar_submit_ok', locals: {onclick_txt: "$('#note_form').submit()"} %>
+  <%= render partial: 'layouts/buttons/toolbar_submit', locals: {onclick_txt: "$('#note_form').submit()"} %>
 </div>
 
 <% elsif (action == 'ajax_index') || (action == 'ajax_destroy_note') %>
