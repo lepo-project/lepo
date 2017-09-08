@@ -1,6 +1,5 @@
 ja:
   views:
-    edit: 編集
     ok: 完了
     save_and_next: 保存して次へ
     top: トップ
@@ -23,6 +22,8 @@ ja:
       released_at: 公開日
       shortcut_key: ショートカットキー
       system_version: システムのバージョン
+    toolbar_show:
+      edit: :layouts.buttons.edit.edit
 
   courses:
     course_pref:
@@ -70,6 +71,8 @@ ja:
         cancel: キャンセル
       delete:
         delete: 削除
+      edit:
+        edit: 編集
     card_l:
       show_rest: 続きを表示 / 非表示
     cover_page:
@@ -195,11 +198,15 @@ ja:
         operations: 操作
       headers:
         header: :snippets.create_snippet_btns.header
+      operations_direct:
+        edit: :layouts.buttons.edit.edit
       operations_upload:
         delete: :layouts.buttons.delete.delete
+        edit: :layouts.buttons.edit.edit
       operations_web:
         delete: :layouts.buttons.delete.delete
     toolbar:
+      export: 文章を出力
       preferences: :helpers.preferences
 
   stickies:
@@ -207,6 +214,7 @@ ja:
       cancel: :layouts.buttons.cancel.cancel
     sticky:
       delete: :layouts.buttons.delete.delete
+      edit: :layouts.buttons.edit.edit
     sticky_reports:
       search: :courses.search_courses.search
     toolbar:

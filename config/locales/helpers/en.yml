@@ -2,6 +2,7 @@ en:
   helpers:
     account: Account
     account_summary: password
+    archive: Archive
     assignment_page: Asg.
     candidate: Candidate
     char_count: character count
@@ -9,8 +10,10 @@ en:
     cover_page: Cover
     current_lesson: Current Lesson
     dashboard: Dashboard
+    delete: :layouts.buttons.delete.delete
     device: Push Notification
     device_summary: Devices for Push Notification
+    edit: :layouts.buttons.edit.edit
     edit_course: Existing Course
     edit_course_summary: search and edit for existing course
     evaluator: Evaluator
@@ -32,6 +35,7 @@ en:
     preferences: Preferences
     profile: Profile
     profile_summary: name / user image / self introduction / ...
+    reopen: Reopen
     select_archived_course: archived (course members can view the course from the archive)
     select_draft_course: draft (course staffs can manage the course from the archive)
     select_open_course: open (ourse members can do learning activities in the course)

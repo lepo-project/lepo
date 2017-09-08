@@ -327,15 +327,15 @@ module ApplicationHelper
     operations = []
     case border_category
     when 'course'
-      operations.push(label: '公開終了', url: { action: 'ajax_archive_notice', id: course_id, notice_id: notice.id })
+      operations.push(label: t('helpers.archive'), url: { action: 'ajax_archive_notice', id: course_id, notice_id: notice.id })
       if notice.manager_id == session[:id]
-        operations.push(label: t('views.edit'), url: { action: 'ajax_reedit_notice', id: course_id, notice_id: notice.id })
+        operations.push(label: t('helpers.edit'), url: { action: 'ajax_reedit_notice', id: course_id, notice_id: notice.id })
       end
     when 'pending'
       if notice.manager_id == session[:id]
-        operations.push(label: '削除', url: { action: 'ajax_destroy_notice', id: course_id, notice_id: notice.id })
+        operations.push(label: t('helpers.delete'), url: { action: 'ajax_destroy_notice', id: course_id, notice_id: notice.id })
       end
-      operations.push(label: '再掲示', url: { action: 'ajax_open_notice', id: course_id, notice_id: notice.id })
+      operations.push(label: t('helpers.reopen'), url: { action: 'ajax_open_notice', id: course_id, notice_id: notice.id })
     end
     operations
   end

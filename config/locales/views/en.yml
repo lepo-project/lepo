@@ -1,6 +1,5 @@
 en:
   views:
-    edit: Edit
     ok: OK
     save_and_next: Save & Next
     top: Top
@@ -23,6 +22,8 @@ en:
       released_at: Released at
       shortcut_key: Shortcut Key
       system_version: System Version
+    toolbar_show:
+      edit: :layouts.buttons.edit.edit
 
   courses:
     course_pref:
@@ -70,6 +71,8 @@ en:
         cancel: Cancel
       delete:
         delete: Delete
+      edit:
+        edit: Edit
     card_l:
       show_rest: Show / Hide the rest
     cover_page:
@@ -195,14 +198,23 @@ en:
         operations: Operations
       headers:
         header: :snippets.create_snippet_btns.header
+      operations_direct:
+        edit: :layouts.buttons.edit.edit
       operations_upload:
         delete: :layouts.buttons.delete.delete
+        edit: :layouts.buttons.edit.edit
+      operations_web:
+        delete: :layouts.buttons.delete.delete
     toolbar:
+      export: Export to text
       preferences: :helpers.preferences
 
   stickies:
     edit:
       cancel: :layouts.buttons.cancel.cancel
+    sticky:
+      delete: :layouts.buttons.delete.delete
+      edit: :layouts.buttons.edit.edit
     sticky_reports:
       search: :courses.search_courses.search
     toolbar:

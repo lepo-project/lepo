@@ -26,11 +26,9 @@
   <div class="btn-group">
     <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i> <%= t('.preferences') %></a>
     <div class="dropdown-menu">
-      <%= link_to({action: 'ajax_edit_note', note_id: @note.id}, {class: 'dropdown-item', remote: true}) do %>
-      <i class="fa fa-pencil"></i> <%= t('views.edit') %>
-      <% end %>
+      <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_edit_note', note_id: @note.id}, id_attr: 'toolbar-edit-btn'} %>
       <%= link_to({controller: 'notes', action: 'export_html', id: @note.id}, {class: 'dropdown-item', target: '_blank'}) do %>
-      <i class="fa fa-share"></i> 文章を出力
+      <i class="fa fa-share"></i> <%= t('.export') %>
       <% end %>
     </div>
   </div>
