@@ -1,8 +1,8 @@
 <nav id="sub-nav">
   <% case action_name when 'ajax_course_pref' %>
-  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top'), {controller: 'preferences', action: 'ajax_index', nav_section: session[:nav_section]}], [t('courses.course_pref.course_preferences') ]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {controller: 'preferences', action: 'ajax_index', nav_section: session[:nav_section]}], [t('courses.course_pref.course_preferences') ]]} %>
   <% else %>
-  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top')]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
   <% end %>
 </nav>
 <% case action_name when 'ajax_index', 'ajax_destroy', 'ajax_index_by_system_staff' %>

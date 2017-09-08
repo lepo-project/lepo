@@ -1,6 +1,5 @@
 en:
   views:
-    top: Top
     units:
       characters: characters
       pages: pages
@@ -64,6 +63,8 @@ en:
       new_device: New Device
 
   layouts:
+    breadcrumb:
+      top: Top
     buttons:
       cancel:
         cancel: Cancel

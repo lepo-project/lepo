@@ -7,7 +7,7 @@
 
 <% elsif (action == 'ajax_index') || (action == 'ajax_destroy_note') %>
 <nav id="sub-nav">
-  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top')]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
 </nav>
 <div id="toolbar-btns">
   <%= link_to({action: 'ajax_paste', note_id: 0}, {class: 'toolbar-btn', remote: true}) do %>
@@ -17,7 +17,7 @@
 
 <% else %>
 <nav id="sub-nav">
-  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [@note.title]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section]}], [@note.title]]} %>
 </nav>
 <% if @note.manager? session[:id] %>
 <div id="toolbar-btns">

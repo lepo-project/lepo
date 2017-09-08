@@ -1,6 +1,5 @@
 ja:
   views:
-    top: トップ
     units:
       characters: 字
       pages: ページ
@@ -64,6 +63,8 @@ ja:
       new_device: 新規登録
 
   layouts:
+    breadcrumb:
+      top: トップ
     buttons:
       cancel:
         cancel: キャンセル
