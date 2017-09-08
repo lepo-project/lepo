@@ -20,9 +20,7 @@
 
 <% when 'ajax_edit', 'ajax_edit_group', 'ajax_update_group', 'ajax_update_role' %>
 <div id="toolbar-btns">
-  <%= link_to({action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
-  <% end %>
+  <%= render partial: 'layouts/buttons/toolbar_ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, id_attr: 'toolbar-ok-btn'} %>
 </div>
 
 <% when 'ajax_show' -%>

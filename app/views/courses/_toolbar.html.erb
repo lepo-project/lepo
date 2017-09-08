@@ -5,7 +5,7 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top')]]} %>
   <% end %>
 </nav>
-<% case action_name when 'ajax_index', 'ajax_destroy', 'ajax_update', 'ajax_index_by_system_staff' %>
+<% case action_name when 'ajax_index', 'ajax_destroy', 'ajax_index_by_system_staff' %>
 <% if (@course.staff? session[:id]) || (User.system_staff? session[:id]) %>
 <div id="toolbar-btns">
   <div class="btn-group">
@@ -27,9 +27,7 @@
 
 <% when 'ajax_edit_notice', 'ajax_create_notice', 'ajax_destroy_notice', 'ajax_reedit_notice', 'ajax_archive_notice', 'ajax_open_notice', 'ajax_update_notice' %>
 <div id="toolbar-btns">
-  <%= link_to({action: 'ajax_index', nav_section: session[:nav_section], nav_id: session[:nav_id]}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
-  <% end %>
+  <%= render partial: 'layouts/buttons/toolbar_ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: session[:nav_id]}, id_attr: 'toolbar-ok-btn'} %>
 </div>
 
 <% when 'ajax_create', 'ajax_update' %>

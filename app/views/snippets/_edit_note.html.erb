@@ -74,7 +74,7 @@
 
         <div style="margin-left: 60px;">
           <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'cancel-btn'} %>
-          <%= render partial: 'layouts/buttons/submit_complete' %>
+          <%= render partial: 'layouts/buttons/ok' %>
           <% if @note.status == 'private' %>
           <div id="destroy-note" type="destroy" class="btn btn-danger btn-lg" style="margin-left: 5rem;">
             <i class="fa fa-trash-o"></i> <%= t('.delete') %>

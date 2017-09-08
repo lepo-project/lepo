@@ -1,6 +1,5 @@
 en:
   views:
-    ok: OK
     top: Top
     units:
       characters: characters
@@ -68,14 +67,22 @@ en:
     buttons:
       cancel:
         cancel: Cancel
+      complete:
+        ok: :layouts.buttons.ok.ok
       delete:
         delete: Delete
       edit:
         edit: Edit
+      ok:
+        ok: OK
       save_and_next:
         save_and_next: Save & Next
+      toolbar_ok:
+        ok: :layouts.buttons.ok.ok
       toolbar_save_and_next:
         save_and_next: :layouts.buttons.save_and_next.save_and_next
+      toolbar_submit_ok:
+        ok: :layouts.buttons.ok.ok
     card_l:
       show_rest: Show / Hide the rest
     cover_page:
@@ -176,6 +183,7 @@ en:
       message2: Creation of administrator account is complete !
       message3: Please reload the page, display the sign in page, and sign-in to LePo as administrator.
       password_confirmation: Password (Confirmation)
+      ok: :layouts.buttons.ok.ok
     sub_toolbar:
       add: :courses.course_manager_select.add
       signout: :layouts.sub_toolbar.signout

@@ -10,7 +10,7 @@
 </div>
 <div style="margin-left: 16px;margin-bottom: 10px;">
   <a id="<%= 'cancel-' + form_id %>" class="btn btn-light btn-lg" style="cursor:pointer;" title="cancel"><i class="fa fa-times-circle"></i> <%= t('.cancel') %></a>
-  <%= render partial: 'layouts/buttons/submit_complete' %>
+  <%= render partial: 'layouts/buttons/ok' %>
   <% if (defined? snippet) && snippet.category != 'pdf' %>
   <span style="margin-left: 5rem;">
     <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: snippet.id}, id_attr: 'delete-btn'} %>

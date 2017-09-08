@@ -1,6 +1,5 @@
 ja:
   views:
-    ok: 完了
     top: トップ
     units:
       characters: 字
@@ -68,14 +67,22 @@ ja:
     buttons:
       cancel:
         cancel: キャンセル
+      complete:
+        ok: :layouts.buttons.ok.ok
       delete:
         delete: 削除
       edit:
         edit: 編集
+      ok:
+        ok: 完了
       save_and_next:
         save_and_next: 保存して次へ
+      toolbar_ok:
+        ok: :layouts.buttons.ok.ok
       toolbar_save_and_next:
         save_and_next: :layouts.buttons.save_and_next.save_and_next
+      toolbar_submit_ok:
+        ok: :layouts.buttons.ok.ok
     card_l:
       show_rest: 続きを表示 / 非表示
     cover_page:
@@ -176,6 +183,7 @@ ja:
       message2: システム最高管理者の作成が完了しました！
       message3: ページを再読み込みしてサインインページを表示し、システム最高管理者でLePoにサインインしましょう。
       password_confirmation: Password（確認用）
+      ok: :layouts.buttons.ok.ok
     sub_toolbar:
       add: :courses.course_manager_select.add
       signout: :layouts.sub_toolbar.signout
