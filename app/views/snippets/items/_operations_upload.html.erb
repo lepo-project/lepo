@@ -1,4 +1,4 @@
 <div class="operation-direct">
-  <%= link_to(raw("<i class='fa fa-trash-o fa-lg' title='削除'></i>"), {action: 'ajax_destroy', id: snippet.id}, {remote: true}) %>
+  <%= link_to(raw("<i class='fa fa-trash-o fa-lg'></i>"), {action: 'ajax_destroy', id: snippet.id}, {title: t('.delete'), remote: true}) %>
   <a id="update-snippet-btn-<%= snippet.display_order %>" style="cursor:pointer;"><i class='fa fa-upload fa-lg' title="<%= t('views.edit') %>"></i></a>
 </div>

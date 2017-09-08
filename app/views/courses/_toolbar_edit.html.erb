@@ -1,5 +1,5 @@
 <div id="toolbar-btns">
-  <%= render partial: 'layouts/cancel_btn', locals: {action_hash: course_cancel_hash, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
+  <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: course_cancel_hash, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
 
   <%= link_to('javascript:void(0);', id: 'next-btn', onclick: "$('#course-form').submit()", class: 'toolbar-btn') do %>
       <i class="fa fa-arrow-right"></i> <%= t('views.save_and_next') %>

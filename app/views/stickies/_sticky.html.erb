@@ -34,7 +34,7 @@
       <% if sticky.manager? session[:id] %>
       <div class="right-footer">
         <a id="update_sticky_btn_<%= sticky.id %>" style="cursor:pointer;" title="<%= t('views.edit') %>"><i class='fa fa-pencil fa-lg'></i></a>
-        <%= link_to( raw("<i class='fa fa-trash-o fa-lg'></i>"), {action: "ajax_destroy_sticky", id: sticky.id, view_category: view_category, keyword: keyword}, {remote: true, title: "削除"}) %>
+        <%= link_to( raw("<i class='fa fa-trash-o fa-lg'></i>"), {action: "ajax_destroy_sticky", id: sticky.id, view_category: view_category, keyword: keyword}, {remote: true, title: t('.delete')}) %>
       </div>
       <% end %>
     </div>

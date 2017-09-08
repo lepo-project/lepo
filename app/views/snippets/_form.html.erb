@@ -10,11 +10,11 @@
 </div>
 <div style="margin-left: 16px;margin-bottom: 10px;">
   <a id="<%= 'cancel-' + form_id %>" class="btn btn-light btn-lg" style="cursor:pointer;" title="cancel"><i class="fa fa-times-circle"></i> <%= t('.cancel') %></a>
-  <%= render partial: 'layouts/submit_complete_btn' %>
+  <%= render partial: 'layouts/buttons/submit_complete' %>
   <% if (defined? snippet) && snippet.category != 'pdf' %>
-  <%= link_to({action: 'ajax_destroy', id: snippet.id}, {id: 'destroy_btn', class: 'btn btn-danger btn-lg', title: 'destroy_btn', style: 'margin-left: 50px;', remote: true}) do %>
-  <i class='fa fa-trash-o'></i> <%= t('views.delete') %>
-  <% end %>
+  <span style="margin-left: 5rem;">
+    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: snippet.id}, id_attr: 'delete-btn'} %>
+  </span>
   <% end %>
 </div>
 

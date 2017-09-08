@@ -35,16 +35,16 @@
     <%= f.label :image, 'イメージ画像', class: "col-md-3 col-form-label text-sm-right" %>
     <div class="col-md-8">
       <%= f.file_field :image, style: "color: #fff;" %>
-      <div style="background-color: #fff; width: 80px;">
-        <%= render partial: 'layouts/image' , locals: {obj: @course, fa_class: 'fa-flag', size: 'l'}%>
+      <div style="margin-top:0.5rem; display:flex; align-items:center;">
+        <div style="background-color: #fff; width: 80px;">
+          <%= render partial: 'layouts/image', locals: {obj: @course, fa_class: 'fa-flag', size: 'l'}%>
+        </div>
+        <% if @course.image? %>
+        <div style="padding-left:5rem;">
+          <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_delete_image', id: @course.id}, id_attr: 'delete_image_btn'} %>
+        </div>
+        <% end %>
       </div>
-      <% if @course.image? %>
-      <%= link_to({action: 'ajax_delete_image', id: @course.id}, {id: "delete_image_btn", title: "delete_image", remote: true}) do %>
-      <button style="width: 200px; padding: 2px;">
-        <span style="vertical-align: middle; line-height: 100%;"><i class="fa fa-times-circle fa-lg" style="color: #f33; "></i> アップロード済み画像を削除</span>
-      </button>
-      <% end %>
-      <% end %>
     </div>
   </div>
 
@@ -104,7 +104,7 @@
   </div>
 </div>
 
-<%= render partial: 'layouts/cancel_btn', locals: {action_hash: course_cancel_hash, id_attr: 'cancel-btn'} %>
+<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: course_cancel_hash, id_attr: 'cancel-btn'} %>
 <button type="submit" id="submit-btn" class="btn btn-large btn-primary" style="margin-left: 10px;">
   <i class="fa fa-arrow-right fa-lg"></i> <%= t('views.save_and_next') %>
 </button>

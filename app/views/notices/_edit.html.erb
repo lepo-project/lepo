@@ -27,7 +27,7 @@
       <% end %>
 
       <% nav_id = (@course_id && (@course_id > 0)) ? @course_id : 0 %>
-      <%= render partial: 'layouts/complete_btn', locals: {nav_section: session[:nav_section], nav_id: nav_id} %>
+      <%= render partial: 'layouts/buttons/complete', locals: {nav_section: session[:nav_section], nav_id: nav_id} %>
     </div>
   </div>
 </div>

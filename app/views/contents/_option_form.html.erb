@@ -10,11 +10,7 @@
     <p>コースで利用している教材は、削除できません</p>
     <% else %>
     <p>この操作は、取り消すことができません</p>
-    <%= form_for(@content, url: {action: "ajax_destroy", id: @content.id}, html: {class: "form-horizontal", remote: true}) do |f| %>
-    <button type="submit" class="btn btn-danger" style="margin-left: 10px;">
-      <i class="fa fa-trash fa-lg"></i> 教材の削除
-    </button>
-    <% end %>
+    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: @content.id}, id_attr: 'delete-btn'} %>
     <% end %>
   </div>
 </div>

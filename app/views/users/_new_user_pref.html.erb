@@ -57,7 +57,7 @@
 			<% footer = @users.size < @users_size ? '一般ユーザ：利用停止中でないアカウントの内、最新10アカウントを表示（全' + @users_size.to_s + 'アカウントが利用中）' : '' %>
 			<%= render(partial: "layouts/member_candidates", locals: {title: '現在のメンバー', category: 'system', form_category: 'index', users: existing_users_array, resource_id: 0, footer: footer}) %>
 			<p>
-				<%= render partial: 'layouts/complete_btn', locals: {nav_section: "home"} %>
+				<%= render partial: 'layouts/buttons/complete', locals: {nav_section: "home"} %>
 			</p>
 		</div>
 	</div>

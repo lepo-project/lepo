@@ -1,6 +1,5 @@
 ja:
   views:
-    delete: 削除
     edit: 編集
     ok: 完了
     save_and_next: 保存して次へ
@@ -66,8 +65,11 @@ ja:
       new_device: 新規登録
 
   layouts:
-    cancel_btn:
-      cancel: キャンセル
+    buttons:
+      cancel:
+        cancel: キャンセル
+      delete:
+        delete: 削除
     card_l:
       show_rest: 続きを表示 / 非表示
     cover_page:
@@ -114,7 +116,7 @@ ja:
       master_review: :layouts.note_header.master_draft
       master_open: :layouts.note_header.master_draft
       media_count: :layouts.note_header.media_count
-      private: layouts.note_header.private
+      private: :layouts.note_header.private
       star_count: :layouts.note_header.star_count
       sticky_count: ふせんの数
     show:
@@ -179,11 +181,12 @@ ja:
       subheader: 小見出し
       text: 文章
     edit_note:
+      delete: :layouts.buttons.delete.delete
       required: 必須項目
     file_form:
-      cancel: :layouts.cancel_btn.cancel
+      cancel: :layouts.buttons.cancel.cancel
     form:
-      cancel: :layouts.cancel_btn.cancel
+      cancel: :layouts.buttons.cancel.cancel
     index:
       no_note_resources: 現在、管理しているノートはありません
       no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
@@ -192,12 +195,18 @@ ja:
         operations: 操作
       headers:
         header: :snippets.create_snippet_btns.header
+      operations_upload:
+        delete: :layouts.buttons.delete.delete
+      operations_web:
+        delete: :layouts.buttons.delete.delete
     toolbar:
       preferences: :helpers.preferences
 
   stickies:
     edit:
-      cancel: :layouts.cancel_btn.cancel
+      cancel: :layouts.buttons.cancel.cancel
+    sticky:
+      delete: :layouts.buttons.delete.delete
     sticky_reports:
       search: :courses.search_courses.search
     toolbar:

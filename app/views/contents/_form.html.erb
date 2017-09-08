@@ -77,7 +77,7 @@
 </div>
 
 <% action_hash = submit_action == 'ajax_create' ? {action: 'ajax_index', nav_section: 'repository'} : {action: 'ajax_show', id: @content.id} %>
-<%= render partial: 'layouts/cancel_btn', locals: {action_hash: action_hash, id_attr: 'cancel-btn'} %>
+<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: action_hash, id_attr: 'cancel-btn'} %>
 <button type="submit" id="submit-btn" class="btn btn-large btn-primary" style="margin-left: 10px;">
   <i class="fa fa-arrow-right fa-lg"></i> <%= t('views.save_and_next') %>
 </button>

@@ -73,11 +73,11 @@
         <% end %>
 
         <div style="margin-left: 60px;">
-          <%= render partial: 'layouts/cancel_btn', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'cancel-btn'} %>
-          <%= render partial: 'layouts/submit_complete_btn' %>
+          <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'cancel-btn'} %>
+          <%= render partial: 'layouts/buttons/submit_complete' %>
           <% if @note.status == 'private' %>
-          <div id="destroy_note" type="destroy" class="btn btn-large btn-danger" style="margin-left: 40px;">
-            <i class="fa fa-trash-o fa-lg"></i> <%= t('views.delete') %>
+          <div id="destroy-note" type="destroy" class="btn btn-danger btn-lg" style="margin-left: 5rem;">
+            <i class="fa fa-trash-o"></i> <%= t('.delete') %>
           </div>
           <% end %>
           <% end %>
@@ -101,5 +101,5 @@ $(function () {
   });
   charCount("overview-row", $('#overview-form').val().length, 500);
 });
-$("#destroy_note").click(function(){destroyNote(<%= @note.id %>);});
+$("#destroy-note").click(function(){destroyNote(<%= @note.id %>);});
 </script>

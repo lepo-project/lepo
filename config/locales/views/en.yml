@@ -1,6 +1,5 @@
 en:
   views:
-    delete: Delete
     edit: Edit
     ok: OK
     save_and_next: Save & Next
@@ -66,8 +65,11 @@ en:
       new_device: New Device
 
   layouts:
-    cancel_btn:
-      cancel: Cancel
+    buttons:
+      cancel:
+        cancel: Cancel
+      delete:
+        delete: Delete
     card_l:
       show_rest: Show / Hide the rest
     cover_page:
@@ -114,7 +116,7 @@ en:
       master_review: :layouts.note_header.master_draft
       master_open: :layouts.note_header.master_draft
       media_count: :layouts.note_header.media_count
-      private: layouts.note_header.private
+      private: :layouts.note_header.private
       star_count: :layouts.note_header.star_count
       sticky_count: sticky count
     show:
@@ -179,11 +181,12 @@ en:
       subheader: Subheader
       text: Text
     edit_note:
+      delete: :layouts.buttons.delete.delete
       required: Required
     file_form:
-      cancel: :layouts.cancel_btn.cancel
+      cancel: :layouts.buttons.cancel.cancel
     form:
-      cancel: :layouts.cancel_btn.cancel
+      cancel: :layouts.buttons.cancel.cancel
     index:
       no_note_resources: Currently no notes managed
       no_snippets: Currently no snippets
@@ -192,12 +195,14 @@ en:
         operations: Operations
       headers:
         header: :snippets.create_snippet_btns.header
+      operations_upload:
+        delete: :layouts.buttons.delete.delete
     toolbar:
       preferences: :helpers.preferences
 
   stickies:
     edit:
-      cancel: :layouts.cancel_btn.cancel
+      cancel: :layouts.buttons.cancel.cancel
     sticky_reports:
       search: :courses.search_courses.search
     toolbar:
