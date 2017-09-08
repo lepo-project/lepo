@@ -105,9 +105,7 @@
 </div>
 
 <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: course_cancel_hash, id_attr: 'cancel-btn'} %>
-<button type="submit" id="submit-btn" class="btn btn-large btn-primary" style="margin-left: 10px;">
-  <i class="fa fa-arrow-right fa-lg"></i> <%= t('views.save_and_next') %>
-</button>
+<%= render partial: 'layouts/buttons/save_and_next' %>
 <% end %>
 <script>
 $(function () {

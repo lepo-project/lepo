@@ -1,7 +1,6 @@
 ja:
   views:
     ok: 完了
-    save_and_next: 保存して次へ
     top: トップ
     units:
       characters: 字
@@ -73,6 +72,10 @@ ja:
         delete: 削除
       edit:
         edit: 編集
+      save_and_next:
+        save_and_next: 保存して次へ
+      toolbar_save_and_next:
+        save_and_next: :layouts.buttons.save_and_next.save_and_next
     card_l:
       show_rest: 続きを表示 / 非表示
     cover_page:
