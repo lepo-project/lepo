@@ -1,9 +1,7 @@
 <% action = controller.action_name %>
 <% if (action == 'ajax_edit_note') || ((action == 'ajax_destroy_note') && !@note.destroyed?) %>
 <div id="toolbar-btns">
-  <%= link_to({action: 'ajax_show', id: @note.id}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
-  <% end %>
+  <%= render partial: 'layouts/cancel_btn', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
   <%= link_to('javascript:void(0);', onclick: "$('#note_form').submit()", class: 'toolbar-btn') do %>
   <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
   <% end %>

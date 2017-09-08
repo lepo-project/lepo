@@ -1,6 +1,5 @@
 ja:
   views:
-    cancel: キャンセル
     delete: 削除
     edit: 編集
     ok: 完了
@@ -67,6 +66,8 @@ ja:
       new_device: 新規登録
 
   layouts:
+    cancel_btn:
+      cancel: キャンセル
     card_l:
       show_rest: 続きを表示 / 非表示
     cover_page:
@@ -179,6 +180,10 @@ ja:
       text: 文章
     edit_note:
       required: 必須項目
+    file_form:
+      cancel: :layouts.cancel_btn.cancel
+    form:
+      cancel: :layouts.cancel_btn.cancel
     index:
       no_note_resources: 現在、管理しているノートはありません
       no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
@@ -191,6 +196,8 @@ ja:
       preferences: :helpers.preferences
 
   stickies:
+    edit:
+      cancel: :layouts.cancel_btn.cancel
     sticky_reports:
       search: :courses.search_courses.search
     toolbar:

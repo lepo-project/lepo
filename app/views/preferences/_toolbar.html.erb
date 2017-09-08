@@ -9,10 +9,7 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [crumb_title]]} %>
 </nav>
 <div id="toolbar-btns">
-  <%= link_to({action: 'ajax_index', nav_section: 'home'}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
-  <% end %>
-
+  <%= render partial: 'layouts/cancel_btn', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
   <%= link_to('javascript:void(0);', onclick: "$('#user_form').submit()", class: 'toolbar-btn') do %>
   <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
   <% end %>
@@ -53,8 +50,6 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top'), {action: 'ajax_index', nav_section: session[:nav_section]}], [t('.user_account')]]} %>
 </nav>
 <div id="toolbar-btns">
-  <%= link_to({action: 'ajax_index', nav_section: 'home'}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
-  <% end %>
+  <%= render partial: 'layouts/cancel_btn', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
 </div>
 <% end %>

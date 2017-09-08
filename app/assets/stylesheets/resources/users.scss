@@ -6,15 +6,4 @@
   ol {
     margin: 0 8px 8px;
   }
-  .block a {
-    color: #26f;
-    text-decoration: none;
-    &.bright-link {
-      color: #0df;
-      text-decoration: none;
-    }
-  }
-  .block a:hover, .block a:hover div {
-    text-decoration: underline;
-  }
 }

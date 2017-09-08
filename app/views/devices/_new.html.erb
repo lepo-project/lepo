@@ -36,9 +36,7 @@
 					</div>
 				</div>
 			</div>
-			<%= link_to({action: 'ajax_index'}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
-			<i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
-			<% end %>
+			<%= render partial: 'layouts/cancel_btn', locals: {action_hash: {action: 'ajax_index'}, id_attr: 'cancel-btn'} %>
 			<%= render partial: 'layouts/submit_complete_btn' %>
 			<% end %>
 		</div>

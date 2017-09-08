@@ -1,25 +1,25 @@
 <div style="margin: 8px 40px 4px 16px;">
-  <% case category when "text", "pdf" %>
+  <% case category when 'text', 'pdf' %>
   <%= f.text_area :description, style: 'width: 100%;', rows: 4, class: 'form-control elastic_textarea' %>
   <div style="margin-top: 2px; text-align:right;">
     <span id="char-count"></span>
   </div>
-  <% when "header", "subheader" %>
+  <% when 'header', 'subheader' %>
   <%= f.text_field :description, class: 'form-control', style: 'width: 100%;' %>
   <% end %>
 </div>
 <div style="margin-left: 16px;margin-bottom: 10px;">
-  <a id="<%= 'cancel-' + form_id %>" class="btn btn-large btn-light" style="cursor:pointer;" title="cancel"><i class="fa fa-times-circle fa-lg"></i> <%= t("views.cancel") %></a>
+  <a id="<%= 'cancel-' + form_id %>" class="btn btn-light btn-lg" style="cursor:pointer;" title="cancel"><i class="fa fa-times-circle"></i> <%= t('.cancel') %></a>
   <%= render partial: 'layouts/submit_complete_btn' %>
   <% if (defined? snippet) && snippet.category != 'pdf' %>
-  <%= link_to({action: 'ajax_destroy', id: snippet.id}, {id: 'destroy_btn', class: 'btn btn-large btn-danger', title: 'destroy_btn', style: 'margin-left: 50px;', remote: true}) do %>
-  <i class='fa fa-trash-o fa-lg'></i> <%= t('views.delete') %>
+  <%= link_to({action: 'ajax_destroy', id: snippet.id}, {id: 'destroy_btn', class: 'btn btn-danger btn-lg', title: 'destroy_btn', style: 'margin-left: 50px;', remote: true}) do %>
+  <i class='fa fa-trash-o'></i> <%= t('views.delete') %>
   <% end %>
   <% end %>
 </div>
 
 
-<% if category == "text" || category == "pdf" %>
+<% if category == 'text' || category == 'pdf' %>
 <script>
 $(function(){
   $('#<%= form_id %> textarea').bind('keydown keyup change',function () {

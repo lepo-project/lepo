@@ -73,9 +73,7 @@
         <% end %>
 
         <div style="margin-left: 60px;">
-          <%= link_to({action: 'ajax_show', id: @note.id}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
-          <i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
-          <% end %>
+          <%= render partial: 'layouts/cancel_btn', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'cancel-btn'} %>
           <%= render partial: 'layouts/submit_complete_btn' %>
           <% if @note.status == 'private' %>
           <div id="destroy_note" type="destroy" class="btn btn-large btn-danger" style="margin-left: 40px;">

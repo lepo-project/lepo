@@ -86,7 +86,7 @@
 
   <% if password_editable || role_editable %>
   <div class="control-group">
-    <%= link_to raw("<i class='fa fa-times-circle fa-lg'></i> #{t('views.cancel')}"), {action: 'ajax_search_accounts', search_word: @search_word, role: @role}, {id: 'cancel-btn', class: 'btn btn-light', style: 'color:#000; text-decoration: none;', title: 'cancel', remote: true} %>
+    <%= render partial: 'layouts/cancel_btn', locals: {action_hash: {action: 'ajax_search_accounts', search_word: @search_word, role: @role}, id_attr: 'cancel-btn'} %>
     <button type="submit" class="btn btn-primary" style="margin-left: 10px;">
       <i class="fa fa-check-circle fa-lg"></i> 更新
     </button>

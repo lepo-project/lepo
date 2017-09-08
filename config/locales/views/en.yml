@@ -1,6 +1,5 @@
 en:
   views:
-    cancel: Cancel
     delete: Delete
     edit: Edit
     ok: OK
@@ -67,6 +66,8 @@ en:
       new_device: New Device
 
   layouts:
+    cancel_btn:
+      cancel: Cancel
     card_l:
       show_rest: Show / Hide the rest
     cover_page:
@@ -179,6 +180,10 @@ en:
       text: Text
     edit_note:
       required: Required
+    file_form:
+      cancel: :layouts.cancel_btn.cancel
+    form:
+      cancel: :layouts.cancel_btn.cancel
     index:
       no_note_resources: Currently no notes managed
       no_snippets: Currently no snippets
@@ -191,6 +196,8 @@ en:
       preferences: :helpers.preferences
 
   stickies:
+    edit:
+      cancel: :layouts.cancel_btn.cancel
     sticky_reports:
       search: :courses.search_courses.search
     toolbar:
