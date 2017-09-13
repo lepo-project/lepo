@@ -169,9 +169,9 @@ module ApplicationHelper
     when 'courses'
       case action_name
       when 'ajax_new'
-        'fa-flag'
+        %w[fa-flag fa-plus-circle]
       when 'ajax_course_pref'
-        ['fa-flag-o', 'fa-pencil']
+        %w[fa-flag fa-pencil]
       end
     when 'devices'
       # FIXME: PushNotification
@@ -183,7 +183,7 @@ module ApplicationHelper
       when 'ajax_account_pref'
         'fa-key'
       when 'ajax_new_user_pref'
-        'fa-user-plus'
+        %w[fa-user fa-plus-circle]
       when 'ajax_notice_pref'
         'fa-bullhorn'
       when 'ajax_profile_pref'
@@ -191,7 +191,7 @@ module ApplicationHelper
       when 'ajax_default_note_pref'
         'fa-file-text'
       when 'ajax_user_account_pref'
-        'fa-users'
+        %w[fa-user fa-pencil]
       end
     when 'terms'
       'fa-building'
