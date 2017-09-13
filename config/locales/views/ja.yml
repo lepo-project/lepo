@@ -1,11 +1,5 @@
 ja:
   views:
-    cancel: キャンセル
-    delete: 削除
-    edit: 編集
-    ok: 完了
-    save_and_next: 保存して次へ
-    top: トップ
     units:
       characters: 字
       pages: ページ
@@ -25,6 +19,8 @@ ja:
       released_at: 公開日
       shortcut_key: ショートカットキー
       system_version: システムのバージョン
+    toolbar_show:
+      edit: :layouts.buttons.edit.edit
 
   courses:
     course_pref:
@@ -43,8 +39,9 @@ ja:
     lessons_card:
       no_lessons: 表示するレッスンはありません
       pages: :contents.contents_card.pages
+    option_form:
+      duplication_settings: 複製先コースの設定
     search_courses:
-      search: 検索
       search_course: コースの検索
       select_course: コースの選択
       exp_search_course: '%{num}コースまでを上限に、学期 / タイトル / 状態/ 教師 で検索'
@@ -67,6 +64,38 @@ ja:
       new_device: 新規登録
 
   layouts:
+    breadcrumb:
+      top: トップ
+    buttons:
+      back:
+        back: 戻る
+      cancel:
+        cancel: キャンセル
+      create:
+        create: 登録
+      csv_check:
+        csv_check: CSV形式の確認
+      delete:
+        delete: 削除
+      duplicate:
+        duplicate: 複製
+      edit:
+        edit: 編集
+      file_submit:
+        choose_file: ファイルを選択
+        uploading: アップロード中
+      ok:
+        ok: 完了
+      save_and_next:
+        save_and_next: 保存して次へ
+      search:
+        search: 検索
+      toolbar_save_and_next:
+        save_and_next: :layouts.buttons.save_and_next.save_and_next
+      toolbar_update:
+        update: :layouts.buttons.update.update
+      update:
+        update: 更新
     card_l:
       show_rest: 続きを表示 / 非表示
     cover_page:
@@ -96,7 +125,6 @@ ja:
     page_number:
       portfolio: :helpers.portfolio
     search_members:
-      search: :courses.search_courses.search
       search_word: 検索語句
     sub_toolbar:
       add: :courses.course_manager_select.add
@@ -113,7 +141,7 @@ ja:
       master_review: :layouts.note_header.master_draft
       master_open: :layouts.note_header.master_draft
       media_count: :layouts.note_header.media_count
-      private: layouts.note_header.private
+      private: :layouts.note_header.private
       star_count: :layouts.note_header.star_count
       sticky_count: ふせんの数
     show:
@@ -167,6 +195,7 @@ ja:
       message2: システム最高管理者の作成が完了しました！
       message3: ページを再読み込みしてサインインページを表示し、システム最高管理者でLePoにサインインしましょう。
       password_confirmation: Password（確認用）
+      ok: :layouts.buttons.ok.ok
     sub_toolbar:
       add: :courses.course_manager_select.add
       signout: :layouts.sub_toolbar.signout
@@ -178,7 +207,12 @@ ja:
       subheader: 小見出し
       text: 文章
     edit_note:
+      delete: :layouts.buttons.delete.delete
       required: 必須項目
+    file_form:
+      cancel: :layouts.buttons.cancel.cancel
+    form:
+      cancel: :layouts.buttons.cancel.cancel
     index:
       no_note_resources: 現在、管理しているノートはありません
       no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
@@ -187,12 +221,25 @@ ja:
         operations: 操作
       headers:
         header: :snippets.create_snippet_btns.header
+      operations_direct:
+        edit: :layouts.buttons.edit.edit
+      operations_upload:
+        delete: :layouts.buttons.delete.delete
+        edit: :layouts.buttons.edit.edit
+      operations_web:
+        delete: :layouts.buttons.delete.delete
     toolbar:
+      export: 文章を出力
       preferences: :helpers.preferences
 
   stickies:
+    edit:
+      cancel: :layouts.buttons.cancel.cancel
+    sticky:
+      delete: :layouts.buttons.delete.delete
+      edit: :layouts.buttons.edit.edit
     sticky_reports:
-      search: :courses.search_courses.search
+      search: :layouts.buttons.search.search
     toolbar:
       course_sticky: コースふせん
       private_sticky: 個人ふせん
@@ -202,7 +249,7 @@ ja:
       impossible: :helpers.impossible
       possible: :helpers.possible
     search_users:
-      search: :courses.search_courses.search
+      search: :layouts.buttons.search.search
       search_word: :layouts.search_members.search_word
     update_user:
       account: :helpers.account

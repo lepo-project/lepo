@@ -12,8 +12,8 @@
     <% end %>
   </h2>
   <div style="float: right;">
-    <%= link_to raw("<i class='fa fa-pencil'></i> 編集"), {action: 'ajax_edit', id: device.id},{class: 'btn btn-primary', remote: true} %>
-    <%= link_to raw("<i class='fa fa-trash'></i> 削除"), {action: 'ajax_destroy', id: device.id},{class: 'btn btn-danger', remote: true} %>
+    <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_edit', id: device.id}, class_attr: 'btn btn-primary'} %>
+    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: device.id}, class_attr: 'btn btn-danger'} %>
     <% if device.registration_id.present? %>
     <%= link_to raw("<i class='fa fa-bell'></i> テスト送信"), {action: 'ajax_push', id:device.registration_id},{class: 'btn btn-info', remote: true} %>
     <% end %>

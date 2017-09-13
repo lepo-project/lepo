@@ -1,7 +1,7 @@
 <% selected_form = (@form_category == 'search') %>
 
 <div class="bordered-block <%= 'selected' if selected_form %> clearfix">
-  <h2>メンバーの検索と登録
+  <h2>メンバーのキーワード検索と登録
     <div class="header-explanation"><%= t('activerecord.attributes.user.signin_name') %> / 氏名で検索</div>
   </h2>
   <%= form_tag({action: 'ajax_search_candidates'}, remote: true) do %>
@@ -16,9 +16,7 @@
 
   <div class="form-group form-row text-right">
     <div class="col-md-11">
-      <button type="submit" class="btn btn-light">
-        <i class="fa fa-search fa-lg"></i> <%= t('.search') %>
-      </button>
+      <%= render partial: 'layouts/buttons/search' %>
     </div>
   </div>
   <% end %>

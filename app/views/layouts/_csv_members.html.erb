@@ -10,9 +10,11 @@
     <%= text_area_tag 'candidates_csv', candidates_csv, class: 'form-control', style: 'max-width: 720px; margin-bottom: 6px;', rows: '5' %>
 
     <%= hidden_field_tag "content_id", @content.id if update_model == "content_member" %>
-    <button type="submit" class="btn btn-primary">
-      <i class="fa fa-search fa-lg"></i> CSV検索
-    </button>
+    <div class="form-group form-row text-right">
+      <div class="col-md-11">
+        <%= render partial: 'layouts/buttons/search' %>
+      </div>
+    </div>
     <% end %>
   </div>
 

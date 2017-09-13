@@ -33,7 +33,7 @@
       <% current_content_members = current_content_members.concat(@content.users.zip Array.new(@content.users.size, 'user'), Array.new(@content.users.size, 'none')) %>
       <%= render(partial: 'layouts/member_candidates', locals: {title: '現在のメンバー', category: 'content', form_category: 'index', users: current_content_members, resource_id: @content.id, footer: ''}) %>
       <p>
-        <%= link_to raw("<i class='fa fa-check-circle fa-lg'></i> 完了"), {controller: 'contents', action: 'ajax_show', id: @content.id}, {id: 'complete-btn', class: 'btn btn-large btn-primary', title: 'complete', remote: true} %>
+        <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {controller: 'contents', action: 'ajax_show', id: @content.id}, id_attr: 'ok-btn'} %>
       </p>
     </div>
   </div>

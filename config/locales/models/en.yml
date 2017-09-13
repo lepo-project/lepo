@@ -99,7 +99,7 @@ en:
         overview: Overview
         staff_course_notes: Staff course notes
         status: Status
-        term: :activerecord.models.term
+        term_id: :activerecord.models.term
         title: Title
 
       course_member:

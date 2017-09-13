@@ -2,18 +2,16 @@ require 'test_helper'
 
 class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
   test 'setup / signin page behavior' do
-    DatabaseCleaner.cleaning do
-      # before initial setup
-      visit root_path
-      assert page.has_selector?('#setup-resource')
-      assert_not page.has_selector?('#signin-resource')
+    # before initial setup
+    visit root_path
+    assert page.has_selector?('#setup-resource')
+    assert_not page.has_selector?('#signin-resource')
 
-      # after initial setup
-      create(:admin_user)
-      visit root_path
-      assert page.has_selector?('#signin-resource')
-      assert_not page.has_selector?('#setup-resource')
-    end
+    # after initial setup
+    create(:admin_user)
+    visit root_path
+    assert page.has_selector?('#signin-resource')
+    assert_not page.has_selector?('#setup-resource')
   end
 
   test 'course creation behavior' do
@@ -38,11 +36,11 @@ class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('#sub-pane .dropdown-menu')
     click_on(I18n.t('layouts.sub_toolbar.new_course'))
     fill_in_course_form term, true
-    click_on('cancel-btn')
+    click_on('back-btn')
     assert page.has_selector?('#edit-course')
-    click_on('next-btn')
+    click_on('submit-btn')
     assert page.has_selector?('#edit-lessons')
-    click_on('complete-btn')
+    click_on('ok-btn')
     assert page.has_selector?('#course-resource')
   end
 
@@ -53,7 +51,11 @@ class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('#preference-resource')
     click_on('new-course-pref')
     fill_in_course_form term, true
-    click_on('complete-btn')
+    click_on('toolbar-back-btn')
+    assert page.has_selector?('#edit-course')
+    click_on('toolbar-submit-btn')
+    assert page.has_selector?('#edit-lessons')
+    click_on('toolbar-ok-btn')
     assert page.has_selector?('#course-resource')
   end
 

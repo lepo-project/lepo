@@ -9,8 +9,8 @@
     <li><%= link_to(raw("<i class='fa-li fa fa-file-text-o'></i>「#{note.title}」に貼り付け"), {action: 'ajax_paste', id: snippet.id, note_id: note.id}, {remote: true}) %></li>
     <% end %>
     <% if snippet.note_id %>
-    <li><%= link_to(raw("<i class='fa-li fa fa-file-text'></i>現在のノートからはがす"), {action: 'ajax_paste', id: snippet.id}, {remote: true}) %></li>
+    <li><%= link_to(raw("<i class='fa-li fa fa-file-text'></i> ノートからはがす"), {action: 'ajax_paste', id: snippet.id}, {remote: true}) %></li>
     <% end %>
-    <li><%= link_to(raw("<i class='fa-li fa fa-trash-o'></i>切り抜きを削除"), {action: 'ajax_destroy', id: snippet.id}, {remote: true}) %></li>
+    <li><%= link_to(raw("<i class='fa-li fa fa-trash-o'></i>") + t('.delete'), {action: 'ajax_destroy', id: snippet.id}, {remote: true}) %></li>
   </ul>
 </div>

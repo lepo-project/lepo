@@ -2,20 +2,20 @@
   <div class="side-area" title="<%= sticky.manager.full_name %>">
 
     <!-- FIXME: note_sticky  -->
-    <% if sticky.target_type == "page" %>
+    <% if sticky.target_type == 'page' %>
     <div class="triangle-corner <%= sticky_star_btn_class session[:id], sticky %>">
-      <% keyword = @keyword ? @keyword : "" %>
-      <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: "ajax_toggle_star_sticky", id: sticky.id, content_id: sticky.content_id, target_type: "page", target_id: sticky.target_id, view_category: view_category, keyword: keyword}, {remote: true}) %>
+      <% keyword = @keyword ? @keyword : '' %>
+      <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: 'ajax_toggle_star_sticky', id: sticky.id, content_id: sticky.content_id, target_type: 'page', target_id: sticky.target_id, view_category: view_category, keyword: keyword}, {remote: true}) %>
     </div>
     <% end %>
     <div class="side-image">
-      <%= render partial: "layouts/image", locals: {obj: sticky.manager, fa_class: 'fa-user', size: 'm'} %>
+      <%= render partial: 'layouts/image', locals: {obj: sticky.manager, fa_class: 'fa-user', size: 'm'} %>
     </div>
     <div class="side-caption word-wrap"><%= sticky.manager.short_name %></div>
   </div>
   <div class="main-area">
     <div class="header">
-      <% case view_category when "private", "course", "hot", "search", "user" %>
+      <% case view_category when 'private', 'course', 'hot', 'search', 'user' %>
       <%= link_to_target_in_course sticky, false %>
       <% end %>
     </div>
@@ -23,18 +23,18 @@
     <div class="footer">
       <div class="left-footer">
         <% updated = (sticky.created_at != sticky.updated_at) %>
-        <% title = updated ? ("最終更新：" + format_time(sticky.updated_at, "mdhm")) : "更新無し" %>
-        <span title ="<%= title %>"><%= format_time sticky.created_at, "mdhm" %><%= "*" if updated %></span>
+        <% title = updated ? ('最終更新：' + format_time(sticky.updated_at, 'mdhm')) : '更新無し' %>
+        <span title ="<%= title %>"><%= format_time sticky.created_at, 'mdhm' %><%= '*' if updated %></span>
         [<%= sticky_category_short_text sticky.category %>]&nbsp;
-        <% if ((sticky.category != "private") && (sticky.stars_count > 0)) %>
+        <% if ((sticky.category != 'private') && (sticky.stars_count > 0)) %>
         <i class='fa fa-star'></i><%= sticky.stars_count.to_s %>
         <% end %>
       </div>
 
       <% if sticky.manager? session[:id] %>
       <div class="right-footer">
-        <a id="update_sticky_btn_<%= sticky.id %>" style="cursor:pointer;" title="<%= t('views.edit') %>"><i class='fa fa-pencil fa-lg'></i></a>
-        <%= link_to( raw("<i class='fa fa-trash-o fa-lg'></i>"), {action: "ajax_destroy_sticky", id: sticky.id, view_category: view_category, keyword: keyword}, {remote: true, title: "削除"}) %>
+        <a id="update_sticky_btn_<%= sticky.id %>" style="cursor:pointer;" title="<%= t('.edit') %>"><i class='fa fa-pencil fa-lg'></i></a>
+        <%= link_to( raw("<i class='fa fa-trash-o fa-lg'></i>"), {action: 'ajax_destroy_sticky', id: sticky.id, view_category: view_category, keyword: keyword}, {remote: true, title: t('.delete')}) %>
       </div>
       <% end %>
     </div>
@@ -47,5 +47,5 @@
 </div>
 
 <% if sticky.manager? session[:id] %>
-<%= render partial: "stickies/edit", locals: {sticky: sticky, view_category: view_category} %>
+<%= render partial: 'stickies/edit', locals: {sticky: sticky, view_category: view_category} %>
 <% end %>

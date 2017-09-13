@@ -41,17 +41,19 @@
 					<%= f.label :image, 'ユーザイメージ', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">
 						<%= f.file_field :image, {class: 'form-control-file', style: 'color: #aaa;'} %>
-						<div style="background-color:#fff; width:80px;">
-							<%= render partial: 'layouts/image', locals: {obj: current_user, fa_class: 'fa-user', size: 'l'} %>
+						<div class="form-text" style="margin: 0.5rem 0;">
+							「完了」ボタンを押すと、イメージを更新
 						</div>
-						<% if !current_user.new_record? && current_user.image? %>
-						<%= link_to({action: 'ajax_destroy_user_image'}, {title: 'destroy_image', remote: true}) do %>
-						<button class="btn btn-light btn-sm" style="margin: 4px 0;">
-							<i class="fa fa-times-circle fa-lg" style="color: #f33;"></i> アップロード済み画像を削除
-						</button>
-						<% end %>
-						<% end %>
-						<div class="form-text">「完了」ボタンを押すと、イメージを更新</div>
+						<div style="margin-top:0.5rem; display:flex; align-items:center;">
+							<div style="background-color:#fff; width:80px;">
+								<%= render partial: 'layouts/image', locals: {obj: current_user, fa_class: 'fa-user', size: 'l'} %>
+							</div>
+							<% if !current_user.new_record? && current_user.image? %>
+							<div style="padding-left:5rem;">
+								<%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_user_image'}, id_attr: 'delete-btn'} %>
+							</div>
+							<% end %>
+						</div>
 					</div>
 				</div>
 				<div class="form-group row">
@@ -68,11 +70,10 @@
 					</div>
 				</div>
 			</div>
-
-			<%= link_to({action: 'ajax_index', nav_section: 'home'}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
-			<i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
-			<% end %>
-			<%= render partial: "layouts/submit_complete_btn" %>
+			<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}, id_attr: 'cancel-btn'} %>
+			<span style="margin-left:1rem;">
+				<%= render partial: 'layouts/buttons/update' %>
+			</span>
 			<% end %>
 		</div>
 	</div>

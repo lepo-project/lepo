@@ -2,6 +2,7 @@ ja:
   helpers:
     account: アカウント
     account_summary: パスワード
+    archive: 公開終了
     assignment_page: 課題
     candidate: 候補
     char_count: 文字数
@@ -9,9 +10,11 @@ ja:
     cover_page: 表紙
     current_lesson: 現在のレッスン
     dashboard: ダッシュボード
+    delete: :layouts.buttons.delete.delete
     device: プッシュ通知
     device_summary: プッシュ通知をする機器
     edit_course: 既存コース
+    edit: :layouts.buttons.edit.edit
     edit_course_summary: 既存コースの検索と編集
     evaluator: 評価担当者
     impossible: 不可
@@ -32,6 +35,7 @@ ja:
     preferences: 設定
     profile: プロフィール
     profile_summary: 氏名 / ユーザイメージ / 自己紹介文 / ･･･
+    reopen: 再掲示
     select_archived_course: アーカイブ（保管庫からコースを閲覧可）
     select_draft_course: 準備中（コーススタッフのみ、保管庫からコースを管理可）
     select_open_course: 公開中（コースを閲覧/学習活動可）

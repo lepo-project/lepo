@@ -7,7 +7,7 @@
           <h1 class="card-title" style="margin-bottom:0;padding-bottom:0;"><%= t('.header') %></h1>
         </div>
         <div class="card-body">
-          <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: 'error'} %>
+          <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: 'error'} %>
           <% initial_setup = User.all.size.zero? %>
           <% if initial_setup %>
           <p><%= t('.message1') %></p>
@@ -91,17 +91,17 @@
                       <%= t('.admin_account_message3') %> : <%= SYSTEM_STAFF_SIGNIN_IP %>
                     </li>
                   </ul>
-                  <%= form_tag({action: "ajax_create_admin_account"}, remote: true) do %>
+                  <%= form_tag({action: 'ajax_create_admin_account'}, remote: true) do %>
                   <div class="form-group row">
                     <label class="col-md-4 col-form-label text-sm-right" for="signin_name"><%= t('activerecord.attributes.user.signin_name') %></label>
                     <div class="col-md-8">
-                      <%= text_field_tag :signin_name, params[:signin_name], {placeholder: t('activerecord.attributes.user.signin_name'), class: "form-control"} %>
+                      <%= text_field_tag :signin_name, params[:signin_name], {placeholder: t('activerecord.attributes.user.signin_name'), class: 'form-control'} %>
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-md-4 col-form-label text-sm-right" for="password">Password</label>
                     <div class="col-md-8">
-                      <%= password_field_tag :password, params[:password], {placeholder: "Password", class: "form-control", autocomplete: 'off'} %>
+                      <%= password_field_tag :password, params[:password], {placeholder: 'Password', class: 'form-control', autocomplete: 'off'} %>
                     </div>
                   </div>
                   <div class="form-group row">
@@ -112,7 +112,7 @@
                   </div>
                   <div class="form-group row">
                     <div class="controls col-md-8 ml-auto">
-                      <%= submit_tag t("views.ok"), class: "btn btn-primary btn-block" %>
+                      <%= submit_tag t('.ok'), class: 'btn btn-primary btn-block' %>
                     </div>
                   </div>
                   <% end %>

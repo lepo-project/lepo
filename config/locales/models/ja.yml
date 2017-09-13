@@ -99,7 +99,7 @@ ja:
         staff_course_notes: スタッフのコースノート
         status: 状態
         notes: :activerecord.models.note
-        term: :activerecord.models.term
+        term_id: :activerecord.models.term
         title: タイトル
 
       course_member:

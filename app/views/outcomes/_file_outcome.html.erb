@@ -9,9 +9,9 @@
     <tr>
       <th class="file_name"><%= link_to file.upload_file_name, file.upload.url, {target: "_blank"} %></th>
       <td class="l160px"><%= format_time file.upload_updated_at, "mdhm" %></td>
-      <td class="r40px">
+      <td class="r80px">
         <% if show_outcome_form? @lesson_role, outcome_status %>
-        <%= link_to('削除', {controller: 'outcomes', action: 'ajax_destroy_file', id: outcome_id, file_id: file.id}, {class: 'remove', remote: true}) %>
+        <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {controller: 'outcomes', action: 'ajax_destroy_file', id: outcome_id, file_id: file.id}, class_attr: ''} %>
         <% end %>
       </td>
     </tr>
@@ -26,7 +26,7 @@
     <%#= f.error_messages %>
     <%= f.hidden_field :outcome_id, value: outcome_id %>
     <div style="padding: 4px;">
-      <%= render partial: 'layouts/file_submit_button', locals: {f: f, file_category: 'outcome', form_id: 'outcome-file-upload'} %>
+      <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'outcome', form_id: 'outcome-file-upload'} %>
     </div>
     <% end %>
   </div>

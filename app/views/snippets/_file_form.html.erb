@@ -1,6 +1,8 @@
-<div style="margin: 5px 210px 10px;">
-  <%= render partial: 'layouts/file_submit_button', locals: {f: f, file_category: form_id, form_id: 'snippet-file-upload'} %>
-</div>
-<div style="margin: 5px 210px 10px;">
-  <a id="<%= 'cancel-' + form_id %>" class="btn btn-light" style="cursor:pointer;" title="cancel"><i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %></a>
+<div style="margin: 1rem 0; display:flex;">
+  <a id="<%= 'cancel-' + form_id %>" class="btn btn-light btn-lg" style="cursor:pointer;" title="cancel">
+    <i class="fa fa-times-circle"></i> <%= t('.cancel') %>
+  </a>
+  <span style="margin-left:1rem;">
+    <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: form_id, form_id: 'snippet-file-upload'} %>
+  </span>
 </div>

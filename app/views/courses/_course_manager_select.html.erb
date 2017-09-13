@@ -9,7 +9,9 @@
   </div>
   <% url = managers_of_course 'add', User.new, course_id, manager_ids %>
   <%= link_to( url, remote: true, id: 'add-tmp-manager-id') do %>
-  <button type="button" class="btn-primary" id="add-tmp-manager"><%= t('.add') %></button>
+  <button type="button" id="add-tmp-manager" class="btn btn-light" style="min-width:60px;">
+    <%= t('.add') %>
+  </button>
   <% end %>
   <% end %>
 </div>
@@ -24,7 +26,7 @@
   <% if 'draft' == status %>
   <% url = managers_of_course 'release', m, course_id, manager_ids %>
   <%= link_to( url, remote: true, id: course_id) do %>
-  <button type="button" class="btn-danger">
+  <button type="button" class="btn btn-light" style="min-width:60px;">
     <%= t('.unregister') %>
   </button>
   <% end %>

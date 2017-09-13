@@ -1,17 +1,15 @@
-<% case controller.action_name when "ajax_index" -%>
+<% case controller.action_name when 'ajax_index' -%>
 <nav id="sub-nav">
-  <%= render partial: "layouts/breadcrumb", locals: {crumbs: [[t("views.top")]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
 </nav>
-<% if (@course.staff? session[:id]) && (@course.status != "archived") %>
+<% if (@course.staff? session[:id]) && (@course.status != 'archived') %>
 <div id="toolbar-btns">
   <div class="btn-group">
     <a style="cursor:pointer;" class="toolbar-btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i></a>
     <div class="dropdown-menu">
-      <%= link_to({action: "ajax_edit"}, {class: "dropdown-item", remote: true}) do %>
-      <i class="fa fa-pencil"></i> <%= t("views.edit") %>
-      <% end %>
+      <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_edit'}, id_attr: 'toolbar-edit-btn'} %>
       <% if @course.groups_count > 1 %>
-      <%= link_to({action: "ajax_edit_group"}, {class: "dropdown-item", remote: true}) do %>
+      <%= link_to({action: 'ajax_edit_group'}, {class: 'dropdown-item', remote: true}) do %>
       <i class="fa fa-pencil"></i> グループ編集
       <% end %>
       <% end %>
@@ -20,15 +18,13 @@
 </div>
 <% end %>
 
-<% when "ajax_edit", "ajax_edit_group", "ajax_update_group", "ajax_update_role" %>
+<% when 'ajax_edit', 'ajax_edit_group', 'ajax_update_group', 'ajax_update_role' %>
 <div id="toolbar-btns">
-  <%= link_to({action: "ajax_index", nav_section: session[:nav_section], nav_id: @course.id}, {class: "toolbar-btn", remote: true}) do %>
-  <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
-  <% end %>
+  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, id_attr: 'toolbar-ok-btn', class_attr: 'toolbar-btn'} %>
 </div>
 
-<% when "ajax_show" -%>
+<% when 'ajax_show' -%>
 <nav id="sub-nav">
-  <%= render partial: "layouts/breadcrumb", locals: {crumbs: [[t("views.top"), {action: "ajax_index", nav_section: session[:nav_section], nav_id: @course.id}], [@selected_user.full_name]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [@selected_user.full_name]]} %>
 </nav>
 <% end -%>

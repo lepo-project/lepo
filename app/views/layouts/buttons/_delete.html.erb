@@ -1,0 +1,6 @@
+<% id_attr ||= '' %>
+<% class_attr ||= 'btn btn-danger btn-lg' %>
+
+<%= link_to(action_hash, { id: id_attr, class: class_attr, remote: true }) do %>
+<i class="fa fa-trash-o"></i> <%= t('.delete') %>
+<% end %>

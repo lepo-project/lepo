@@ -1,10 +1,11 @@
 <ul class="breadcrumb">
-  <% crumbs.each do |c| %>
+  <% crumbs.each_with_index do |c, i| %>
+  <% title = (i == 0) ? t('.top') : c[0] %>
   <% if c.size == 1 %>
-  <li class="active"><%= c[0] %></li>
+  <li class="active"><%= title %></li>
   <% else %>
   <li>
-    <%= link_to(c[0], c[1], {remote: true}) %>
+    <%= link_to(title, c[1], {remote: true}) %>
     <span class="divider">/</span>
   </li>
   <% end %>

@@ -1,11 +1,5 @@
 en:
   views:
-    cancel: Cancel
-    delete: Delete
-    edit: Edit
-    ok: OK
-    save_and_next: Save & Next
-    top: Top
     units:
       characters: characters
       pages: pages
@@ -25,6 +19,8 @@ en:
       released_at: Released at
       shortcut_key: Shortcut Key
       system_version: System Version
+    toolbar_show:
+      edit: :layouts.buttons.edit.edit
 
   courses:
     course_pref:
@@ -43,8 +39,9 @@ en:
     lessons_card:
       no_lessons: No lessons to display
       pages: :contents.contents_card.pages
+    option_form:
+      duplication_settings: Duplication course settings.
     search_courses:
-      search: Search
       search_course: Search Course
       select_course: Select course
       exp_search_course: Search courses with term, title, status, manager up to a maximum of %{num}
@@ -67,6 +64,38 @@ en:
       new_device: New Device
 
   layouts:
+    breadcrumb:
+      top: Top
+    buttons:
+      back:
+        back: Back
+      cancel:
+        cancel: Cancel
+      create:
+        create: Create
+      csv_check:
+        csv_check: CSV format check
+      delete:
+        delete: Delete
+      duplicate:
+        duplicate: Duplicate
+      edit:
+        edit: Edit
+      file_submit:
+        choose_file: Choose file
+        uploading: Uploading
+      ok:
+        ok: OK
+      save_and_next:
+        save_and_next: Save & Next
+      search:
+        search: Search
+      toolbar_save_and_next:
+        save_and_next: :layouts.buttons.save_and_next.save_and_next
+      toolbar_update:
+        update: :layouts.buttons.update.update
+      update:
+        update: Update
     card_l:
       show_rest: Show / Hide the rest
     cover_page:
@@ -96,7 +125,6 @@ en:
     page_number:
       portfolio: :helpers.portfolio
     search_members:
-      search: :courses.search_courses.search
       search_word: search word
     sub_toolbar:
       add: :courses.course_manager_select.add
@@ -113,7 +141,7 @@ en:
       master_review: :layouts.note_header.master_draft
       master_open: :layouts.note_header.master_draft
       media_count: :layouts.note_header.media_count
-      private: layouts.note_header.private
+      private: :layouts.note_header.private
       star_count: :layouts.note_header.star_count
       sticky_count: sticky count
     show:
@@ -167,6 +195,7 @@ en:
       message2: Creation of administrator account is complete !
       message3: Please reload the page, display the sign in page, and sign-in to LePo as administrator.
       password_confirmation: Password (Confirmation)
+      ok: :layouts.buttons.ok.ok
     sub_toolbar:
       add: :courses.course_manager_select.add
       signout: :layouts.sub_toolbar.signout
@@ -178,7 +207,12 @@ en:
       subheader: Subheader
       text: Text
     edit_note:
+      delete: :layouts.buttons.delete.delete
       required: Required
+    file_form:
+      cancel: :layouts.buttons.cancel.cancel
+    form:
+      cancel: :layouts.buttons.cancel.cancel
     index:
       no_note_resources: Currently no notes managed
       no_snippets: Currently no snippets
@@ -187,12 +221,25 @@ en:
         operations: Operations
       headers:
         header: :snippets.create_snippet_btns.header
+      operations_direct:
+        edit: :layouts.buttons.edit.edit
+      operations_upload:
+        delete: :layouts.buttons.delete.delete
+        edit: :layouts.buttons.edit.edit
+      operations_web:
+        delete: :layouts.buttons.delete.delete
     toolbar:
+      export: Export to text
       preferences: :helpers.preferences
 
   stickies:
+    edit:
+      cancel: :layouts.buttons.cancel.cancel
+    sticky:
+      delete: :layouts.buttons.delete.delete
+      edit: :layouts.buttons.edit.edit
     sticky_reports:
-      search: :courses.search_courses.search
+      search: :layouts.buttons.search.search
     toolbar:
       course_sticky: Course
       private_sticky: Private
@@ -202,7 +249,7 @@ en:
       impossible: :helpers.impossible
       possible: :helpers.possible
     search_users:
-      search: :courses.search_courses.search
+      search: :layouts.buttons.search.search
       search_word: :layouts.search_members.search_word
     update_user:
       account: :helpers.account

@@ -6,52 +6,52 @@
   <h2>基本情報</h2>
 
   <div class="form-group row">
-    <%= f.label :title, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.title'), class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :title, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.title'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
-      <%= f.text_field :title, class: "form-control" %>
+      <%= f.text_field :title, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group row">
-    <%= f.label :term_id, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.term'), class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :term_id, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.term_id'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
       <% if @course.new_record? %>
-      <%= f.select :term_id, Term.selectables("hereafter"), {}, {class: "form-control"} %>
+      <%= f.select :term_id, Term.selectables('hereafter'), {}, {class: 'form-control'} %>
       <% else %>
-      <%= f.select :term_id, Term.selectables("all"), {}, {class: "form-control"} %>
+      <%= f.select :term_id, Term.selectables('all'), {}, {class: 'form-control'} %>
       <% end %>
     </div>
   </div>
 
   <div class="form-group row">
-    <%= f.label :overview, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.overview'), class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :overview, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.overview'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
-      <%= f.text_area :overview, class: "form-control", rows: "8" %>
+      <%= f.text_area :overview, class: 'form-control', rows: '8' %>
       <div class="form-text">改行を続けて挿入した位置で、文章を折りたたんで表示</div>
     </div>
   </div>
 
   <div class="form-group row">
-    <%= f.label :image, 'イメージ画像', class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :image, 'イメージ画像', class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
-      <%= f.file_field :image, style: "color: #fff;" %>
-      <div style="background-color: #fff; width: 80px;">
-        <%= render partial: 'layouts/image' , locals: {obj: @course, fa_class: 'fa-flag', size: 'l'}%>
+      <%= f.file_field :image, class: 'form-control-file', style: 'color: #fff;' %>
+      <div style="margin-top:0.5rem; display:flex; align-items:center;">
+        <div style="background-color: #fff; width: 80px;">
+          <%= render partial: 'layouts/image', locals: {obj: @course, fa_class: 'fa-flag', size: 'l'}%>
+        </div>
+        <% if @course.image? %>
+        <div style="padding-left:5rem;">
+          <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_delete_image', id: @course.id}, id_attr: 'delete_image_btn'} %>
+        </div>
+        <% end %>
       </div>
-      <% if @course.image? %>
-      <%= link_to({action: 'ajax_delete_image', id: @course.id}, {id: "delete_image_btn", title: "delete_image", remote: true}) do %>
-      <button style="width: 200px; padding: 2px;">
-        <span style="vertical-align: middle; line-height: 100%;"><i class="fa fa-times-circle fa-lg" style="color: #f33; "></i> アップロード済み画像を削除</span>
-      </button>
-      <% end %>
-      <% end %>
     </div>
   </div>
 
   <div class="form-group row">
-    <%= f.label :groups_count, 'グループ数', class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :groups_count, 'グループ数', class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
-      <%= f.select :groups_count, (1..COURSE_GROUP_MAX_SIZE).to_a, {}, {class: "form-control"} %>
+      <%= f.select :groups_count, (1..COURSE_GROUP_MAX_SIZE).to_a, {}, {class: 'form-control'} %>
       <ul class="form-list">
         <li>グループで分類して、公開ノートを表示可能</li>
         <li>グループに分類しない場合は1を設定</li>
@@ -60,9 +60,9 @@
   </div>
 
   <div class="form-group row">
-    <%= f.label :status, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.status'), class: "col-md-3 col-form-label text-sm-right" %>
+    <%= f.label :status, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.status'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
-      <%= f.select :status, course_status_array, course_disabled_status_hash(@course.status), {class: "form-control"} %>
+      <%= f.select :status, course_status_array, course_disabled_status_hash(@course.status), {class: 'form-control'} %>
       <ul class="form-list">
         <li><%= t('.disabled_to_be_draft') %></li>
       </ul>
@@ -104,13 +104,8 @@
   </div>
 </div>
 
-<%= link_to(course_cancel_hash, {id: "cancel-btn", class: "btn btn-large btn-light", title: "cancel", remote: true}) do %>
-<i class="fa fa-times-circle fa-lg"></i> <%= t("views.cancel") %>
-<% end %>
-
-<button type="submit" id="submit-btn" class="btn btn-large btn-primary" style="margin-left: 10px;">
-  <i class="fa fa-arrow-right fa-lg"></i> <%= t('views.save_and_next') %>
-</button>
+<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: course_cancel_hash, id_attr: 'cancel-btn'} %>
+<%= render partial: 'layouts/buttons/save_and_next' %>
 <% end %>
 <script>
 $(function () {

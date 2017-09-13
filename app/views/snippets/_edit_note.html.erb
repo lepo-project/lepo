@@ -73,14 +73,14 @@
         <% end %>
 
         <div style="margin-left: 60px;">
-          <%= link_to({action: 'ajax_show', id: @note.id}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true}) do %>
-          <i class="fa fa-times-circle fa-lg"></i> <%= t('views.cancel') %>
-          <% end %>
-          <%= render partial: 'layouts/submit_complete_btn' %>
+          <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'cancel-btn'} %>
+          <span style="margin-left:1rem;">
+            <%= render partial: 'layouts/buttons/update' %>
+          </span>
           <% if @note.status == 'private' %>
-          <div id="destroy_note" type="destroy" class="btn btn-large btn-danger" style="margin-left: 40px;">
-            <i class="fa fa-trash-o fa-lg"></i> <%= t('views.delete') %>
-          </div>
+          <span style="margin-left:3rem;">
+            <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_note', note_id: @note.id}, id_attr: 'delete-ntn'} %>
+          </span>
           <% end %>
           <% end %>
         </div>
@@ -103,5 +103,4 @@ $(function () {
   });
   charCount("overview-row", $('#overview-form').val().length, 500);
 });
-$("#destroy_note").click(function(){destroyNote(<%= @note.id %>);});
 </script>

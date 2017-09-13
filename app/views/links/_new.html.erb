@@ -26,9 +26,7 @@
 						<%= f.text_field :title, {class: "form-control", placeholder: "タイトル", style: "margin-right:16px;"} %>
 						<%= f.text_field :url, {class: "form-control", placeholder: "URL", style: "margin-right:16px;"} %>
 						<%= f.hidden_field :display_order, value: @editable_links.size+1 %>
-						<button type="submit" class="btn btn-primary">
-							<i class="fa fa-plus-circle fa-lg"></i> 登録
-						</button>
+						<%= render partial: 'layouts/buttons/create' %>
 						<% end %>
 						<% else %>
 						リンクは<%= USER_LINK_MAX_SIZE %>個までしか登録できません
@@ -58,7 +56,7 @@
 
 			</div>
 			<% end %>
-			<%= render partial: 'layouts/complete_btn', locals: {controller_name: "preferences", nav_section: "home"} %>
+			<%= render partial: 'layouts/buttons/ok', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: 'home'}, id_attr: 'ok-btn'} %>
 		</div>
 	</div>
 </div>

@@ -22,9 +22,7 @@
             <%= f.hidden_field :display_order, value: @course.lessons.size + 1 %>
             <%= f.select :content_id, @content_array, {}, {class: 'form-control', style: 'width: 300px; margin-right:16px;'} %>
             <%= f.select :evaluator_id, get_evaluators(@course.managers), {}, {selected: 0, class: 'form-control', style: 'margin-right:16px;'} %>
-            <button type="submit" class="btn btn-primary">
-              <i class="fa fa-plus-circle fa-lg"></i> 登録
-            </button>
+            <%= render partial: 'layouts/buttons/create' %>
             <% end %>
             <% end %>
           </div>
@@ -56,11 +54,10 @@
         </div>
       </div>
 
-      <p>
-        <%= link_to raw("<i class='fa fa-arrow-left fa-lg'></i> 戻る"), {action: 'ajax_edit', id: @course.id}, {id: 'cancel-btn', class: 'btn btn-large btn-light', title: 'cancel', remote: true} %>
-        <%= link_to raw("<i class='fa fa-check-circle fa-lg'></i> 完了"), get_url_hash(@course.id, @course.status), {id: 'complete-btn', class: 'btn btn-large btn-primary', title: 'complete', style: 'margin-left: 10px;', remote: true} %>
-      </p>
-
+      <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_edit', id: @course.id}, id_attr: 'back-btn'} %>
+      <span style="margin-left: 1rem;">
+        <%= render partial: 'layouts/buttons/ok', locals: {action_hash: get_url_hash(@course.id, @course.status), id_attr: 'ok-btn'} %>
+      </span>
     </div>
   </div>
 </div>

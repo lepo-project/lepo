@@ -7,7 +7,7 @@
         <%= render(partial: "search_courses") %>
         <%= render(partial: "select_course") %>
       </div>
-      <%= render partial: 'layouts/complete_btn', locals: {controller_name: 'preferences', nav_section: "home"} %>
+      <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: 'home'}, id_attr: 'cancel-btn'} %>
     </div>
   </div>
 </div>

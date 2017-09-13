@@ -9,25 +9,22 @@
 
     <% if evaluator_id > 0 %>
     <% @content.objectives.each_with_index do |obj, index| %>
-    <% unchecked = (template.objective_id == obj.id) ? "" : "unchecked" %>
+    <% unchecked = (template.objective_id == obj.id) ? '' : 'unchecked' %>
 
-    <%= link_to({controller: "message_templates", action: 'ajax_toggle_objective', id: template.id, lesson_id: lesson_id, objective_id: obj.id}, {class: "dropdown-item", remote: true}) do %>
+    <%= link_to({controller: 'message_templates', action: 'ajax_toggle_objective', id: template.id, lesson_id: lesson_id, objective_id: obj.id}, {class: 'dropdown-item', remote: true}) do %>
     <i class='fa fa-check <%= unchecked %>'></i> 目標<%= index + 1 %>の減点テンプレートに設定
     <% end %>
     <% end %>
     <% end %>
 
     <% toggled_content_id = (template.content_id > 0) ? 0 : session[:content_id] %>
-    <% unchecked = (template.content_id > 0) ? "unchecked" : "" %>
-    <%= link_to({controller: "message_templates", action: 'ajax_toggle_contents', id: template.id, lesson_id: lesson_id, toggled_content_id: toggled_content_id}, {class: "dropdown-item", remote: true}) do %>
+    <% unchecked = (template.content_id > 0) ? 'unchecked' : '' %>
+    <%= link_to({controller: 'message_templates', action: 'ajax_toggle_contents', id: template.id, lesson_id: lesson_id, toggled_content_id: toggled_content_id}, {class: 'dropdown-item', remote: true}) do %>
     <i class='fa fa-check <%= unchecked %>'></i> 全教材テンプレートに設定
     <% end %>
 
     <div class="dropdown-divider"></div>
-
-    <%= link_to({controller: "message_templates", action: 'ajax_destroy', id: template.id, lesson_id: lesson_id}, {class: "dropdown-item", remote: true}) do %>
-    <i class='fa fa-times-circle'></i> 削除
-    <% end %>
+    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {controller: 'message_templates', action: 'ajax_destroy', id: template.id, lesson_id: lesson_id}, class_attr: 'dropdown-item'} %>
     <% if template.content_id > 0 %>
     <div style="float: right; margin-right:16px; font-size:x-small"><%= template.counter %>回使用</div>
     <% end %>

@@ -327,15 +327,15 @@ module ApplicationHelper
     operations = []
     case border_category
     when 'course'
-      operations.push(label: '公開終了', url: { action: 'ajax_archive_notice', id: course_id, notice_id: notice.id })
+      operations.push(label: t('helpers.archive'), url: { action: 'ajax_archive_notice', id: course_id, notice_id: notice.id })
       if notice.manager_id == session[:id]
-        operations.push(label: t('views.edit'), url: { action: 'ajax_reedit_notice', id: course_id, notice_id: notice.id })
+        operations.push(label: t('helpers.edit'), url: { action: 'ajax_reedit_notice', id: course_id, notice_id: notice.id })
       end
     when 'pending'
       if notice.manager_id == session[:id]
-        operations.push(label: '削除', url: { action: 'ajax_destroy_notice', id: course_id, notice_id: notice.id })
+        operations.push(label: t('helpers.delete'), url: { action: 'ajax_destroy_notice', id: course_id, notice_id: notice.id })
       end
-      operations.push(label: '再掲示', url: { action: 'ajax_open_notice', id: course_id, notice_id: notice.id })
+      operations.push(label: t('helpers.reopen'), url: { action: 'ajax_open_notice', id: course_id, notice_id: notice.id })
     end
     operations
   end
@@ -615,25 +615,25 @@ module ApplicationHelper
       case outcome.status
       when 'draft'
         if evaluator_id > 0
-          link_to(raw("<i class = 'fa fa-times-circle fa-lg'></i> 再提出をキャンセル"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'return' }, class: 'btn btn-light', remote: true) if outcome.score
+          link_to(raw("<i class = 'fa fa-times-circle'></i> 再提出をキャンセル"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'return' }, class: 'btn btn-light btn-lg', remote: true) if outcome.score
         else
-          link_to(raw("<i class = 'fa fa-times-circle fa-lg'></i> 再自己評価をキャンセル"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'self_submit' }, class: 'btn btn-light', remote: true) if outcome.score
+          link_to(raw("<i class = 'fa fa-times-circle'></i> 再自己評価をキャンセル"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'self_submit' }, class: 'btn btn-light btn-lg', remote: true) if outcome.score
         end
       when 'self_submit'
-        link_to(raw("<i class = 'fa fa-check-circle fa-lg'></i> 自己評価を再入力"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'draft' }, class: 'btn btn-light', remote: true)
+        link_to(raw("<i class = 'fa fa-check-circle'></i> 自己評価を再入力"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'draft' }, class: 'btn btn-light btn-lg', remote: true)
       when 'submit'
         if outcome.checked
           '教師が評価中のため、評価依頼をキャンセルできません'
         else
-          link_to(raw("<i class = 'fa fa-times-circle fa-lg'></i> 評価依頼をキャンセル"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'draft' }, class: 'btn btn-light', remote: true)
+          link_to(raw("<i class = 'fa fa-times-circle'></i> 評価依頼をキャンセル"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'draft' }, class: 'btn btn-light btn-lg', remote: true)
         end
       when 'return'
-        link_to(raw("<i class = 'fa fa-check-circle fa-lg'></i> 課題を再提出"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'draft' }, class: 'btn btn-light', remote: true)
+        link_to(raw("<i class = 'fa fa-check-circle'></i> 課題を再提出"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'draft' }, class: 'btn btn-light btn-lg', remote: true)
       end
     when 'evaluator'
       case outcome.status
       when 'return'
-        link_to(raw("<i class = 'fa fa-times-circle fa-lg'></i> 評価をキャンセル"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'submit' }, class: 'btn btn-light', remote: true)
+        link_to(raw("<i class = 'fa fa-times-circle'></i> 評価をキャンセル"), { controller: 'outcomes', action: 'ajax_previous_status', id: outcome.id, previous_status: 'submit' }, class: 'btn btn-light btn-lg', remote: true)
       end
     end
   end

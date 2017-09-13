@@ -1,5 +1,5 @@
 <nav id="sub-nav">
-  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [[t('views.top')]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
 </nav>
 
 <% case controller.action_name when 'index', 'ajax_index' %>
@@ -13,27 +13,14 @@
 
 <% when 'ajax_edit', 'ajax_new' %>
 <div id="toolbar-btns">
-  <% if controller.action_name == 'ajax_new' %>
-  <%= link_to({action: 'ajax_index', nav_section: 'repository'}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
-  <% end %>
-  <% else %>
-  <%= link_to({action: 'ajax_show', id: @content.id}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class="fa fa-times-circle"></i> <%= t('views.cancel') %>
-  <% end %>
-  <% end %>
-  <%= link_to('javascript:void(0);', id: 'next-btn', onclick: "$('#content-form').submit()", class: 'toolbar-btn') do %>
-  <i class="fa fa-arrow-right"></i> <%= t('views.save_and_next') %>
-  <% end %>
+  <% action_hash = controller.action_name == 'ajax_new' ? {action: 'ajax_index', nav_section: 'repository'} : {action: 'ajax_show', id: @content.id} %>
+  <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: action_hash, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
+  <%= render partial: 'layouts/buttons/toolbar_save_and_next', locals: {onclick_txt: "$('#content-form').submit()"} %>
 </div>
 
 <% when 'ajax_create', 'ajax_update' %>
 <div id="toolbar-btns">
-  <%= link_to({action: 'ajax_edit', id: @content.id}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class="fa fa-arrow-left"></i> 戻る
-  <% end %>
-  <%= link_to({action: 'ajax_show', id: @content.id}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class="fa fa-check-circle"></i> <%= t('views.ok') %>
-  <% end %>
+  <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_edit', id: @content.id}, id_attr: 'toolbar-back-btn', class_attr: 'toolbar-btn'} %>
+  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_show', id: @content.id}, id_attr: 'toolbar-ok-btn', class_attr: 'toolbar-btn'} %>
 </div>
 <% end %>
