@@ -37,7 +37,9 @@
 				</div>
 			</div>
 			<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_index'}, id_attr: 'cancel-btn'} %>
-			<%= render partial: 'layouts/buttons/submit' %>
+			<span style="margin-left:1rem;">
+				<%= render partial: 'layouts/buttons/create' %>
+			</span>
 			<% end %>
 		</div>
 	</div>

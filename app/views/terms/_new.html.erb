@@ -28,10 +28,9 @@
 						<%= f.date_select :end_at, {}, {class: 'form-control', style: 'width:80px; margin-right:3px;float: left;'} %>
 					</div>
 				</div>
-
-				<button type="submit" class="btn btn-primary" style="margin-top: 10px;">
-					<i class="fa fa-plus-circle fa-lg"></i> 登録
-				</button>
+				<div style="margin-top:2rem;">
+					<%= render partial: 'layouts/buttons/create' %>
+				</div>
 				<% end %>
 			</div>
 
@@ -45,9 +44,7 @@
 				<%= f.text_field :title, {class: 'form-control', placeholder: 'タイトル', style: 'margin-right:2px;'} %>
 				<%= f.date_select :start_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %> <div style="float:left;margin:0 10px;">-</div><%= f.date_select :end_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %>
 				<div style="clear: both;width:100%;text-align:right;">（ 登録しているコースの数： <%= term.courses.length %> ）</div>
-				<button type="submit" class="btn btn-primary" style="min-width:60px;">
-					<i class="fa fa-check-circle fa-lg"></i> 更新
-				</button>
+				<%= render partial: 'layouts/buttons/update' %>
 				<% if term.courses.length.zero? %>
 				<span style="margin-left:3rem;">
 					<%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: term.id}, id_attr: 'delete-btn'} %>
@@ -56,8 +53,7 @@
 				<% end %>
 				<% end %>
 			</div>
-
-			<%= render partial: 'layouts/buttons/complete', locals: {controller_name: 'preferences', nav_section: 'home'} %>
+			<%= render partial: 'layouts/buttons/ok', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: 'home'}, id_attr: 'ok-btn'} %>
 		</div>
 	</div>
 </div>

@@ -27,9 +27,14 @@
 
 <% when 'ajax_edit_notice', 'ajax_create_notice', 'ajax_destroy_notice', 'ajax_reedit_notice', 'ajax_archive_notice', 'ajax_open_notice', 'ajax_update_notice' %>
 <div id="toolbar-btns">
-  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: session[:nav_id]}, id_attr: 'toolbar-ok-btn'} %>
+  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: session[:nav_id]}, id_attr: 'toolbar-ok-btn', class_attr: 'toolbar-btn'} %>
 </div>
 
 <% when 'ajax_create', 'ajax_update' %>
 <%= render(partial: 'courses/toolbar_edit_lesson') if @course.status != 'archived' %>
+
+<% when 'ajax_course_pref' %>
+<div id="toolbar-btns">
+<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: 'home'}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
+</div>
 <% end %>

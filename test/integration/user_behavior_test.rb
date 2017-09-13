@@ -71,12 +71,12 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('#sub-pane .dropdown-menu')
     click_on(I18n.t('layouts.sub_toolbar.new_content'))
     fill_in_content_form true
-    click_on('cancel-btn')
+    click_on('back-btn')
     assert page.has_selector?('#edit-content')
-    click_on('next-btn')
+    click_on('submit-btn')
     assert page.has_selector?('#page-file-form')
-    click_on('complete-btn')
-    assert page.has_selector?('#content-resource')
+    click_on('ok-btn')
+    assert page.has_selector?('#simple-html-content')
   end
 
   def content_creation_from_main_pane
@@ -84,8 +84,12 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     assert page.has_selector?('#content-resource')
     click_on('new-content-btn')
     fill_in_content_form true
-    click_on('complete-btn')
-    assert page.has_selector?('#content-resource')
+    click_on('toolbar-back-btn')
+    assert page.has_selector?('#edit-content')
+    click_on('toolbar-submit-btn')
+    assert page.has_selector?('#page-file-form')
+    click_on('toolbar-ok-btn')
+    assert page.has_selector?('#simple-html-content')
   end
 
   def fill_in_content_form(new_record)

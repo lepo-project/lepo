@@ -8,9 +8,7 @@
 		<div class="col-md-8">
 			<%= f.text_area :message, rows: "5", value: "", class: "elastic_textarea form-control" %>
 			<div class="button-block">
-				<button type="submit" class="btn btn-primary">
-					<i class="fa fa-plus-circle fa-lg"></i> 登録
-				</button>
+				<%= render partial: 'layouts/buttons/create' %>
 			</div>
 		</div>
 	</div>

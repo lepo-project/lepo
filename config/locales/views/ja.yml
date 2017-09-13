@@ -39,8 +39,9 @@ ja:
     lessons_card:
       no_lessons: 表示するレッスンはありません
       pages: :contents.contents_card.pages
+    option_form:
+      duplication_settings: 複製先コースの設定
     search_courses:
-      search: 検索
       search_course: コースの検索
       select_course: コースの選択
       exp_search_course: '%{num}コースまでを上限に、学期 / タイトル / 状態/ 教師 で検索'
@@ -70,22 +71,31 @@ ja:
         back: 戻る
       cancel:
         cancel: キャンセル
-      complete:
-        ok: :layouts.buttons.ok.ok
+      create:
+        create: 登録
+      csv_check:
+        csv_check: CSV形式の確認
       delete:
         delete: 削除
+      duplicate:
+        duplicate: 複製
       edit:
         edit: 編集
+      file_submit:
+        choose_file: ファイルを選択
+        uploading: アップロード中
       ok:
         ok: 完了
       save_and_next:
         save_and_next: 保存して次へ
-      submit:
-        ok: :layouts.buttons.ok.ok
+      search:
+        search: 検索
       toolbar_save_and_next:
         save_and_next: :layouts.buttons.save_and_next.save_and_next
-      toolbar_submit:
-        ok: :layouts.buttons.ok.ok
+      toolbar_update:
+        update: :layouts.buttons.update.update
+      update:
+        update: 更新
     card_l:
       show_rest: 続きを表示 / 非表示
     cover_page:
@@ -115,7 +125,6 @@ ja:
     page_number:
       portfolio: :helpers.portfolio
     search_members:
-      search: :courses.search_courses.search
       search_word: 検索語句
     sub_toolbar:
       add: :courses.course_manager_select.add
@@ -230,7 +239,7 @@ ja:
       delete: :layouts.buttons.delete.delete
       edit: :layouts.buttons.edit.edit
     sticky_reports:
-      search: :courses.search_courses.search
+      search: :layouts.buttons.search.search
     toolbar:
       course_sticky: コースふせん
       private_sticky: 個人ふせん
@@ -240,7 +249,7 @@ ja:
       impossible: :helpers.impossible
       possible: :helpers.possible
     search_users:
-      search: :courses.search_courses.search
+      search: :layouts.buttons.search.search
       search_word: :layouts.search_members.search_word
     update_user:
       account: :helpers.account

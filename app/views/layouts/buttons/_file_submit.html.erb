@@ -1,0 +1,9 @@
+<div class="file-submit-button">
+  <%= f.file_field :upload, {id: "#{form_id}"} %>
+  <button type="submit" id="<%= file_category %>-file-submit-btn" class="btn btn-primary btn-lg">
+    <i class="fa fa-file"></i> <%= t('.choose_file') %>
+  </button>
+  <button disabled id="<%= file_category %>-file-progress-btn" class="btn btn-lg disabled">
+    <i class="fa fa-clock-o"></i> <%= t('.uploading') %>
+  </button>
+</div>

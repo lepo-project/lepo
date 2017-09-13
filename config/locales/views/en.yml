@@ -39,8 +39,9 @@ en:
     lessons_card:
       no_lessons: No lessons to display
       pages: :contents.contents_card.pages
+    option_form:
+      duplication_settings: Duplication course settings.
     search_courses:
-      search: Search
       search_course: Search Course
       select_course: Select course
       exp_search_course: Search courses with term, title, status, manager up to a maximum of %{num}
@@ -70,22 +71,31 @@ en:
         back: Back
       cancel:
         cancel: Cancel
-      complete:
-        ok: :layouts.buttons.ok.ok
+      create:
+        create: Create
+      csv_check:
+        csv_check: CSV format check
       delete:
         delete: Delete
+      duplicate:
+        duplicate: Duplicate
       edit:
         edit: Edit
+      file_submit:
+        choose_file: Choose file
+        uploading: Uploading
       ok:
         ok: OK
       save_and_next:
         save_and_next: Save & Next
-      submit:
-        ok: :layouts.buttons.ok.ok
+      search:
+        search: Search
       toolbar_save_and_next:
         save_and_next: :layouts.buttons.save_and_next.save_and_next
-      toolbar_submit:
-        ok: :layouts.buttons.ok.ok
+      toolbar_update:
+        update: :layouts.buttons.update.update
+      update:
+        update: Update
     card_l:
       show_rest: Show / Hide the rest
     cover_page:
@@ -115,7 +125,6 @@ en:
     page_number:
       portfolio: :helpers.portfolio
     search_members:
-      search: :courses.search_courses.search
       search_word: search word
     sub_toolbar:
       add: :courses.course_manager_select.add
@@ -230,7 +239,7 @@ en:
       delete: :layouts.buttons.delete.delete
       edit: :layouts.buttons.edit.edit
     sticky_reports:
-      search: :courses.search_courses.search
+      search: :layouts.buttons.search.search
     toolbar:
       course_sticky: Course
       private_sticky: Private
@@ -240,7 +249,7 @@ en:
       impossible: :helpers.impossible
       possible: :helpers.possible
     search_users:
-      search: :courses.search_courses.search
+      search: :layouts.buttons.search.search
       search_word: :layouts.search_members.search_word
     update_user:
       account: :helpers.account

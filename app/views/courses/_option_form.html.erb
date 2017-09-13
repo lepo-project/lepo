@@ -8,9 +8,19 @@
     <div style="margin-bottom:1rem;">
       <h3>1. コースの複製</h3>
       <% if Term.selectables("hereafter").size > 0 %>
-      <%= form_for :course, url: {action: "ajax_duplicate", original_id: @course.id}, html: {class: "form-inline", multipart: true}, remote: true do |f| %>
-      <%= f.select :term_id, Term.selectables("hereafter"), {}, {class: "form-control"} %> の <%= f.text_field :title, {class: "form-control", placeholder: @course.title} %> として
-      <button type="submit" class="btn btn-sm btn-light">コースの複製</button>
+      <%= form_for :course, url: {action: 'ajax_duplicate', original_id: @course.id}, remote: true do |f| %>
+      <p>
+        <%= t('.duplication_settings') %>
+      </p>
+      <div class="form-group form-row" style="width: 100%;">
+        <%= f.label :term_id, class: 'col-md-2 col-form-label text-sm-right' %>
+        <%= f.select :term_id, Term.selectables('hereafter'), {}, {class: 'col-md-3 form-control input-lg'} %>
+        <%= f.label :title, class: 'col-md-2 col-form-label text-sm-right' %>
+        <%= f.text_field :title, {class: 'col-md-4 form-control input-lg', placeholder: @course.title} %>
+      </div>
+      <div class="form-group col-md-11 text-right">
+        <%= render partial: 'layouts/buttons/duplicate' %>
+      </div>
       <% end %>
       <% else %>
       <p>コースを複製できる学期がありません。システム管理者に相談して下さい。</p>

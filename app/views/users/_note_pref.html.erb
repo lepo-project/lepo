@@ -32,9 +32,9 @@
           現在、管理しているノートがないため、標準ノートの設定はできません。
         </div>
       </div>
-      <%= render partial: 'layouts/buttons/complete', locals: {nav_section: 'home'} %>
+      <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}, id_attr: 'ok-btn'} %>
       <% else %>
-      <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+      <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
       <%= form_for current_user, url: {action: :ajax_update_default_note}, html: {id: 'user_form', name: 'user_form'}, remote: true do |f| %>
       <div class="card">
         <h2 class="card-header">標準ノートの設定</h2>
@@ -53,7 +53,9 @@
         </div>
       </div>
       <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}, id_attr: 'cancel-btn'} %>
-      <%= render partial: 'layouts/buttons/submit' %>
+      <span style="margin-left:1rem;">
+        <%= render partial: 'layouts/buttons/update' %>
+      </span>
       <% end %>
       <% end %>
     </div>

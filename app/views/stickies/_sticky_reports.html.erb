@@ -1,10 +1,8 @@
 <h2 class="card-header clearfix"><%= t('activerecord.models.sticky') %></h2>
 <div class="card-right-top">
-	<%= form_tag({action: "ajax_search_sticky"}, class: "form-inline", remote: true) do %>
-	<div class="input-append">
-		<%= text_field_tag :keyword, params[:keyword], {class: "span2 form-control"} %>
-		<button type="submit" class="btn btn-primary"><%= t('.search') %></button>
-	</div>
+	<%= form_tag({action: 'ajax_search_sticky'}, class: 'form-inline', remote: true) do %>
+	<%= text_field_tag :keyword, params[:keyword], {class: 'form-control'} %>
+	<%= render partial: 'layouts/buttons/search' %>
 	<% end %>
 </div>
 
@@ -14,15 +12,14 @@
 </table>
 
 
-
 <% if @stickies %>
 <% if @stickies.size > 0 %>
 <div class="show clearfix">
-	<%= render partial: "stickies/sticky", collection: @stickies, locals: {view_category: "search"} %>
+	<%= render partial: 'stickies/sticky', collection: @stickies, locals: {view_category: 'search'} %>
 </div>
 
-<%= render(partial: "layouts/system_message", locals: {message: "最新20枚の検索結果を表示", message_category: "information"}) if @stickies.size == 10 %>
+<%= render(partial: 'layouts/system_message', locals: {message: '最新20枚の検索結果を表示', message_category: 'information'}) if @stickies.size == 10 %>
 <% else %>
-<%= render partial: "layouts/system_message", locals: {message: "見つかりませんでした", message_category: "information"} %>
+<%= render partial: 'layouts/system_message', locals: {message: '見つかりませんでした', message_category: 'information'} %>
 <% end %>
 <% end %>

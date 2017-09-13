@@ -20,7 +20,7 @@
 
 <% when 'ajax_edit', 'ajax_edit_group', 'ajax_update_group', 'ajax_update_role' %>
 <div id="toolbar-btns">
-  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, id_attr: 'toolbar-ok-btn'} %>
+  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, id_attr: 'toolbar-ok-btn', class_attr: 'toolbar-btn'} %>
 </div>
 
 <% when 'ajax_show' -%>

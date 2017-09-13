@@ -25,7 +25,7 @@
 				<i class='fa fa-plus'></i> <%= t('.new_device') %>
 				<% end %>
 			</div>
-			<%= render partial: 'layouts/buttons/complete', locals: {controller_name: 'preferences', nav_section: 'home'} %>
+			<%= render partial: 'layouts/buttons/ok', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: 'home'}, id_attr: 'ok-btn'} %>
 		</div>
 	</div>
 </div>

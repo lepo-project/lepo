@@ -22,11 +22,7 @@
             <%= managers.truncate(COURSE_MANAGER_DISPLAY_MAX_LENGTH) %></span>
         </td>
         <td class="button-td">
-          <%= link_to({action: "ajax_index_by_system_staff", id: course.id}, remote: true) do %>
-          <button type="button" class="btn btn-primary">
-            設定
-          </button>
-          <% end %>
+          <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: "ajax_index_by_system_staff", id: course.id}, id_attr: 'edit-btn', class_attr: 'btn btn-light'} %>
         </td>
       </tr>
       <% end %>

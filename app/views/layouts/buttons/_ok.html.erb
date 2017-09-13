@@ -1,6 +1,6 @@
 <% id_attr ||= '' %>
-<% class_attr ||= 'toolbar-btn' %>
+<% class_attr ||= 'btn btn-light btn-lg' %>
 
 <%= link_to(action_hash, { id: id_attr, class: class_attr, remote: true }) do %>
-<i class="fa fa-check-circle"></i> <%= t('.ok') %>
+<i class="fa fa-check-circle-o"></i> <%= t('.ok') %>
 <% end %>

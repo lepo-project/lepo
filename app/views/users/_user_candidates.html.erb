@@ -14,11 +14,7 @@
         <td class="button-td">
           <% search_word = @search_word ? @search_word : '' %>
           <% role = @role ? @role : '' %>
-          <%= link_to({action: "ajax_select_account", id: user.id, search_word: search_word, role: role}, remote: true) do %>
-          <button type="button" class="btn btn-primary">
-            設定
-          </button>
-          <% end %>
+          <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_select_account', id: user.id, search_word: search_word, role: role}, id_attr: 'edit-btn', class_attr: 'btn btn-light'} %>
         </td>
       </tr>
       <% end %>

@@ -140,10 +140,6 @@ function toggleUpdatePDFSnippet(id) {
   $("#update-pdf-form-" + id).toggle();
   $("#update-pdf-form-" + id + " #snippet_description").focus();
 }
-// snippet and note resource
-function destroyNote(note_id) {
-  jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/snippets/ajax_destroy_note/?note_id=" + note_id});
-}
 
 // message template resource
 

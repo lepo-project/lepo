@@ -7,9 +7,9 @@
 			<div class="button-block">
 				<% nav_id = (@course_id && (@course_id > 0)) ? @course_id : 0 %>
 				<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_edit_notice', nav_section: session[:nav_section], nav_id: nav_id}, id_attr: 'cancel-btn'} %>
-				<button type="submit" class="btn btn-primary" style="margin-left: 10px;">
-					<i class="fa fa-check-circle fa-lg"></i> 更新
-				</button>
+				<span style="margin-left:1rem;">
+					<%= render partial: 'layouts/buttons/update' %>
+				</span>
 			</div>
 		</div>
 	</div>

@@ -26,7 +26,7 @@
     <%#= f.error_messages %>
     <%= f.hidden_field :outcome_id, value: outcome_id %>
     <div style="padding: 4px;">
-      <%= render partial: 'layouts/file_submit_button', locals: {f: f, file_category: 'outcome', form_id: 'outcome-file-upload'} %>
+      <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'outcome', form_id: 'outcome-file-upload'} %>
     </div>
     <% end %>
   </div>

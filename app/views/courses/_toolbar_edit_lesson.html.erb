@@ -1,6 +1,4 @@
 <div id="toolbar-btns">
-  <%= link_to({action: "ajax_edit", id: @course.id}, {class: "toolbar-btn", remote: true}) do %>
-      <i class="fa fa-arrow-left"></i> 戻る
-  <% end %>
-  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: get_url_hash(@course.id, @course.status), id_attr: 'toolbar-ok-btn'} %>
+  <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_edit', id: @course.id}, id_attr: 'toolbar-back-btn', class_attr: 'toolbar-btn'} %>
+  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: get_url_hash(@course.id, @course.status), id_attr: 'toolbar-ok-btn', class_attr: 'toolbar-btn'} %>
 </div>
