@@ -29,10 +29,10 @@ class Content < ApplicationRecord
   has_many :objectives, -> { order(id: :asc) }, dependent: :destroy
   has_many :page_files, -> { order(display_order: :asc) }, dependent: :destroy
   has_many :stickies, -> { where('stickies.target_type = ?', 'page') }, dependent: :destroy
-  validates_presence_of :folder_id
+  validates_presence_of :folder_name
   validates_presence_of :overview
   validates_presence_of :title
-  validates_uniqueness_of :folder_id
+  validates_uniqueness_of :folder_name
   validates_inclusion_of :as_category, in: %w[text file outside]
   validates_inclusion_of :category, in: %w[upload]
   validates_inclusion_of :status, in: %w[open archived]
@@ -168,6 +168,6 @@ class Content < ApplicationRecord
   end
 
   def set_default_value
-    self.folder_id = random_string(FOLDER_NAME_LENGTH) unless folder_id
+    self.folder_name = random_string(FOLDER_NAME_LENGTH) unless folder_name
   end
 end

@@ -29,7 +29,7 @@ class ContentTest < ActiveSupport::TestCase
     assert build(:archived_content).valid?
   end
 
-  # test for validates_presence_of :folder_id
+  # test for validates_presence_of :folder_name
   # this test is no need because of before_validation callback
 
   # test for validates_presence_of :overview
@@ -44,10 +44,10 @@ class ContentTest < ActiveSupport::TestCase
     assert_invalid build(:content, title: nil), :title
   end
 
-  # test for validates_uniqueness_of :folder_id
-  test 'some contents with same folder_id are invalid' do
+  # test for validates_uniqueness_of :folder_name
+  test 'some contents with same folder_name are invalid' do
     content = create(:content)
-    assert_invalid build(:content, folder_id: content.folder_id), :folder_id
+    assert_invalid build(:content, folder_name: content.folder_name), :folder_name
   end
 
   # test for validates_inclusion_of :as_category, in: %w[text file outside]

@@ -47,7 +47,7 @@ class OutcomeTest < ActiveSupport::TestCase
   end
 
   # test for validates_uniqueness_of :lesson_id, scope: [:manager_id]
-  test 'some outcome with same folder_id and manager_id are invalid' do
+  test 'some outcome with same folder_name and manager_id are invalid' do
     outcome = create(:outcome)
     assert_invalid build(:outcome, lesson_id: outcome.lesson_id, manager_id: outcome.manager_id), :lesson_id
   end

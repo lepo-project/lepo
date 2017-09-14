@@ -19,7 +19,7 @@ FactoryGirl.define do
     association :course
     association :lesson
     association :manager, factory: :user
-    folder_id nil
+    folder_name nil
     score 10
     checked true
 

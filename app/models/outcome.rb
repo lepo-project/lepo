@@ -116,7 +116,7 @@ class Outcome < ApplicationRecord
     status != 'draft' && score
   end
 
-  def set_folder_id
-    self.folder_id = random_string(FOLDER_NAME_LENGTH) unless folder_id
+  def set_folder_name
+    self.folder_name = random_string(FOLDER_NAME_LENGTH) unless folder_name
   end
 end

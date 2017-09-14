@@ -33,8 +33,8 @@ class User < ApplicationRecord
   include RandomString
   before_validation :set_default_value
   has_attached_file :image,
-  path: ':rails_root/public/system/:class/:folder_id/:style/:filename',
-  url: ':relative_url_root/system/:class/:folder_id/:style/:filename',
+  path: ':rails_root/public/system/:class/:folder_name/:style/:filename',
+  url: ':relative_url_root/system/:class/:folder_name/:style/:filename',
   default_url: '/assets/:class/:style/missing.png',
   styles: { px40: '40x40>', px80: '80x80>', original: '160x160>' }
   validates_attachment_content_type :image, content_type: ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png']
@@ -55,12 +55,12 @@ class User < ApplicationRecord
   has_many :sticky_stars, foreign_key: :manager_id
   has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
   validates_presence_of :family_name
-  validates_presence_of :folder_id
+  validates_presence_of :folder_name
   validates_presence_of :hashed_password, if: "authentication == 'local'"
   validates_presence_of :salt, if: "authentication == 'local'"
   validates_presence_of :signin_name
   validates_presence_of :token
-  validates_uniqueness_of :folder_id
+  validates_uniqueness_of :folder_name
   validates_uniqueness_of :signin_name
   validates_uniqueness_of :token
   validates_inclusion_of :authentication, in: %w[local ldap]
@@ -266,6 +266,6 @@ class User < ApplicationRecord
 
   def set_default_value
     self.token = random_string(USER_TOKEN_LENGTH) unless token
-    self.folder_id = ym_random_string(FOLDER_NAME_LENGTH) unless folder_id
+    self.folder_name = ym_random_string(FOLDER_NAME_LENGTH) unless folder_name
   end
 end

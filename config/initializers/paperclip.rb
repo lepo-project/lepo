@@ -1,21 +1,21 @@
-Paperclip.interpolates :content_folder_id do |attachment, style|
-  attachment.instance.content.folder_id
+Paperclip.interpolates :content_folder_name do |attachment, style|
+  attachment.instance.content.folder_name
 end
 
-Paperclip.interpolates :folder_id do |attachment, style|
-  attachment.instance.folder_id
+Paperclip.interpolates :folder_name do |attachment, style|
+  attachment.instance.folder_name
 end
 
-Paperclip.interpolates :outcome_folder_id do |attachment, style|
-  attachment.instance.outcome.folder_id
+Paperclip.interpolates :outcome_folder_name do |attachment, style|
+  attachment.instance.outcome.folder_name
 end
 
-Paperclip.interpolates :outcome_manager_folder_id do |attachment, style|
-  attachment.instance.outcome.manager.folder_id
+Paperclip.interpolates :outcome_manager_folder_name do |attachment, style|
+  attachment.instance.outcome.manager.folder_name
 end
 
-Paperclip.interpolates :snippet_manager_folder_id do |attachment, style|
-  attachment.instance.snippet.manager.folder_id
+Paperclip.interpolates :snippet_manager_folder_name do |attachment, style|
+  attachment.instance.snippet.manager.folder_name
 end
 
 Paperclip.interpolates :snippet_id do |attachment, style|
