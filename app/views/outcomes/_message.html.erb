@@ -9,7 +9,7 @@
   <% popover_side = side == 'left' ? 'right' : 'left' %>
   <div class="main-area popover popover-<%= popover_side %>" data-toggle="popover" data-placement="<%= popover_side %>">
     <div class="popover-title">
-      <div class="score"><%= message.score.to_s + t('views.units.points') if message.score %></div>
+      <div class="score"><%= message.score.to_s + t('.points', score: 5) if message.score %></div>
       <div><%= format_time message.updated_at, 'mdhm' %></div>
     </div>
     <div class="popover-content">

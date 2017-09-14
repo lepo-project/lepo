@@ -1,11 +1,4 @@
 en:
-  views:
-    units:
-      characters: characters
-      pages: pages
-      pieces: pieces
-      points: points
-
   contents:
     contents_card:
       course_num: Courses
@@ -35,6 +28,7 @@ en:
       no_course_manager_form: For open / archive status, managers can be edit at the course member page
     goal_card:
       none: none
+      points: points
       show_details: Show / Hide Details
     lessons_card:
       no_lessons: No lessons to display
@@ -112,11 +106,14 @@ en:
     message_card:
       shortcut_key: :contents.index.shortcut_key
     note_header:
+      characters: characters
       course: Course
       master_draft: Master
       master_review: :views.note.master_draft
       master_open: :views.note.master_draft
       media_count: media count
+      pages: pages
+      pieces: pieces
       private: Private
       referenced_web_count: referenced web count
       star_count: star count
@@ -148,6 +145,10 @@ en:
       references: References
 
   outcomes:
+    evaluator:
+      points: :courses.goal_card.points
+    message:
+      points: :courses.goal_card.points
     messages:
       no_messages: No messages
 
