@@ -14,8 +14,8 @@
 
 class OutcomeFile < ApplicationRecord
   has_attached_file :upload,
-                    path: ':rails_root/public/system/users/:outcome_manager_folder_id/assignment_outcomes/:outcome_folder_id/:filename',
-                    url: ':relative_url_root/system/users/:outcome_manager_folder_id/assignment_outcomes/:outcome_folder_id/:filename'
+                    path: ':rails_root/public/system/users/:outcome_manager_folder_name/assignment_outcomes/:outcome_folder_name/:filename',
+                    url: ':relative_url_root/system/users/:outcome_manager_folder_name/assignment_outcomes/:outcome_folder_name/:filename'
   validates_attachment_size :upload, less_than: OUTCOME_MAX_FILE_SIZE.megabytes
   do_not_validate_attachment_file_type :upload
   belongs_to :outcome, touch: true

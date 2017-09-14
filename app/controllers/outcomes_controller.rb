@@ -117,7 +117,7 @@ class OutcomesController < ApplicationController
 
   def upload_file(file, new_file)
     @outcome = Outcome.find(params[:id])
-    @outcome.set_folder_id
+    @outcome.set_folder_name
     @outcome.save
 
     filename = new_file.upload_file_name

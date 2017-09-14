@@ -47,7 +47,7 @@ class UserTest < ActiveSupport::TestCase
     assert_invalid build(:user, family_name: nil), :family_name
   end
 
-  # test for validates_presence_of :folder_id
+  # test for validates_presence_of :folder_name
   # this test is no need because of before_validation callback
 
   # test for validates_presence_of :hashed_password, if: "authentication == 'local'"
@@ -71,10 +71,10 @@ class UserTest < ActiveSupport::TestCase
   # test for validates_presence_of :token
   # this test is no need because of before_validation callback
 
-  # test for validates_uniqueness_of :folder_id
-  test 'some users with same folder_id are invalid' do
+  # test for validates_uniqueness_of :folder_name
+  test 'some users with same folder_name are invalid' do
     user = create(:user)
-    assert_invalid build(:user, folder_id: user.folder_id), :folder_id
+    assert_invalid build(:user, folder_name: user.folder_name), :folder_name
   end
 
   # test for validates_uniqueness_of :signin_name

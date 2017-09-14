@@ -22,8 +22,8 @@ class Course < ApplicationRecord
   include RandomString
   before_validation :set_default_value
   has_attached_file :image,
-  path: ':rails_root/public/system/:class/:folder_id/:style/:filename',
-  url: ':relative_url_root/system/:class/:folder_id/:style/:filename',
+  path: ':rails_root/public/system/:class/:folder_name/:style/:filename',
+  url: ':relative_url_root/system/:class/:folder_name/:style/:filename',
   default_url: '/assets/:class/:style/missing.png',
   styles: { px40: '40x40>', px80: '80x80>', original: '160x160>' }
   validates_attachment_content_type :image, content_type: ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png']
@@ -45,10 +45,10 @@ class Course < ApplicationRecord
   has_many :outcomes, dependent: :destroy
   has_many :staff_course_notes, -> { where('notes.status = ? and notes.master_id = ?', 'course', 0).order(updated_at: :desc) }, class_name: 'Note'
   has_many :notes
-  validates_presence_of :folder_id
+  validates_presence_of :folder_name
   validates_presence_of :term_id
   validates_presence_of :title
-  validates_uniqueness_of :folder_id
+  validates_uniqueness_of :folder_name
   # FIXME: Group work
   validates_inclusion_of :groups_count, in: (1..COURSE_GROUP_MAX_SIZE).to_a
   validates_inclusion_of :status, in: %w[draft open archived]
@@ -292,6 +292,6 @@ class Course < ApplicationRecord
   private
 
   def set_default_value
-    self.folder_id = ym_random_string(FOLDER_NAME_LENGTH) unless folder_id
+    self.folder_name = ym_random_string(FOLDER_NAME_LENGTH) unless folder_name
   end
 end

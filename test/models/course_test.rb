@@ -30,7 +30,7 @@ class CourseTest < ActiveSupport::TestCase
     assert build(:archived_course).valid?
   end
 
-  # test for validates_presence_of :folder_id
+  # test for validates_presence_of :folder_name
   # this test is no need because of before_validation callback
 
   # test for validates_presence_of :term_id
@@ -45,10 +45,10 @@ class CourseTest < ActiveSupport::TestCase
     assert_invalid build(:course, title: nil), :title
   end
 
-  # test for validates_uniqueness_of :folder_id
-  test 'some courses with same folder_id are invalid' do
+  # test for validates_uniqueness_of :folder_name
+  test 'some courses with same folder_name are invalid' do
     course = create(:course)
-    assert_invalid build(:course, folder_id: course.folder_id), :folder_id
+    assert_invalid build(:course, folder_name: course.folder_name), :folder_name
   end
 
   # test for validates_inclusion_of :groups_count, in: (1..COURSE_GROUP_MAX_SIZE).to_a
