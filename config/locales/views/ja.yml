@@ -1,11 +1,4 @@
 ja:
-  views:
-    units:
-      characters: 字
-      pages: ページ
-      pieces: 個
-      points: 点
-
   contents:
     contents_card:
       course_num: 利用コース数
@@ -35,6 +28,7 @@ ja:
       no_course_manager_form: 公開中またはアーカイブのコースでは、コースメンバーページから編集可能
     goal_card:
       none: なし
+      points: 点
       show_details: 詳細を表示 / 非表示
     lessons_card:
       no_lessons: 表示するレッスンはありません
@@ -112,11 +106,14 @@ ja:
     message_card:
       shortcut_key: :contents.index.shortcut_key
     note_header:
+      characters: 字
       course: コース
       master_draft: マスター
       master_review: :views.note.master_draft
       master_open: :views.note.master_draft
       media_count: 画像等の数
+      pages: ページ
+      pieces: 個
       private: 個人
       referenced_web_count: 参考Webページ数
       star_count: スター数
@@ -148,6 +145,10 @@ ja:
       references: 参考資料
 
   outcomes:
+    evaluator:
+      points: :courses.goal_card.points
+    message:
+      points: :courses.goal_card.points
     messages:
       no_messages: メッセージはありません
 

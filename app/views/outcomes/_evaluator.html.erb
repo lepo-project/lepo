@@ -4,7 +4,7 @@
   <div class="accordion-heading">
     <a class="accordion-toggle" data-toggle="collapse" data-parent="#outcome_accordion" href="#collapse_<%= outcome.id %>">
       <div class="heading-item" style="text-align:right; width:4rem;">
-        <%= outcome.score.to_s+t('views.units.points') if outcome.score %>
+        <%= outcome.score.to_s+t('.points') if outcome.score %>
       </div>
       <div class="heading-item" style="text-align:center; width:9rem;">
         <%= outcome_status_text outcome.status, outcome.score %>
