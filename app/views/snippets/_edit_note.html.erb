@@ -4,7 +4,7 @@
       <div class="head">
         <div class="header-explanation"><%= t('.required') %>：<span class="required">*</span></div>
         <h1><%= (@note.status == "private") ? '個人' : 'コース' %>ノートの設定</h1>
-        <%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+        <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 
         <%= form_for @note, url: {action: :ajax_update_note, note_id: @note.id}, html: {id: 'note_form', name: 'note_form'}, remote: true do |f| %>
         <div class="form-group row">
@@ -87,7 +87,7 @@
       </div>
 
       <div id="snippets" class="block">
-        <%= render partial: "layouts/snippet", collection: @snippets, locals: {editable_snippet: false} %>
+        <%= render partial: 'layouts/snippet', collection: @snippets, locals: {editable_snippet: false} %>
       </div>
     </div>
   </div>

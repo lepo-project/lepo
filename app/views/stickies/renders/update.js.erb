@@ -1,2 +1,2 @@
 $('#update_sticky_<%= sticky.id %>').remove();
-$('#sticky_<%= sticky.id %>').replaceWith("<%= j render(partial: "stickies/sticky", locals: {sticky: sticky, view_category: view_category}) %>");
+$('#sticky_<%= sticky.id %>').replaceWith("<%= j render(partial: 'stickies/sticky', locals: {sticky: sticky, view_category: view_category}) %>");

@@ -1,20 +1,20 @@
-<% case action_name when "ajax_index" %>
+<% case action_name when 'ajax_index' %>
 <nav id="sub-nav">
-  <%= render partial: "layouts/breadcrumb", locals: {crumbs: [['']]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
 </nav>
-<% when "ajax_group_index" %>
+<% when 'ajax_group_index' %>
 <nav id="sub-nav">
-  <%= render partial: "layouts/breadcrumb", locals: {crumbs: [['', {action: "ajax_index", nav_section: session[:nav_section], nav_id: @course.id}], ["#{@group_id + 1}班のノート"]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], ["#{@group_id + 1}班のノート"]]} %>
 </nav>
-<% when "ajax_show", "ajax_show_from_others" %>
+<% when 'ajax_show', 'ajax_show_from_others' %>
 <% if @course.groups_count == 1 %>
 <nav id="sub-nav">
-  <%= render partial: "layouts/breadcrumb", locals: {crumbs: [['', {action: "ajax_index", nav_section: session[:nav_section], nav_id: @course.id}], [@note.title]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [@note.title]]} %>
 </nav>
 <% else %>
 <% gid = @course.group_id_for @note.manager_id %>
 <nav id="sub-nav">
-  <%= render partial: "layouts/breadcrumb", locals: {crumbs: [['', {action: "ajax_index", nav_section: session[:nav_section], nav_id: @course.id}], ["#{gid + 1}班のノート", {action: "ajax_group_index", group_id: gid}], [@note.title]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], ["#{gid + 1}班のノート", {action: 'ajax_group_index', group_id: gid}], [@note.title]]} %>
 </nav>
 <% end %>
 <% end %>

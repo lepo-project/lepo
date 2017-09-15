@@ -3,15 +3,15 @@
 		<div class="col-md-12">
 			<!-- <div class="block"> -->
 			<!-- FIXME: No need? -->
-			<!-- <%#= render(partial: "signin_reports") %> -->
+			<!-- <%#= render(partial: 'signin_reports') %> -->
 			<!-- </div> -->
 			<div class="block">
-				<%= render(partial: "members", locals: {title: t('activerecord.attributes.course.managers'), users: @course.managers}) %>
-				<%= render(partial: "members", locals: {title: t('activerecord.attributes.course.assistants'), users: @course.assistants}) %>
+				<%= render(partial: 'members', locals: {title: t('activerecord.attributes.course.managers'), users: @course.managers}) %>
+				<%= render(partial: 'members', locals: {title: t('activerecord.attributes.course.assistants'), users: @course.assistants}) %>
 
 				<% if @course.groups_count == 1 %>
 				<!-- Without Groups (Only One Group) -->
-				<%= render(partial: "members", locals: {title: t('activerecord.attributes.course.learners'), users: @course.learners}) %>
+				<%= render(partial: 'members', locals: {title: t('activerecord.attributes.course.learners'), users: @course.learners}) %>
 
 				<% else %>
 				<!-- With Groups -->
@@ -19,7 +19,7 @@
 				<% @course.groups_count.times do |g| %>
 				<% title = (g + 1).to_s + "班" %>
 				<% learners = @course.learners_in_group g %>
-				<%= render(partial: "members", locals: {title: title, users: learners}) %>
+				<%= render(partial: 'members', locals: {title: title, users: learners}) %>
 				<% end %>
 				<% end %>
 			</div>

@@ -1,5 +1,5 @@
 <div id="candidates">
-	<%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+	<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 	<% if @candidates %>
 	<div class="bordered-block clearfix">
 		<h2>2. <%= t('.select_course') %></h2>

@@ -2,11 +2,11 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h1>リンクの設定</h1>
-			<%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 
 			<div class="bordered-block">
 				<h2>
-					<%= current_user.system_staff? ? "システム共通" : "利用者個人" %>のリンク
+					<%= current_user.system_staff? ? 'システム共通' : '利用者個人' %>のリンク
 					<div class="header-explanation">同タイトルのリンク登録はURLを更新</div>
 				</h2>
 				<% if @link.errors.any? %>
@@ -22,9 +22,9 @@
 					<h3>新しいリンクの登録</h3>
 					<div style="padding-left: 20px;">
 						<% if @editable_links.size < USER_LINK_MAX_SIZE %>
-						<%= form_for(@link, url: {action: "ajax_create"}, html: {class: "form-inline", style: "padding: 4px;", remote: true}) do |f| %>
-						<%= f.text_field :title, {class: "form-control", placeholder: "タイトル", style: "margin-right:16px;"} %>
-						<%= f.text_field :url, {class: "form-control", placeholder: "URL", style: "margin-right:16px;"} %>
+						<%= form_for(@link, url: {action: 'ajax_create'}, html: {class: 'form-inline', style: 'padding: 4px;', remote: true}) do |f| %>
+						<%= f.text_field :title, {class: 'form-control', placeholder: 'タイトル', style: 'margin-right:16px;'} %>
+						<%= f.text_field :url, {class: 'form-control', placeholder: 'URL', style: 'margin-right:16px;'} %>
 						<%= f.hidden_field :display_order, value: @editable_links.size+1 %>
 						<%= render partial: 'layouts/buttons/create' %>
 						<% end %>
@@ -37,7 +37,7 @@
 					<% if @editable_links.size > 0 %>
 					<h3>登録済みのリンク</h3>
 					<div id="links" style="padding-left: 20px; overflow: auto;">
-						<%= render partial: "link", collection: @editable_links %>
+						<%= render partial: 'link', collection: @editable_links %>
 					</div>
 					<% end %>
 				</div>

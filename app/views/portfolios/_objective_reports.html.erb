@@ -20,10 +20,10 @@
         <th class="width120 text-center">教師評価</th>
       </tr>
       <% end %>
-      <%= render partial: "goal_objective_report", collection: objective_reports(@lesson, @learners, @course_role), locals: {eval_report: (@lesson.evaluator_id > 0)} %>
+      <%= render partial: 'goal_objective_report', collection: objective_reports(@lesson, @learners, @course_role), locals: {eval_report: (@lesson.evaluator_id > 0)} %>
     </tbody>
   </table>
   <% else %>
-  <%= render partial: "layouts/system_message", locals: {message: "課題の評価が完了していません", message_category: "information"} %>
+  <%= render partial: 'layouts/system_message', locals: {message: '課題の評価が完了していません', message_category: 'information'} %>
   <% end %>
 </div>

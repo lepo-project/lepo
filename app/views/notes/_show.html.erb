@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-md-12">
       <div class="block">
-        <%= render partial: "layouts/note_header", locals: {editable_snippet: false}  %>
+        <%= render partial: 'layouts/note_header', locals: {editable_snippet: false}  %>
       </div>
       <div id="snippets" class="block">
-        <%= render partial: "layouts/snippet", collection: @snippets, locals: {editable_snippet: false} %>
+        <%= render partial: 'layouts/snippet', collection: @snippets, locals: {editable_snippet: false} %>
       </div>
 
       <% references = @note.references %>
@@ -24,8 +24,8 @@
   </div>
 </div>
 
-<% if @note.status == "course" %>
-<% if session[:sticky_panel] !="none" %>
-<div id="sticky-panel"><%= render(partial: "stickies/sticky_panel", object: @stickies) %></div>
+<% if @note.status == 'course' %>
+<% if session[:sticky_panel] != 'none' %>
+<div id="sticky-panel"><%= render partial: 'stickies/sticky_panel', object: @stickies %></div>
 <% end %>
 <% end %>

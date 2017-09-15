@@ -107,7 +107,7 @@
                   <div class="form-group row">
                     <label class="col-md-4 col-form-label text-sm-right" for="password"><%= t('.password_confirmation') %></label>
                     <div class="col-md-8">
-                      <%= password_field_tag :password_confirmation, params[:password_confirmation], {placeholder: "#{t('.password_confirmation')}", class: "form-control", autocomplete: 'off'} %>
+                      <%= password_field_tag :password_confirmation, params[:password_confirmation], {placeholder: t('.password_confirmation'), class: 'form-control', autocomplete: 'off'} %>
                     </div>
                   </div>
                   <div class="form-group row">

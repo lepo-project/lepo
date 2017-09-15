@@ -2,27 +2,27 @@
   <div class="row">
     <div class="col-md-12">
       <div class="block">
-        <%= render partial: "layouts/user_card_l", object: @selected_user %>
+        <%= render partial: 'layouts/user_card_l', object: @selected_user %>
       </div>
 
       <div class="block">
-        <% if session[:nav_controller] != "course_members" %>
+        <% if session[:nav_controller] != 'course_members' %>
         <div class="card-l course-border">
-          <%= render partial: "layouts/card_l", locals: {card: sticky_activity_card_hash(@selected_user, @stickies)} %>
+          <%= render partial: 'layouts/card_l', locals: {card: sticky_activity_card_hash(@selected_user, @stickies)} %>
         </div>
         <% end %>
         <div class="card-l course-border">
-          <%= render partial: "layouts/card_l", locals: {card: course_activity_card_hash(@selected_user)} %>
+          <%= render partial: 'layouts/card_l', locals: {card: course_activity_card_hash(@selected_user)} %>
         </div>
         <div class="card-l course-border">
-          <%= render partial: "layouts/card_l", locals: {card: content_activity_card_hash(@selected_user)} %>
+          <%= render partial: 'layouts/card_l', locals: {card: content_activity_card_hash(@selected_user)} %>
         </div>
       </div>
 
-      <% if session[:nav_controller] == "course_members" %>
+      <% if session[:nav_controller] == 'course_members' %>
       <%# if @stickies.size > 0 %>
       <div id="user-stickies">
-        <%#= render partial: "stickies/stickies", locals: {stickies: @stickies, view_category: "user"} %>
+        <%#= render partial: 'stickies/stickies', locals: {stickies: @stickies, view_category: 'user'} %>
       </div>
       <%# end %>
       <% end %>

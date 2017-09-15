@@ -1,14 +1,14 @@
-<% note_class = droppable ? "note-card card droppable" : "note-card card" %>
+<% note_class = droppable ? 'note-card card droppable' : 'note-card card' %>
 <div id="note_<%= note.id %>" class="<%= note_class %>">
   <div class="card-body">
     <% if !droppable %>
     <div class="triangle-corner <%= note_star_btn_class session[:id], note %>">
-      <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {controller: "notes", action: "ajax_toggle_star", id: note.id, resource: resource}, {remote: true}) %>
+      <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {controller: 'notes', action: 'ajax_toggle_star', id: note.id, resource: resource}, {remote: true}) %>
     </div>
     <% end %>
-    <% if resource == "course_index" %>
+    <% if resource == 'course_index' %>
     <h3>
-      <%= link_to((note.title), {controller: "notes", action: "ajax_show_from_others", nav_id: course_id, id: note.id}, {remote: true}) %>
+      <%= link_to((note.title), {controller: 'notes', action: 'ajax_show_from_others', nav_id: course_id, id: note.id}, {remote: true}) %>
     </h3>
     <% else %>
     <div class="card-subtitle text-right text-muted">
@@ -26,7 +26,7 @@
   <div class="card-body-flex">
     <div class="side-area">
       <% obj = (@course && @course.learner?(session[:id]) && note.anonymous?(session[:id])) ? nil : note.manager %>
-      <%= render partial: "layouts/image", locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>
+      <%= render partial: 'layouts/image', locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>
       <div class='caption'>
         <% if obj.nil? %>
         ---
@@ -42,10 +42,10 @@
 
   <div class="card-footer">
     <div class="align-left" title="<%= t('helpers.char_count') %>">
-      <i class='fa fa-font fa-lg'></i><%= note.snippets_char_count "all" %>
+      <i class='fa fa-font fa-lg'></i><%= note.snippets_char_count 'all' %>
     </div>
     <div class="align-left" title="<%= t('.media_count') %>">
-      <i class='fa fa-picture-o fa-lg'></i><%= note.snippets_count "media" %>
+      <i class='fa fa-picture-o fa-lg'></i><%= note.snippets_count 'media' %>
     </div>
     <% if note.stickies.size > 0 %>
     <% title = (current_user && @course)? note_snippet_text(@course.manager?(session[:id]), note.stickies) : t('.sticky_count') %>

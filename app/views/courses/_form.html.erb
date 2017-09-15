@@ -1,5 +1,5 @@
 <%= form_for @course, url: {action: submit_action, id: @course.id}, html: {id: 'course-form', name: 'course-form', multipart: true, remote: true} do |f| %>
-<%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 <%#= f.error_messages %>
 
 <div class="bordered-block">

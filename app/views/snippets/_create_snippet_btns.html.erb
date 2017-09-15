@@ -11,10 +11,10 @@
   <i class="fa fa-plus"></i> <%= t('.subheader') %>
 </button>
 
-<%= render(partial: "snippets/create", locals: {display_order: display_order, note_id: note_id, category: "text"}) %>
-<%= render(partial: "snippets/create_file", locals: {display_order: display_order, note_id: note_id}) %>
-<%= render(partial: "snippets/create", locals: {display_order: display_order, note_id: note_id, category: "header"}) %>
-<%= render(partial: "snippets/create", locals: {display_order: display_order, note_id: note_id, category: "subheader"}) %>
+<%= render(partial: 'snippets/create', locals: {display_order: display_order, note_id: note_id, category: 'text'}) %>
+<%= render(partial: 'snippets/create_file', locals: {display_order: display_order, note_id: note_id}) %>
+<%= render(partial: 'snippets/create', locals: {display_order: display_order, note_id: note_id, category: 'header'}) %>
+<%= render(partial: 'snippets/create', locals: {display_order: display_order, note_id: note_id, category: 'subheader'}) %>
 
 
 <script>
