@@ -1,7 +1,7 @@
 <div class="group-card card">
-  <% learners = @course.learners_in_group group_id %>
+  <% learners = @course.learners_in_group group_index %>
   <h2 class="card-header" style="margin-bottom:0;">
-    <%= group_id + 1 %>班: <%= learners.size %>名
+    <%= group_index + 1 %>班: <%= learners.size %>名
   </h2>
   <ul class="list-group list-group-flush">
     <% learners.each do |l| %>

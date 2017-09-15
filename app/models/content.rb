@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  category    :string
-#  folder_id   :string
+#  folder_name :string
 #  title       :string
 #  condition   :text
 #  overview    :text

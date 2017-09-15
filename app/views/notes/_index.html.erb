@@ -12,9 +12,9 @@
       <% else %>
       <!-- With Groups -->
       <!-- #FIXME: Group work -->
-      <% @course.groups_count.times do |group_id| %>
-      <%= link_to({action: 'ajax_index_in_group', group_id: group_id}, {remote: true}) do %>
-      <%= render partial: 'group', locals: {group_id: group_id} %>
+      <% @course.groups_count.times do |group_index| %>
+      <%= link_to({action: 'ajax_index_in_group', group_index: group_index}, {remote: true}) do %>
+      <%= render partial: 'group', locals: {group_index: group_index} %>
       <% end %>
       <% end %>
       <% end %>

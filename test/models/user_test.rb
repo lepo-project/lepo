@@ -13,7 +13,7 @@
 #  phonetic_family_name :string
 #  given_name           :string
 #  phonetic_given_name  :string
-#  folder_id            :string
+#  folder_name          :string
 #  image_file_name      :string
 #  image_content_type   :string
 #  image_file_size      :integer

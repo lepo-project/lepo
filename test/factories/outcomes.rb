@@ -2,16 +2,16 @@
 #
 # Table name: outcomes
 #
-#  id         :integer          not null, primary key
-#  manager_id :integer
-#  course_id  :integer
-#  lesson_id  :integer
-#  folder_id  :string
-#  status     :string           default("draft")
-#  score      :integer
-#  checked    :boolean
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  manager_id  :integer
+#  course_id   :integer
+#  lesson_id   :integer
+#  folder_name :string
+#  status      :string           default("draft")
+#  score       :integer
+#  checked     :boolean
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
 FactoryGirl.define do

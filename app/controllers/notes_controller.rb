@@ -12,7 +12,7 @@ class NotesController < ApplicationController
 
   # FIXME: Group work
   def ajax_index_in_group
-    @group_id = params[:group_id].to_i
+    @group_index = params[:group_index].to_i
     get_resources
     render 'layouts/renders/main_pane', locals: { resource: 'index_in_group' }
   end
@@ -47,7 +47,7 @@ class NotesController < ApplicationController
     get_resources
     get_stickies course_id, note_id
     @snippets = @note.snippets
-    @group_id = @course.group_id_for @note.manager_id
+    @group_index = @course.group_index_for @note.manager_id
 
     set_sticky_panel_session
     render 'layouts/renders/main_pane', locals: { resource: 'show' }
@@ -60,7 +60,7 @@ class NotesController < ApplicationController
     get_resources
     get_stickies @note.course_id, @note.id
     @snippets = @note.snippets
-    @group_id = @course.group_id_for @note.manager_id
+    @group_index = @course.group_index_for @note.manager_id
 
     set_sticky_panel_session
     render 'layouts/renders/all', locals: { resource: 'show' }
@@ -88,7 +88,7 @@ class NotesController < ApplicationController
 
     get_resources
     get_stickies @course.id, @note.id if params[:resource] == 'show'
-    @group_id = @course.group_id_for @note.manager_id if params[:resource] == 'index_in_group'
+    @group_index = @course.group_index_for @note.manager_id if params[:resource] == 'index_in_group'
     @snippets = @note.snippets
     @note = Note.new if params[:resource] != 'show'
 

@@ -2,13 +2,13 @@
 #
 # Table name: course_members
 #
-#  id         :integer          not null, primary key
-#  course_id  :integer
-#  user_id    :integer
-#  role       :string
-#  group_id   :integer          default(0)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  course_id   :integer
+#  user_id     :integer
+#  role        :string
+#  group_index :integer          default(0)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
 require 'test_helper'
@@ -42,12 +42,12 @@ class CourseMemberTest < ActiveSupport::TestCase
     assert_invalid build(:course_manager, course_id: course_member.course_id, user_id: course_member.user_id), :course_id
   end
 
-  # test for validates_inclusion_of :group_id, in: (0...COURSE_GROUP_MAX_SIZE).to_a
-  test 'a course_member with group_id that is not included in (0...COURSE_GROUP_MAX_SIZE).to_a is invalid' do
-    assert_invalid build(:course_manager, group_id: ''), :group_id
-    assert_invalid build(:course_manager, group_id: nil), :group_id
-    assert_invalid build(:course_manager, group_id: -1), :group_id
-    assert_invalid build(:course_manager, group_id: COURSE_GROUP_MAX_SIZE), :group_id
+  # test for validates_inclusion_of :group_index, in: (0...COURSE_GROUP_MAX_SIZE).to_a
+  test 'a course_member with group_index that is not included in (0...COURSE_GROUP_MAX_SIZE).to_a is invalid' do
+    assert_invalid build(:course_manager, group_index: ''), :group_index
+    assert_invalid build(:course_manager, group_index: nil), :group_index
+    assert_invalid build(:course_manager, group_index: -1), :group_index
+    assert_invalid build(:course_manager, group_index: COURSE_GROUP_MAX_SIZE), :group_index
   end
 
   # test for validates_inclusion_of :role, in: %w[manager assistant learner]

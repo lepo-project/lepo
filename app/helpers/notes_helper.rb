@@ -12,13 +12,13 @@ module NotesHelper
   end
 
   # FIXME: PeerReview
-  def get_peer_review(group_notes, group_id, user_id)
-    user_group_id = @course.group_id_for user_id
+  def get_peer_review(group_notes, group_index, user_id)
+    user_group_index = @course.group_index_for user_id
     peer_review = {}
     peer_review[:eval] = []
     peer_review[:noeval] = []
 
-    if (@course.learner? user_id) && (user_group_id == group_id)
+    if (@course.learner? user_id) && (user_group_index == group_index)
       peer_review[:noeval] = group_notes.reject(&:review?)
       group_notes.delete_if { |gn| !gn.review? }
       review_num = [get_review_num(group_notes), group_notes.size - 1].min

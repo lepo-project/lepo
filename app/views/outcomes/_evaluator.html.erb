@@ -12,7 +12,7 @@
       <div class="heading-item">
         <%= outcome.manager.full_name %> (<%= outcome.manager.signin_name %>)
         <% if @course && (@course.groups_count > 1) %>
-        / <%= (@course.group_id_for outcome.manager_id) + 1 %><%= t('activerecord.attributes.course_member.group') %>
+        / <%= (@course.group_index_for outcome.manager_id) + 1 %><%= t('activerecord.attributes.course_member.group') %>
         <% end %>
       </div>
       <div class="heading-item" style="padding-right:0.5rem; text-align:right; width:11rem;">

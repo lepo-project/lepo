@@ -114,10 +114,10 @@ class CourseMembersController < ApplicationController
   def ajax_update_group
     course_id = session[:nav_id]
     user_id = params[:user_id]
-    group_id = params[:group_id]
+    group_index = params[:group_index]
 
-    cu = CourseMember.find_by_user_id_and_course_id(user_id, course_id)
-    cu.update_attributes(group_id: group_id)
+    cm = CourseMember.find_by_user_id_and_course_id(user_id, course_id)
+    cm.update_attributes(group_index: group_index)
     get_resources
     render 'layouts/renders/main_pane', locals: { resource: 'course_members/edit_group' }
   end

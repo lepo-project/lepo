@@ -4,7 +4,7 @@
 #
 #  id                 :integer          not null, primary key
 #  term_id            :integer
-#  folder_id          :string
+#  folder_name        :string
 #  image_file_name    :string
 #  image_content_type :string
 #  image_file_size    :integer
@@ -58,13 +58,13 @@ class Course < ApplicationRecord
   # Public Functions
   # ====================================================================
   # FIXME: Group work
-  def group_id_for(user_id)
-    CourseMember.where(course_id: id, user_id: user_id).first.group_id
+  def group_index_for(user_id)
+    CourseMember.where(course_id: id, user_id: user_id).first.group_index
   end
 
   # FIXME: Group work
   def learners_in_group(index)
-    user_ids = course_members.where('course_members.role = ? and course_members.group_id = ?', 'learner', index).order(user_id: :asc).pluck(:user_id)
+    user_ids = course_members.where('course_members.role = ? and course_members.group_index = ?', 'learner', index).order(user_id: :asc).pluck(:user_id)
     User.where(id: user_ids).order(signin_name: :asc)
   end
 
