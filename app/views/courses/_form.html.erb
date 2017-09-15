@@ -7,9 +7,9 @@
 
   <div class="form-group row">
     <%= f.label :title, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.title'), class: 'col-md-3 col-form-label text-sm-right' %>
-    <div class="col-md-8">
-      <%= f.text_field :title, class: 'form-control' %>
-    </div>
+    <span class="col-md-8">
+      <%= f.text_field :title, {class: 'form-control', placeholder: t('activerecord.attributes.course.title')} %>
+    </span>
   </div>
 
   <div class="form-group row">
@@ -26,7 +26,7 @@
   <div class="form-group row">
     <%= f.label :overview, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.overview'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
-      <%= f.text_area :overview, class: 'form-control', rows: '8' %>
+      <%= f.text_area :overview, {class: 'form-control', rows: '8', placeholder: t('activerecord.attributes.course.overview')} %>
       <div class="form-text">改行を続けて挿入した位置で、文章を折りたたんで表示</div>
     </div>
   </div>
@@ -41,7 +41,7 @@
         </div>
         <% if @course.image? %>
         <div style="padding-left:5rem;">
-          <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_delete_image', id: @course.id}, id_attr: 'delete_image_btn'} %>
+          <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_delete_image', id: @course.id}, id_attr: ''} %>
         </div>
         <% end %>
       </div>
@@ -104,7 +104,7 @@
   </div>
 </div>
 
-<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: course_cancel_hash, id_attr: 'cancel-btn'} %>
+<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: course_cancel_hash} %>
 <%= render partial: 'layouts/buttons/save_and_next' %>
 <% end %>
 <script>

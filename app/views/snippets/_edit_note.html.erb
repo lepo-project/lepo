@@ -73,13 +73,13 @@
         <% end %>
 
         <div style="margin-left: 60px;">
-          <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'cancel-btn'} %>
+          <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_show', id: @note.id}} %>
           <span style="margin-left:1rem;">
             <%= render partial: 'layouts/buttons/update' %>
           </span>
           <% if @note.status == 'private' %>
           <span style="margin-left:3rem;">
-            <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_note', note_id: @note.id}, id_attr: 'delete-ntn'} %>
+            <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_note', note_id: @note.id}} %>
           </span>
           <% end %>
           <% end %>

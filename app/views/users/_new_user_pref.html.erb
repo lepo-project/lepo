@@ -56,7 +56,7 @@
 			<% existing_users_array = existing_users_array.concat(@users.zip Array.new(@users.size, 'user'), Array.new(@users.size, 'suspended')) %>
 			<% footer = @users.size < @users_size ? '一般ユーザ：利用停止中でないアカウントの内、最新10アカウントを表示（全' + @users_size.to_s + 'アカウントが利用中）' : '' %>
 			<%= render(partial: 'layouts/member_candidates', locals: {title: '現在のメンバー', category: 'system', form_category: 'index', users: existing_users_array, resource_id: 0, footer: footer}) %>
-			<%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}, id_attr: 'ok-btn'} %>
+			<%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}} %>
 		</div>
 	</div>
 

@@ -12,7 +12,7 @@
       </th>
       <td class="l120px"><%= link_to_lesson_evaluator @course, lesson %></td>
       <td class="r80px">
-        <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_lesson', id: @course.id, lesson_id: lesson.id}, class_attr: 'bright-link'} %>
+        <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_lesson', id: @course.id, lesson_id: lesson.id}, id_attr: '', class_attr: 'bright-link'} %>
       </td>
     </tr>
   </table>

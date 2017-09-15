@@ -37,7 +37,7 @@ class ContentsController < ApplicationController
   def ajax_new
     set_nav_session 'repository', 'contents', 0
 
-    @content = Content.new(category: params[:category], title: '（タイトル未定）', overview: '（教材概要未定）', as_overview: '(課題概要未定)')
+    @content = Content.new(category: params[:category])
     @content.fill_objectives
     @content.objectives[0].title = '(目標未定)'
     get_content_resources
@@ -49,20 +49,20 @@ class ContentsController < ApplicationController
     if @content.status == 'destroy'
       get_content_resources
       render 'layouts/renders/all', locals: { resource: 'index' }
-    else
-      if @content.save
-        content_member = ContentMember.new(content_id: @content.id, user_id: session[:id], role: 'manager')
-        if content_member.save
-          get_content_resources
-          render 'layouts/renders/main_pane', locals: { resource: 'edit_pages' }
-        else
-          flash[:message] = '教材と学生の関連づけに失敗しました'
-          flash[:message_category] = 'error'
-          replace_page_with_fill_objectives 'new'
-        end
+    elsif @content.save
+      content_member = ContentMember.new(content_id: @content.id, user_id: session[:id], role: 'manager')
+      if content_member.save
+        get_content_resources
+        render 'layouts/renders/main_pane', locals: { resource: 'edit_pages' }
       else
+        flash[:message] = '教材と学生の関連づけに失敗しました'
+        flash[:message_category] = 'error'
         replace_page_with_fill_objectives 'new'
       end
+    else
+      flash[:message] = '教材の作成に失敗しました'
+      flash[:message_category] = 'error'
+      replace_page_with_fill_objectives 'new'
     end
   end
 

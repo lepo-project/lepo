@@ -10,7 +10,7 @@
     <p>コースで利用している教材は、削除できません</p>
     <% else %>
     <p>この操作は、取り消すことができません</p>
-    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: @content.id}, id_attr: 'delete-btn'} %>
+    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: @content.id}} %>
     <% end %>
   </div>
 </div>

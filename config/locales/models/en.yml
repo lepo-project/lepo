@@ -54,8 +54,8 @@ en:
         user: :activerecord.models.user
 
       content:
-        as_category: As category
-        as_overview: As overview
+        as_category: Assignment category
+        as_overview: Assignment overview
         asset_files: Asset files
         attachment_files: Attachment files
         category: Category

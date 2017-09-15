@@ -16,7 +16,7 @@
   </span>
   <% if (defined? snippet) && snippet.category != 'pdf' %>
   <span style="margin-left: 5rem;">
-    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: snippet.id}, id_attr: 'delete-btn'} %>
+    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: snippet.id}, id_attr: ''} %>
   </span>
   <% end %>
 </div>
