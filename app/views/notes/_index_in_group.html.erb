@@ -13,7 +13,7 @@
       <% else %>
       <% if staff_notes.size > 0 %>
       <div class="clearfix">
-        <%= render partial: 'note', collection: staff_notes, locals: {resource: 'group_index', droppable: false} %>
+        <%= render partial: 'note', collection: staff_notes, locals: {resource: 'index_in_group', droppable: false} %>
       </div>
       <% end %>
 
@@ -25,21 +25,21 @@
       <div style="margin-top: 5px;">
         <h2>相互評価の対象ノート</h2>
         <p>以下の<%= peer_review[:eval].size %>つのノートに、相互評価（ふせんやスターの活動）をして下さい。相互評価の対象は人により異なります。</p>
-        <%= render partial: 'note', collection: peer_review[:eval], locals: {resource: 'group_index', droppable: false} %>
+        <%= render partial: 'note', collection: peer_review[:eval], locals: {resource: 'index_in_group', droppable: false} %>
       </div>
       <% end %>
       <% if peer_review[:noeval].size > 0 %>
       <div style="margin-top: 20px; padding-top: 30px; clear: both;">
         <h2>相互評価の非対象ノート</h2>
         <p>以下のノートには、あなたは相互評価（ふせんやスターの活動）をしなくて構いません。</p>
-        <%= render partial: 'note', collection: peer_review[:noeval], locals: {resource: 'group_index', droppable: false} %>
+        <%= render partial: 'note', collection: peer_review[:noeval], locals: {resource: 'index_in_group', droppable: false} %>
       </div>
       <% end %>
       <%= render(partial: 'peer_review_summary', locals: {group_notes: group_notes}) if @course.staff? session[:id] %>
 
       <% else %>
       <div style="margin-top: 10px;">
-        <%= render partial: 'note', collection: group_notes, locals: {resource: 'group_index', droppable: false} %>
+        <%= render partial: 'note', collection: group_notes, locals: {resource: 'index_in_group', droppable: false} %>
       </div>
       <% end %>
       <% end %>

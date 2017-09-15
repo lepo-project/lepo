@@ -13,7 +13,7 @@
       <!-- With Groups -->
       <!-- #FIXME: Group work -->
       <% @course.groups_count.times do |group_id| %>
-      <%= link_to({action: 'ajax_group_index', group_id: group_id}, {remote: true}) do %>
+      <%= link_to({action: 'ajax_index_in_group', group_id: group_id}, {remote: true}) do %>
       <%= render partial: 'group', locals: {group_id: group_id} %>
       <% end %>
       <% end %>

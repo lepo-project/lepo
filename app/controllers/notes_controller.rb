@@ -11,10 +11,10 @@ class NotesController < ApplicationController
   end
 
   # FIXME: Group work
-  def ajax_group_index
+  def ajax_index_in_group
     @group_id = params[:group_id].to_i
     get_resources
-    render 'layouts/renders/main_pane', locals: { resource: 'group_index' }
+    render 'layouts/renders/main_pane', locals: { resource: 'index_in_group' }
   end
 
   def ajax_import_snippet
@@ -88,12 +88,12 @@ class NotesController < ApplicationController
 
     get_resources
     get_stickies @course.id, @note.id if params[:resource] == 'show'
-    @group_id = @course.group_id_for @note.manager_id if params[:resource] == 'group_index'
+    @group_id = @course.group_id_for @note.manager_id if params[:resource] == 'index_in_group'
     @snippets = @note.snippets
     @note = Note.new if params[:resource] != 'show'
 
     case params[:resource]
-    when 'index', 'group_index', 'show'
+    when 'index', 'index_in_group', 'show'
       #   render 'layouts/renders/main_pane', locals: {resource: params[:resource]}
       # when
       render 'layouts/renders/resource', locals: { resource: params[:resource] }

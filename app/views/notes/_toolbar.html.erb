@@ -2,7 +2,7 @@
 <nav id="sub-nav">
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
 </nav>
-<% when 'ajax_group_index' %>
+<% when 'ajax_index_in_group' %>
 <nav id="sub-nav">
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], ["#{@group_id + 1}班のノート"]]} %>
 </nav>
@@ -14,7 +14,7 @@
 <% else %>
 <% gid = @course.group_id_for @note.manager_id %>
 <nav id="sub-nav">
-  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], ["#{gid + 1}班のノート", {action: 'ajax_group_index', group_id: gid}], [@note.title]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], ["#{gid + 1}班のノート", {action: 'ajax_index_in_group', group_id: gid}], [@note.title]]} %>
 </nav>
 <% end %>
 <% end %>
