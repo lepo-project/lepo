@@ -317,9 +317,9 @@ class CoursesController < ApplicationController
   end
 
   def check_course_groups(groups_count)
-    deleted_group_learners = @course.course_members.where('course_members.role = ? and course_members.group_id >= ?', 'learner', groups_count)
+    deleted_group_learners = @course.course_members.where('course_members.role = ? and course_members.group_index >= ?', 'learner', groups_count)
     deleted_group_learners.each do |dgl|
-      dgl.update_attributes(group_id: groups_count.to_i - 1)
+      dgl.update_attributes(group_index: groups_count.to_i - 1)
     end
   end
 

@@ -1,4 +1,4 @@
-<%= form_for(:goals_objective, url: {action: "ajax_update_objective", id: @course.id}, html: {name: 'objective_form', remote: true}) do |objective_form| %>
+<%= form_for(:goals_objective, url: {action: 'ajax_update_objective', id: @course.id}, html: {name: 'objective_form', remote: true}) do |objective_form| %>
     <% max_goal_title_num = 14 - @course.goals.length %>
 
     <% selected_association = get_selected_association(lesson.id, objective.id, lesson.goals_objectives) %>
@@ -9,12 +9,12 @@
           <th colspan="<%= @course.goals.size + 1 %>" class="goal-title"><%= get_short_string(objective.title, 20) %></th>
         </tr>
         <tr>
-          <% goal_title = "0. その他" %>
+          <% goal_title = '0. その他' %>
           <% if selected_association.new_record? or selected_association.goal_id == 0 %>
               <td class="selected"><%= goal_title %></td>
           <% else %>
               <td style="text-align:center;">
-                <%= link_to(goal_title, {action: "ajax_update_association", id: @course.id, g_id: 0, association_id: selected_association.id}, {class: "bright-link", remote: true}) %>
+                <%= link_to(goal_title, {action: 'ajax_update_association', id: @course.id, g_id: 0, association_id: selected_association.id}, {class: 'bright-link', remote: true}) %>
               </td>
           <% end %>
           <% @course.goals.each_with_index do |g, index| %>
@@ -23,7 +23,7 @@
                   <td class="selected"><%= goal_title %></td>
               <% else %>
                   <td style="text-align:center;">
-                    <%= link_to(goal_title, {action: "ajax_update_association", id: @course.id, lesson_id: lesson.id, objective_id: objective.id, g_id: g.id, association_id: selected_association.id}, {class: "bright-link", remote: true}) %>
+                    <%= link_to(goal_title, {action: 'ajax_update_association', id: @course.id, lesson_id: lesson.id, objective_id: objective.id, g_id: g.id, association_id: selected_association.id}, {class: 'bright-link', remote: true}) %>
                   </td>
               <% end %>
           <% end %>

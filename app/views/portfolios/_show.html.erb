@@ -3,13 +3,13 @@
 		<div class="col-md-12">
 			<div class="block">
 				<div id="objective_reports" class="report-card card">
-					<%= render(partial: "objective_reports") %>
+					<%= render(partial: 'objective_reports') %>
 				</div>
 				<div id="private-stickies">
-					<%= render partial: "stickies/stickies", locals: {stickies: @private_stickies, view_category: "private", content_id: @lesson.content_id} %>
+					<%= render partial: 'stickies/stickies', locals: {stickies: @private_stickies, view_category: 'private', content_id: @lesson.content_id} %>
 				</div>
 				<div id="course-stickies">
-					<%= render partial: "stickies/stickies", locals: {stickies: @course_stickies, view_category: "course", content_id: @lesson.content_id} %>
+					<%= render partial: 'stickies/stickies', locals: {stickies: @course_stickies, view_category: 'course', content_id: @lesson.content_id} %>
 				</div>
 			</div>
 		</div>

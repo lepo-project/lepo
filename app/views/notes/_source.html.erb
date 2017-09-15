@@ -5,7 +5,7 @@
   <span class="badge badge-secondary">参照ノート</span>
   <ul class="fa-ul">
     <% notes.each do |note| %>
-    <li><%= link_to((raw("<i class='fa-li fa fa-file-text-o fa-lg'></i>" + get_short_string(note.title, 23))), {controller: "notes", action: "ajax_show_from_others", nav_id: course_id, id: note.id}, {remote: true}) %></li>
+    <li><%= link_to((raw("<i class='fa-li fa fa-file-text-o fa-lg'></i>" + get_short_string(note.title, 23))), {controller: 'notes', action: 'ajax_show_from_others', nav_id: course_id, id: note.id}, {remote: true}) %></li>
     <% end %>
   </ul>
   <% end %>

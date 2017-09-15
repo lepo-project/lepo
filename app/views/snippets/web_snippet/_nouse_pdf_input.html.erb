@@ -1,6 +1,6 @@
-<%= render(partial: "snippets/web_snippet/bookmarklet_base", locals: {bgcolor: "#333"}) %>
+<%= render(partial: 'snippets/web_snippet/bookmarklet_base', locals: {bgcolor: '#333'}) %>
 <div id="lepo_bookmarklet_content" style="color:#fff;font-weight:normal;font-style:normal;font-size:12pt;font-family:'游ゴシック体','Yu Gothic','ヒラギノ角ゴ Pro','Hiragino Kaku Gothic Pro','メイリオ','Meiryo',sans-serif;line-height: 100%;text-align:center;position:fixed;top:10px;left:20px;z-index:2147483647;padding:0;">
-  <%= form_tag("#{system_url}/snippets/create_web_snippet", method: "get", remote: true) do %>
+  <%= form_tag("#{system_url}/snippets/create_web_snippet", method: 'get', remote: true) do %>
   <div>
     <label>PDFファイル内の収集したい文字を貼り付けて送信</label>
   </div>

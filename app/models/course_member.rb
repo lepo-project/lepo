@@ -2,13 +2,13 @@
 #
 # Table name: course_members
 #
-#  id         :integer          not null, primary key
-#  course_id  :integer
-#  user_id    :integer
-#  role       :string
-#  group_id   :integer          default(0)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :integer          not null, primary key
+#  course_id   :integer
+#  user_id     :integer
+#  role        :string
+#  group_index :integer          default(0)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
 class CourseMember < ApplicationRecord
@@ -18,7 +18,7 @@ class CourseMember < ApplicationRecord
   validates_presence_of :user_id
   validates_uniqueness_of :course_id, scope: [:user_id]
   # FIXME: Group work
-  validates_inclusion_of :group_id, in: (0...COURSE_GROUP_MAX_SIZE).to_a
+  validates_inclusion_of :group_index, in: (0...COURSE_GROUP_MAX_SIZE).to_a
   validates_inclusion_of :role, in: %w[manager assistant learner]
 
   def deletable?

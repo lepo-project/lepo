@@ -1,7 +1,7 @@
-<% form_id = "update-pdf-form-" + snippet.id.to_s %>
+<% form_id = 'update-pdf-form-' + snippet.id.to_s %>
 <div id="<%= form_id %>" class="to-be-hidden">
-  <%= form_for snippet, url: {action: :ajax_update_pdf, id: snippet.id}, html: {id: 'snippet-form', class: "form-horizontal", name: 'snippet-form', multipart: true}, remote: true do |f| %>
-  <%= render partial: "snippets/form", locals: {snippet: snippet, f: f, form_id: form_id, category: snippet.category} %>
+  <%= form_for snippet, url: {action: :ajax_update_pdf, id: snippet.id}, html: {id: 'snippet-form', class: 'form-horizontal', name: 'snippet-form', multipart: true}, remote: true do |f| %>
+  <%= render partial: 'snippets/form', locals: {snippet: snippet, f: f, form_id: form_id, category: snippet.category} %>
   <% end %>
 </div>
 

@@ -4,7 +4,7 @@
 			<h1>プロフィールの設定
 				<div class="header-explanation">登録コース内で公開 / 設定必須項目：<span class="required">*</span></div>
 			</h1>
-			<%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 			<%= form_for current_user, url: {action: :ajax_update_profile}, html: {id: 'user_form', name: 'user_form', multipart: true}, remote: true do |f| %>
 			<%#= f.error_messages %>
 

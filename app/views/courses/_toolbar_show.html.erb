@@ -1,18 +1,18 @@
 <nav id="sub-nav">
   <% crumbs = course_crumbs @course.id, @lesson.display_order, @lesson.status, session[:nav_section], session[:page_num] %>
-  <%= render partial: "layouts/breadcrumb", locals: {crumbs: crumbs} %>
-  <%= render partial: "layouts/page_number", locals: {pg: pg, lesson_id: @lesson.id} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: crumbs} %>
+  <%= render partial: 'layouts/page_number', locals: {pg: pg, lesson_id: @lesson.id} %>
 </nav>
 
 <div id="toolbar-btns">
-  <% if (@course.manager? session[:id]) && (@course.status != "archived") %>
-  <% status = (@lesson.status == "open") ? "draft" : "open" %>
-  <% title = (@lesson.status == "open") ? "非公開に設定" : "公開に設定" %>
-  <% icon_class = (@lesson.status == "open") ? "fa fa-lock" : "fa fa-key" %>
+  <% if (@course.manager? session[:id]) && (@course.status != 'archived') %>
+  <% status = (@lesson.status == 'open') ? 'draft' : 'open' %>
+  <% title = (@lesson.status == 'open') ? '非公開に設定' : '公開に設定' %>
+  <% icon_class = (@lesson.status == "open") ? 'fa fa-lock' : 'fa fa-key' %>
   <div class="btn-group">
     <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i></a>
     <div class="dropdown-menu">
-      <%= link_to({action: "ajax_update_lesson_status_toolbar", id: @course.id, lesson_id: @lesson.id, status: status}, {class: "dropdown-item", remote: true}) do %>
+      <%= link_to({action: 'ajax_update_lesson_status_toolbar', id: @course.id, lesson_id: @lesson.id, status: status}, {class: 'dropdown-item', remote: true}) do %>
       <i class="<%= icon_class %>"></i> <%= title %>
       <% end %>
     </div>

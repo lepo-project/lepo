@@ -19,12 +19,12 @@
   </thead>
 
   <tbody>
-    <%= render partial: "star_report", collection: report %>
+    <%= render partial: 'star_report', collection: report %>
   </tbody>
 
   <% if manager_report?(@course_role, @learners) %>
   <tbody id="star-report-details" class="collapse">
-    <%= render(partial: "star_report", collection: toggle_star_reports(@learners, @course)) %>
+    <%= render(partial: 'star_report', collection: toggle_star_reports(@learners, @course)) %>
   </tbody>
   <% end %>
 </table>

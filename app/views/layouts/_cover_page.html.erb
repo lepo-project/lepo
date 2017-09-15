@@ -31,7 +31,7 @@
       <% end %>
 
       <% if @content.attachment_files.size > 0 %>
-      <%= render partial: "layouts/attachment_files", locals: {files: @content.attachment_files} %>
+      <%= render partial: 'layouts/attachment_files', locals: {files: @content.attachment_files} %>
       <% end %>
 
       <div class="loc outcome">
@@ -51,5 +51,5 @@
 </div>
 
 <% if session[:sticky_panel] !="none" %>
-<div id="sticky-panel"><%= render(partial: "stickies/sticky_panel", object: pg["stickies"]) %></div>
+<div id="sticky-panel"><%= render partial: 'stickies/sticky_panel', object: pg['stickies'] %></div>
 <% end %>

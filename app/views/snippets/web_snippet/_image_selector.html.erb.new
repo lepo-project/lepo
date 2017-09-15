@@ -1,4 +1,4 @@
-<%= render(partial: "snippets/web_snippet/style") %>
+<%= render(partial: 'snippets/web_snippet/style') %>
 <style id="bookmarklet_style">
 #mybookmarklet_htmlbase {
   height: 100px;

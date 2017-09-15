@@ -1,10 +1,10 @@
 <% if session[:nav_section] == "open_courses" %>
     <div class="block">
       <% if @course.learner? session[:id] %>
-          <%= render partial: "layouts/charts/stacked_areas", locals: {charts: charts} %>
+          <%= render partial: 'layouts/charts/stacked_areas', locals: {charts: charts} %>
       <% else %>
           <div class="card-l staff-border">
-            <%= render partial: "layouts/card_l", locals: {card: support_card_hash("selfeval_chart")} %>
+            <%= render partial: 'layouts/card_l', locals: {card: support_card_hash('selfeval_chart')} %>
           </div>
       <% end %>
     </div>

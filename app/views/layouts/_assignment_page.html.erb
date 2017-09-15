@@ -10,7 +10,7 @@
       <div class="loc abstract">
         <div class="loc-header">概要</div>
         <div class="loc-body">
-          <% if session[:nav_section] == "home" %>
+          <% if session[:nav_section] == 'home' %>
           マニュアルには課題はありません（このページは課題ページのサンプルです）。
           <% else %>
           <%= sanitize add_br @content.as_overview %>
@@ -18,16 +18,16 @@
         </div>
       </div>
 
-      <% if session[:nav_section] != "home" %>
+      <% if session[:nav_section] != 'home' %>
       <div id="outcome">
-        <% case @lesson_role when "learner" %>
-        <%= render partial: "outcomes/learner", collection: @outcomes %>
-        <% when "evaluator", "manager" %>
+        <% case @lesson_role when 'learner' %>
+        <%= render partial: 'outcomes/learner', collection: @outcomes %>
+        <% when 'evaluator', 'manager' %>
         <div class="accordion" id="outcome_accordion">
-          <%= render partial: "outcomes/evaluator", collection: @outcomes %>
+          <%= render partial: 'outcomes/evaluator', collection: @outcomes %>
         </div>
         <% else %>
-        <%= render partial: "outcomes/observer", collection: @outcomes %>
+        <%= render partial: 'outcomes/observer', collection: @outcomes %>
         <% end %>
       </div>
       <% end %>
@@ -36,7 +36,7 @@
   </div>
 </div>
 
-<% if session[:sticky_panel] !="none" %><div id="sticky-panel"><%= render(partial: "stickies/sticky_panel", object: pg["stickies"]) %></div>
+<% if session[:sticky_panel] != 'none' %><div id="sticky-panel"><%= render partial: 'stickies/sticky_panel', object: pg['stickies'] %></div>
 <% end %>
 
 

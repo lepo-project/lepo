@@ -16,7 +16,7 @@
     <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
     <%#= outcome_form.error_messages %>
 
-    <% case @content.as_category when "text" %>
+    <% case @content.as_category when 'text' %>
     <%= render partial: 'outcomes/text_outcome', locals: {outcome_form: outcome_form, outcome_text: outcome.outcome_text, outcome_status: outcome.status} %>
     <% when "outside" %>
     <%= render partial: 'outcomes/outside_outcome' %>
@@ -40,7 +40,7 @@
       <%= message_form.hidden_field :manager_id, value: session[:id] %>
       <% end %>
       <div style="margin: 8px 0 0; padding: 0;">
-        <%= outcome_form.submit outcome_submit_text(@lesson.evaluator_id, @lesson_role), class: "btn btn-primary" %>
+        <%= outcome_form.submit outcome_submit_text(@lesson.evaluator_id, @lesson_role), class: 'btn btn-primary' %>
       </div>
     </div>
     <% end %>

@@ -10,7 +10,7 @@
 
 <table id="achievements" class="table table-condensed">
   <thead>
-    <% if eval_category == "none" %>
+    <% if eval_category == 'none' %>
     <tr>
       <th class="width160"></th>
       <th class="width240 text-center">自己評価の実施率 [%]</th>
@@ -21,7 +21,7 @@
       <th class="width160" rowspan="2"></th>
       <th class="width120 text-center" rowspan="2">自己評価の実施率 [%]</th>
       <th class="width240 text-center" colspan="2">レッスン目標の達成率 [%]</th>
-      <th class="width120 text-center" rowspan="2">得点<br />（配点<%= report[0]["eval_lesson_size"]*10 %>点）</th>
+      <th class="width120 text-center" rowspan="2">得点<br />（配点<%= report[0]['eval_lesson_size']*10 %>点）</th>
     </tr>
     <tr>
       <th class="width120 text-center">自己評価</th>
@@ -31,12 +31,12 @@
   </thead>
 
   <tbody>
-    <%= render partial: "achievement_report", collection: report, locals: {eval_category: eval_category} %>
+    <%= render partial: 'achievement_report', collection: report, locals: {eval_category: eval_category} %>
   </tbody>
 
   <% if manager_report?(@course_role, @learners) %>
   <tbody id="achievement-report-details" class="collapse">
-    <%= render(partial: "achievement_report", collection: toggle_achievement_reports(@learners, @course.id, @lessons), locals: {eval_category: eval_category}) %>
+    <%= render(partial: 'achievement_report', collection: toggle_achievement_reports(@learners, @course.id, @lessons), locals: {eval_category: eval_category}) %>
   </tbody>
   <% end %>
 

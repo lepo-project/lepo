@@ -4,7 +4,7 @@
 #
 #  id                 :integer          not null, primary key
 #  term_id            :integer
-#  folder_id          :string
+#  folder_name        :string
 #  image_file_name    :string
 #  image_content_type :string
 #  image_file_size    :integer

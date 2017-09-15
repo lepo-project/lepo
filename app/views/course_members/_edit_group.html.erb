@@ -18,10 +18,10 @@
 							<div class="btn-group" data-toggle="buttons-radio">
 								<ul class="nav nav-pills">
 									<% @course.groups_count.times do |g| %>
-									<% if g == @course.group_id_for(l.id) %>
+									<% if g == @course.group_index_for(l.id) %>
 									<li class="active"><span class="badge badge-primary" style="font-size: 1rem;"><%= g+1 %>班</span></li>
 									<% else %>
-									<li><%= link_to("#{g+1}班", {action: "ajax_update_group", user_id: l.id, group_id: g}, {remote: true}) %></li>
+									<li><%= link_to("#{g+1}班", {action: 'ajax_update_group', user_id: l.id, group_index: g}, {remote: true}) %></li>
 									<% end %>
 									<% end %>
 								</ul>

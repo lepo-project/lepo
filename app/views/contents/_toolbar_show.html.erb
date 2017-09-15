@@ -1,7 +1,7 @@
 <nav id="sub-nav">
   <% crumbs = content_crumbs @content.title, session[:nav_section], session[:page_num] %>
-  <%= render partial: "layouts/breadcrumb", locals: {crumbs: crumbs} %>
-  <%= render partial: "layouts/page_number", locals: {pg: pg} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: crumbs} %>
+  <%= render partial: 'layouts/page_number', locals: {pg: pg} %>
 </nav>
 
 <% if @content.staff? session[:id] %>
@@ -10,8 +10,8 @@
     <a style="cursor:pointer;" class="toolbar-btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i></a>
     <div class="dropdown-menu">
       <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {controller: 'contents', action: 'ajax_edit', id: @content.id}, id_attr: 'toolbar-edit-btn'} %>
-      <%= link_to({controller: "content_members", action: "ajax_edit", content_id: @content.id}, {class: "dropdown-item", remote: true}) do %>
-      <i class="fa fa-user"></i> <%= t("activerecord.models.content_member") + t('.edit') %>
+      <%= link_to({controller: 'content_members', action: 'ajax_edit', content_id: @content.id}, {class: 'dropdown-item', remote: true}) do %>
+      <i class="fa fa-user"></i> <%= t('activerecord.models.content_member') + t('.edit') %>
       <% end %>
     </div>
   </div>

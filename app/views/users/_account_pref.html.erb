@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h1>アカウントの設定</h1>
-			<%= render partial: "layouts/system_message", locals: {message: flash[:message], message_category: flash[:message_category]} %>
+			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 			<%= form_for current_user, url: {action: :ajax_update_account}, html: {id: 'user_form', name: 'user_form', multipart: true}, remote: true do |f| %>
 			<%#= f.error_messages %>
 
@@ -10,18 +10,18 @@
 				<h2>ユーザ管理情報</h2>
 
 				<div class="form-group row">
-					<%= f.label :password, 'パスワード', class: "col-md-3 col-form-label text-sm-right" %>
+					<%= f.label :password, 'パスワード', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
-						<%= f.password_field :password, class: "form-control" %>
+						<%= f.password_field :password, class: 'form-control' %>
 						<div class="form-text"><span style="font-weight: bold;">英数字<%= USER_PASSWORD_MIN_LENGTH %>
 							〜<%= USER_PASSWORD_MAX_LENGTH %>文字</span>で設定</div>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<%= f.label :password_confirmation, 'パスワードの再入力', class: "col-md-3 col-form-label text-sm-right" %>
+						<%= f.label :password_confirmation, 'パスワードの再入力', class: 'col-md-3 col-form-label text-sm-right' %>
 						<div class="col-md-7">
-							<%= f.password_field :password_confirmation, class: "form-control" %>
+							<%= f.password_field :password_confirmation, class: 'form-control' %>
 						</div>
 					</div>
 
@@ -32,13 +32,13 @@
 						<div class="header-explanation">変更不可</div>
 					</h2>
 					<div class="form-group row control-group-text-line">
-						<%= f.label :signin_name, t('activerecord.attributes.user.signin_name'), class: "col-md-3 col-form-label text-sm-right control-text-line", style: "line-height: 60%;" %>
+						<%= f.label :signin_name, t('activerecord.attributes.user.signin_name'), class: 'col-md-3 col-form-label text-sm-right control-text-line', style: 'line-height: 60%;' %>
 						<div class="col-md-7">
 							<%= current_user.signin_name %>
 						</div>
 					</div>
 					<div class="form-group row control-group-text-line">
-						<%= f.label :role, 'アカウント種別', class: "col-md-3 col-form-label text-sm-right control-text-line", style: "line-height: 60%;" %>
+						<%= f.label :role, 'アカウント種別', class: 'col-md-3 col-form-label text-sm-right control-text-line', style: 'line-height: 60%;' %>
 						<div class="col-md-7">
 							<%= t("activerecord.others.user.role.#{current_user.role}") %>
 						</div>

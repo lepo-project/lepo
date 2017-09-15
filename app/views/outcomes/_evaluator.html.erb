@@ -12,7 +12,7 @@
       <div class="heading-item">
         <%= outcome.manager.full_name %> (<%= outcome.manager.signin_name %>)
         <% if @course && (@course.groups_count > 1) %>
-        / <%= (@course.group_id_for outcome.manager_id) + 1 %><%= t('activerecord.attributes.course_member.group') %>
+        / <%= (@course.group_index_for outcome.manager_id) + 1 %><%= t('activerecord.attributes.course_member.group') %>
         <% end %>
       </div>
       <div class="heading-item" style="padding-right:0.5rem; text-align:right; width:11rem;">
@@ -63,7 +63,7 @@
           </div>
 
           <%= outcome_form.fields_for :outcome_messages, Outcome.reflect_on_association(:outcome_messages).klass.new do |message_form| %>
-          <%= message_form.text_area :message, style: 'width: 100%; height:4em; max-height: 20em; padding:0;', class: "message_form_text elastic_textarea" %>
+          <%= message_form.text_area :message, style: 'width: 100%; height:4em; max-height: 20em; padding:0;', class: 'message_form_text elastic_textarea' %>
           <%= message_form.hidden_field :manager_id, value: session[:id] %>
           <% end %>
 

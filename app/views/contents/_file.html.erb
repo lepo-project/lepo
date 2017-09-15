@@ -5,11 +5,11 @@
     <tr>
       <th class="draggable-symbol"><i class="fa tentative-grip"></i></th>
       <th class="serial-number">
-        <% if file_category == "page" %>
+        <% if file_category == 'page' %>
         <%= file.display_order %>.
         <% end %>
       </th>
-      <th class="l160px" style="overflow: hidden; max-width: 160px;"><%= link_to file.upload_file_name, file.upload.url, {target: "_blank", class: "bright-link"} %></th>
+      <th class="l160px" style="overflow: hidden; max-width: 160px;"><%= link_to file.upload_file_name, file.upload.url, {target: '_blank', class: 'bright-link'} %></th>
       <td class="l120px"><%= format_time(file.upload_updated_at, "mdhm") %></td>
       <td class="r80px">
         <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_'+file_category+'_file', id: @content.id, file_id: file.id}, class_attr: 'bright-link'} %>
