@@ -33,6 +33,12 @@ class CourseTest < ActiveSupport::TestCase
   # test for validates_presence_of :folder_name
   # this test is no need because of before_validation callback
 
+  # test for validates_presence_of :overview
+  test 'a course without overview is invalid' do
+    assert_invalid build(:course, overview: ''), :overview
+    assert_invalid build(:course, overview: nil), :overview
+  end
+
   # test for validates_presence_of :term_id
   test 'a course without term_id is invalid' do
     assert_invalid build(:course, term_id: ''), :term_id

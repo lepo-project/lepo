@@ -46,6 +46,7 @@ class Course < ApplicationRecord
   has_many :staff_course_notes, -> { where('notes.status = ? and notes.master_id = ?', 'course', 0).order(updated_at: :desc) }, class_name: 'Note'
   has_many :notes
   validates_presence_of :folder_name
+  validates_presence_of :overview
   validates_presence_of :term_id
   validates_presence_of :title
   validates_uniqueness_of :folder_name
