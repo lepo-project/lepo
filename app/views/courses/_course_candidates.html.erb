@@ -22,7 +22,7 @@
             <%= managers.truncate(COURSE_MANAGER_DISPLAY_MAX_LENGTH) %></span>
         </td>
         <td class="button-td">
-          <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_index_by_system_staff', id: course.id}, id_attr: 'edit-btn', class_attr: 'btn btn-light'} %>
+          <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_index_by_system_staff', id: course.id}, class_attr: 'btn btn-light'} %>
         </td>
       </tr>
       <% end %>

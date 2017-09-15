@@ -27,7 +27,7 @@
       <% end %>
 
       <% nav_id = (@course_id && (@course_id > 0)) ? @course_id : 0 %>
-      <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: nav_id}, id_attr: 'ok-btn'} %>
+      <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: nav_id}} %>
     </div>
   </div>
 </div>

@@ -86,7 +86,7 @@
 
   <% if password_editable || role_editable %>
   <div class="control-group">
-    <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_search_accounts', search_word: @search_word, role: @role}, id_attr: 'back-btn'} %>
+    <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_search_accounts', search_word: @search_word, role: @role}} %>
     <span style="margin-left:1rem;">
       <%= render partial: 'layouts/buttons/update' %>
     </span>

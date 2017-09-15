@@ -47,13 +47,13 @@
 				<%= render partial: 'layouts/buttons/update' %>
 				<% if term.courses.length.zero? %>
 				<span style="margin-left:3rem;">
-					<%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: term.id}, id_attr: 'delete-btn'} %>
+					<%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: term.id}, id_attr: ''} %>
 				</span>
 				<% end %>
 				<% end %>
 				<% end %>
 			</div>
-			<%= render partial: 'layouts/buttons/ok', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: 'home'}, id_attr: 'ok-btn'} %>
+			<%= render partial: 'layouts/buttons/ok', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: 'home'}} %>
 		</div>
 	</div>
 </div>

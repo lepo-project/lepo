@@ -24,7 +24,7 @@
     <% end %>
 
     <div class="dropdown-divider"></div>
-    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {controller: 'message_templates', action: 'ajax_destroy', id: template.id, lesson_id: lesson_id}, class_attr: 'dropdown-item'} %>
+    <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {controller: 'message_templates', action: 'ajax_destroy', id: template.id, lesson_id: lesson_id}, id_attr: '', class_attr: 'dropdown-item'} %>
     <% if template.content_id > 0 %>
     <div style="float: right; margin-right:16px; font-size:x-small"><%= template.counter %>回使用</div>
     <% end %>

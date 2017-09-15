@@ -11,7 +11,7 @@
       <td class="l160px"><%= format_time file.upload_updated_at, "mdhm" %></td>
       <td class="r80px">
         <% if show_outcome_form? @lesson_role, outcome_status %>
-        <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {controller: 'outcomes', action: 'ajax_destroy_file', id: outcome_id, file_id: file.id}, class_attr: ''} %>
+        <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {controller: 'outcomes', action: 'ajax_destroy_file', id: outcome_id, file_id: file.id}, id_attr: '', class_attr: ''} %>
         <% end %>
       </td>
     </tr>

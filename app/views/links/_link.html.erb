@@ -6,7 +6,7 @@
       <th class="title"><%= sanitize link.title %>, <%= link.url %></th>
       <td class="l120px"><%= format_time(link.updated_at, "mdhm") %></td>
       <td class="r80px">
-        <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', link_id: link.id}, id_attr: 'delete-btn', class_attr: 'bright-link'} %>
+        <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', link_id: link.id}, id_attr: '', class_attr: 'bright-link'} %>
       </td>
     </tr>
   </table>

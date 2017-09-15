@@ -69,9 +69,9 @@
       </div>
 
       <p>
-        <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_edit', id: @content.id}, id_attr: 'back-btn'} %>
+        <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_edit', id: @content.id}} %>
         <span style="margin-left: 1rem;">
-          <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_show', id: @content.id}, id_attr: 'ok-btn'} %>
+          <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_show', id: @content.id}} %>
         </span>
       </p>
 

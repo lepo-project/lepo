@@ -50,7 +50,7 @@
 							</div>
 							<% if !current_user.new_record? && current_user.image? %>
 							<div style="padding-left:5rem;">
-								<%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_user_image'}, id_attr: 'delete-btn'} %>
+								<%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_user_image'}} %>
 							</div>
 							<% end %>
 						</div>
@@ -70,7 +70,7 @@
 					</div>
 				</div>
 			</div>
-			<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}, id_attr: 'cancel-btn'} %>
+			<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}} %>
 			<span style="margin-left:1rem;">
 				<%= render partial: 'layouts/buttons/update' %>
 			</span>

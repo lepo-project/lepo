@@ -6,7 +6,7 @@
 			<%= f.text_area :message, rows: '5', value: value, class: 'elastic_textarea form-control' %>
 			<div class="button-block">
 				<% nav_id = (@course_id && (@course_id > 0)) ? @course_id : 0 %>
-				<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_edit_notice', nav_section: session[:nav_section], nav_id: nav_id}, id_attr: 'cancel-btn'} %>
+				<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_edit_notice', nav_section: session[:nav_section], nav_id: nav_id}} %>
 				<span style="margin-left:1rem;">
 					<%= render partial: 'layouts/buttons/update' %>
 				</span>

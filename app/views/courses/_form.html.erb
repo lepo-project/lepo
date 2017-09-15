@@ -41,7 +41,7 @@
         </div>
         <% if @course.image? %>
         <div style="padding-left:5rem;">
-          <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_delete_image', id: @course.id}, id_attr: 'delete_image_btn'} %>
+          <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_delete_image', id: @course.id}, id_attr: ''} %>
         </div>
         <% end %>
       </div>
@@ -104,7 +104,7 @@
   </div>
 </div>
 
-<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: course_cancel_hash, id_attr: 'cancel-btn'} %>
+<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: course_cancel_hash} %>
 <%= render partial: 'layouts/buttons/save_and_next' %>
 <% end %>
 <script>
