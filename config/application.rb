@@ -26,8 +26,6 @@ module LepoApp
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', 'views', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :ja
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
     # Protect the layout from collapsing by preventing the div tag from being automatically inserted when an form error occurs.
     config.action_view.field_error_proc = proc { |html_tag, instance| html_tag }
   end

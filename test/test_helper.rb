@@ -38,6 +38,7 @@ class ActionDispatch::IntegrationTest
 
   def teardown
     # Reset sessions and driver between tests
+    visit root_path
     Capybara.reset_sessions!
     Capybara.use_default_driver
     DatabaseCleaner.clean

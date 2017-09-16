@@ -21,6 +21,8 @@ class MasterUserBehaviorTest < ActionDispatch::IntegrationTest
 
     course_creation_from_sub_pane
     course_creation_from_main_pane
+    # signout
+    click_link 'signout-btn'
   end
 
   # ====================================================================
