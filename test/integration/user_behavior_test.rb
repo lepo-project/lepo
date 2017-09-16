@@ -48,6 +48,8 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     click_main_nav_item '#nav-repository', I18n.t('helpers.portfolio'), '#portfolio-resource'
     click_main_nav_item '#nav-repository', I18n.t('activerecord.models.note'), '#note-resource'
     click_main_nav_item '#nav-repository', I18n.t('activerecord.models.course_member'), '#course-member-resource'
+    # signout
+    click_link 'signout-btn'
   end
 
   test 'content creation behavior' do
@@ -59,6 +61,8 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
 
     content_creation_from_sub_pane
     content_creation_from_main_pane
+    # signout
+    click_link 'signout-btn'
   end
 
   # ====================================================================
