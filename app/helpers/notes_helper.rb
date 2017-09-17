@@ -5,8 +5,8 @@ module NotesHelper
 
   def get_review_num(group_notes)
     group_notes.each do |gn|
-      master = Note.find(gn.master_id)
-      return master.peer_reviews_count if master.status == 'master_review'
+      original = Note.find(gn.original_note_id)
+      return original.peer_reviews_count if original.status == 'master_review'
     end
     0
   end
@@ -26,7 +26,7 @@ module NotesHelper
       user_index = 0
       group_notes.each_with_index do |gn, i|
         # FIXME: PeerReview
-        # no note or notes inherited from one original master note should exist in one course in peer-review status
+        # no note or notes inherited from one original note should exist in one course in peer-review status
         # wrong assumption: course note made by current_user in a group_notes must be one
         user_index = i if gn.manager_id == user_id
       end

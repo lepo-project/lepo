@@ -18,21 +18,21 @@ class NotesController < ApplicationController
   end
 
   def ajax_import_snippet
-    original_snippet = Snippet.find params[:snippet_id] if params[:snippet_id]
-    original_note = original_snippet.note if original_snippet
-    master_id = original_note.master_id if original_note.master_id
-    if master_id
+    source_snippet = Snippet.find params[:snippet_id] if params[:snippet_id]
+    source_note = source_snippet.note if source_snippet
+    original_note_id = source_note.original_note_id if source_note.original_note_id
+    if original_note_id
       user_id = session[:id]
-      notes = Note.where(manager_id: user_id, status: 'course', master_id: master_id).to_a
+      notes = Note.where(manager_id: user_id, status: 'course', original_note_id: original_note_id).to_a
       note = notes[0]
       if note
-        Snippet.create(manager_id: user_id, note_id: note.id, category: original_snippet.category, description: original_snippet.description, source_type: original_snippet.source_type, source_id: original_snippet.source_id, display_order: note.snippets.size + 1, master_id: original_snippet.id)
+        Snippet.create(manager_id: user_id, note_id: note.id, category: source_snippet.category, description: source_snippet.description, source_type: source_snippet.source_type, source_id: source_snippet.source_id, display_order: note.snippets.size + 1, master_id: source_snippet.id)
         note.align_display_order
       end
     end
 
     get_resources
-    @note = Note.find original_note.id
+    @note = Note.find source_note.id
     @snippets = @note.snippets
     get_stickies @note.course_id, @note.id
     render 'layouts/renders/resource', locals: { resource: 'show' }

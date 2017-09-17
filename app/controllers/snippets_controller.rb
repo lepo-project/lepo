@@ -223,9 +223,9 @@ class SnippetsController < ApplicationController
       copy_snippets = Snippet.where(note_id: @note.id, source_type: 'direct').order(display_order: :asc)
       course = Course.find(course_id)
       course.learners.each do |l|
-        notes = Note.where(manager_id: l.id, status: 'course', master_id: @note.id).to_a
+        notes = Note.where(manager_id: l.id, status: 'course', original_note_id: @note.id).to_a
         next unless notes.size.zero?
-        note = Note.create(manager_id: l.id, course_id: course.id, title: @note.title, overview: @note.overview, status: 'course', master_id: @note.id)
+        note = Note.create(manager_id: l.id, course_id: course.id, title: @note.title, overview: @note.overview, status: 'course', original_note_id: @note.id)
         copy_snippets.each_with_index do |cs, i|
           Snippet.create(manager_id: l.id, note_id: note.id, category: cs.category, description: cs.description, source_type: 'direct', display_order: i + 1)
         end

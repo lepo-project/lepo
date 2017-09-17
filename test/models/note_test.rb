@@ -5,14 +5,15 @@
 #  id                 :integer          not null, primary key
 #  manager_id         :integer
 #  course_id          :integer
-#  master_id          :integer          default(0)
+#  original_note_id   :integer          default(0)
 #  title              :string
 #  overview           :text
-#  status             :string           default("private")
+#  status             :string           default("draft")
 #  stars_count        :integer          default(0)
 #  peer_reviews_count :integer          default(0)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  category           :string           default("private")
 #
 
 require 'test_helper'

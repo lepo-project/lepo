@@ -64,7 +64,7 @@ class Snippet < ApplicationRecord
 
     note = self.note
     # can not import from private or course note without master
-    return false if !note.master_id || note.master_id.zero?
+    return false if !note.original_note_id || note.original_note_id.zero?
     # can not import by course staff
     return false if !note.course || (note.course.staff? user_id)
     true

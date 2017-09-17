@@ -5,14 +5,15 @@
 #  id                 :integer          not null, primary key
 #  manager_id         :integer
 #  course_id          :integer
-#  master_id          :integer          default(0)
+#  original_note_id   :integer          default(0)
 #  title              :string
 #  overview           :text
-#  status             :string           default("private")
+#  status             :string           default("draft")
 #  stars_count        :integer          default(0)
 #  peer_reviews_count :integer          default(0)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  category           :string           default("private")
 #
 
 class Note < ApplicationRecord
@@ -50,9 +51,9 @@ class Note < ApplicationRecord
 
   def anonymous?(user_id)
     return false if manager_id == user_id
-    return false if master_id.zero?
-    master = Note.find(master_id)
-    (master.status == 'master_review')
+    return false if original_note_id.zero?
+    original_note = Note.find(original_note_id)
+    (original_note.status == 'master_review')
   end
 
   def deletable?(user_id)
@@ -96,10 +97,10 @@ class Note < ApplicationRecord
     when 'private', 'master_draft', 'master_review'
       return false
     when 'course'
-      if master_id && master_id > 0
+      if original_note_id && original_note_id > 0
         # controlled by master note
-        master_note = Note.find(master_id)
-        (master_note.status == 'master_open')
+        original_note = Note.find(original_note_id)
+        (original_note.status == 'master_open')
       else
         # staff's course note (no draft status)
         true
@@ -114,10 +115,10 @@ class Note < ApplicationRecord
     when 'private', 'master_draft'
       return false
     when 'course'
-      if master_id && master_id > 0
-        # controlled by master note
-        master_note = Note.find(master_id)
-        (master_note.status == 'master_review') || (master_note.status == 'master_open')
+      if original_note_id && original_note_id > 0
+        # controlled by original note
+        original_note = Note.find(original_note_id)
+        (original_note.status == 'master_review') || (original_note.status == 'master_open')
       else
         # staff's course note (no draft status)
         true
@@ -129,9 +130,9 @@ class Note < ApplicationRecord
 
   # FIXME: PeerReview
   def review?
-    return false if master_id.zero?
-    master = Note.find(master_id)
-    master.status == 'master_review'
+    return false if original_note_id.zero?
+    original_note = Note.find(original_note_id)
+    original_note.status == 'master_review'
   end
 
   def snippets_count(source_type = 'all')

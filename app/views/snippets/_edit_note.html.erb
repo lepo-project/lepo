@@ -25,7 +25,7 @@
         <div class="form-group row">
           <%= f.label :course_id, t('activerecord.attributes.note.course'), class: 'col-md-2 col-form-label text-sm-right' %>
           <div class="col-md-10">
-            <% if (@note.stickies.size == 0) && ((@note.status == 'private') || ((@note.status == 'course') && (@note.master_id == 0))) %>
+            <% if (@note.stickies.size == 0) && ((@note.status == 'private') || ((@note.status == 'course') && (@note.original_note_id == 0))) %>
             <%= f.select :course_id, note_courses, {}, {class: 'form-control'} %>
             <% else %>
             <div style="margin-top: 5px;">

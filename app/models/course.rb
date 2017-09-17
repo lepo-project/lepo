@@ -43,7 +43,7 @@ class Course < ApplicationRecord
   has_many :notices, dependent: :destroy
   has_many :open_lessons, -> { where('lessons.status = ?', 'open').order(display_order: :asc) }, class_name: 'Lesson'
   has_many :outcomes, dependent: :destroy
-  has_many :staff_course_notes, -> { where('notes.status = ? and notes.master_id = ?', 'course', 0).order(updated_at: :desc) }, class_name: 'Note'
+  has_many :staff_course_notes, -> { where('notes.status = ? and notes.original_note_id = ?', 'course', 0).order(updated_at: :desc) }, class_name: 'Note'
   has_many :notes
   validates_presence_of :folder_name
   validates_presence_of :overview
@@ -140,18 +140,18 @@ class Course < ApplicationRecord
     notes = []
     if course_staff
       master_draft_notes.each do |mos|
-        notes += Note.where(course_id: id, status: 'course', master_id: mos.id).order(updated_at: :desc).to_a
+        notes += Note.where(course_id: id, status: 'course', original_note_id: mos.id).order(updated_at: :desc).to_a
       end
     else
       master_draft_notes.each do |mos|
-        notes += Note.where(course_id: id, status: 'course', master_id: mos.id, manager_id: user_id).order(updated_at: :desc).to_a
+        notes += Note.where(course_id: id, status: 'course', original_note_id: mos.id, manager_id: user_id).order(updated_at: :desc).to_a
       end
     end
     master_review_notes.each do |mos|
-      notes += Note.where(course_id: id, status: 'course', master_id: mos.id).order(updated_at: :desc).to_a
+      notes += Note.where(course_id: id, status: 'course', original_note_id: mos.id).order(updated_at: :desc).to_a
     end
     master_open_notes.each do |mos|
-      notes += Note.where(course_id: id, status: 'course', master_id: mos.id).order(updated_at: :desc).to_a
+      notes += Note.where(course_id: id, status: 'course', original_note_id: mos.id).order(updated_at: :desc).to_a
     end
     notes
   end
