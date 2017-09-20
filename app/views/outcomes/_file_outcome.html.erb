@@ -8,7 +8,7 @@
     <% outcome_files.each do |file| %>
     <tr>
       <th class="file_name"><%= link_to file.upload_file_name, file.upload.url, {target: "_blank"} %></th>
-      <td class="l160px"><%= format_time file.upload_updated_at, "mdhm" %></td>
+      <td class="l160px"><%= l(file.upload_updated_at, format: :default) %></td>
       <td class="r80px">
         <% if show_outcome_form? @lesson_role, outcome_status %>
         <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {controller: 'outcomes', action: 'ajax_destroy_file', id: outcome_id, file_id: file.id}, id_attr: '', class_attr: ''} %>

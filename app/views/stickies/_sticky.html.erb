@@ -23,8 +23,8 @@
     <div class="footer">
       <div class="left-footer">
         <% updated = (sticky.created_at != sticky.updated_at) %>
-        <% title = updated ? ('最終更新：' + format_time(sticky.updated_at, 'mdhm')) : '更新無し' %>
-        <span title ="<%= title %>"><%= format_time sticky.created_at, 'mdhm' %><%= '*' if updated %></span>
+        <% title = updated ? ('最終更新：' + l(sticky.updated_at, format: :default)) : '更新無し' %>
+        <span title ="<%= title %>"><%= l(sticky.created_at, format: :default) %><%= '*' if updated %></span>
         [<%= sticky_category_short_text sticky.category %>]&nbsp;
         <% if ((sticky.category != 'private') && (sticky.stars_count > 0)) %>
         <i class='fa fa-star'></i><%= sticky.stars_count.to_s %>

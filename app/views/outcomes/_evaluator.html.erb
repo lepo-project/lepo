@@ -16,7 +16,7 @@
         <% end %>
       </div>
       <div class="heading-item" style="padding-right:0.5rem; text-align:right; width:11rem;">
-        <%= (format_time(outcome.updated_at, 'mdhm')) if outcome.updated_at %>
+        <%= (l(outcome.updated_at, format: :default)) if outcome.updated_at %>
       </div>
     </a>
     <hr style="border-style: none;" />

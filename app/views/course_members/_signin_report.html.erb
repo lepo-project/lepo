@@ -1,7 +1,7 @@
 <tr>
 	<td class="width160"><%= signin_report["full_name"] %></td>
 	<% if signin_report["last_signin_at"].kind_of?(Time) %>
-	<td class="width160 text-center"><%= format_time(signin_report["last_signin_at"], "mdhm") %></td>
+	<td class="width160 text-center"><%= l(signin_report["last_signin_at"], format: :default) %></td>
 	<% else %>
 	<td class="width160 text-center">---</td>
 	<% end %>

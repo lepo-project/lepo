@@ -46,7 +46,7 @@
         <div class="inner-row">
           <% case session[:nav_section] when 'home' %>
           <div class="xx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('.pages')})", content.id, {}) %></div>
-          <div class="medium col"><%= link_to_resource("#{format_time content.updated_at, 'ymd'}", content.id, {}) %></div>
+          <div class="medium col"><%= link_to_resource(l(content.updated_at, format: :short), content.id, {}) %></div>
 
           <% when "repository" %>
           <% icon_info = content_icon_info(content.status) %>
@@ -57,7 +57,7 @@
           </div>
           <div class="xxx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('.pages')})", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource("#{content.lessons.size.to_s}", content.id, {}) %></div>
-          <div class="medium col"><%= link_to_resource("#{format_time content.updated_at, 'ymd'}", content.id, {}) %></div>
+          <div class="medium col"><%= link_to_resource(l(content.updated_at, format: :short), content.id, {}) %></div>
           <% end %>
         </div>
       </div>

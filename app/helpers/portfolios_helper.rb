@@ -26,7 +26,7 @@ module PortfoliosHelper
   end
 
   def format_sticky_date(sticky_date)
-    return format_time sticky_date, 'mdhm' if sticky_date
+    return l(sticky_date, format: :default) if sticky_date
   end
 
   def toggle_achievement_reports(learners, course_id, lessons)
