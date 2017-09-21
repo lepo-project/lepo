@@ -7,8 +7,8 @@
 				<table class="table edit-group">
 					<tr>
 						<th><%= t('activerecord.attributes.user.signin_name') %></th>
-						<th>氏名</th>
-						<th>班</th>
+						<th><%= t('activerecord.others.user.full_name') %></th>
+						<th><%= t('activerecord.attributes.course_member.group') %></th>
 					</tr>
 					<% @course.learners.each do |l| %>
 					<tr>
@@ -19,9 +19,9 @@
 								<ul class="nav nav-pills">
 									<% @course.groups_count.times do |g| %>
 									<% if g == @course.group_index_for(l.id) %>
-									<li class="active"><span class="badge badge-primary" style="font-size: 1rem;"><%= g+1 %>班</span></li>
+									<li class="active"><span class="badge badge-primary" style="font-size: 1rem;"><%= t('.group', index: g + 1) %></span></li>
 									<% else %>
-									<li><%= link_to("#{g+1}班", {action: 'ajax_update_group', user_id: l.id, group_index: g}, {remote: true}) %></li>
+									<li><%= link_to(t('.group', index: g + 1), {action: 'ajax_update_group', user_id: l.id, group_index: g}, {remote: true}) %></li>
 									<% end %>
 									<% end %>
 								</ul>

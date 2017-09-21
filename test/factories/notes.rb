@@ -4,7 +4,7 @@
 #
 #  id                 :integer          not null, primary key
 #  manager_id         :integer
-#  course_id          :integer
+#  course_id          :integer          default(0)
 #  original_note_id   :integer          default(0)
 #  title              :string
 #  overview           :text
@@ -23,20 +23,19 @@ FactoryGirl.define do
     sequence(:title) { |i| "Note #{i} Title" }
     overview 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
 
-    factory :course_note do
-      status 'course'
+    factory :original_draft_worksheet do
+      category 'worksheet'
+      status 'draft'
     end
 
-    factory :master_draft_note do
-      status 'master_draft'
+    factory :original_review_worksheet do
+      category 'worksheet'
+      status 'review'
     end
 
-    factory :master_review_note do
-      status 'master_review'
-    end
-
-    factory :master_open_note do
-      status 'master_open'
+    factory :original_open_worksheet do
+      category 'worksheet'
+      status 'open'
     end
   end
 end

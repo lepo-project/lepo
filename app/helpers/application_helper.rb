@@ -149,21 +149,6 @@ module ApplicationHelper
     end
   end
 
-  def note_status_text(status)
-    case status
-    when 'course'
-      '　公開：コースノート'
-    when 'private'
-      '非公開：個人ノート'
-    when 'master_draft'
-      '非公開：コースノートとして学生に配布'
-    when 'master_review'
-      '　公開：コースノートを学生間で相互評価'
-    when 'master_open'
-      '　公開：コースノートを学生間で公開'
-    end
-  end
-
   def preference_icon(controller_name, action_name)
     case controller_name
     when 'courses'
@@ -253,7 +238,7 @@ module ApplicationHelper
     card['body'] += "補助しているコース： #{assisting_courses.size}コース\n"
     card['summary'] = false
     card['footnotes'] = ['最終利用： ' + last_signin_at_text(user.last_signin_at)]
-    card['footnotes'].push("[#{t('helpers.contents_manage')}: #{user.content_manageable? ? t('.possible') : t('helpers.impossible')}]")
+    card['footnotes'].push("[#{t('helpers.contents_manage')}: #{user.content_manageable? ? t('helpers.possible') : t('helpers.impossible')}]")
     card
   end
 
@@ -441,31 +426,6 @@ module ApplicationHelper
 
   def get_assignment_categories
     [[assignment_category_text('outside'), 'outside'], [assignment_category_text('text'), 'text'], [assignment_category_text('file'), 'file']]
-  end
-
-  def note_courses
-    note_courses = [['なし（コースに未保存）', 0]]
-    open_courses = Course.open_with session[:id]
-    open_courses.each do |course|
-      note_courses.push([course.title, course.id])
-    end
-    note_courses
-  end
-
-  def note_statuses(note)
-    case note.status
-    when 'private', 'course'
-      return [[note_status_text('private'), 'private'], [note_status_text('master_draft'), 'master_draft'], [note_status_text('course'), 'course']]
-    when 'master_draft', 'master_review', 'master_open'
-      course = Course.find(note.course_id)
-      review_notes = course.master_review_notes
-      if review_notes.size.zero? || (review_notes.include? note)
-        return [[note_status_text('master_draft'), 'master_draft'], [note_status_text('master_review'), 'master_review'], [note_status_text('master_open'), 'master_open']]
-      else
-        return [[note_status_text('master_draft'), 'master_draft'], [note_status_text('master_open'), 'master_open']]
-      end
-
-    end
   end
 
   def get_evaluators(managers)

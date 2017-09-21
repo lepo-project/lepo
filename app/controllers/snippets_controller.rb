@@ -133,7 +133,7 @@ class SnippetsController < ApplicationController
 
   def ajax_destroy_note
     @note = Note.find params[:note_id]
-    if @note.snippets.size.zero? && (@note.deletable? session[:id])
+    if @note.deletable? session[:id]
       @note.destroy
       @notes = current_user.notes
       current_user.update_attributes(default_note_id: 0) if current_user.default_note_id == params[:note_id].to_i
@@ -143,7 +143,7 @@ class SnippetsController < ApplicationController
       @notes = current_user.notes
       @snippets = @note.snippets
       flash[:message] = '切り抜き または コースふせんのあるノートは削除できません'
-      render 'layouts/renders/main_pane', locals: { resource: 'edit_note' }
+      render 'layouts/renders/main_pane', locals: { resource: 'notes/edit' }
     end
   end
 
@@ -151,7 +151,15 @@ class SnippetsController < ApplicationController
     @notes = current_user.notes
     @note = Note.find params[:note_id]
     @snippets = @note.snippets
-    render 'layouts/renders/main_pane', locals: { resource: 'edit_note' }
+    render 'layouts/renders/main_pane', locals: { resource: 'notes/edit' }
+  end
+
+  def ajax_new_note
+    case params[:category]
+    when 'private', 'worksheet'
+      @note = Note.new(category: params[:category])
+      render 'layouts/renders/main_pane', locals: { resource: 'notes/new' }
+    end
   end
 
   def ajax_paste
@@ -165,13 +173,6 @@ class SnippetsController < ApplicationController
       @notes = current_user.notes
       @snippets = @note.snippets
       render 'layouts/renders/resource', locals: { resource: 'show' }
-    elsif note_id.zero?
-      title = '（タイトル未設定）'
-      @note = Note.create(manager_id: session[:id], title: title)
-      snippet.update_attributes(note_id: @note.id, display_order: 1) if snippet
-      @notes = current_user.notes
-      @snippets = @note.snippets
-      render 'layouts/renders/resource', locals: { resource: 'edit_note' }
     elsif note_id > 0
       original_note_id = snippet.note_id
       note = Note.find note_id
@@ -205,39 +206,35 @@ class SnippetsController < ApplicationController
     render 'snippets/renders/snippets'
   end
 
-  def ajax_update_note
-    @note = Note.find params[:note_id].to_i
-    after = params[:note][:status]
-
-    if params[:note][:course_id].nil?
-      course_id = @note.course_id
-    else
-      course_id = params[:note][:course_id].to_i
-    end
-
+  def ajax_create_note
     # max character length for overview is 500
     params[:note][:overview] = params[:note][:overview][0, 500]
-    @note.update_attributes(note_params)
-
-    if (after == 'master_draft') && (Note.course_note_manageable? course_id, session[:id])
-      copy_snippets = Snippet.where(note_id: @note.id, source_type: 'direct').order(display_order: :asc)
-      course = Course.find(course_id)
-      course.learners.each do |l|
-        notes = Note.where(manager_id: l.id, status: 'course', original_note_id: @note.id).to_a
-        next unless notes.size.zero?
-        note = Note.create(manager_id: l.id, course_id: course.id, title: @note.title, overview: @note.overview, status: 'course', original_note_id: @note.id)
-        copy_snippets.each_with_index do |cs, i|
-          Snippet.create(manager_id: l.id, note_id: note.id, category: cs.category, description: cs.description, source_type: 'direct', display_order: i + 1)
-        end
-      end
+    @note = Note.new(note_params)
+    @note.manager_id = session[:id]
+    if @note.save
+      @snippets = []
+      render 'layouts/renders/main_pane', locals: { resource: 'show' }
     else
-      params[:note][:status] = 'private' if course_id.zero?
-      @note.update_attributes(note_params)
+      flash[:message] = t('controllers.snippets.note_creation_error')
+      flash[:message_category] = 'error'
+      render 'layouts/renders/resource', locals: { resource: 'notes/new' }
     end
+  end
 
-    @snippets = @note.snippets
-    @notes = current_user.notes
-    render 'layouts/renders/main_pane', locals: { resource: 'show' }
+  def ajax_update_note
+    # max character length for overview is 500
+    params[:note][:overview] = params[:note][:overview][0, 500]
+    @note = Note.find params[:note_id].to_i
+
+    if @note.status_updatable?(params[:note][:status], session[:id]) && @note.update_attributes(note_params)
+      distribute_worksheet @note if @note.status == 'distributed_draft'
+      @snippets = @note.snippets
+      render 'layouts/renders/main_pane', locals: { resource: 'show' }
+    else
+      flash[:message] = t('controllers.snippets.note_creation_error')
+      flash[:message_category] = 'error'
+      render 'layouts/renders/resource', locals: { resource: 'notes/edit' }
+    end
   end
 
   def create_web_snippet
@@ -295,6 +292,22 @@ class SnippetsController < ApplicationController
     { formats: ['js'], layout: false, locals: { duration: duration, tags: tags, token: token } }
   end
 
+  def distribute_worksheet(original_note)
+    copy_snippets = Snippet.where(note_id: original_note.id, source_type: 'direct').order(display_order: :asc)
+    course = Course.find(original_note.course_id)
+    course.learners.each do |l|
+      notes = Note.where(manager_id: l.id, status: 'original_note', original_note_id: original_note.id).to_a
+      next unless notes.size.zero?
+
+      Snippet.transaction do
+        note = Note.create(manager_id: l.id, course_id: course.id, title: original_note.title, overview: original_note.overview, category: 'worksheet', status: 'original_note', original_note_id: original_note.id)
+        copy_snippets.each_with_index do |cs, i|
+          Snippet.create(manager_id: l.id, note_id: note.id, category: cs.category, description: cs.description, source_type: 'direct', display_order: i + 1)
+        end
+      end
+    end
+  end
+
   def snippet_params
     params.require(:snippet).permit(:category, :description)
   end
@@ -304,7 +317,7 @@ class SnippetsController < ApplicationController
   end
 
   def note_params
-    params.require(:note).permit(:course_id, :overview, :status, :title, :peer_reviews_count)
+    params.require(:note).permit(:course_id, :overview, :category, :status, :title, :peer_reviews_count)
   end
 
   def embed_url?(url)

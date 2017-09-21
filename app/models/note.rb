@@ -4,7 +4,7 @@
 #
 #  id                 :integer          not null, primary key
 #  manager_id         :integer
-#  course_id          :integer
+#  course_id          :integer          default(0)
 #  original_note_id   :integer          default(0)
 #  title              :string
 #  overview           :text
@@ -17,47 +17,61 @@
 #
 
 class Note < ApplicationRecord
-  belongs_to :manager, class_name: 'User'
   belongs_to :course
+  belongs_to :manager, class_name: 'User'
+  has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
+  has_many :direct_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'direct').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
   has_many :note_stars, dependent: :destroy
   has_many :snippets, -> { order(display_order: :asc, updated_at: :asc) }
-  has_many :stickies, -> { where('stickies.target_type = ?', 'note') }, foreign_key: 'target_id', dependent: :destroy
-  has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
-  has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
-  has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
-  has_many :direct_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'direct').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
-  has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'web').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
   has_many :stared_users, -> { where('note_stars.stared = ?', true) }, through: :note_stars, source: :manager
+  has_many :stickies, -> { where('stickies.target_type = ?', 'note') }, foreign_key: 'target_id', dependent: :destroy
+  has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
+  has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
+  has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'web').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
   validates_presence_of :manager_id
   validates_presence_of :title
   validates_inclusion_of :peer_reviews_count, in: (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a
-  validates_inclusion_of :status, in: %w[private course master_draft master_review master_open]
+  validates_inclusion_of :category, in: %w[private worksheet]
+  validates_inclusion_of :status, in: %w[draft archived associated_course], if: "category == 'private'"
+  validates_inclusion_of :status, in: %w[draft distributed_draft review open archived original_note], if: "category == 'worksheet'"
+  validates_numericality_of :course_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'private'"
+  validates_numericality_of :course_id, allow_nil: false, greater_than: 0, if: "category == 'worksheet'"
+  validates_numericality_of :original_note_id, allow_nil: false, equal_to: 0, if: "category == 'private'"
+  validates_numericality_of :original_note_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'worksheet'"
 
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.course_note_manageable?(course_id, user_id)
-    course_id = course_id.to_i
-    return false if course_id.zero?
-    course = Course.find course_id
-    course.staff? user_id.to_i
-  end
-
   def align_display_order
     snippets.each_with_index do |snippet, i|
       snippet.update_attributes(display_order: i + 1)
     end
   end
 
+  # For the mutual review of notes by anonymously
   def anonymous?(user_id)
     return false if manager_id == user_id
-    return false if original_note_id.zero?
-    original_note = Note.find(original_note_id)
-    (original_note.status == 'master_review')
+    if category == 'worksheet' && status == 'original_note'
+      original_note = Note.find_by(id: original_note_id)
+      (original_note.status == 'review')
+    else
+      false
+    end
   end
 
   def deletable?(user_id)
-    ((manager_id == user_id) && stickies.size.zero?)
+    case category
+    when 'private'
+      (manager_id == user_id) && snippets.size.zero? && stickies.size.zero?
+    when 'worksheet'
+      if original_note_id.zero?
+        !Note.where(original_note_id: id).exists?
+      else
+        false
+      end
+    else
+      false
+    end
   end
 
   def export_html
@@ -93,46 +107,45 @@ class Note < ApplicationRecord
   end
 
   def open?
-    case status
-    when 'private', 'master_draft', 'master_review'
-      return false
-    when 'course'
-      if original_note_id && original_note_id > 0
-        # controlled by master note
+    case category
+    when 'worksheet'
+      if status == 'original_note'
         original_note = Note.find(original_note_id)
-        (original_note.status == 'master_open')
+        (original_note.status == 'open')
       else
-        # staff's course note (no draft status)
-        true
+        (status == 'open')
       end
-    when 'master_open'
-      true
+    else
+      false
     end
   end
 
   def review_or_open?
-    case status
-    when 'private', 'master_draft'
-      return false
-    when 'course'
-      if original_note_id && original_note_id > 0
-        # controlled by original note
+    case category
+    when 'worksheet'
+      if status == 'original_note'
         original_note = Note.find(original_note_id)
-        (original_note.status == 'master_review') || (original_note.status == 'master_open')
+        (original_note.status == 'review') || (original_note.status == 'open')
       else
-        # staff's course note (no draft status)
-        true
+        (status == 'review') || (status == 'open')
       end
-    when 'master_review', 'master_open'
-      return true
+    else
+      false
     end
   end
 
-  # FIXME: PeerReview
   def review?
-    return false if original_note_id.zero?
-    original_note = Note.find(original_note_id)
-    original_note.status == 'master_review'
+    case category
+    when 'worksheet'
+      if status == 'original_note'
+        original_note = Note.find(original_note_id)
+        (original_note.status == 'review')
+      else
+        (status == 'review')
+      end
+    else
+      false
+    end
   end
 
   def snippets_count(source_type = 'all')
@@ -186,5 +199,37 @@ class Note < ApplicationRecord
       references.push WebSource.find(id)
     end
     references
+  end
+
+  def status_updatable?(update_status, user_id)
+    return true if status == update_status
+    case category
+    when 'private'
+      case update_status
+      when 'draft'
+        true
+      when 'archived'
+        !new_record?
+      else
+        false
+      end
+    when 'worksheet'
+      course = Course.find_by(id: course_id)
+      return false if !course || !course.staff?(user_id)
+      case update_status
+      when 'draft'
+        new_record? || Note.where(original_note_id: id).empty?
+      when 'distributed_draft'
+        !new_record? && course.original_worksheets.empty?
+      when 'review', 'open'
+        Note.where(original_note_id: id).any? && course.original_worksheets.size == 1
+      when 'archived'
+        !new_record?
+      else
+        false
+      end
+    else
+      false
+    end
   end
 end

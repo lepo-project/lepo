@@ -88,15 +88,14 @@ ja:
         learners: 学習者
         lessons: :activerecord.models.lesson
         managers: 教師
-        master_draft_notes: マスターノート（非公開）
-        master_open_notes: マスターノート（公開）
-        master_review_notes: マスターノート（レビュー）
+        original_draft_worksheets: ワークシート（非公開）
+        original_open_worksheets: ワークシート（公開）
+        original_review_worksheets: ワークシート（レビュー）
         members: メンバー
         notices: :activerecord.models.notice
         open_lessons: レッスン（公開中）
         outcomes: :activerecord.models.outcome
         overview: 概要
-        staff_course_notes: スタッフのコースノート
         status: 状態
         notes: :activerecord.models.note
         term_id: :activerecord.models.term
@@ -152,12 +151,14 @@ ja:
         objective: :activerecord.models.objective
 
       note:
-        course: 保存先コース
+        category: カテゴリー
+        course: 利用コース
         direct_snippets: ダイレクトスニペット
         direct_text_snippets: ダイレクトテキストスニペット
         manager: 管理者
         note_stars: :activerecord.models.note_star
-        overview: 伝えたいこと
+        overview: 概要
+        peer_reviews_count: 評価対象数
         snippets: :activerecord.models.snippet
         stared_users: スターをつけたユーザ
         status: 状態
@@ -324,11 +325,22 @@ ja:
         status_draft: 準備中
         status_open: 公開中
       created_at: 作成日時
+      note:
+        category:
+          private: 個人ノート
+          worksheet: ワークシート
+        status:
+          archived: アーカイブ
+          distributed_draft: 学生に配布
+          draft: 作成中
+          open: 公開中
+          review: 相互評価中
       updated_at: 更新日時
       user:
         authentication:
           local: ローカル
           ldap: LDAP
+        full_name: 氏名
         role:
           admin: システム最高管理者
           manager: システム管理者

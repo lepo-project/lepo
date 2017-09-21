@@ -4,7 +4,7 @@
 #
 #  id                 :integer          not null, primary key
 #  manager_id         :integer
-#  course_id          :integer
+#  course_id          :integer          default(0)
 #  original_note_id   :integer          default(0)
 #  title              :string
 #  overview           :text
@@ -25,10 +25,9 @@ class NoteTest < ActiveSupport::TestCase
   # test for valid note data
   test 'a note with valid data is valid' do
     assert build(:note).valid?
-    assert build(:course_note).valid?
-    assert build(:master_draft_note).valid?
-    assert build(:master_review_note).valid?
-    assert build(:master_open_note).valid?
+    assert build(:original_draft_worksheet).valid?
+    assert build(:original_review_worksheet).valid?
+    assert build(:original_open_worksheet).valid?
   end
 
   # test for validates_presence_of :manager_id
@@ -51,9 +50,42 @@ class NoteTest < ActiveSupport::TestCase
     assert_invalid build(:note, peer_reviews_count: NOTE_PEER_REVIEW_MAX_SIZE + 1), :peer_reviews_count
   end
 
-  # test for validates_inclusion_of :status, in: %w[private course master_draft master_review master_open]
-  test 'a note with status that is not included in [private course master_draft master_review master_open] is invalid' do
+  # test for validates_inclusion_of :category, in: %w[private worksheet]
+  test 'a note with category that is not included in [private worksheet] is invalid' do
+    assert_invalid build(:note, category: ''), :category
+    assert_invalid build(:note, category: nil), :category
+  end
+
+  # test for validates_inclusion_of :status, in: %w[draft archived associated_course], if: "category == 'private'"
+  test 'a private note with status that is not included in [draft archived associated_course] is invalid' do
     assert_invalid build(:note, status: ''), :status
     assert_invalid build(:note, status: nil), :status
+  end
+
+  # test for validates_inclusion_of :status, in: %w[draft review open archived original_note], if: "category == 'worksheet'"
+  test 'a worksheet note with status that is not included in [draft review open archived original_note] is invalid' do
+    assert_invalid build(:original_draft_worksheet, status: ''), :status
+    assert_invalid build(:original_draft_worksheet, status: nil), :status
+  end
+
+  # test for validates_numericality_of :course_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'private'"
+  test 'a private note with course_id that is less than 0 is invalid' do
+    assert_invalid build(:note, course_id: -1), :course_id
+  end
+
+  # test for validates_numericality_of :course_id, allow_nil: false, greater_than: 0, if: "category == 'worksheet'"
+  test 'a worksheet note with course_id that is less than or equal to 0 is invalid' do
+    assert_invalid build(:original_draft_worksheet, course_id: 0), :course_id
+  end
+
+  # test for validates_numericality_of :original_note_id, allow_nil: false, equal_to: 0, if: "category == 'private'"
+  test 'a private note with original_note_id that is not 0 is invalid' do
+    assert_invalid build(:note, original_note_id: 1), :original_note_id
+    assert_invalid build(:note, original_note_id: -1), :original_note_id
+  end
+
+  # test for validates_numericality_of :original_note_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'worksheet'"
+  test 'a worksheet note with original_note_id that is less than 0 is invalid' do
+    assert_invalid build(:original_draft_worksheet, original_note_id: -1), :original_note_id
   end
 end

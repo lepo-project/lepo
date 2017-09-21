@@ -221,9 +221,12 @@ function unbindMessageTextarea(outcome_id) {
 }
 function charCount(form_id, text_num, text_max){
   if (text_num <= text_max) {
-    $('#'+form_id+' #char-count').text(text_num + " / " + text_max + " 文字");
+    $('#'+form_id+' #char-count-num').text(text_num + " / " + text_max + " ");
+    $('#'+form_id+' #char-count').show();
+    $('#'+form_id+' #char-count-error').hide();
   }else{
-    $('#'+form_id+' #char-count').text("文字数オーバー");
+    $('#'+form_id+' #char-count').hide();
+    $('#'+form_id+' #char-count-error').show();
   }
 }
 

@@ -11,12 +11,7 @@
       <%= link_to((note.title), {controller: 'notes', action: 'ajax_show_from_others', nav_id: course_id, id: note.id}, {remote: true}) %>
     </h3>
     <% else %>
-    <div class="card-subtitle text-right text-muted">
-      <%= raw("<span class='badge badge-primary'>#{t('.default')} </span> ") if note.id == current_user.default_note_id %>
-      <%= raw("<i class='fa fa-lock'></i> ") if !note.review_or_open? %>
-      <%= t('.' + note.status) %>
-      <%= ': ' + get_short_string(note.course.title, 16) if note.course && controller_name == 'snippets' %>
-    </div>
+    <%= render partial: 'layouts/note_subtitle', locals: {note: note, char_limit: 12} %>
     <h2 class="card-title">
       <%= link_to_resource((note.title), note.id, {}) %>
     </h2>

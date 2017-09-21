@@ -16,7 +16,7 @@ class SigninController < ApplicationController
       if (user.system_staff? && !inside_ip?(SYSTEM_STAFF_SIGNIN_IP)) || user.role == 'suspended'
         # system administrator can only signin from SYSTEM_STAFF_SIGNIN_IP
         # suspended user can not signin
-        flash[:message] = t('controllers.signin_error_message1')
+        flash[:message] = t('controllers.signin.error1')
         render 'layouts/renders/resource', locals: { resource: 'index' }
       else
         # update last_signin_at without updating updated_at
@@ -28,7 +28,7 @@ class SigninController < ApplicationController
         render 'layouts/renders/all_for_signin'
       end
     else
-      flash[:message] = t('controllers.signin_error_message2')
+      flash[:message] = t('controllers.signin.error2')
       render 'layouts/renders/resource', locals: { resource: 'index' }
     end
   end
@@ -43,11 +43,11 @@ class SigninController < ApplicationController
         url = I18n.default_locale == :ja ? 'https://lepo.info/' : 'https://lepo.info/en'
         Link.create manager_id: user.id, title: 'LePo Project', url: url, display_order: 1
       else
-        flash[:message] = t('controllers.setup_error_message1')
+        flash[:message] = t('controllers.signin.setup_error1')
         flash[:message_category] = 'error'
       end
     else
-      flash[:message] = t('controllers.setup_error_message2')
+      flash[:message] = t('controllers.signin.setup_error2')
       flash[:message_category] = 'error'
     end
     render 'layouts/renders/resource', locals: { resource: 'setup' }

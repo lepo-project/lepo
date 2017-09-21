@@ -17,9 +17,8 @@
 				<!-- With Groups -->
 				<!-- #FIXME: Group work -->
 				<% @course.groups_count.times do |g| %>
-				<% title = (g + 1).to_s + "班" %>
 				<% learners = @course.learners_in_group g %>
-				<%= render(partial: 'members', locals: {title: title, users: learners}) %>
+				<%= render(partial: 'members', locals: {title: t('.group', index: g + 1), users: learners}) %>
 				<% end %>
 				<% end %>
 			</div>

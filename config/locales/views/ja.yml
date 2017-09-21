@@ -46,8 +46,16 @@ ja:
       select_course: コースの選択
 
   course_members:
+    edit_group:
+      group: :course_members.index.group
+    index:
+      group: "%{index}班"
+    members:
+      users:  "%{num}名"
     signin_reports:
       show_learners_details: 学生の情報を表示 / 非表示
+    toolbar:
+      edit_group: グループ編集
 
   dashboard:
     index:
@@ -84,6 +92,8 @@ ja:
         save_and_next: 保存して次へ
       search:
         search: 検索
+      toolbar_create:
+        create: :layouts.buttons.create.create
       toolbar_save_and_next:
         save_and_next: :layouts.buttons.save_and_next.save_and_next
       toolbar_update:
@@ -107,18 +117,17 @@ ja:
       shortcut_key: :contents.index.shortcut_key
     note_header:
       characters: 字
-      course: コース
-      master_draft: マスター
-      master_review: :views.note.master_draft
-      master_open: :views.note.master_draft
       media_count: 画像等の数
       pages: ページ
       pieces: 個
-      private: 個人
       referenced_web_count: 参考Webページ数
       star_count: スター数
       uploaded_media_count: アップロードした画像等の数
       written_char_count: 書き込んだ文字の数
+    note_subtitle:
+      default: 標準
+      private: 個人ノート
+      worksheet: ワークシート
     page_number:
       portfolio: :helpers.portfolio
     search_members:
@@ -131,18 +140,23 @@ ja:
       signout: サインアウト
 
   notes:
+    form:
+      char_num_error: 文字数オーバー
+      status_message1: ワークシートを登録すると、他の状態が選択可能
+      status_message2: 学生に配布したワークシートは、配布された学生のみ編集可能
+      status_message3: 学生に配布できるワークシートは、コースで最大1つのみ
+      review_message: 評価開始後に評価対象数を変更すると、学習者が評価するワークシートも変更
+    group:
+      group: :course_members.index.group
+      users: :course_members.members.users
     note:
-      course: :layouts.note_header.course
-      default: 標準
-      master_draft: :layouts.note_header.master_draft
-      master_review: :layouts.note_header.master_draft
-      master_open: :layouts.note_header.master_draft
       media_count: :layouts.note_header.media_count
-      private: :layouts.note_header.private
       star_count: :layouts.note_header.star_count
       sticky_count: ふせんの数
     show:
       references: 参考資料
+    toolbar:
+      group: :course_members.index.group
 
   outcomes:
     evaluator:
@@ -207,13 +221,11 @@ ja:
       header: 見出し
       subheader: 小見出し
       text: 文章
-    edit_note:
-      delete: :layouts.buttons.delete.delete
-      required: 必須項目
     file_form:
       cancel: :layouts.buttons.cancel.cancel
     form:
       cancel: :layouts.buttons.cancel.cancel
+      char_num_error: :notes.form.char_num_error
     index:
       no_note_resources: 現在、管理しているノートはありません
       no_snippets: 現在、ノートに未保存のWebから収集した情報はありません

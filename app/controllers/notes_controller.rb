@@ -20,10 +20,10 @@ class NotesController < ApplicationController
   def ajax_import_snippet
     source_snippet = Snippet.find params[:snippet_id] if params[:snippet_id]
     source_note = source_snippet.note if source_snippet
-    original_note_id = source_note.original_note_id if source_note.original_note_id
-    if original_note_id
+    source_original_note_id = source_note.original_note_id if source_note.original_note_id
+    if source_original_note_id
       user_id = session[:id]
-      notes = Note.where(manager_id: user_id, status: 'course', original_note_id: original_note_id).to_a
+      notes = Note.where(manager_id: user_id, category: 'worksheet', original_note_id: source_original_note_id).to_a
       note = notes[0]
       if note
         Snippet.create(manager_id: user_id, note_id: note.id, category: source_snippet.category, description: source_snippet.description, source_type: source_snippet.source_type, source_id: source_snippet.source_id, display_order: note.snippets.size + 1, master_id: source_snippet.id)
@@ -119,8 +119,8 @@ class NotesController < ApplicationController
   def get_resources
     @course = Course.find(session[:nav_id])
 
-    private_notes = Note.where(course_id: session[:nav_id], status: 'private', manager_id: session[:id]).order(updated_at: :desc).to_a
-    @notes = private_notes + @course.staff_course_notes.to_a + @course.learner_course_notes(session[:id], @course.staff?(session[:id]))
+    private_notes = Note.where(course_id: session[:nav_id], category: 'private', manager_id: session[:id]).to_a
+    @notes = private_notes + @course.learner_worksheets(session[:id], @course.staff?(session[:id]))
   end
 
   def get_stickies(course_id, note_id)

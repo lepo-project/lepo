@@ -36,14 +36,14 @@ class Course < ApplicationRecord
   has_many :learners, -> { where('course_members.role = ?', 'learner').order(signin_name: :asc) }, through: :course_members, source: :user
   has_many :lessons, -> { order(display_order: :asc) }
   has_many :managers, -> { where('course_members.role = ?', 'manager') }, through: :course_members, source: :user
-  has_many :master_draft_notes, -> { where('notes.status = ?', 'master_draft').order(updated_at: :desc) }, class_name: 'Note'
-  has_many :master_open_notes, -> { where('notes.status = ?', 'master_open').order(updated_at: :desc) }, class_name: 'Note'
-  has_many :master_review_notes, -> { where('notes.status = ?', 'master_review').order(updated_at: :desc) }, class_name: 'Note'
+  has_many :original_draft_worksheets, -> { where('notes.category = ? and notes.status = ?', 'worksheet', 'distributed_draft').order(updated_at: :desc) }, class_name: 'Note'
+  has_many :original_open_worksheets, -> { where('notes.category = ? and notes.status = ?', 'worksheet', 'open').order(updated_at: :desc) }, class_name: 'Note'
+  has_many :original_review_worksheets, -> { where('notes.category = ? and notes.status = ?', 'worksheet', 'review').order(updated_at: :desc) }, class_name: 'Note'
+  has_many :original_worksheets, -> { where('notes.category = ? and notes.status in (?)', 'worksheet', %w[distributed_draft open review]).order(updated_at: :desc) }, class_name: 'Note'
   has_many :members, through: :course_members, source: :user
   has_many :notices, dependent: :destroy
   has_many :open_lessons, -> { where('lessons.status = ?', 'open').order(display_order: :asc) }, class_name: 'Lesson'
   has_many :outcomes, dependent: :destroy
-  has_many :staff_course_notes, -> { where('notes.status = ? and notes.original_note_id = ?', 'course', 0).order(updated_at: :desc) }, class_name: 'Note'
   has_many :notes
   validates_presence_of :folder_name
   validates_presence_of :overview
@@ -93,7 +93,7 @@ class Course < ApplicationRecord
   def hot_notes
     duration = 28
     max_size = 5
-    notes = Note.where("status = 'course' and course_id = ? and updated_at >= ? and stars_count > 1", id, Date.today - duration).order('stars_count DESC, created_at DESC').limit(max_size)
+    notes = Note.where("category = 'worksheet' and course_id = ? and updated_at >= ? and stars_count > 1", id, Date.today - duration).order('stars_count DESC, created_at DESC').limit(max_size)
     notes.to_a.delete_if { |note| !note.open? }
   end
 
@@ -106,7 +106,7 @@ class Course < ApplicationRecord
       # notes = Note.where("status = 'course' and course_id = ? and manager_id = ?", self.id, member.id).select(:id)
       # notes_by_members.push [member.id, notes.to_a]
 
-      notes = Note.where("status = 'course' and course_id = ? and manager_id = ?", id, member.id)
+      notes = Note.where("category = 'worksheet' and course_id = ? and manager_id = ?", id, member.id)
       notes.to_a.delete_if { |note| !note.open? }
       note_ids = []
       notes.each do |note|
@@ -136,22 +136,22 @@ class Course < ApplicationRecord
     hot_sources
   end
 
-  def learner_course_notes(user_id, course_staff)
+  def learner_worksheets(user_id, course_staff)
     notes = []
     if course_staff
-      master_draft_notes.each do |mos|
-        notes += Note.where(course_id: id, status: 'course', original_note_id: mos.id).order(updated_at: :desc).to_a
+      original_draft_worksheets.each do |ow|
+        notes += Note.where(course_id: id, category: 'worksheet', original_note_id: ow.id).order(updated_at: :desc).to_a
       end
     else
-      master_draft_notes.each do |mos|
-        notes += Note.where(course_id: id, status: 'course', original_note_id: mos.id, manager_id: user_id).order(updated_at: :desc).to_a
+      original_draft_worksheets.each do |ow|
+        notes += Note.where(course_id: id, category: 'worksheet', original_note_id: ow.id, manager_id: user_id).order(updated_at: :desc).to_a
       end
     end
-    master_review_notes.each do |mos|
-      notes += Note.where(course_id: id, status: 'course', original_note_id: mos.id).order(updated_at: :desc).to_a
+    original_review_worksheets.each do |ow|
+      notes += Note.where(course_id: id, category: 'worksheet', original_note_id: ow.id).order(updated_at: :desc).to_a
     end
-    master_open_notes.each do |mos|
-      notes += Note.where(course_id: id, status: 'course', original_note_id: mos.id).order(updated_at: :desc).to_a
+    original_open_worksheets.each do |ow|
+      notes += Note.where(course_id: id, category: 'worksheet', original_note_id: ow.id).order(updated_at: :desc).to_a
     end
     notes
   end
@@ -183,6 +183,11 @@ class Course < ApplicationRecord
   #  courses = self.associated_by user_id, role
   #  return courses.delete_if { |c| c.status == status }
   # end
+
+  def self.worksheet_distributable_by(user_id)
+    courses = associated_by(user_id, %w[manager staff])
+    courses.delete_if { |c| %w[draft open].exclude? c.status }
+  end
 
   def self.open_with(user_id)
     user = User.find(user_id)

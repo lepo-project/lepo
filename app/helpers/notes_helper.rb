@@ -6,7 +6,7 @@ module NotesHelper
   def get_review_num(group_notes)
     group_notes.each do |gn|
       original = Note.find(gn.original_note_id)
-      return original.peer_reviews_count if original.status == 'master_review'
+      return original.peer_reviews_count if original.status == 'review'
     end
     0
   end
@@ -25,9 +25,6 @@ module NotesHelper
 
       user_index = 0
       group_notes.each_with_index do |gn, i|
-        # FIXME: PeerReview
-        # no note or notes inherited from one original note should exist in one course in peer-review status
-        # wrong assumption: course note made by current_user in a group_notes must be one
         user_index = i if gn.manager_id == user_id
       end
 
@@ -41,6 +38,25 @@ module NotesHelper
       peer_review[:noeval] = group_notes
     end
     peer_review
+  end
+
+  def note_course_candidates
+    courses = Course.worksheet_distributable_by session[:id]
+    courses.pluck(:title, :id)
+  end
+
+  def note_status_candidates(note)
+    case note.category
+    when 'private'
+      candidates = [['draft', t('activerecord.others.note.status.draft'), !note.status_updatable?('draft', session[:id])]]
+      candidates.push ['archived', t('activerecord.others.note.status.archived'), !note.status_updatable?('archived', session[:id])]
+    when 'worksheet'
+      candidates = [['draft', t('activerecord.others.note.status.draft'), !note.status_updatable?('draft', session[:id])]]
+      candidates.push ['distributed_draft', t('activerecord.others.note.status.distributed_draft'), !note.status_updatable?('distributed_draft', session[:id])]
+      candidates.push ['review', t('activerecord.others.note.status.review'), !note.status_updatable?('review', session[:id])]
+      candidates.push ['open', t('activerecord.others.note.status.open'), !note.status_updatable?('open', session[:id])]
+      candidates.push ['archived', t('activerecord.others.note.status.archived'), !note.status_updatable?('archived', session[:id])]
+    end
   end
 
   def note_snippet_text(manager_flag, stickies)

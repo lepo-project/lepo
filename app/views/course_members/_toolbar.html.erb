@@ -10,7 +10,7 @@
       <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_edit'}, id_attr: 'toolbar-edit-btn'} %>
       <% if @course.groups_count > 1 %>
       <%= link_to({action: 'ajax_edit_group'}, {class: 'dropdown-item', remote: true}) do %>
-      <i class="fa fa-pencil"></i> グループ編集
+      <i class="fa fa-pencil"></i> <%= t('.edit_group') %>
       <% end %>
       <% end %>
     </div>
