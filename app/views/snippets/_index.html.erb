@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="clearfix">
-        <% if @notes.size == 0 %>
+        <% if @notes.size.zero? %>
         <%= render partial: 'layouts/system_message', locals: {message: t('.no_note_resources'), message_category: 'info'} %>
         <% else %>
         <%= render partial: 'notes/note', collection: @notes, locals: {resource: 'index', droppable: true} %>

@@ -1,0 +1,16 @@
+<div id="snippet-resource" class="scroll-pane">
+  <div class="row" id="edit-note">
+    <div class="col-md-12">
+      <div class="head">
+        <div class="header-explanation">
+          <%= t('.required') %>：<span class="required">*</span>
+        </div>
+        <h1><%= t('activerecord.others.note.category.' + @note.category) %></h1>
+        <%= render partial: 'notes/form', locals: {submit_hash: {action: 'ajax_update_note', note_id: @note.id}, cancel_hash: {action: 'ajax_show', id: @note.id}} %>
+      </div>
+      <div id="snippets" class="block">
+        <%= render partial: 'layouts/snippet', collection: @snippets, locals: {editable_snippet: false} %>
+      </div>
+    </div>
+  </div>
+</div>

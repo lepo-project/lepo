@@ -203,6 +203,13 @@ class User < ApplicationRecord
     false
   end
 
+  def worksheet_manageable?
+    return true if %w[admin manager].include? role
+    distributable_courses = Course.worksheet_distributable_by id
+    return true unless distributable_courses.size.zero?
+    false
+  end
+
   def system_admin?
     role == 'admin'
   end

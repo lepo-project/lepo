@@ -3,22 +3,16 @@
     <div class="col-md-12">
       <!-- With Groups -->
       <!-- #FIXME: Group work -->
-      <% staff_notes = @notes.select{|s| @course.staff? s.manager_id} %>
       <% group_notes = @notes.select{|s| (s.group_index == @group_index) && (@course.learner? s.manager_id)} %>
 
-      <% if staff_notes.size + group_notes.size == 0 %>
+      <% if group_notes.size == 0 %>
       <div class="block">
         <%= render partial: 'layouts/system_message', locals: {message: '現在、公開されているノートは、ありません。', message_category: 'info'} %>
       </div>
       <% else %>
-      <% if staff_notes.size > 0 %>
-      <div class="clearfix">
-        <%= render partial: 'note', collection: staff_notes, locals: {resource: 'index_in_group', droppable: false} %>
-      </div>
-      <% end %>
 
       <!-- Peer Review -->
-      <% if @course.master_review_notes.size > 0 %>
+      <% if @course.original_review_worksheets.size > 0 %>
       <% group_notes = group_notes.sort! {|a, b| a.id <=> b.id} %>
       <% peer_review = get_peer_review group_notes, @group_index, session[:id] %>
       <% if peer_review[:eval].length > 0 %>

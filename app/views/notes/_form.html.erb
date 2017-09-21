@@ -1,0 +1,99 @@
+<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+
+<%= form_for @note, url: submit_hash, html: {id: 'note_form', name: 'note_form'}, remote: true do |f| %>
+<div class="form-group row">
+  <%= f.label :title, raw("<span class='required'>*</span>#{t('activerecord.attributes.note.title')}"), class: 'col-md-2 col-form-label text-sm-right' %>
+  <div class="col-md-10">
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+</div>
+<div id="overview-row" class="form-group row">
+  <%= f.label :overview, t('activerecord.attributes.note.overview'), class: 'col-md-2 col-form-label text-sm-right' %>
+  <div class="col-md-10">
+    <%= f.text_area :overview, id: 'overview-form', class: 'form-control', rows: 8 %>
+    <div style="margin-top: 2px; text-align:right;">
+      <span id="char-count"><span id="char-count-num"></span> <%= t('layouts.note_header.characters') %></span>
+      <span id="char-count-error" style="display:none;"><%= t('.char_num_error') %></span>
+    </div>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :category, class: 'col-md-2 col-form-label text-sm-right' %>
+  <div class="col-md-10">
+    <%= f.label t("activerecord.others.note.category.#{@note.category}"), class: 'col-form-label' %>
+    <%= f.hidden_field :category, value: @note.category %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :status, class: 'col-md-2 col-form-label text-sm-right' %>
+  <div class="col-md-10">
+    <div class="btn-group" data-toggle="buttons">
+      <% note_status_candidates(@note).each do |item| %>
+      <label class="btn btn-light <%= 'active' if item[0] == @note.status %> <%= 'disabled' if item[2] %>" value="<%= item[0] %>">
+        <%= f.radio_button :status, item[0], disabled: item[2] %><%= item[1] %>
+      </label>
+      <% end %>
+    </div>
+    <% if @note.category == 'worksheet' %>
+    <ul class="form-list">
+      <% if @note.new_record? %>
+      <li><%= t('.status_message1') %></li>
+      <% else %>
+      <li><%= t('.status_message2') %></li>
+      <li><%= t('.status_message3') %></li>
+      <% end %>
+    </ul>
+    <% end %>
+  </div>
+</div>
+
+<% if @note.category == 'worksheet' %>
+<div class="form-group row">
+  <%= f.label :course_id, raw("<span class='required'>*</span>#{t('activerecord.attributes.note.course')}"), class: 'col-md-2 col-form-label text-sm-right' %>
+  <div class="col-md-10">
+    <% if @note.status == 'draft' && !note_course_candidates.size.zero? %>
+    <%= f.select :course_id, note_course_candidates, {}, {class: 'form-control'} %>
+    <% else %>
+    <%= f.label @note.course.title, class: 'col-form-label' %>
+    <%= f.hidden_field :course_id, value: @note.course_id %>
+    <% end %>
+  </div>
+</div>
+
+<% if @note.status == 'review' %>
+<div class="form-group row">
+  <%= f.label :peer_reviews_count, class: 'col-md-2 col-form-label text-sm-right' %>
+  <div class="col-md-10">
+    <%= f.select :peer_reviews_count, (1..NOTE_PEER_REVIEW_MAX_SIZE).to_a, {}, {class: 'form-control'} %>
+    <ul class="form-list">
+      <li><%= t('.review_message') %></li>
+    </ul>
+  </div>
+</div>
+<% end %>
+<% end %>
+
+<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: cancel_hash} %>
+<span style="margin-left:1rem;">
+  <% btn_partial = @note.new_record? ? 'create' : 'update' %>
+  <%= render partial: 'layouts/buttons/' + btn_partial %>
+</span>
+<% if !@note.new_record? && @note.status == 'draft' %>
+<span style="margin-left:3rem;">
+  <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_note', note_id: @note.id}} %>
+</span>
+<% end %>
+<% end %>
+
+
+<script>
+$(function () {
+  $('#note_title').focus();
+  $('#overview-form').bind('keydown keyup change',function () {
+    charCount("overview-row", $(this).val().length, 500);
+  });
+  charCount("overview-row", $('#overview-form').val().length, 500);
+});
+</script>

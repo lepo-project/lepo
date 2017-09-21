@@ -88,16 +88,15 @@ en:
         learners: Learners
         lessons: Lessons
         managers: Managers
-        master_draft_notes: Master draft notes
-        master_open_notes: Master open notes
-        master_review_notes: Master review notes
+        original_draft_worksheets: Worksheet (draft)
+        original_open_worksheets: Worksheet (open)
+        original_review_worksheets: Worksheet (review)
         members: Members
         notes: Notes
         notices: Notices
         open_lessons: Open lessons
         outcomes: Outcomes
         overview: Overview
-        staff_course_notes: Staff course notes
         status: Status
         term_id: :activerecord.models.term
         title: Title
@@ -152,11 +151,13 @@ en:
         objective: :activerecord.models.objective
 
       note:
-        course: :Course
+        category: Category
+        course: Course to use
         direct_snippets: Direct snippets
         direct_text_snippets: Direct text snippets
         manager: :activerecord.models.manager
         overview: Overview
+        peer_reviews_count: Num. of reviews
         snippets: Snippets
         stared_users: Stared users
         status: Status
@@ -324,11 +325,22 @@ en:
         status_draft: Draft
         status_open: Open
       created_at: created at
+      note:
+        category:
+          private: Private Note
+          worksheet: Worksheet
+        status:
+          archived: Archived
+          distributed_draft: Distribution
+          draft: Writing
+          open: Open
+          review: Review
       updated_at: updated at
       user:
         authentication:
           local: Local
           ldap: LDAP
+        full_name: Full name
         role:
           admin: Administrator
           manager: Manager

@@ -63,8 +63,8 @@ class Snippet < ApplicationRecord
     return false if imported? user_id
 
     note = self.note
-    # can not import from private or course note without master
-    return false if !note.master_id || note.master_id.zero?
+    # can not import from private or original_worksheet note
+    return false if note.original_note_id.zero?
     # can not import by course staff
     return false if !note.course || (note.course.staff? user_id)
     true
@@ -79,7 +79,7 @@ class Snippet < ApplicationRecord
     Snippet.where(master_id: id).order(created_at: :asc).to_a
   end
 
-  def master_note
+  def original_note
     return unless master_id
     unless Snippet.find_by(id: master_id).nil?
       master_snippet = Snippet.find(master_id)

@@ -1,5 +1,11 @@
 <% action = controller.action_name %>
-<% if (action == 'ajax_edit_note') || ((action == 'ajax_destroy_note') && !@note.destroyed?) %>
+<% if action == 'ajax_new_note' %>
+<div id="toolbar-btns">
+  <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
+  <%= render partial: 'layouts/buttons/toolbar_create', locals: {onclick_txt: "$('#note_form').submit()"} %>
+</div>
+
+<% elsif (action == 'ajax_edit_note') || ((action == 'ajax_destroy_note') && !@note.destroyed?) %>
 <div id="toolbar-btns">
   <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
   <%= render partial: 'layouts/buttons/toolbar_update', locals: {onclick_txt: "$('#note_form').submit()"} %>
@@ -10,9 +16,24 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
 </nav>
 <div id="toolbar-btns">
-  <%= link_to({action: 'ajax_paste', note_id: 0}, {class: 'toolbar-btn', remote: true}) do %>
-  <i class='fa fa-plus'></i> <%= t('activerecord.models.note') %>
-  <% end %>
+<% if current_user.worksheet_manageable? %>
+<div class="btn-group">
+  <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class='fa fa-plus'></i> <%= t('activerecord.models.note') %></a>
+  <div class="dropdown-menu">
+    <%= link_to({action: 'ajax_new_note', category: 'private'}, {class: 'dropdown-item', remote: true}) do %>
+    <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.private') %>
+    <% end %>
+    <%= link_to({action: 'ajax_new_note', category: 'worksheet'}, {class: 'dropdown-item', remote: true}) do %>
+    <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.worksheet') %>
+    <% end %>
+  </div>
+</div>
+<% else %>
+<%= link_to({action: 'ajax_new_note', category: 'private'}, {class: 'toolbar-btn', remote: true}) do %>
+<i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.private') %>
+<% end %>
+<% end %>
+
 </div>
 
 <% else %>

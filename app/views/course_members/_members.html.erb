@@ -1,6 +1,6 @@
 <% if users.size > 0 %>
 <div class="card">
-  <h2 class="card-header"><%= title %>: <%= users.size %>名</h2>
+  <h2 class="card-header"><%= title %> : <%= t('.users', num: users.size) %></h2>
   <div class="card-body" style="padding: 1px;">
     <table class="table table-sm table-striped user-table">
       <% users.each do |user| %>
