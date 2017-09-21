@@ -57,21 +57,6 @@ module ApplicationHelper
     obj.title.size.nonzero? ? obj.title : t('helpers.no_title')
   end
 
-  def format_time(t, category)
-    case category
-    when 'ymdhm'
-      t.strftime('%Y年%-m月%-d日%H:%M')
-    when 'ymd'
-      t.strftime('%Y年%-m月%-d日')
-    when 'mdhm'
-      t.strftime('%-m月%-d日%H:%M')
-    when 'mdh'
-      t.strftime('%-m月%-d日%H時')
-    when 'md'
-      t.strftime('%-m月%-d日')
-    end
-  end
-
   def assignment_category_text(category)
     case category
     when 'text'
@@ -85,7 +70,7 @@ module ApplicationHelper
 
   def last_signin_at_text(date_at)
     return 'LePo未利用' unless date_at
-    format_time date_at, 'ymdhm'
+    l(date_at, format: :long)
   end
 
   def member_role_text(model_category, member_role)
@@ -308,7 +293,7 @@ module ApplicationHelper
     end
     card['caption'] = notice.manager.full_name
     card['body'] = notice.message
-    card['footnotes'] = [format_time(notice.updated_at, 'ymdhm')]
+    card['footnotes'] = [l(notice.updated_at, format: :long)]
     card['footnotes'].push('[更新]') if notice.created_at != notice.updated_at
 
     case action_name
@@ -379,7 +364,7 @@ module ApplicationHelper
     card['body'] = user.description
     card['summary'] = false
     if user.updated_at
-      card['footnotes'] = ['最終更新： ' + format_time(user.updated_at, 'ymdhm')]
+      card['footnotes'] = ['最終更新： ' + l(user.updated_at, format: :long)]
     else
       card['footnotes'] = ['最終更新： 未更新']
     end

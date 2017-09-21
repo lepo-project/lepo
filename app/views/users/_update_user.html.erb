@@ -6,12 +6,12 @@
 
   <div class="form-group row">
     <label class="col-md-3 col-form-label"><%= t('.account') %><%= t('activerecord.others.created_at') %></label>
-    <div class="col-md-7"><%= format_time @selected_user.created_at, 'ymdhm' %></div>
+    <div class="col-md-7"><%= l(@selected_user.created_at, format: :long) %></div>
   </div>
 
   <div class="form-group row">
     <label class="col-md-3 col-form-label"><%= t('.account') %><%= t('activerecord.others.updated_at') %></label>
-    <div class="col-md-7"><%= format_time @selected_user.updated_at, 'ymdhm' %></div>
+    <div class="col-md-7"><%= l(@selected_user.updated_at, format: :long) %></div>
   </div>
 
   <div class="form-group row">
