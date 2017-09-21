@@ -28,8 +28,8 @@ LePo is a Web-based LMS (Learning Management System) that is developing with the
 
 * set "SECRET_KEY_BASE" value as environment variable
 
-* recommended environment: Nginx, Unicorn and MariaDB (MySQL)
+* recommended environments: Nginx, Unicorn and MariaDB (MySQL)
 
 # Current Status
- - LePo is in alpha version. In the near future, there may be a big code change.
+ - LePo is in alpha version status. In the near future, there may be a big code change.
  - We assume use LePo in Japanese now, but English language pack is also under development.
