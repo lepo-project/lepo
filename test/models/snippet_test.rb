@@ -9,7 +9,6 @@
 #  description   :text
 #  source_type   :string           default("direct")
 #  source_id     :integer
-#  master_id     :integer
 #  display_order :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

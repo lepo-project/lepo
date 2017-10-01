@@ -9,7 +9,6 @@
 #  description   :text
 #  source_type   :string           default("direct")
 #  source_id     :integer
-#  master_id     :integer
 #  display_order :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -21,7 +20,6 @@ FactoryGirl.define do
     association :note
     association :source, factory: :web_source
     description 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
-    sequence(:master_id) { |i| i }
     sequence(:display_order) { |i| i }
 
     factory :header_snippet do

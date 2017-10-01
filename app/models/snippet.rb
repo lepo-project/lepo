@@ -9,7 +9,6 @@
 #  description   :text
 #  source_type   :string           default("direct")
 #  source_id     :integer
-#  master_id     :integer
 #  display_order :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -50,43 +49,6 @@ class Snippet < ApplicationRecord
 
   def deletable?(user_id)
     (manager_id == user_id)
-  end
-
-  def importable?(user_id)
-    # can not import one's own snippet
-    return false if manager_id == user_id
-    # can not import non web snippet
-    return false if source_type != 'web'
-    # can not import imported snippet
-    return false if master_id
-    # can not import already imported snippet
-    return false if imported? user_id
-
-    note = self.note
-    # can not import from private or original_worksheet note
-    return false if note.original_ws_id.zero?
-    # can not import by course staff
-    return false if !note.course || (note.course.staff? user_id)
-    true
-  end
-
-  def imported?(user_id)
-    !Snippet.where(manager_id: user_id, master_id: id).empty?
-  end
-
-  def imported_snippets
-    return [] unless note_id
-    Snippet.where(master_id: id).order(created_at: :asc).to_a
-  end
-
-  def original_note
-    return unless master_id
-    unless Snippet.find_by(id: master_id).nil?
-      master_snippet = Snippet.find(master_id)
-      return if !master_snippet.note_id || master_snippet.note_id.zero?
-      return master_snippet.note if master_snippet.note
-    end
-    nil
   end
 
   def reference_num
