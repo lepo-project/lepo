@@ -5,7 +5,7 @@
 #  id                 :integer          not null, primary key
 #  manager_id         :integer
 #  course_id          :integer          default(0)
-#  original_note_id   :integer          default(0)
+#  original_ws_id     :integer          default(0)
 #  title              :string
 #  overview           :text
 #  status             :string           default("draft")

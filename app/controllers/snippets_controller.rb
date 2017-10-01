@@ -292,15 +292,15 @@ class SnippetsController < ApplicationController
     { formats: ['js'], layout: false, locals: { duration: duration, tags: tags, token: token } }
   end
 
-  def distribute_worksheet(original_note)
-    copy_snippets = Snippet.where(note_id: original_note.id, source_type: 'direct').order(display_order: :asc)
-    course = Course.find(original_note.course_id)
+  def distribute_worksheet(original_ws)
+    copy_snippets = Snippet.where(note_id: original_ws.id, source_type: 'direct').order(display_order: :asc)
+    course = Course.find(original_ws.course_id)
     course.learners.each do |l|
-      notes = Note.where(manager_id: l.id, status: 'original_note', original_note_id: original_note.id).to_a
+      notes = Note.where(manager_id: l.id, status: 'original_ws', original_ws_id: original_ws.id).to_a
       next unless notes.size.zero?
 
       Snippet.transaction do
-        note = Note.create(manager_id: l.id, course_id: course.id, title: original_note.title, overview: original_note.overview, category: 'worksheet', status: 'original_note', original_note_id: original_note.id)
+        note = Note.create(manager_id: l.id, course_id: course.id, title: original_ws.title, overview: original_ws.overview, category: 'worksheet', status: 'original_ws', original_ws_id: original_ws.id)
         copy_snippets.each_with_index do |cs, i|
           Snippet.create(manager_id: l.id, note_id: note.id, category: cs.category, description: cs.description, source_type: 'direct', display_order: i + 1)
         end

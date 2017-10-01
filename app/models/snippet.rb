@@ -64,7 +64,7 @@ class Snippet < ApplicationRecord
 
     note = self.note
     # can not import from private or original_worksheet note
-    return false if note.original_note_id.zero?
+    return false if note.original_ws_id.zero?
     # can not import by course staff
     return false if !note.course || (note.course.staff? user_id)
     true

@@ -5,7 +5,7 @@
 #  id                 :integer          not null, primary key
 #  manager_id         :integer
 #  course_id          :integer          default(0)
-#  original_note_id   :integer          default(0)
+#  original_ws_id     :integer          default(0)
 #  title              :string
 #  overview           :text
 #  status             :string           default("draft")
@@ -33,11 +33,11 @@ class Note < ApplicationRecord
   validates_inclusion_of :peer_reviews_count, in: (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a
   validates_inclusion_of :category, in: %w[private worksheet]
   validates_inclusion_of :status, in: %w[draft archived associated_course], if: "category == 'private'"
-  validates_inclusion_of :status, in: %w[draft distributed_draft review open archived original_note], if: "category == 'worksheet'"
+  validates_inclusion_of :status, in: %w[draft distributed_draft review open archived original_ws], if: "category == 'worksheet'"
   validates_numericality_of :course_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'private'"
   validates_numericality_of :course_id, allow_nil: false, greater_than: 0, if: "category == 'worksheet'"
-  validates_numericality_of :original_note_id, allow_nil: false, equal_to: 0, if: "category == 'private'"
-  validates_numericality_of :original_note_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'worksheet'"
+  validates_numericality_of :original_ws_id, allow_nil: false, equal_to: 0, if: "category == 'private'"
+  validates_numericality_of :original_ws_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'worksheet'"
 
   # ====================================================================
   # Public Functions
@@ -51,9 +51,9 @@ class Note < ApplicationRecord
   # For the mutual review of notes by anonymously
   def anonymous?(user_id)
     return false if manager_id == user_id
-    if category == 'worksheet' && status == 'original_note'
-      original_note = Note.find_by(id: original_note_id)
-      (original_note.status == 'review')
+    if category == 'worksheet' && status == 'original_ws'
+      original_ws = Note.find_by(id: original_ws_id)
+      (original_ws.status == 'review')
     else
       false
     end
@@ -64,8 +64,8 @@ class Note < ApplicationRecord
     when 'private'
       (manager_id == user_id) && snippets.size.zero? && stickies.size.zero?
     when 'worksheet'
-      if original_note_id.zero?
-        !Note.where(original_note_id: id).exists?
+      if original_ws_id.zero?
+        !Note.where(original_ws_id: id).exists?
       else
         false
       end
@@ -109,9 +109,9 @@ class Note < ApplicationRecord
   def open?
     case category
     when 'worksheet'
-      if status == 'original_note'
-        original_note = Note.find(original_note_id)
-        (original_note.status == 'open')
+      if status == 'original_ws'
+        original_ws = Note.find(original_ws_id)
+        (original_ws.status == 'open')
       else
         (status == 'open')
       end
@@ -123,9 +123,9 @@ class Note < ApplicationRecord
   def review_or_open?
     case category
     when 'worksheet'
-      if status == 'original_note'
-        original_note = Note.find(original_note_id)
-        (original_note.status == 'review') || (original_note.status == 'open')
+      if status == 'original_ws'
+        original_ws = Note.find(original_ws_id)
+        (original_ws.status == 'review') || (original_ws.status == 'open')
       else
         (status == 'review') || (status == 'open')
       end
@@ -137,9 +137,9 @@ class Note < ApplicationRecord
   def review?
     case category
     when 'worksheet'
-      if status == 'original_note'
-        original_note = Note.find(original_note_id)
-        (original_note.status == 'review')
+      if status == 'original_ws'
+        original_ws = Note.find(original_ws_id)
+        (original_ws.status == 'review')
       else
         (status == 'review')
       end
@@ -218,11 +218,11 @@ class Note < ApplicationRecord
       return false if !course || !course.staff?(user_id)
       case update_status
       when 'draft'
-        new_record? || Note.where(original_note_id: id).empty?
+        new_record? || Note.where(original_ws_id: id).empty?
       when 'distributed_draft'
         !new_record? && course.original_worksheets.empty?
       when 'review', 'open'
-        Note.where(original_note_id: id).any? && course.original_worksheets.size == 1
+        Note.where(original_ws_id: id).any? && course.original_worksheets.size == 1
       when 'archived'
         !new_record?
       else

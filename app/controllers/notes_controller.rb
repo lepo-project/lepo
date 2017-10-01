@@ -20,10 +20,10 @@ class NotesController < ApplicationController
   def ajax_import_snippet
     source_snippet = Snippet.find params[:snippet_id] if params[:snippet_id]
     source_note = source_snippet.note if source_snippet
-    source_original_note_id = source_note.original_note_id if source_note.original_note_id
-    if source_original_note_id
+    source_original_ws_id = source_note.original_ws_id if source_note.original_ws_id
+    if source_original_ws_id
       user_id = session[:id]
-      notes = Note.where(manager_id: user_id, category: 'worksheet', original_note_id: source_original_note_id).to_a
+      notes = Note.where(manager_id: user_id, category: 'worksheet', original_ws_id: source_original_ws_id).to_a
       note = notes[0]
       if note
         Snippet.create(manager_id: user_id, note_id: note.id, category: source_snippet.category, description: source_snippet.description, source_type: source_snippet.source_type, source_id: source_snippet.source_id, display_order: note.snippets.size + 1, master_id: source_snippet.id)
