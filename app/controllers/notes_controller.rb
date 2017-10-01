@@ -17,27 +17,6 @@ class NotesController < ApplicationController
     render 'layouts/renders/main_pane', locals: { resource: 'index_in_group' }
   end
 
-  def ajax_import_snippet
-    source_snippet = Snippet.find params[:snippet_id] if params[:snippet_id]
-    source_note = source_snippet.note if source_snippet
-    source_original_ws_id = source_note.original_ws_id if source_note.original_ws_id
-    if source_original_ws_id
-      user_id = session[:id]
-      notes = Note.where(manager_id: user_id, category: 'worksheet', original_ws_id: source_original_ws_id).to_a
-      note = notes[0]
-      if note
-        Snippet.create(manager_id: user_id, note_id: note.id, category: source_snippet.category, description: source_snippet.description, source_type: source_snippet.source_type, source_id: source_snippet.source_id, display_order: note.snippets.size + 1, master_id: source_snippet.id)
-        note.align_display_order
-      end
-    end
-
-    get_resources
-    @note = Note.find source_note.id
-    @snippets = @note.snippets
-    get_stickies @note.course_id, @note.id
-    render 'layouts/renders/resource', locals: { resource: 'show' }
-  end
-
   # same action for snippets_controller without @sticky
   def ajax_show
     note_id = params[:id].to_i
