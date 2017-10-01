@@ -140,18 +140,18 @@ class Course < ApplicationRecord
     notes = []
     if course_staff
       original_draft_worksheets.each do |ow|
-        notes += Note.where(course_id: id, category: 'worksheet', original_note_id: ow.id).order(updated_at: :desc).to_a
+        notes += Note.where(course_id: id, category: 'worksheet', original_ws_id: ow.id).order(updated_at: :desc).to_a
       end
     else
       original_draft_worksheets.each do |ow|
-        notes += Note.where(course_id: id, category: 'worksheet', original_note_id: ow.id, manager_id: user_id).order(updated_at: :desc).to_a
+        notes += Note.where(course_id: id, category: 'worksheet', original_ws_id: ow.id, manager_id: user_id).order(updated_at: :desc).to_a
       end
     end
     original_review_worksheets.each do |ow|
-      notes += Note.where(course_id: id, category: 'worksheet', original_note_id: ow.id).order(updated_at: :desc).to_a
+      notes += Note.where(course_id: id, category: 'worksheet', original_ws_id: ow.id).order(updated_at: :desc).to_a
     end
     original_open_worksheets.each do |ow|
-      notes += Note.where(course_id: id, category: 'worksheet', original_note_id: ow.id).order(updated_at: :desc).to_a
+      notes += Note.where(course_id: id, category: 'worksheet', original_ws_id: ow.id).order(updated_at: :desc).to_a
     end
     notes
   end

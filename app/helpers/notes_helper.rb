@@ -5,7 +5,7 @@ module NotesHelper
 
   def get_review_num(group_notes)
     group_notes.each do |gn|
-      original = Note.find(gn.original_note_id)
+      original = Note.find(gn.original_ws_id)
       return original.peer_reviews_count if original.status == 'review'
     end
     0
