@@ -92,8 +92,8 @@
 $(function () {
   $('#note_title').focus();
   $('#overview-form').bind('keydown keyup change',function () {
-    charCount("overview-row", $(this).val().length, 500);
+    charCount("overview-row", $(this).val().length, <%= NOTE_OVERVIEW_MAX_LENGTH %>);
   });
-  charCount("overview-row", $('#overview-form').val().length, 500);
+  charCount("overview-row", $('#overview-form').val().length, <%= NOTE_OVERVIEW_MAX_LENGTH %>);
 });
 </script>

@@ -229,6 +229,7 @@ en:
     index:
       no_note_resources: Currently no notes managed
       no_snippets: Currently no snippets
+      snippet_transfer: Please transfer the citation to the note by drag and drop or select the item in "Operation"
     items:
       footer:
         operations: Operations
@@ -240,7 +241,11 @@ en:
         delete: :layouts.buttons.delete.delete
         edit: :layouts.buttons.edit.edit
       operations_web:
+        cited_date: Cited date
         delete: :layouts.buttons.delete.delete
+        enter_citation: Enter citation text from PDF file
+        remove: Remove from this note
+        transfer_to: 'Transfer to "%{note_title}"'
     toolbar:
       export: Export to text
       preferences: :helpers.preferences

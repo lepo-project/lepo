@@ -2,7 +2,8 @@
   <div class="card-footer">
     <div class="d-flex justify-content-between">
       <div>
-        <%= link_to(get_short_string(snippet.reference_num + ' ' + display_title(snippet.source), 25), snippet.source.url, {target: '_blank'}) %>
+        <% link_title = @note ? snippet.reference_num(@note.id) + ' ' + display_title(snippet.source) : display_title(snippet.source) %>
+        <%= link_to(get_short_string(link_title, 25), snippet.source.url, {target: '_blank'}) %>
       </div>
 
       <% if controller_name == 'snippets' %>

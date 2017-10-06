@@ -1,6 +1,7 @@
 <div id="snippet-resource" class="scroll-pane">
   <div class="row">
     <div class="col-md-12">
+      <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
       <div class="clearfix">
         <% if @notes.size.zero? %>
         <%= render partial: 'layouts/system_message', locals: {message: t('.no_note_resources'), message_category: 'info'} %>
@@ -9,7 +10,7 @@
         <% end %>
       </div>
       <% if @snippets.size > 0 %>
-      <%= render partial: 'layouts/system_message', locals: {message: raw("収集した情報はドラッグ＆ドロップ、またはメニュー<i class='fa fa-chevron-circle-down fa-lg'></i>内の操作でノートに貼り付けてください。"), message_category: 'info'} %>
+      <%= render partial: 'layouts/system_message', locals: {message: t('.snippet_transfer'), message_category: 'info'} %>
       <% else %>
       <% if @notes.size > 0 %>
       <%= render partial: 'layouts/system_message', locals: {message: t('.no_snippets'), message_category: 'info'} %>
@@ -35,10 +36,10 @@ $(function () {
     hoverClass: "drop-hover",
     tolerance: "pointer",
     drop: function (e, ui) {
-      var snippet_id = ui.draggable.attr('id').substr(8);
-      var note_id = $(this).attr('id').substr(6);
+      var snippet_id = ui.draggable.attr('id').substr('snippet_'.length);
+      var note_id = $(this).attr('id').substr('note_'.length);
       $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/snippets/ajax_paste/'+snippet_id+'?note_id='+note_id
+        url:'<%= Rails.application.config.relative_url_root %>/snippets/ajax_transfer/'+snippet_id+'?to_note_id='+note_id
       })
       ui.draggable.hide();
     }

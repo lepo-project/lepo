@@ -2,16 +2,14 @@
 #
 # Table name: snippets
 #
-#  id            :integer          not null, primary key
-#  manager_id    :integer
-#  note_id       :integer
-#  category      :string           default("text")
-#  description   :text
-#  source_type   :string           default("direct")
-#  source_id     :integer
-#  display_order :integer
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id          :integer          not null, primary key
+#  manager_id  :integer
+#  category    :string           default("text")
+#  description :text
+#  source_type :string           default("direct")
+#  source_id   :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
 require 'test_helper'
@@ -33,6 +31,12 @@ class SnippetTest < ActiveSupport::TestCase
     assert build(:web_scratch_snippet).valid?
     assert build(:web_ted_snippet).valid?
     assert build(:web_youtube_snippet).valid?
+  end
+
+  # test for validates_presence_of :description, if: "source_type == 'direct'"
+  test 'a snippet without description is invalid' do
+    assert_invalid build(:snippet, description: ''), :description
+    assert_invalid build(:snippet, description: nil), :description
   end
 
   # test for validates_presence_of :manager_id

@@ -49,17 +49,4 @@ class WebSource < ApplicationRecord
       Regexp.last_match(5)
     end
   end
-
-  def hot_quoting_notes(course_id)
-    duration = 7
-    max_size = 3
-
-    notes = []
-    snippets.each do |snippet|
-      notes.push snippet.note_id if snippet.updated_at >= Date.today - duration
-    end
-    notes.uniq!
-
-    Note.where("status = 'course' and course_id = ? and id in (?)", course_id, notes).order(stars_count: :desc).limit(max_size)
-  end
 end

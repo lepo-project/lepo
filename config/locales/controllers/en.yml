@@ -9,3 +9,6 @@ en:
       setup_error2: As the admin account has already been registered, you can not register again.
     snippets:
       note_creation_error: Creating note failed. Please check the input values.
+      note_transfer_error: Transferring note failed
+      snippet_creation_error: Failed to save text
+      snippet_upload_error: Failed to save file

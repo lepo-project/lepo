@@ -9,3 +9,6 @@ ja:
       setup_error2: 既に最高管理者アカウントが登録されているため、再度、登録することはできません
     snippets:
       note_creation_error: ノートの作成に失敗しました。入力した値を確認して下さい。
+      note_transfer_error: ノートの移動に失敗しました
+      snippet_creation_error: テキストの保存に失敗しました
+      snippet_upload_error: ファイルの保存に失敗しました

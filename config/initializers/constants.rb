@@ -51,6 +51,9 @@ COURSE_SEARCH_MAX_SIZE = 50
 # initial setting for lesson status: draft / open
 LESSON_STATUS_DEFAULT = 'open'.freeze
 
+# max character length for note overview
+NOTE_OVERVIEW_MAX_LENGTH = 500
+
 # max peer review number per learner
 NOTE_PEER_REVIEW_MAX_SIZE = 9
 
