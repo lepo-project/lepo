@@ -61,7 +61,7 @@ class CourseMember < ApplicationRecord
       end
     end
     return true
-  rescue => e
+  rescue StandardError
     logger.info(e.inspect)
     return false
   end

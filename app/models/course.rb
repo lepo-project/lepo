@@ -97,44 +97,41 @@ class Course < ApplicationRecord
     notes.to_a.delete_if { |note| !note.open? }
   end
 
-  def hot_sources
-    duration = 28
-    max_size = 5
-
-    notes_by_members = []
-    members.each do |member|
-      # notes = Note.where("status = 'course' and course_id = ? and manager_id = ?", self.id, member.id).select(:id)
-      # notes_by_members.push [member.id, notes.to_a]
-
-      notes = Note.where("category = 'worksheet' and course_id = ? and manager_id = ?", id, member.id)
-      notes.to_a.delete_if { |note| !note.open? }
-      note_ids = []
-      notes.each do |note|
-        note_ids.push note.id
-      end
-      notes_by_members.push [member.id, note_ids]
-    end
-
-    snippets = []
-    notes_by_members.each do |sbm|
-      snippets.push Snippet.where("source_type = 'web' and note_id in (?) and updated_at >= ?", sbm[1], Date.today - duration).select(:source_id).distinct
-    end
-    snippets.flatten!
-
-    snippets_with_count = []
-    snippets.each do |s|
-      count = snippets.select { |snppt| snppt['source_id'] == s['source_id'] }.size
-      snippets_with_count.push [s['source_id'], count]
-    end
-    snippets_with_count.uniq!
-    snippets_with_count.sort! { |p, q| q[1] <=> p[1] }
-
-    hot_sources = []
-    snippets_with_count[0, max_size].each do |swc|
-      hot_sources.push WebSource.find_by(id: swc[0]) if swc[1] > 1
-    end
-    hot_sources
-  end
+  # def hot_sources
+  #   duration = 28
+  #   max_size = 5
+  #
+  #   notes_by_members = []
+  #   members.each do |member|
+  #     notes = Note.where("category = 'worksheet' and course_id = ? and manager_id = ?", id, member.id)
+  #     notes.to_a.delete_if { |note| !note.open? }
+  #     note_ids = []
+  #     notes.each do |note|
+  #       note_ids.push note.id
+  #     end
+  #     notes_by_members.push [member.id, note_ids]
+  #   end
+  #
+  #   snippets = []
+  #   notes_by_members.each do |sbm|
+  #     snippets.push Snippet.where("source_type = 'web' and note_id in (?) and updated_at >= ?", sbm[1], Date.today - duration).select(:source_id).distinct
+  #   end
+  #   snippets.flatten!
+  #
+  #   snippets_with_count = []
+  #   snippets.each do |s|
+  #     count = snippets.select { |snppt| snppt['source_id'] == s['source_id'] }.size
+  #     snippets_with_count.push [s['source_id'], count]
+  #   end
+  #   snippets_with_count.uniq!
+  #   snippets_with_count.sort! { |p, q| q[1] <=> p[1] }
+  #
+  #   hot_sources = []
+  #   snippets_with_count[0, max_size].each do |swc|
+  #     hot_sources.push WebSource.find_by(id: swc[0]) if swc[1] > 1
+  #   end
+  #   hot_sources
+  # end
 
   def learner_worksheets(user_id, course_staff)
     notes = []

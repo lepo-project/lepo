@@ -40,7 +40,7 @@
       <i class='fa fa-font fa-lg'></i><%= note.snippets_char_count 'all' %>
     </div>
     <div class="align-left" title="<%= t('.media_count') %>">
-      <i class='fa fa-picture-o fa-lg'></i><%= note.snippets_count 'media' %>
+      <i class='fa fa-picture-o fa-lg'></i><%= note.snippets_media_count 'all' %>
     </div>
     <% if note.stickies.size > 0 %>
     <% title = (current_user && @course)? note_snippet_text(@course.manager?(session[:id]), note.stickies) : t('.sticky_count') %>

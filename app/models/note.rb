@@ -19,15 +19,16 @@
 class Note < ApplicationRecord
   belongs_to :course
   belongs_to :manager, class_name: 'User'
-  has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
-  has_many :direct_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'direct').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
+  has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
+  has_many :note_indices, -> { order('note_indices.display_order asc, note_indices.updated_at asc') }, dependent: :destroy
   has_many :note_stars, dependent: :destroy
-  has_many :snippets, -> { order(display_order: :asc, updated_at: :asc) }
+  has_many :snippets, -> { order('note_indices.display_order asc') }, through: :note_indices
   has_many :stared_users, -> { where('note_stars.stared = ?', true) }, through: :note_stars, source: :manager
   has_many :stickies, -> { where('stickies.target_type = ?', 'note') }, foreign_key: 'target_id', dependent: :destroy
-  has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
-  has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
-  has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'web').order(display_order: :asc, updated_at: :desc) }, class_name: 'Snippet'
+  has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
+  has_many :upload_snippets, -> { where('snippets.source_type = ?', 'upload').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
+  has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
+  has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category = ?', 'web', 'text').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
   validates_presence_of :manager_id
   validates_presence_of :title
   validates_inclusion_of :peer_reviews_count, in: (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a
@@ -43,8 +44,8 @@ class Note < ApplicationRecord
   # Public Functions
   # ====================================================================
   def align_display_order
-    snippets.each_with_index do |snippet, i|
-      snippet.update_attributes(display_order: i + 1)
+    note_indices.each_with_index do |ni, i|
+      ni.update_attributes(display_order: i + 1)
     end
   end
 
@@ -148,26 +149,24 @@ class Note < ApplicationRecord
     end
   end
 
-  def snippets_count(source_type = 'all')
+  def snippets_media_count(source_type)
     case source_type
-    when 'direct'
-      direct_snippets.size
-    when 'web'
-      web_snippets.size
-    when 'media'
-      snippets.size - text_snippets.size
-    when 'direct_media'
-      direct_snippets.size - direct_text_snippets.size
-    when 'web_media'
-      web_snippets.size - web_text_snippets.size
     when 'all'
-      snippets.size
+      snippets.size - text_snippets.size
+    when 'upload'
+      upload_snippets.size
+    when 'web'
+      web_snippets.size - web_text_snippets.size
     end
   end
 
   def snippets_char_count(source_type)
     char_count = 0
     case source_type
+    when 'all'
+      snippets.each do |sni|
+        char_count += sni.description.size if (%w[text header subheader].include? sni.category) || (sni.source_type == 'web' && sni.category == 'pdf')
+      end
     when 'direct'
       direct_snippets.each do |sni|
         char_count += sni.description.size if %w[text header subheader].include? sni.category
@@ -175,10 +174,6 @@ class Note < ApplicationRecord
     when 'web'
       web_snippets.each do |sni|
         char_count += sni.description.size if sni.category == 'text'
-      end
-    when 'all'
-      snippets.each do |sni|
-        char_count += sni.description.size if (%w[text header subheader].include? sni.category) || (sni.source_type == 'web' && sni.category == 'pdf')
       end
     end
     char_count
