@@ -57,7 +57,6 @@ ja:
         display_order: 表示順序
         manager: 管理者
         title: タイトル
-        url: URL
 
       content:
         as_category: 課題カテゴリ

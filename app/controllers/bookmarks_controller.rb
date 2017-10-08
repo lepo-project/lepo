@@ -3,32 +3,50 @@ class BookmarksController < ApplicationController
   # Public Functions
   # ====================================================================
   def ajax_create
-    @bookmark = Bookmark.new(bookmark_params)
-    @bookmark.manager_id = session[:id]
-    existing_bookmark = Bookmark.find_by_manager_id_and_title(session[:id], @bookmark.title)
-    if existing_bookmark
-      if existing_bookmark.update_attributes(url: @bookmark.url)
-        flash.now[:message] = 'ブックマークを更新しました'
-        flash.now[:message_category] = 'info'
-        @bookmark = Bookmark.new
-      else
-        flash.now[:message] = 'ブックマークの更新に失敗しました'
-        flash.now[:message_category] = 'error'
+    @display_title = params[:display_title]
+    @url = params[:url]
+
+    # web page setting
+    web_page = WebPage.find_by(url: params[:url])
+    unless web_page
+      if params[:display_title].size.zero?
+        render_creation_fail
+        return
       end
-    elsif @bookmark.save
-      flash.now[:message] = 'ブックマークを追加しました'
-      flash.now[:message_category] = 'info'
-      @bookmark = Bookmark.new
-    else
-      flash.now[:message] = 'ブックマークの追加に失敗しました'
-      flash.now[:message_category] = 'error'
+      web_page = WebPage.new(url: params[:url])
+      unless web_page.save
+        render_creation_fail
+        return
+      end
     end
 
+    # bookmark creation / update
+    bookmark = Bookmark.find_by_manager_id_and_target_id_and_target_type(session[:id], web_page.id, 'web')
+    if bookmark
+      if bookmark.update_attributes(display_title: params[:display_title])
+        flash.now[:message] = t('controllers.bookmarks.updated')
+      else
+        render_creation_fail unless web_page.save
+        return
+      end
+    else
+      bookmark = Bookmark.new(manager_id: session[:id], display_title: params[:display_title], display_order: params[:display_order], target_id: web_page.id, target_type: 'web')
+      if bookmark.save
+        flash.now[:message] = t('controllers.bookmarks.created')
+      else
+        render_creation_fail unless web_page.save
+        return
+      end
+    end
+
+    flash.now[:message_category] = 'info'
+    @display_title = ''
+    @url = ''
     render_bookmark
   end
 
   def ajax_destroy
-    bookmark = Bookmark.find(params[:bookmark_id])
+    bookmark = Bookmark.find(params[:id])
     bookmark.destroy if bookmark.deletable? current_user
 
     bookmarks = current_user.system_staff? ? Bookmark.by_system_staffs : Bookmark.by_user(session[:id])
@@ -59,12 +77,9 @@ class BookmarksController < ApplicationController
 
   private
 
-  def bookmark_params
-    params.require(:bookmark).permit(:manager_id, :display_order, :url, :title)
-  end
-
   def render_bookmark(render_all = true)
-    @bookmark = Bookmark.new unless @bookmark
+    @display_title ||= ''
+    @url ||= ''
     @system_bookmarks = Bookmark.by_system_staffs
     @editable_bookmarks = current_user.system_staff? ? @system_bookmarks : Bookmark.by_user(session[:id])
     if render_all
@@ -72,5 +87,11 @@ class BookmarksController < ApplicationController
     else
       render 'layouts/renders/main_pane', locals: { resource: 'new' }
     end
+  end
+
+  def render_creation_fail
+    flash.now[:message] = t('controllers.bookmarks.creation_failed')
+    flash.now[:message_category] = 'error'
+    render_bookmark
   end
 end

@@ -5,10 +5,11 @@
 #  id            :integer          not null, primary key
 #  manager_id    :integer
 #  display_order :integer
-#  url           :text
-#  title         :string
+#  display_title :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  target_id     :integer
+#  target_type   :string           default("web")
 #
 
 require 'test_helper'
@@ -28,32 +29,33 @@ class BookmarkTest < ActiveSupport::TestCase
     assert_invalid build(:bookmark, display_order: nil), :display_order
   end
 
+  # test for validates_presence_of :display_title
+  test 'a bookmark without display_title is invalid' do
+    assert_invalid build(:bookmark, display_title: ''), :display_title
+    assert_invalid build(:bookmark, display_title: nil), :display_title
+  end
+
   # test for validates_presence_of :manager_id
   test 'a bookmark without manager_id is invalid' do
     assert_invalid build(:bookmark, manager_id: ''), :manager_id
     assert_invalid build(:bookmark, manager_id: nil), :manager_id
   end
 
-  # test for validates_presence_of :title
-  test 'a bookmark without title is invalid' do
-    assert_invalid build(:bookmark, title: ''), :title
-    assert_invalid build(:bookmark, title: nil), :title
+  # test for validates_presence_of :target_id
+  test 'a bookmark without target_id is invalid' do
+    assert_invalid build(:bookmark, target_id: ''), :target_id
+    assert_invalid build(:bookmark, target_id: nil), :target_id
   end
 
-  # test for validates_presence_of :url
-  test 'a bookmark without url is invalid' do
-    assert_invalid build(:bookmark, url: ''), :url
-    assert_invalid build(:bookmark, url: nil), :url
+  # test for validates_inclusion_of :target_type, in: %w[web]
+  test 'a bookmark with target_type that is not incluede in [web] is invalid' do
+    assert_invalid build(:bookmark, target_type: ''), :target_type
+    assert_invalid build(:bookmark, target_type: nil), :target_type
   end
 
-  # test for validates_uniqueness_of :title, scope: [:manager_id]
-  test 'some bookmarks with same title and manager_id are invalid' do
+  # test for validates_uniqueness_of :display_title, scope: [:manager_id]
+  test 'some bookmarks with same display_title and manager_id are invalid' do
     bookmark = create(:bookmark)
-    assert_invalid build(:bookmark, title: bookmark.title, manager_id: bookmark.manager_id), :title
-  end
-
-  # test for  validates :url, format: URI.regexp(%w[http https])
-  test 'a bookmark with incorrect url is invalid' do
-    assert_invalid build(:bookmark, url: 'abc'), :url
+    assert_invalid build(:bookmark, display_title: bookmark.display_title, manager_id: bookmark.manager_id), :display_title
   end
 end

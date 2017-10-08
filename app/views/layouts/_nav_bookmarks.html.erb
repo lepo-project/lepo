@@ -6,8 +6,8 @@
 <ul>
   <% bookmarks.each do |bookmark| %>
   <li>
-    <a href="<%= sanitize bookmark['url'] %>" class="bookmark" target="_blank">
-      <i class="fa fa-bookmark fa-lg"></i> <%= bookmark['title'] %>
+    <a href="<%= sanitize bookmark.url %>" class="bookmark" target="_blank">
+      <i class="fa fa-bookmark fa-lg"></i> <%= bookmark['display_title'] %>
     </a>
   </li>
   <% end %>

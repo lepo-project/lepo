@@ -1,41 +1,32 @@
 <div id="versatile-resource" class="scroll-pane">
 	<div class="row">
 		<div class="col-md-12">
-			<h1>ブックマークの設定</h1>
+			<h1><%= t('.page_title') %></h1>
 			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 
 			<div class="bordered-block">
 				<h2>
-					<%= current_user.system_staff? ? 'システム共通' : '利用者個人' %>のブックマーク
-					<div class="header-explanation">同タイトルのブックマーク登録はURLを更新</div>
+					<%= current_user.system_staff? ? t('.system_bookmark') : t('.private_bookmark') %>
 				</h2>
-				<% if @bookmark.errors.any? %>
-				<ul style="background-color: #a33; border: solid 2px #c66;">
-					<% @bookmark.errors.full_messages.each do |msg| %>
-					<li><%= msg %></li>
-					<% end %>
-				</ul>
-				<% @bookmark = Bookmark.new %>
-				<% end %>
 
-				<div style="margin-top: 14px;">
-					<h3>新しいブックマークの登録</h3>
-					<div style="padding-left: 20px;">
+				<div>
+					<div style="padding-left: 1rem;">
 						<% if @editable_bookmarks.size < BOOKMARK_MAX_SIZE %>
-						<%= form_for(@bookmark, url: {action: 'ajax_create'}, html: {class: 'form-inline', style: 'padding: 4px;', remote: true}) do |f| %>
-						<%= f.text_field :title, {class: 'form-control', placeholder: 'タイトル', style: 'margin-right:16px;'} %>
-						<%= f.text_field :url, {class: 'form-control', placeholder: 'URL', style: 'margin-right:16px;'} %>
-						<%= f.hidden_field :display_order, value: @editable_bookmarks.size+1 %>
+						<%= form_tag({action: 'ajax_create', display_order: @editable_bookmarks.size + 1}, {class: 'form-inline', style: 'padding: 4px;', remote: true}) do %>
+						<%= text_field_tag :display_title, @display_title, {class: 'form-control', placeholder: t('activerecord.attributes.bookmark.title'), style: 'margin-right:16px;'} %>
+						<%= text_field_tag :url, @url, {class: 'form-control', placeholder: 'URL', style: 'margin-right:16px;'} %>
 						<%= render partial: 'layouts/buttons/create' %>
+						<div><%= t('.same_url_bookmark') %></div>
 						<% end %>
 						<% else %>
-						ブックマークは<%= BOOKMARK_MAX_SIZE %>個までしか登録できません
+						<%= t('.exceeding_the_upper_limit', size: BOOKMARK_MAX_SIZE) %>
+						<%=  %>
 						<% end %>
 					</div>
 				</div>
 				<div style="margin-top: 20px;">
 					<% if @editable_bookmarks.size > 0 %>
-					<h3>登録済みのブックマーク</h3>
+					<h3><%= t('.created_bookmark') %></h3>
 					<div id="bookmarks" style="padding-left: 20px; overflow: auto;">
 						<%= render partial: 'bookmark', collection: @editable_bookmarks %>
 					</div>
@@ -45,12 +36,12 @@
 
 			<% if (@system_bookmarks.size > 0) && !current_user.system_staff? %>
 			<div class="bordered-block">
-				<h2>システム共通のブックマーク
-					<div class="header-explanation">変更不可</div>
+				<h2><%= t('.system_bookmark') %>
+					<div class="header-explanation"><%= t('.unchangeable') %></div>
 				</h2>
 				<% @system_bookmarks.each do |bookmark| %>
 				<div style="padding-left: 20px;">
-					<label><%= bookmark.display_order %>. <%=bookmark.title %>, <%= bookmark.url %></label>
+					<label><%= bookmark.display_order %>. <%=bookmark.display_title %>, <%= bookmark.url %></label>
 				</div>
 				<% end %>
 

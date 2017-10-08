@@ -1,5 +1,9 @@
 en:
   controllers:
+    bookmarks:
+      created: Bookmark created
+      creation_failed: Bookmark creation failed
+      updated: Bookmark updated
     courses:
       no_courses_with_criteria: No courses with these criteria.
     signin:
