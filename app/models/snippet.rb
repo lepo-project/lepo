@@ -14,7 +14,7 @@
 
 class Snippet < ApplicationRecord
   belongs_to :manager, class_name: 'User'
-  belongs_to :source, class_name: 'WebSource'
+  belongs_to :source, class_name: 'WebPage'
   has_one :snippet_file, dependent: :destroy
   has_many :notes, through: :note_indices
   has_many :note_indices, dependent: :destroy

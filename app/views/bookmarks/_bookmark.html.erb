@@ -1,0 +1,13 @@
+<div id="<%= 'bookmark_'+bookmark.id.to_s %>" class="associated-object">
+  <table>
+    <tr>
+      <th class="draggable-symbol"><i class="fa tentative-grip"></i></th>
+      <th class="serial-number"><%= bookmark.display_order %>.</th>
+      <th class="title"><%= sanitize bookmark.display_title %>, <%= bookmark.url %></th>
+      <td class="l120px"><%= l(bookmark.updated_at.to_date, format: :default) %></td>
+      <td class="r80px">
+        <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: bookmark.id}, id_attr: '', class_attr: 'bright-link'} %>
+      </td>
+    </tr>
+  </table>
+</div>

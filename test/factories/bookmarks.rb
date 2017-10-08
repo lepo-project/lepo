@@ -1,21 +1,22 @@
 # == Schema Information
 #
-# Table name: links
+# Table name: bookmarks
 #
 #  id            :integer          not null, primary key
 #  manager_id    :integer
 #  display_order :integer
-#  url           :text
-#  title         :string
+#  display_title :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  target_id     :integer
+#  target_type   :string           default("web")
 #
 
 FactoryGirl.define do
-  factory :link do
+  factory :bookmark do
     association :manager, factory: :user
+    association :target, factory: :web_page
     sequence(:display_order) { |i| i }
-    url { 'http://' + (1..10).map { ('a'..'z').to_a[rand(26)] }.join }
-    sequence(:title) { |i| "Link #{i} Title" }
+    sequence(:display_title) { |i| "bookmark #{i} Title" }
   end
 end

@@ -1,4 +1,4 @@
 require 'test_helper'
 
-class LinksHelperTest < ActionView::TestCase
+class BookmarksHelperTest < ActionView::TestCase
 end

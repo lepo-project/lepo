@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: web_sources
+# Table name: web_pages
 #
 #  id         :integer          not null, primary key
 #  url        :text
@@ -9,7 +9,8 @@
 #  updated_at :datetime         not null
 #
 
-class WebSource < ApplicationRecord
+class WebPage < ApplicationRecord
+  has_many :bookmarks, -> { where(target_type: 'web') }, foreign_key: 'target_id'
   has_many :snippets, -> { where(source_type: 'web') }, foreign_key: 'source_id'
   validates_presence_of :url
   validates :url, format: URI.regexp(%w[http https])

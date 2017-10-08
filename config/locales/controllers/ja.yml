@@ -1,5 +1,9 @@
 ja:
   controllers:
+    bookmarks:
+      created: ブックマークを登録しました
+      creation_failed: ブックマークの登録に失敗しました
+      updated: ブックマークを更新しました
     courses:
       no_courses_with_criteria: 条件を満たすコースが見つかりません
     signin:

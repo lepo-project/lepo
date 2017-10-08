@@ -4,6 +4,8 @@ ja:
     account_summary: パスワード
     archive: 公開終了
     assignment_page: 課題
+    bookmark: ブックマーク
+    bookmark_summary: サイドバーに表示するブックマーク
     candidate: 候補
     char_count: 文字数
     contents_manage: 教材管理
@@ -19,8 +21,6 @@ ja:
     evaluator: 評価担当者
     impossible: 不可
     lesson_status: レッスンの状態
-    link: リンク
-    link_summary: サイドバーに表示するリンク
     messages_in_other_lesson: 他のレッスンのメッセージ
     new_course: 新規コース
     new_course_summary: 新規コースの作成（登録する学期が必要）

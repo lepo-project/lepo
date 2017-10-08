@@ -1,4 +1,14 @@
 ja:
+  bookmarks:
+    new:
+      created_bookmark: 登録済みブックマーク
+      exceeding_the_upper_limit: "ブックマークは%{size}個までしか登録できません"
+      page_title: ブックマークの設定
+      private_bookmark: 個人ブックマーク
+      same_url_bookmark: 同URLのブックマーク登録はタイトルを更新
+      system_bookmark: システムブックマーク
+      unchangeable: 変更不可
+
   contents:
     contents_card:
       course_num: 利用コース数
@@ -134,9 +144,9 @@ ja:
       search_word: 検索語句
     sub_toolbar:
       add: :courses.course_manager_select.add
+      new_bookmark: ブックマークを作成
       new_content: 教材を作成
       new_course: コースを作成
-      new_link: リンクを作成
       signout: サインアウト
 
   notes:

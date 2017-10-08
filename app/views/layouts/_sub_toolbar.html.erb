@@ -21,8 +21,8 @@
     </a>
     <% end %>
 
-    <%= link_to({controller: 'links', action: 'ajax_new'}, {class: 'dropdown-item', remote: true}) do %>
-    <i class="fa fa-link fa-lg fa-fw"></i> <%= t('.new_link') %>
+    <%= link_to({controller: 'bookmarks', action: 'ajax_new'}, {class: 'dropdown-item', remote: true}) do %>
+    <i class="fa fa-bookmark fa-lg fa-fw"></i> <%= t('.new_bookmark') %>
     <% end %>
   </div>
 </div>

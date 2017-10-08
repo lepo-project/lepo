@@ -191,7 +191,7 @@ class Note < ApplicationRecord
     ids = reference_ids
     references = []
     ids.each do |id|
-      references.push WebSource.find(id)
+      references.push WebPage.find(id)
     end
     references
   end

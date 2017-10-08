@@ -128,7 +128,7 @@ class Course < ApplicationRecord
   #
   #   hot_sources = []
   #   snippets_with_count[0, max_size].each do |swc|
-  #     hot_sources.push WebSource.find_by(id: swc[0]) if swc[1] > 1
+  #     hot_sources.push WebPage.find_by(id: swc[0]) if swc[1] > 1
   #   end
   #   hot_sources
   # end

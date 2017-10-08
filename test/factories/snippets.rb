@@ -15,7 +15,7 @@
 FactoryGirl.define do
   factory :snippet do
     association :manager, factory: :user
-    association :source, factory: :web_source
+    association :source, factory: :web_page
     description 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
 
     factory :header_snippet do

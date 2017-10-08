@@ -1,0 +1,15 @@
+<% bookmarks = available_bookmarks %>
+<% if (bookmarks.size > 0) %>
+<h1>
+  <%= t("activerecord.models.bookmark") %>
+</h1>
+<ul>
+  <% bookmarks.each do |bookmark| %>
+  <li>
+    <a href="<%= sanitize bookmark.url %>" class="bookmark" target="_blank">
+      <i class="fa fa-bookmark fa-lg"></i> <%= bookmark['display_title'] %>
+    </a>
+  </li>
+  <% end %>
+</ul>
+<% end %>

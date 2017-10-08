@@ -146,8 +146,8 @@ module ApplicationHelper
     when 'devices'
       # FIXME: PushNotification
       'fa-mobile'
-    when 'links'
-      'fa-link'
+    when 'bookmarks'
+      'fa-bookmark'
     when 'preferences'
       case action_name
       when 'ajax_account_pref'
@@ -386,10 +386,10 @@ module ApplicationHelper
   end
 
   # 4. for others =============================================================================
-  def available_links
+  def available_bookmarks
     user_id = session[:id]
-    return Link.by_user(user_id) + Link.by_system_staffs if user_id && !User.system_staff?(user_id)
-    Link.by_system_staffs
+    return Bookmark.by_user(user_id) + Bookmark.by_system_staffs if user_id && !User.system_staff?(user_id)
+    Bookmark.by_system_staffs
   end
 
   def check_identical(item, nav_id_exists, nav_section, nav_controller, nav_id)

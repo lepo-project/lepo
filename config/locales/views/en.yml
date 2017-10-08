@@ -1,4 +1,14 @@
 en:
+  bookmarks:
+    new:
+      created_bookmark: Created bookmark
+      exceeding_the_upper_limit: "Exceeding the upper limit of the bookmarks, %{size}"
+      page_title: Bookmark preference
+      private_bookmark: Private bookmark
+      same_url_bookmark: Bookmark creation with same URL updates the title
+      system_bookmark: System bookmark
+      unchangeable: Unchangeable
+
   contents:
     contents_card:
       course_num: Courses
@@ -134,9 +144,9 @@ en:
       search_word: search word
     sub_toolbar:
       add: :courses.course_manager_select.add
+      new_bookmark: New Bookmark
       new_content: New Content
       new_course: New Course
-      new_link: New Link
       signout: Signout
 
   notes:

@@ -4,6 +4,7 @@ en:
       asset_file: Asset file
       attachment_file: Attachment file
       attendance: Attendance
+      bookmark: Bookmark
       content: Content
       content_member: Member
       course: Course
@@ -12,7 +13,6 @@ en:
       goal: Goal
       goals_objective: Goals and Objective
       lesson: Lesson
-      link: Link
       message_template: Message Template
       note: Note
       note_star: Note Star
@@ -31,7 +31,7 @@ en:
       sticky_star: Sticky Star
       term: Term
       user: User
-      web_source: Web Source
+      web_page: Web Page
 
     attributes:
       asset_file:
@@ -52,6 +52,11 @@ en:
         lesson: :activerecord.models.lesson
         memo: Memo
         user: :activerecord.models.user
+
+      bookmark:
+        display_order: Display order
+        manager: :activerecord.models.manager
+        title: Title
 
       content:
         as_category: Assignment category
@@ -136,12 +141,6 @@ en:
         no_goal_objectives: No goal objectives
         outcomes: Outcomes
         status: Status
-
-      link:
-        display_order: Display order
-        manager: :activerecord.models.manager
-        title: Title
-        url: URL
 
       message_template:
         content: :activerecord.models.content
@@ -309,7 +308,7 @@ en:
         token: Token
         web_url: Web url
 
-      web_source:
+      web_page:
         snippets: Snippets
         title: Title
         url: Url

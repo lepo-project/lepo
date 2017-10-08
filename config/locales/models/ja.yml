@@ -4,6 +4,7 @@ ja:
       asset_file: 素材ファイル
       attachment_file: 添付ファイル
       attendance: 出席
+      bookmark: ブックマーク
       content: 教材
       content_member: 教材メンバー
       course: コース
@@ -12,7 +13,6 @@ ja:
       goal: 到達目標
       goals_objective: コースと教材のゴール
       lesson: レッスン
-      link: リンク
       message_template: メッセージテンプレート
       note: ノート
       note_star: ノートのスター
@@ -31,7 +31,7 @@ ja:
       sticky_star: ふせんのスター
       term: 学期
       user: ユーザ
-      web_source: Webソース
+      web_page: Webページ
 
     attributes:
       asset_file:
@@ -52,6 +52,11 @@ ja:
         lesson: :activerecord.models.lesson
         memo: メモ
         user: :activerecord.models.user
+
+      bookmark:
+        display_order: 表示順序
+        manager: 管理者
+        title: タイトル
 
       content:
         as_category: 課題カテゴリ
@@ -136,12 +141,6 @@ ja:
         no_goal_objectives: 目標の目標はありません
         outcomes: :activerecord.models.outcome
         status: 状態
-
-      link:
-        display_order: 表示順序
-        manager: 管理者
-        title: タイトル
-        url: URL
 
       message_template:
         content: :activerecord.models.content
@@ -309,7 +308,7 @@ ja:
         token: トークン
         web_url: Web URL
 
-      web_source:
+      web_page:
         snippets: :activerecord.models.snippet
         title: タイトル
         url: URL

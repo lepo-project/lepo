@@ -4,6 +4,8 @@ en:
     account_summary: password
     archive: Archive
     assignment_page: Asg.
+    bookmark: Bookmark
+    bookmark_summary: bookmarks shown in sidebar
     candidate: Candidate
     char_count: character count
     contents_manage: Contents Manage
@@ -19,8 +21,6 @@ en:
     evaluator: Evaluator
     impossible: Impossible
     lesson_status: Lesson Status
-    link: Link
-    link_summary: links shown in sidebar
     messages_in_other_lesson: Messages in other lesson
     new_course: New Course
     new_course_summary: new course creation (term to register is necessary)
