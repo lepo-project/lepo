@@ -42,7 +42,7 @@
       <i class='fa fa-star fa-lg'></i><%= @note.stars_count %> <%= t('.pieces') %>
     </div>
     <% end %>
-    <div class="align-right" title="<%= l(@note.updated_at)  %>">
+    <div class="align-right" title="<%= l(@note.updated_at, format: :long)  %>">
       <%= l(@note.updated_at.to_date, format: :short)  %>
     </div>
   </div>
