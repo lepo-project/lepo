@@ -69,7 +69,7 @@ module ApplicationHelper
   end
 
   def last_signin_at_text(date_at)
-    return 'LePo未利用' unless date_at
+    return t('helpers.not_using_lepo') unless date_at
     l(date_at, format: :long)
   end
 
@@ -207,7 +207,7 @@ module ApplicationHelper
     card['body'] = "管理している教材： #{managing_contents.size}教材\n"
     card['body'] += "補助している教材： #{assisting_contents.size}教材\n"
     card['summary'] = false
-    card['footnotes'] = ['最終利用： ' + last_signin_at_text(user.last_signin_at)]
+    card['footnotes'] = [t('helpers.last_used_at') + ' : ' + last_signin_at_text(user.last_signin_at)]
     card
   end
 
@@ -222,7 +222,7 @@ module ApplicationHelper
     card['body'] += "管理しているコース： #{managing_courses.size}コース\n"
     card['body'] += "補助しているコース： #{assisting_courses.size}コース\n"
     card['summary'] = false
-    card['footnotes'] = ['最終利用： ' + last_signin_at_text(user.last_signin_at)]
+    card['footnotes'] = [t('helpers.last_used_at') + ' : ' + last_signin_at_text(user.last_signin_at)]
     card['footnotes'].push("[#{t('helpers.contents_manage')}: #{user.content_manageable? ? t('helpers.possible') : t('helpers.impossible')}]")
     card
   end
@@ -317,7 +317,7 @@ module ApplicationHelper
     card['body'] = "個人ふせん： 計#{stickies['private']}枚\n"
     card['body'] += "コースふせん： 計#{stickies['course']}枚\n"
     card['summary'] = false
-    card['footnotes'] = ['最終利用： ' + last_signin_at_text(user.last_signin_at)]
+    card['footnotes'] = [t('helpers.last_used_at') + ' : ' + last_signin_at_text(user.last_signin_at)]
     card
   end
 
@@ -349,7 +349,7 @@ module ApplicationHelper
     card['body'] = user.description
     card['summary'] = false
     if user.updated_at
-      card['footnotes'] = ['最終更新： ' + l(user.updated_at, format: :long)]
+      card['footnotes'] = [t('helpers.last_updated_at') + ' : ' + l(user.updated_at, format: :long)]
     else
       card['footnotes'] = ['最終更新： 未更新']
     end

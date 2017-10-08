@@ -20,6 +20,8 @@ ja:
     edit_course_summary: 既存コースの検索と編集
     evaluator: 評価担当者
     impossible: 不可
+    last_updated_at: 最終更新
+    last_used_at: 最終利用
     lesson_status: レッスンの状態
     messages_in_other_lesson: 他のレッスンのメッセージ
     new_course: 新規コース
@@ -28,6 +30,7 @@ ja:
     new_user_summary: 新規ユーザの作成
     no_title: （タイトルなし）
     not_distribute: （未配布）
+    not_using_lepo: LePo未利用
     note: ノート
     note_summary: +Note ボタン / 標準ノート
     note_management: ノート管理

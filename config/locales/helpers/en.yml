@@ -20,6 +20,8 @@ en:
     edit_course_summary: search and edit for existing course
     evaluator: Evaluator
     impossible: Impossible
+    last_updated_at: Last updated at
+    last_used_at: Last used at
     lesson_status: Lesson Status
     messages_in_other_lesson: Messages in other lesson
     new_course: New Course
@@ -28,6 +30,7 @@ en:
     new_user_summary: new user creation
     no_title: ( No Title )
     not_distribute:  ( Not distribute )
+    not_using_lepo: Not using LePo
     note: Note
     note_summary: +Note Button / Default Note
     note_management: Note Management
