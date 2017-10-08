@@ -15,8 +15,8 @@ module PreferencesHelper
     when 'devices'
       # FIXME: PushNotification
       t('helpers.device') + ' : ' + t('helpers.device_summary')
-    when 'links'
-      t('helpers.link') + ' : ' + t('helpers.link_summary')
+    when 'bookmarks'
+      t('helpers.bookmark') + ' : ' + t('helpers.bookmark_summary')
     when 'preferences'
       case action_name
       when 'ajax_account_pref'
@@ -49,8 +49,8 @@ module PreferencesHelper
     when 'devices'
       # FIXME: PushNotification
       'device-pref'
-    when 'links'
-      'link-pref'
+    when 'bookmarks'
+      'bookmark-pref'
     when 'preferences'
       case action_name
       when 'ajax_account_pref'

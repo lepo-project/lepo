@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: links
+# Table name: bookmarks
 #
 #  id            :integer          not null, primary key
 #  manager_id    :integer
@@ -11,7 +11,7 @@
 #  updated_at    :datetime         not null
 #
 
-class Link < ApplicationRecord
+class Bookmark < ApplicationRecord
   belongs_to :manager, class_name: 'User'
   validates_presence_of :display_order
   validates_presence_of :manager_id
@@ -24,15 +24,15 @@ class Link < ApplicationRecord
   # Public Functions
   # ====================================================================
   def self.by_user(user_id)
-    Link.where(manager_id: user_id).order(display_order: :asc).limit(10).to_a
+    Bookmark.where(manager_id: user_id).order(display_order: :asc).limit(10).to_a
   end
 
   def self.by_system_staffs
-    links = []
-    User.system_staffs.each do |sm|
-      links += by_user sm.id
+    bookmarks = []
+    User.system_staffs.each do |ss|
+      bookmarks += by_user ss.id
     end
-    links.sort_by(&:display_order)
+    bookmarks.sort_by(&:display_order)
   end
 
   def deletable?(user)

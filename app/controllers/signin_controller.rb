@@ -41,7 +41,7 @@ class SigninController < ApplicationController
       user = User.new(user_hash)
       if user.save
         url = I18n.default_locale == :ja ? 'https://lepo.info/' : 'https://lepo.info/en'
-        Link.create manager_id: user.id, title: 'LePo Project', url: url, display_order: 1
+        Bookmark.create manager_id: user.id, title: 'LePo Project', url: url, display_order: 1
       else
         flash[:message] = t('controllers.signin.setup_error1')
         flash[:message_category] = 'error'

@@ -134,9 +134,9 @@ ja:
       search_word: 検索語句
     sub_toolbar:
       add: :courses.course_manager_select.add
+      new_bookmark: ブックマークを作成
       new_content: 教材を作成
       new_course: コースを作成
-      new_link: リンクを作成
       signout: サインアウト
 
   notes:

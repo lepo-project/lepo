@@ -134,9 +134,9 @@ en:
       search_word: search word
     sub_toolbar:
       add: :courses.course_manager_select.add
+      new_bookmark: New Bookmark
       new_content: New Content
       new_course: New Course
-      new_link: New Link
       signout: Signout
 
   notes:

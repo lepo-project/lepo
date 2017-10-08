@@ -62,7 +62,7 @@ Lint/UselessAssignment:
     - 'app/helpers/courses_helper.rb'
     - 'app/helpers/portfolios_helper.rb'
     - 'app/models/course.rb'
-    - 'app/models/web_source.rb'
+    - 'app/models/web_page.rb'
 
 # Offense count: 1
 Lint/Void:
@@ -177,7 +177,7 @@ Style/GuardClause:
     - 'app/models/snippet.rb'
     - 'app/models/note.rb'
     - 'app/models/user.rb'
-    - 'app/models/web_source.rb'
+    - 'app/models/web_page.rb'
 
 # Offense count: 6
 Style/IdenticalConditionalBranches:
@@ -233,7 +233,7 @@ Style/RedundantReturn:
     - 'app/helpers/application_helper.rb'
     - 'app/models/outcome.rb'
     - 'app/models/note.rb'
-    - 'app/models/web_source.rb'
+    - 'app/models/web_page.rb'
 
 # Offense count: 5
 # Cop supports --auto-correct.
@@ -242,7 +242,7 @@ Style/RedundantReturn:
 Style/RegexpLiteral:
   Exclude:
     - 'app/helpers/application_helper.rb'
-    - 'app/models/web_source.rb'
+    - 'app/models/web_page.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.

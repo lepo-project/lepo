@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: links
+# Table name: bookmarks
 #
 #  id            :integer          not null, primary key
 #  manager_id    :integer
@@ -12,10 +12,10 @@
 #
 
 FactoryGirl.define do
-  factory :link do
+  factory :bookmark do
     association :manager, factory: :user
     sequence(:display_order) { |i| i }
     url { 'http://' + (1..10).map { ('a'..'z').to_a[rand(26)] }.join }
-    sequence(:title) { |i| "Link #{i} Title" }
+    sequence(:title) { |i| "bookmark #{i} Title" }
   end
 end

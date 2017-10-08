@@ -27,6 +27,9 @@ FOLDER_NAME_LENGTH = 32
 IMAGE_MAX_FILE_SIZE = 3
 
 # ===== Model related constatns =====
+# max size of bookmarks per user: just to prevent abuse
+BOOKMARK_MAX_SIZE = 30
+
 # max size[MB]/file for content page, asset and attachment file
 CONTENT_MAX_FILE_SIZE = 80
 
@@ -62,9 +65,6 @@ OUTCOME_MAX_FILE_SIZE = 10
 
 # max number for assignment outcome file per assignment
 OUTCOME_MAX_SIZE = 9
-
-# max size of links per user: just to prevent abuse
-USER_LINK_MAX_SIZE = 30
 
 # min and max character length for user password
 USER_PASSWORD_MIN_LENGTH = 6

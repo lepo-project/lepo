@@ -97,7 +97,7 @@ class SnippetsController < ApplicationController
 
     if snippet.source_type == 'web'
       source_id = snippet.source_id
-      WebSource.find(source_id).destroy if Snippet.where(source_type: 'web', source_id: source_id).count.zero?
+      WebPage.find(source_id).destroy if Snippet.where(source_type: 'web', source_id: source_id).count.zero?
     end
 
     if note_id
@@ -246,7 +246,7 @@ class SnippetsController < ApplicationController
       # Upper limit of description is introduced by varchar(255) of MySQL and copyrigt point of view
       @warning_message = '選択した文字が多すぎるため、+Noteできません'
       render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
-    elsif WebSource.pdf_url? url
+    elsif WebPage.pdf_url? url
       # Firefox: text snippet from PDF works for url, title and description
       # Chrome & Safari: text snippet from PDF works for url, but not for title and description
       # IE11: text snippet from PDF doesn't work (no access to lepo server)
@@ -311,7 +311,7 @@ class SnippetsController < ApplicationController
   end
 
   def embed_url?(url)
-    (WebSource.scratch_url? url) || (WebSource.ted_url? url) || (WebSource.youtube_url? url)
+    (WebPage.scratch_url? url) || (WebPage.ted_url? url) || (WebPage.youtube_url? url)
   end
 
   def lepo_url?(url)
@@ -339,7 +339,7 @@ class SnippetsController < ApplicationController
   end
 
   def save_web_snippet(url, title, description, category, user)
-    source_id = save_web_source url, title
+    source_id = save_web_page url, title
     if (source_id > 0) && ((category == 'text') || (category == 'pdf'))
       note_id = user.default_note_id
       if note_id > 0 && Note.find_by(id: note_id) && Note.find(note_id).manager_id == user.id
@@ -373,14 +373,14 @@ class SnippetsController < ApplicationController
   end
 
   def save_web_embed_snippet(url, title, user)
-    source_id = save_web_source url, title
+    source_id = save_web_page url, title
     if source_id > 0
       # snippet creation
-      if WebSource.scratch_url? url
+      if WebPage.scratch_url? url
         category = 'scratch'
-      elsif WebSource.ted_url? url
+      elsif WebPage.ted_url? url
         category = 'ted'
-      elsif WebSource.youtube_url? url
+      elsif WebPage.youtube_url? url
         category = 'youtube'
       else
         category = 'text'
@@ -401,9 +401,9 @@ class SnippetsController < ApplicationController
     end
   end
 
-  def save_web_source(url, title)
-    # web_source creation
-    source = WebSource.find_or_initialize_by(url: url)
+  def save_web_page(url, title)
+    # web_page creation
+    source = WebPage.find_or_initialize_by(url: url)
     unless source.update(title: title)
       render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
       return 0
