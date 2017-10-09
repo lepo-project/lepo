@@ -25,6 +25,7 @@ class Snippet < ApplicationRecord
   validates_inclusion_of :category, in: %w[text image pdf scratch ted youtube], if: "source_type == 'web'"
   validates_inclusion_of :source_type, in: %w[direct upload web]
   validates_format_of :description, with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension', if: "source_type == 'web' && category == 'image'"
+  after_destroy :destroy_source
 
   # ====================================================================
   # Public Functions
@@ -103,6 +104,18 @@ class Snippet < ApplicationRecord
       return false unless to_note_id
       # snippet manager: from nil to note
       Note.find_by(id: to_note_id).manager_id == user_id
+    end
+  end
+
+  # ====================================================================
+  # Private Functions
+  # ====================================================================
+  private
+
+  def destroy_source
+    case source_type
+    when 'web'
+      source.destroy if source.deletable?
     end
   end
 end

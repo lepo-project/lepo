@@ -21,7 +21,7 @@ class Bookmark < ApplicationRecord
   validates_presence_of :target_id
   validates_inclusion_of :target_type, in: %w[web]
   validates_uniqueness_of :display_title, scope: [:manager_id]
-  before_destroy :destroy_target
+  after_destroy :destroy_target
 
   # ====================================================================
   # Public Functions
@@ -55,7 +55,7 @@ class Bookmark < ApplicationRecord
   def destroy_target
     case target_type
     when 'web'
-      target.destroy if target.bookmarks.size == 1 && target.snippets.size.zero?
+      target.destroy if target.deletable?
     end
   end
 end

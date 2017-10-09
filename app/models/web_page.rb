@@ -50,4 +50,8 @@ class WebPage < ApplicationRecord
       Regexp.last_match(5)
     end
   end
+
+  def deletable?
+    (bookmarks.size + snippets.size).zero?
+  end
 end

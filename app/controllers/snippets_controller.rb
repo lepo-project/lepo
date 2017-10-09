@@ -95,11 +95,6 @@ class SnippetsController < ApplicationController
     note_id = params[:note_id].to_i if params[:note_id]
     snippet.destroy
 
-    if snippet.source_type == 'web'
-      source_id = snippet.source_id
-      WebPage.find(source_id).destroy if Snippet.where(source_type: 'web', source_id: source_id).count.zero?
-    end
-
     if note_id
       render_snippets note_id
     else
