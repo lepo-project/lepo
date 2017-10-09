@@ -10,8 +10,8 @@
 #  token                :string
 #  role                 :string           default("user")
 #  family_name          :string
-#  phonetic_family_name :string
 #  given_name           :string
+#  phonetic_family_name :string
 #  phonetic_given_name  :string
 #  folder_name          :string
 #  image_file_name      :string
@@ -25,6 +25,7 @@
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #
+
 
 FactoryGirl.define do
   factory :user, class: User do

@@ -4,7 +4,7 @@ class CreateOutcomes < ActiveRecord::Migration[5.0]
       t.integer :manager_id
       t.integer :course_id
       t.integer :lesson_id
-      t.string :folder_id
+      t.string :folder_name
       t.string :status, default: 'draft'
       t.integer :score
       t.boolean :checked

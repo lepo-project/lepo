@@ -1,6 +1,3 @@
-require 'net/ldap'
-require 'digest/sha1'
-require 'csv'
 # == Schema Information
 #
 # Table name: users
@@ -13,8 +10,8 @@ require 'csv'
 #  token                :string
 #  role                 :string           default("user")
 #  family_name          :string
-#  phonetic_family_name :string
 #  given_name           :string
+#  phonetic_family_name :string
 #  phonetic_given_name  :string
 #  folder_name          :string
 #  image_file_name      :string
@@ -29,6 +26,9 @@ require 'csv'
 #  updated_at           :datetime         not null
 #
 
+require 'net/ldap'
+require 'digest/sha1'
+require 'csv'
 class User < ApplicationRecord
   include RandomString
   before_validation :set_default_value
