@@ -1,0 +1,35 @@
+<% if session[:sticky_panel] == 'hide' %>
+<!-- Inactive button -->
+<div class="toolbar-btn">
+  <i class='fa fa-plus'></i> <%= t('activerecord.models.sticky') %> (<%= stickies.size %>)
+</div>
+<% else %>
+<!-- Active button -->
+<a id="create-sticky-btn" class="toolbar-btn" style="cursor:pointer;">
+  <i class='fa fa-plus'></i> <%= t('activerecord.models.sticky') %> (<%= stickies.size %>)
+</a>
+<% end %>
+
+<a class="toolbar-btn dropdown-toggle" data-toggle="dropdown" style="cursor:pointer;"><i class="fa fa-cog fa-2x"></i></a>
+<div class="dropdown-menu">
+<% unless session[:nav_controller] == 'notes' %>
+<%= link_to(url_hash.merge({star_sort_stickies: !session[:star_sort_stickies]}), {id: 'sort-btn', class: 'dropdown-item', remote: true}) do %>
+<% if session[:star_sort_stickies] %>
+<i class='fa fa-calendar'></i> <%= t('.stickies_by_date') %>
+<% else %>
+<i class='fa fa-star'></i> <%= t('.stickies_by_stars') %>
+<% end %>
+<% end %>
+<% end %>
+
+<%= link_to(url_hash, {id: 'reload-btn', class: 'dropdown-item', remote: true}) do %>
+<i class='fa fa-repeat'></i> <%= t('.reload_stickies') %>
+<% end %>
+
+<% url_hash[:sticky_panel] = 'hide' unless session[:sticky_panel] == 'hide' %>
+<% item_title = session[:sticky_panel] == 'hide' ? t('.show_sticky_panel') : t('.hide_sticky_panel') %>
+<% item_class = session[:sticky_panel] == 'hide' ? 'fa fa-square' : 'fa fa-window-close' %>
+<%= link_to(url_hash, {id: 'diplay-btn', class: 'dropdown-item', remote: true}) do %>
+<i class="<%= item_class %>"></i> <%= item_title %>
+<% end %>
+</div>

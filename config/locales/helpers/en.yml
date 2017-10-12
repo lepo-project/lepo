@@ -43,11 +43,11 @@ en:
     select_archived_course: archived (course members can view the course from the archive)
     select_draft_course: draft (course staffs can manage the course from the archive)
     select_open_course: open (ourse members can do learning activities in the course)
-    self_evaluation: Self Evaluation
+    self_evaluation: Self Eval.
     support: Support
     system_notice: System Notice
     system_notice_summary: system notices shown in signin page
-    teacher_evaluation: Teacher Evaluation
+    teacher_evaluation: Teacher Eval.
     term: Term
     term_summary: school terms for courses
     unspecified: Unspecified

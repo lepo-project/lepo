@@ -15,19 +15,19 @@
       <div class="row list-header">
         <div class="inner-row">
           <% case session[:nav_section] when 'home' %>
-          <div class="xx-large col">
+          <div class="large-3x col">
             <div><%= t('activerecord.attributes.content.title') %></div>
           </div>
           <div class="medium col">
             <div><%= t('.updated_at') %></div>
           </div>
           <% when 'repository' %>
-          <div class="x-small col">
+          <div class="small-2x col">
             <div></div>
           </div>
           <div class="small col">
           </div>
-          <div class="xxx-large col">
+          <div class="large-4x col">
             <div><%= t('activerecord.attributes.content.title') %></div>
           </div>
           <div class="medium col">
@@ -45,17 +45,17 @@
       <div id="<%= selected_id(content == @content) %>" class="row <%= cycle('even-row', 'odd-row') %>">
         <div class="inner-row">
           <% case session[:nav_section] when 'home' %>
-          <div class="xx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('.pages')})", content.id, {}) %></div>
+          <div class="large-3x col"><%= link_to_resource("#{content.title} (#{t('.pages', num: content.page_files.size)})", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource(l(content.updated_at, format: :short), content.id, {}) %></div>
 
           <% when "repository" %>
           <% icon_info = content_icon_info(content.status) %>
-          <div class="x-small col"><%= link_to_resource("<i class='#{icon_info[:class]}'></i>", content.id, {title: icon_info[:text]}) %></div>
+          <div class="small-2x col"><%= link_to_resource("<i class='#{icon_info[:class]}'></i>", content.id, {title: icon_info[:text]}) %></div>
           <div class="small col">
             <% role = ContentMember.find_by_user_id_and_content_id(session[:id], content.id).role %>
             <%= link_to_resource(t("activerecord.others.content_member.role.#{role}"), content.id, {}) %>
           </div>
-          <div class="xxx-large col"><%= link_to_resource("#{content.title} (#{content.page_files.size.to_s}#{t('.pages')})", content.id, {}) %></div>
+          <div class="large-4x col"><%= link_to_resource("#{content.title} (#{t('.pages', num: content.page_files.size)})", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource("#{content.lessons.size.to_s}", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource(l(content.updated_at, format: :short), content.id, {}) %></div>
           <% end %>

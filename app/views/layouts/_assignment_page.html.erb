@@ -1,7 +1,7 @@
 <div id="simple-html-content">
   <div id="container" class="assignment-page">
     <div id="content">
-      <h1><%= assignment_category_text @content.as_category %>課題
+      <h1><%= t('.assignment') %> : <%= t('activerecord.others.content.as_category.' + @content.as_category) %>
         <% if @lesson and !@lesson.new_record? %>
         [ <%= lesson_evaluator_text @lesson.evaluator_id %> ]
         <% end %>
@@ -36,8 +36,9 @@
   </div>
 </div>
 
-<% if session[:sticky_panel] != 'none' %><div id="sticky-panel"><%= render partial: 'stickies/sticky_panel', object: pg['stickies'] %></div>
-<% end %>
+<div id="sticky-panel">
+<%= render partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] } %>
+</div>
 
 
 <script>

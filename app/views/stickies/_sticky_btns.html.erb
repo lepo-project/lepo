@@ -7,6 +7,6 @@
 
 <!-- FIXME: note_sticky  -->
 <% if (session[:nav_controller] != 'notes') %>
-<%= link_to(raw("&#8595;<i class='fa fa-star'></i>"), hash.merge({star_sort_stickies: !session[:star_sort_stickies]}), {remote: true, id: 'sort-btn', class: "btn btn-sm #{btn_class}", title: 'スター数で並べ替え'}) %>
+<%= link_to(raw("&#8595;<i class='fa fa-star'></i> スター数で並べ替え"), hash.merge({star_sort_stickies: !session[:star_sort_stickies]}), {remote: true, id: 'sort-btn', class: "btn btn-sm #{btn_class}", title: 'スター数で並べ替え'}) %>
 <% end %>
-<%= link_to(raw("<i class='fa fa-repeat'></i>"), hash, {remote: true, id: 'reload-btn', class: 'btn btn-sm btn-light', title: '再読み込み'}) %>
+<%= link_to(raw("<i class='fa fa-repeat'></i> ふせんを再読み込み"), hash, {remote: true, id: 'reload-btn', class: 'btn btn-sm btn-light', title: '再読み込み'}) %>

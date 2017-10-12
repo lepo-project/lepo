@@ -314,6 +314,11 @@ en:
         url: Url
 
     others:
+      content:
+        as_category:
+          file: File submission
+          outside: Outside the system
+          text: Text description
       content_member:
         role:
           manager: Manager
@@ -335,6 +340,10 @@ en:
           open: Open
           review: Review
       updated_at: updated at
+      sticky:
+        category:
+          private: Private
+          course: Course
       user:
         authentication:
           local: Local

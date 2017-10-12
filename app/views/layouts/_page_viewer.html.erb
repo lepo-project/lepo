@@ -1,8 +1,8 @@
 <iframe id="page_frame" name="page_frame" src="<%= pg['file'] %>" frameborder="0" marginheight="0" marginwidth="0" style="opacity: 0;" onload="this.style.opacity=1;"></iframe>
 
-<% if session[:sticky_panel] != 'none' %>
-<div id="sticky-panel"><%= render(partial: 'stickies/sticky_panel', object: pg['stickies']) %></div>
-<% end %>
+<div id="sticky-panel">
+<%= render(partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] }) %>
+</div>
 
 <script>
 $(function () {

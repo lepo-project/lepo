@@ -6,7 +6,7 @@
       <th class="title"><%= lesson.content.title %></th>
       <th class="l80px">
         <% status = (lesson.status == 'open') ? 'draft' : 'open' %>
-        <%= link_to({action: 'ajax_update_lesson_status', id: @course.id, lesson_id: lesson.id, status: status}, {class: 'bright-link', remote: true}) do %>
+        <%= link_to({action: 'ajax_update_lesson_status', id: @course.id, lesson_id: lesson.id, status: status, page: 'edit_lessons'}, {class: 'bright-link', remote: true}) do %>
         <%= status_text(lesson.status) %>
         <% end %>
       </th>

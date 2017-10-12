@@ -1,22 +1,13 @@
-<% stickies = sticky_panel %>
+<% unless session[:sticky_panel] == 'hide' %>
 <div class="<%= session[:sticky_panel] %>">
-	<div id="sticky-panel-toolbar" class="toolbar">
-		<%= render partial: 'stickies/toolbar', locals: {stickies: stickies} %>
-	</div>
-
-	<% unless session[:sticky_panel] == 'mini' %>
-	<!-- for new private sticky creation-->
-	<% if (session[:nav_controller] != 'notes') %>
 	<%= render partial: 'stickies/edit', locals: {sticky: @sticky, view_category: 'panel'} %>
-	<% end %>
-
-	<% if session[:nav_id].to_i > 0 %>
-	<!-- for new course sticky creation-->
-	<% @sticky.category = 'course' %>
-	<%= render partial: 'stickies/edit', locals: {sticky: @sticky, view_category: 'panel'} %>
-	<% end %>
+	<!-- for existing stickies -->
 	<div class="stickies">
 		<%= render partial: 'stickies/sticky', collection: stickies, locals: {view_category: 'panel'} %>
 	</div>
-	<% end %>
 </div>
+
+<script>
+$("#create-sticky-btn").click(function(){toggleCreateSticky();});
+</script>
+<% end %>

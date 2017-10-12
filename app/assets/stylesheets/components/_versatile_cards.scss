@@ -196,15 +196,18 @@
           padding-left: 5px;
           padding-right: 5px;
           text-align: center;
-          &.xx-small {
+          &.small-3x {
             width: 30px;
           }
-          &.x-small {
+          &.small-2x {
             width: 40px;
           }
           &.small {
             font-size: 1rem; // prescription for same name class in bootstrap4
             width: 80px;
+          }
+          &.medium-small {
+            width: 100px;
           }
           &.medium {
             width: 120px;
@@ -212,29 +215,41 @@
           &.large {
             width: 160px;
           }
-          &.x-large {
+          &.large-2x {
             text-align: left;
             width: 200px;
           }
-          &.xx-large {
+          &.large-3x {
             text-align: left;
             width: 240px;
           }
-          &.xxx-large {
+          &.large-4x {
             text-align: left;
             width: 280px;
           }
-          &.xxxx-large {
+          &.large-5x {
             text-align: left;
             width: 320px;
           }
-          &.xxxxx-large {
+          &.large-6x {
             text-align: left;
             width: 360px;
           }
-          &.xxxxxx-large {
+          &.large-7x {
             text-align: left;
             width: 400px;
+          }
+          &.large-8x {
+            text-align: left;
+            width: 440px;
+          }
+          &.large-9x {
+            text-align: left;
+            width: 480px;
+          }
+          &.large-10x {
+            text-align: left;
+            width: 520px;
           }
           &.endpoint {
             text-align: left;

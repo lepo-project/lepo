@@ -60,13 +60,13 @@ class StickiesController < ApplicationController
         stickies = stickies_by_note_from_panel @sticky.target_id
       end
       case params[:sticky_panel]
-      when 'show', 'mini'
+      when 'show', 'hide'
         session[:sticky_panel] = params[:sticky_panel]
       when 'private', 'course'
         session[:sticky_panel] = 'edit'
         @sticky.category = params[:sticky_panel]
       end
-      render 'stickies/renders/sticky_panel', locals: { stickies: stickies }
+      render_page_with_sticky_panel(stickies)
     end
 
     def ajax_destroy_sticky
@@ -185,7 +185,13 @@ class StickiesController < ApplicationController
     end
 
     def render_page_with_sticky_panel(stickies)
-      render 'stickies/renders/sticky_panel', locals: { stickies: stickies }
+      case @sticky.target_type
+      when 'page'
+        url_hash = { action: 'ajax_arrange_sticky_panel', content_id: @sticky.content_id, target_type: @sticky.target_type, target_id: @sticky.target_id, sticky_panel: 'show' }
+      when 'note'
+        url_hash = { action: 'ajax_arrange_sticky_panel', target_type: @sticky.target_type, target_id: @sticky.target_id, sticky_panel: 'show' }
+      end
+      render 'stickies/renders/sticky_panel', locals: { stickies: stickies, url_hash: url_hash }
     end
 
     def searched_stickies(keyword = nil)
