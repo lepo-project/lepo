@@ -21,7 +21,7 @@
   }
   #main-toolbar {
     background-color: $toolbar-bgcolor;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     height: $toolbar-height;
     left: 0;
     padding: 2px;
@@ -63,7 +63,7 @@
         padding-top: 3px;
         .btn-group {
           float: left;
-          width: 5.5rem;
+          width: 6rem;
           a.toolbar-btn {
             padding-left: 0;
           }
@@ -98,7 +98,7 @@
       height: 100%;
       div.dropdown-menu {
         left: -12rem;
-        width: 16rem;
+        width: 18rem;
       }
     }
     div.dropdown-menu {
@@ -110,7 +110,7 @@
       margin-top: 1px;
       a.dropdown-item {
         display: block;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         height: 100%;
         width: 100%;
         &:hover {
@@ -133,7 +133,7 @@
       padding: 4px 8px;
       text-align: center;
       i {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
       }
     }
     a.toolbar-btn {

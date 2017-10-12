@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_sticky_panel_session
-    session[:sticky_panel] = 'show' if !session[:sticky_panel] || (session[:sticky_panel] != 'mini')
+    session[:sticky_panel] = 'show' if !session[:sticky_panel] || (session[:sticky_panel] != 'hide')
   end
 
   def set_star_sort_stickies_session(session_value = false)

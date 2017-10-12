@@ -5,17 +5,10 @@
 </nav>
 
 <div id="toolbar-btns">
-  <% if (@course.manager? session[:id]) && (@course.status != 'archived') %>
-  <% status = (@lesson.status == 'open') ? 'draft' : 'open' %>
-  <% title = (@lesson.status == 'open') ? '非公開に設定' : '公開に設定' %>
-  <% icon_class = (@lesson.status == "open") ? 'fa fa-lock' : 'fa fa-key' %>
   <div class="btn-group">
-    <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i></a>
-    <div class="dropdown-menu">
-      <%= link_to({action: 'ajax_update_lesson_status_toolbar', id: @course.id, lesson_id: @lesson.id, status: status}, {class: 'dropdown-item', remote: true}) do %>
-      <i class="<%= icon_class %>"></i> <%= title %>
-      <% end %>
+    <div id="sticky-toolbar">
+      <% url_hash = {action: 'ajax_arrange_sticky_panel', content_id: @content.id, target_type: 'page', target_id: pg['file_id'], sticky_panel: 'show'} %>
+      <%= render partial: 'stickies/toolbar', locals: {stickies: pg['stickies'], url_hash: url_hash} %>
     </div>
   </div>
-  <% end %>
 </div>

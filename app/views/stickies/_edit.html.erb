@@ -1,6 +1,6 @@
 <% if sticky.new_record? %>
 <% id = 0 %>
-<% form_id = ((sticky.category == 'course') ? 'create_course_sticky' : 'create_private_sticky') %>
+<% form_id = 'create_sticky' %>
 <% url = {action: 'ajax_create_sticky', view_category: view_category} %>
 <% else %>
 <% id = sticky.id %>
@@ -10,26 +10,35 @@
 
 <div id="<%= form_id %>" class="sticky <%= sticky.category %>-border to-be-hidden" style="display: none;">
   <div class="clearfix" style="margin: 4px;" >
-    <%= form_for(sticky, url: url, html: {id: 'sticky_form', name: 'sticky_form', remote: true}) do |sticky_form| %>
+    <%= form_for(sticky, url: url, html: {id: 'sticky_form', name: 'sticky_form', remote: true}) do |f| %>
     <div id="new-sticky">
-      <%= sticky_form.text_area :message, id: 'sticky_message', class: 'elastic_textarea' %>
-      <%= sticky_form.hidden_field(:course_id, value: sticky.course_id) if sticky.course_id %>
-      <%= sticky_form.hidden_field(:target_type, value: sticky.target_type) %>
-      <%= sticky_form.hidden_field(:target_id, value: sticky.target_id) %>
-      <%= sticky_form.hidden_field(:category, value: sticky.category) %>
-      <%= sticky_form.hidden_field(:content_id, value: sticky.content_id) if (sticky.target_type == 'page') %>
+      <%= f.text_area :message, id: 'sticky_message', class: 'elastic_textarea' %>
+      <%= f.hidden_field(:course_id, value: sticky.course_id) if sticky.course_id %>
+      <%= f.hidden_field(:target_type, value: sticky.target_type) %>
+      <%= f.hidden_field(:target_id, value: sticky.target_id) %>
+      <%= f.hidden_field(:content_id, value: sticky.content_id) if (sticky.target_type == 'page') %>
     </div>
-    <div style="margin: 2px;">
-      <%= sticky_form.submit sticky_category_text(sticky.category)+'を貼る', class: 'btn btn-sm btn-primary', style: 'float:left; margin-right:4px;' %>
-      <a id="cancel_<%= form_id %>" class='btn btn-sm btn-light' style='float:left;cursor:pointer;'><%= t('.cancel') %></a>
+    <div class="form-inline" style="margin: 2px; display:flex; justify-content: space-between;">
+      <% categories = [] %>
+      <!-- for private sticky creation -->
+      <% categories.push ["#{t('.private_sticky')}", 'private'] %>
+      <!-- for course sticky creation -->
+      <% if session[:nav_id].to_i > 0 %>
+      <% categories.push ["#{t('.course_sticky')}", 'course'] %>
+      <% end %>
+      <%= f.select :category, categories, {}, {class: 'form-control', style: 'width: 9rem;'} %>
+      <%= f.submit "#{t('.save')}", class: 'btn btn-primary', style: 'min-width:7rem;' %>
+      <a id="cancel_<%= form_id %>" class='btn btn-light' style='cursor:pointer; min-width:7rem;'><%= t('.cancel') %></a>
     </div>
     <% end %>
   </div>
+
+
   <script>
   $(function () {
     function cancelSticky () {
       <% if sticky.new_record? %>
-      toggleCreateSticky("<%= sticky.category %>");
+      toggleCreateSticky();
       <% else %>
       toggleUpdateSticky(<%= sticky.id %>);
       <% end %>
@@ -44,4 +53,4 @@
     $("#<%= form_id %> #sticky_message").on('keydown', null, 'esc', cancelSticky);
   });
   </script>
-</div>
+  </div>

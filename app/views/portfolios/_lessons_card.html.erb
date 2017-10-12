@@ -6,10 +6,10 @@
     <% else %>
     <div class="row list-header">
       <div class="inner-row">
-        <div class="xxxxx-large col">
+        <div class="large-6x col">
           <div><%= t('activerecord.models.lesson') %></div>
         </div>
-        <div class="x-large col">
+        <div class="large-2x col">
           <div>最終ふせん作成日時</div>
         </div>
       </div>
@@ -21,20 +21,20 @@
     <% lesson_role = lesson.user_role session[:id] %>
     <div id="<%= selected_id(lesson == @lesson) %>" class="row <%= cycle('even-row', 'odd-row') %>">
       <div class="inner-row">
-        <div class="xxxxx-large col"><%= link_to_resource(lesson.display_order.to_s + '. ' + content.title, lesson.id, {}) %></div>
-        <div class="x-large col"><%= link_to_resource("#{last_sticky_date}", lesson.id, {}) %></div>
+        <div class="large-6x col"><%= link_to_resource(lesson.display_order.to_s + '. ' + content.title, lesson.id, {}) %></div>
+        <div class="large-2x col"><%= link_to_resource("#{last_sticky_date}", lesson.id, {}) %></div>
       </div>
     </div>
     <% else %>
     <div class="row <%= cycle('even-row', 'odd-row') %> disabled-row">
       <div class="inner-row">
-        <div class="x-small col">
+        <div class="small-2x col">
           <div><i class="fa fa-lock fa-lg"></i></div>
         </div>
-        <div class="xxxxx-large col">
+        <div class="large-6x col">
           <div><%= lesson.display_order.to_s + '. ' + content.title %></div>
         </div>
-        <div class="x-large col">
+        <div class="large-2x col">
           <div><%= last_sticky_date %></div>
         </div>
       </div>

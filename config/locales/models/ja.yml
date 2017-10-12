@@ -314,6 +314,11 @@ ja:
         url: URL
 
     others:
+      content:
+        as_category:
+          file: ファイル提出
+          outside: システム外
+          text: 文章記述
       content_member:
         role:
           manager: 管理者
@@ -335,6 +340,10 @@ ja:
           open: 公開中
           review: 相互評価中
       updated_at: 更新日時
+      sticky:
+        category:
+          private: 個人ふせん
+          course: コースふせん
       user:
         authentication:
           local: ローカル

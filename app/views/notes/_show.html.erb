@@ -24,8 +24,8 @@
   </div>
 </div>
 
-<% if @note.status == 'course' %>
-<% if session[:sticky_panel] != 'none' %>
-<div id="sticky-panel"><%= render partial: 'stickies/sticky_panel', object: @stickies %></div>
-<% end %>
+<% if @note.category == 'worksheet' && @note.status='original_ws' %>
+<div id="sticky-panel">
+<%= render partial: 'stickies/sticky_panel', locals: { stickies: @stickies } %>
+</div>
 <% end %>

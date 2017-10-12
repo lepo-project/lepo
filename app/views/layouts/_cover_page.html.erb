@@ -36,7 +36,7 @@
 
       <div class="loc outcome">
         <div class="loc-header">
-          <%= t('.assignment') %> : <%= t('.as_'+ @content.as_category) %>
+          <%= t('.assignment') %> : <%= t('activerecord.others.content.as_category.'+ @content.as_category) %>
 
           <% if @lesson and !@lesson.new_record? %>
           [ <%= lesson_evaluator_text @lesson.evaluator_id %> ]
@@ -50,6 +50,6 @@
   </div>
 </div>
 
-<% if session[:sticky_panel] !="none" %>
-<div id="sticky-panel"><%= render partial: 'stickies/sticky_panel', object: pg['stickies'] %></div>
-<% end %>
+<div id="sticky-panel">
+<%= render partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] } %>
+</div>

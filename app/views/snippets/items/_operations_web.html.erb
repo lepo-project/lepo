@@ -1,5 +1,5 @@
 <div id="snippet-<%= snippet.id %>-operations" class="collapse operation-list">
-  <div class="operation-header"><%= t('.cited_date') %> : <%= l(snippet.created_at.to_date, format: :default) %></div>
+  <div class="operation-header"><%= t('.cited_date') %> : <%= l(snippet.created_at, format: :default) %></div>
   <ul class="fa-ul">
     <% if snippet.category == 'pdf' %>
     <li><a id="update-pdf-snippet-btn-<%= snippet.id %>" style="cursor:pointer;"><i class='fa fa-li fa-pencil'></i> <%= t('.enter_citation') %></a></li>

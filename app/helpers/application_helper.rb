@@ -57,17 +57,6 @@ module ApplicationHelper
     obj.title.size.nonzero? ? obj.title : t('helpers.no_title')
   end
 
-  def assignment_category_text(category)
-    case category
-    when 'text'
-      '文章記述'
-    when 'file'
-      'ファイル提出'
-    when 'outside'
-      'システム外'
-    end
-  end
-
   def last_signin_at_text(date_at)
     return t('helpers.not_using_lepo') unless date_at
     l(date_at, format: :long)
@@ -386,6 +375,10 @@ module ApplicationHelper
   end
 
   # 4. for others =============================================================================
+  def assignment_categories
+    [[t('activerecord.others.content.as_category.text'), 'text'], [t('activerecord.others.content.as_category.file'), 'file'], [t('activerecord.others.content.as_category.outside'), 'outside']]
+  end
+
   def available_bookmarks
     user_id = session[:id]
     return Bookmark.by_user(user_id) + Bookmark.by_system_staffs if user_id && !User.system_staff?(user_id)
@@ -407,10 +400,6 @@ module ApplicationHelper
       # for existing course edit
       { controller: 'courses', action: 'ajax_index', nav_section: session[:nav_section], nav_id: session[:nav_id] }
     end
-  end
-
-  def get_assignment_categories
-    [[assignment_category_text('outside'), 'outside'], [assignment_category_text('text'), 'text'], [assignment_category_text('file'), 'file']]
   end
 
   def get_evaluators(managers)

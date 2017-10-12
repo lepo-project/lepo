@@ -5,14 +5,14 @@
     <% else %>
     <div class="row list-header">
       <div class="inner-row">
-        <div class="x-small col">
+        <div class="small-2x col">
           <div></div>
         </div>
-        <div class="xxxxxx-large col">
-          <div><%= t('activerecord.models.lesson') %></div>
+        <div class="large-10x col">
+          <div><%= t('activerecord.models.lesson') %> - <%= t('activerecord.attributes.content.as_category') %></div>
         </div>
-        <div class="x-large col">
-          <div><%= t('activerecord.attributes.content.as_category') %></div>
+        <div class="medium-small col">
+          <div></div>
         </div>
       </div>
     </div>
@@ -21,26 +21,35 @@
     <% if (lesson.status == 'open') or (@course.staff? session[:id]) %>
     <% lesson_role = lesson.user_role session[:id] %>
     <% icon_info = lesson_icon(lesson.status, @marked_lessons, lesson.id, lesson_role, @course.learners.size) %>
-    <div id='<%= selected_id(lesson == @lesson) %>' class="row <%= cycle('even-row', 'odd-row') %>">
+    <div class="row <%= cycle('even-row', 'odd-row') %>">
       <div class="inner-row">
-        <div class="x-small col"><%= link_to_lesson("<i class='#{icon_info[:class]}'></i>", @course.id, lesson.id, {title: icon_info[:text]}) %></div>
-        <div class="xxxxxx-large col"><%= link_to_lesson(lesson.display_order.to_s + '. ' + content.title + " (#{content.page_files.size}#{t('.pages')})", @course.id, lesson.id, {}) %></div>
-        <div class="x-large col"><%= link_to_lesson("#{assignment_category_text(content.as_category)} (#{lesson_evaluation_text lesson.evaluator_id})", @course.id, lesson.id, {}) %></div>
+        <div class="small-2x col"><%= link_to_lesson("<i class='#{icon_info[:class]}'></i>", @course.id, lesson.id, {title: icon_info[:text]}) %></div>
+        <div class="large-10x col"><%= link_to_lesson(lesson.display_order.to_s + '. ' + content.title + " (#{t('.pages', num: content.page_files.size)} / " + "#{t('activerecord.others.content.as_category.'+content.as_category)} - #{lesson_evaluation_text lesson.evaluator_id})", @course.id, lesson.id, {}) %></div>
+        <div class="medium-small col" style="color: #fff;">
+          <% if @course.staff? session[:id] %>
+          <% status = (lesson.status == 'open') ? 'draft' : 'open' %>
+          <% title = (lesson.status == 'open') ? t('.to_draft') : t('.to_open') %>
+          <% btn_class = (lesson.status == "open") ? 'btn btn-danger btn-sm' : 'btn btn-primary btn-sm' %>
+          <%= link_to({action: 'ajax_update_lesson_status', id: @course.id, lesson_id: lesson.id, status: status, page: 'index'}, {class: btn_class, style: 'min-width: 100px;', remote: true}) do %>
+          <span style="color: #fff;"><%= title %></span>
+          <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
     <% else %>
     <div class="row <%= cycle('even-row', 'odd-row') %> disabled-row">
       <div class="inner-row">
-        <div class="x-small col">
+        <div class="small-2x col">
           <div><i class="fa fa-lock fa-lg"></i></div>
         </div>
-        <div class="xxxxxx-large col">
-          <div><%= lesson.display_order.to_s + '. ' + content.title + " (#{content.page_files.size}#{t('.pages')})" %></div>
-        </div>
-        <div class="x-large col">
-          <div><%= assignment_category_text(content.as_category) %>
-            (<%= lesson_evaluation_text lesson.evaluator_id %>)
+        <div class="large-10x col">
+          <div>
+            <%= lesson.display_order.to_s + '. ' + content.title + " (#{t('.pages', num: content.page_files.size)}" %> / <%= t('activerecord.others.content.as_category.'+content.as_category) %> - <%= lesson_evaluation_text lesson.evaluator_id %>)
           </div>
+        </div>
+        <div class="medium-small col">
+          <div></div>
         </div>
       </div>
     </div>

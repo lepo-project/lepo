@@ -14,7 +14,7 @@ ja:
       course_num: 利用コース数
       manual: マニュアル
       no_contents: 表示する教材はありません
-      pages: ページ
+      pages: "%{num}ページ"
       updated_at: 最終更新日
     index:
       course_content_management: コースと教材の管理
@@ -43,6 +43,8 @@ ja:
     lessons_card:
       no_lessons: 表示するレッスンはありません
       pages: :contents.contents_card.pages
+      to_draft: 非公開に変更
+      to_open: 公開に変更
     option_form:
       duplication_settings: 複製先コースの設定
     search_courses:
@@ -76,6 +78,8 @@ ja:
       new_device: 新規登録
 
   layouts:
+    assignment_page:
+      assignment: :layouts.cover_page.assignment
     breadcrumb:
       top: トップ
     buttons:
@@ -113,9 +117,6 @@ ja:
     card_l:
       show_rest: 続きを表示 / 非表示
     cover_page:
-      as_file: ファイル提出
-      as_outside: システム外
-      as_text: 文章記述
       assignment: 課題
     main_nav:
       home: ホーム
@@ -263,14 +264,24 @@ ja:
   stickies:
     edit:
       cancel: :layouts.buttons.cancel.cancel
+      course_sticky: :activerecord.others.sticky.category.course
+      private_sticky: :activerecord.others.sticky.category.private
+      save: 保存
     sticky:
+      course: コース
       delete: :layouts.buttons.delete.delete
       edit: :layouts.buttons.edit.edit
+      last_updated_at: :helpers.last_updated_at
+      no_update: 更新なし
+      private: 個人
     sticky_reports:
       search: :layouts.buttons.search.search
     toolbar:
-      course_sticky: コースふせん
-      private_sticky: 個人ふせん
+      hide_sticky_panel: ふせんパネルを非表示
+      reload_stickies: ふせんを再読み込み
+      show_sticky_panel: ふせんパネルを表示
+      stickies_by_date: ふせんを作成順で表示
+      stickies_by_stars: ふせんをスター順で表示
 
   users:
     account_pref:

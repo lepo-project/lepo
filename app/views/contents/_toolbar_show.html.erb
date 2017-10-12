@@ -7,7 +7,14 @@
 <% if @content.staff? session[:id] %>
 <div id="toolbar-btns">
   <div class="btn-group">
-    <a style="cursor:pointer;" class="toolbar-btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i></a>
+    <div id="sticky-toolbar">
+      <% url_hash = {action: 'ajax_arrange_sticky_panel', content_id: @content.id, target_type: 'page', target_id: pg['file_id'], sticky_panel: 'show'} %>
+      <%= render partial: 'stickies/toolbar', locals: {stickies: pg['stickies'], url_hash: url_hash} %>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <a class="toolbar-btn dropdown-toggle" data-toggle="dropdown" style="cursor:pointer;"><i class="fa fa-cog fa-2x"></i></a>
     <div class="dropdown-menu">
       <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {controller: 'contents', action: 'ajax_edit', id: @content.id}, id_attr: 'toolbar-edit-btn'} %>
       <%= link_to({controller: 'content_members', action: 'ajax_edit', content_id: @content.id}, {class: 'dropdown-item', remote: true}) do %>

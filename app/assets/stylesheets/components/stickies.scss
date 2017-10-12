@@ -24,19 +24,6 @@
   .toolbar {
     height: 20px;
     padding: 0 2px 0 0;
-    a#sticky-num-indicator {
-      background: none;
-      color: $toolbar-color;
-      display: block;
-      float: right;
-      margin-top: 4px;
-      text-align: right;
-      width: 40px;
-      &:hover {
-        color: $toolbar-hover-color;
-        text-decoration: none;
-      }
-    }
     a.btn {
       float: right;
       margin-right: 4px;
@@ -58,12 +45,6 @@
     width: 358px;
     .sticky {
       margin-bottom: 4px;
-    }
-  }
-  .mini {
-    width: 64px;
-    .toolbar  a#sticky-num-indicator {
-      margin: 4px 16px 0 0;
     }
   }
 }

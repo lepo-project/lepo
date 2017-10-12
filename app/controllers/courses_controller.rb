@@ -87,14 +87,6 @@ class CoursesController < ApplicationController
     render_content_page pg, true
   end
 
-  def ajax_update_lesson_status_toolbar
-    set_lesson_status params[:lesson_id], params[:status]
-    @content = @lesson.content
-    pg = get_page(@lesson.id, @content)
-
-    render 'layouts/renders/main_toolbar_with_pg', locals: { pg: pg }
-  end
-
   def ajax_new
     set_nav_session 'repository', 'courses', 0
     @course = Course.new
@@ -233,8 +225,17 @@ class CoursesController < ApplicationController
 
   def ajax_update_lesson_status
     set_lesson_status params[:lesson_id], params[:status]
-    get_content_array
-    render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
+    case params[:page]
+    when 'index'
+      @course = Course.find params[:id]
+      @goals = get_goal_resources @course
+      @marked_lessons = marked_lessons @course.id
+      @lesson_resources = get_lesson_resources @course.lessons
+      render 'layouts/renders/resource', locals: { resource: 'index' }
+    when 'edit_lessons'
+      get_content_array
+      render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
+    end
   end
 
   def ajax_update_evaluator_from
