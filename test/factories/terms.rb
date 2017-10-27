@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :term do
     sequence(:title) { |i| "Term #{i} Title" }
     start_at Date.today

@@ -9,7 +9,7 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :web_page do
     url { 'http://' + (1..10).map { ('a'..'z').to_a[rand(26)] }.join }
     sequence(:title) { |i| "Web Source #{i} Title" }

@@ -6,7 +6,7 @@ require 'capybara/minitest'
 require 'database_cleaner'
 
 class ActiveSupport::TestCase
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   def assert_invalid(instance, property)
     assert instance.invalid?
@@ -15,7 +15,7 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
-  # For all integration tests with FactoryGirl + Capybara + JS driver
+  # For all integration tests with FactoryBot + Capybara + JS driver
   self.use_transactional_tests = false
 
   # Make the Capybara DSL available in all integration tests

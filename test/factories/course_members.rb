@@ -11,7 +11,7 @@
 #  updated_at  :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :course_manager, class: CourseMember do
     association :course
     association :user

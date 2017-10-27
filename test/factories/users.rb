@@ -27,7 +27,7 @@
 #
 
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user, class: User do
     sequence(:signin_name) { |i| "user#{i}-test" }
     password 'temporary'

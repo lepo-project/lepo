@@ -12,7 +12,7 @@
 #  updated_at  :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :snippet do
     association :manager, factory: :user
     association :source, factory: :web_page

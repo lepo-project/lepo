@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :note_star do
     association :manager, factory: :user
     association :note

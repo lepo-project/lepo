@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'autosize', '~> 2.4'
-gem 'bootstrap', '~> 4.0.0.alpha6.0'
+gem 'bootstrap', '~> 4.0.0.beta'
 # gem "chartkick"
 gem 'coffee-rails', '~> 4.2.0'
 gem 'font-awesome-rails', '~> 4.7'
@@ -25,11 +25,11 @@ gem 'remotipart', '~> 1.3.1'
 # FIXME: PushNotification
 gem 'rest-client', '~> 2.0.0'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 5.0.6'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '~> 3.0.0'
+gem 'uglifier', '~> 3.2.0'
 
 group :development, :test do
   gem 'sqlite3', '~> 1.3.0'
@@ -40,23 +40,23 @@ group :development do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'i18n_generators', '~> 2.1'
-  gem 'listen', '~> 3.0.5'
+  gem 'listen', '~> 3.1.0'
   # meta_request is necessary for rails_panel chrome extension
-  gem 'meta_request'
+  # gem 'meta_request'
   gem 'rubocop', require: false
-  gem 'scss_lint', require: false
+  gem 'scss_lint', '~> 0.55', require: false
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console', '>= 3.5.0'
 end
 
 group :test do
-  gem 'capybara', '~> 2.14'
+  gem 'capybara', '~> 2.15.0'
   gem 'chromedriver-helper'
-  gem 'database_cleaner', '~> 1.6'
-  gem 'factory_girl_rails', '~> 4.0'
+  gem 'database_cleaner', '~> 1.6.0'
+  gem 'factory_bot_rails', '~> 4.8'
   gem 'minitest-capybara'
   gem 'selenium-webdriver', '~> 3.4'
 end
