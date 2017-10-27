@@ -3,7 +3,8 @@
     <div class="col-md-12">
       <div class="block">
         <!-- Course Lessons -->
-        <%= render partial: 'lessons_card' %>
+        <!-- FIXME: Temporarl Setting -->
+        <%#= render partial: 'lessons_card' %>
         <% eval_category = @course.eval_category %>
         <% if !eval_category %>
         <%= render partial: 'layouts/system_message', locals: {message: 'コースにレッスンが登録されていません', message_category: 'info'} %>
