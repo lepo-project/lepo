@@ -24,9 +24,14 @@ class ActionDispatch::IntegrationTest
   include Capybara::Minitest::Assertions
 
   # Use chrome driver for Capybara
+  # To force-upgrade to the latest version of chromedriver:
+  #   delete the directory $HOME/.chromedriver-helper
+  #   run chromedriver-update
   Capybara.default_driver = :selenium
   Capybara.register_driver :selenium do |app|
-    Capybara::Selenium::Driver.new(app, browser: :chrome)
+    # Capybara::Selenium::Driver.new(app, browser: :chrome)
+    # For headless chrome browser
+    Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(chrome_options: { args: %w[headless disable-gpu window-size=1680,1050] }))
   end
 
   DatabaseCleaner.strategy = :truncation
