@@ -97,13 +97,13 @@ class ContentMembersController < ApplicationController
   def update_role(user_id, content_id, role)
     content_member = ContentMember.find_by_user_id_and_content_id(user_id, content_id)
     if content_member
-      unless content_member.update_attributes(role: role)
+      unless content_member.update_attributes!(role: role)
         flash.now[:message] = '教材の管理/利用許可者は、コース管理権限のあるユーザのみ登録できます'
         flash[:message_category] = 'error'
       end
     else
       new_content_member = ContentMember.new(user_id: user_id, content_id: content_id, role: role)
-      unless new_content_member.save
+      unless new_content_member.save!
         flash.now[:message] = '教材の管理/利用許可者は、コース管理権限のあるユーザのみ登録できます'
         flash[:message_category] = 'error'
       end
