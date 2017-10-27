@@ -10,7 +10,7 @@
 #  updated_at   :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :goals_objective do
     association :goal
     association :lesson

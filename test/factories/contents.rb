@@ -15,7 +15,7 @@
 #  updated_at  :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :content, class: Content do
     category 'upload'
     sequence(:title) { |i| "Content #{i} Title" }

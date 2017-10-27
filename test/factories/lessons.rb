@@ -14,7 +14,7 @@
 #  updated_at          :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :lesson do
     association :evaluator, factory: :user
     association :content

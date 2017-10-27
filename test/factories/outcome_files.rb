@@ -12,7 +12,7 @@
 #  updated_at          :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :outcome_file do
     association :outcome
     sequence(:upload_file_name) { |i| "UploadFile#{i}" }

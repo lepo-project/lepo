@@ -16,7 +16,7 @@
 #  category           :string           default("private")
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :note do
     association :course
     association :manager, factory: :user

@@ -11,7 +11,7 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :objective do
     association :content
     sequence(:title) { |i| "Content Objective #{i}" }

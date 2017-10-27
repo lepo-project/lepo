@@ -10,7 +10,7 @@
 #  updated_at      :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :device do
     association :manager, factory: :user
     sequence(:title) { |i| "Device #{i}" }

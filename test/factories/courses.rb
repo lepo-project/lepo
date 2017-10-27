@@ -17,7 +17,7 @@
 #  updated_at         :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :course do
     association :term
     sequence(:title) { |i| "Course #{i} Title" }

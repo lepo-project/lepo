@@ -12,7 +12,7 @@
 #  target_type   :string           default("web")
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :bookmark do
     association :manager, factory: :user
     association :target, factory: :web_page
