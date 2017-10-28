@@ -21,25 +21,6 @@
   right: 16px;
   top: $toolbar-height;
   z-index: 1;
-  .toolbar {
-    height: 20px;
-    padding: 0 2px 0 0;
-    a.btn {
-      float: right;
-      margin-right: 4px;
-      min-width: 12px;
-    }
-    a.editor {
-      display: block;
-      float: left;
-    }
-    div.course-border {
-      border-right-color: $course-color;
-    }
-    div.private-border {
-      border-right-color: $private-color;
-    }
-  }
   .show, .edit {
     margin: 0 16px 4px 4px;
     width: 358px;
@@ -77,23 +58,11 @@
         line-height: 100%;
       }
     }
-    .create-btn {
-      background-color: #fff;
-      border: 1px solid;
-      border-bottom-color: #bbb;
-      border-left-color: #bbb;
-      border-right-width: 6px;
-      border-top-color: #bbb;
-      float: left;
-      margin: 0 4px 4px 0;
-      min-width: 86px;
-      padding: 4px;
-    }
     .sticky {
       background-color: #fff;
       border-right-style: solid;
       border-right-width: 10px;
-      float: left;
+      display: flex;
       width: 356px;
       .word-wrap {
         white-space: pre-line;
@@ -101,14 +70,13 @@
     }
     .side-area {
       @include triangle-corner;
-      float: left;
       height: 100%;
       margin: 0;
       position: relative;
       text-align: center;
       width: 56px;
       .side-image {
-        margin-top: 6px;
+        margin: 8px 0 0 8px;
       }
       .side-caption {
         color: #333;
@@ -125,6 +93,7 @@
       min-height: 0;
       overflow: hidden;
       padding: 4px;
+      width: 100%;
       .header a {
         display: block;
         font-weight: bold;
@@ -135,13 +104,13 @@
         min-height: 40px;
       }
       .footer {
+        display: flex;
+        justify-content: space-between;
         margin-top: 12px;
         .left-footer {
           color: #888;
-          float: left;
         }
         .right-footer {
-          float: right;
           a {
             padding: 0 5px;
           }
