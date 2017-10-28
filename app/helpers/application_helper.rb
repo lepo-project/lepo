@@ -93,7 +93,7 @@ module ApplicationHelper
     when max_page_num then
       t('helpers.assignment_page')
     else
-      'P.' + page_num.to_s
+      'p.' + page_num.to_s
     end
   end
 
@@ -101,11 +101,11 @@ module ApplicationHelper
     page_num = page_num_by_id(content, page_file_id)
     case page_num
     when 0
-      return '表紙ページ'
+      return t('helpers.cover_page')
     when content.page_files.size + 1
-      return '課題ページ'
+      return t('helpers.assignment_page')
     else
-      return page_num.to_s + 'ページ'
+      return 'p.' + page_num.to_s
     end
   end
 

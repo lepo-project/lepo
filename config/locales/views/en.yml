@@ -267,6 +267,8 @@ en:
       course_sticky: :activerecord.others.sticky.category.course
       private_sticky: :activerecord.others.sticky.category.private
       save: Save
+    hot_stickies:
+      hot_stickies: Hot Stickies
     sticky:
       course: Course
       delete: :layouts.buttons.delete.delete

@@ -258,8 +258,7 @@ class ApplicationController < ActionController::Base
     case session[:star_sort_stickies]
     when true
       stickies.sort! do |a, b|
-        (b.stars_count <=> a.stars_count).nonzero? ||
-        (b.created_at <=> a.created_at)
+        (b.stars_count <=> a.stars_count).nonzero? || (b.created_at <=> a.created_at)
       end
     when false
       stickies.sort! { |a, b| b.created_at <=> a.created_at }
