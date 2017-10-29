@@ -83,7 +83,7 @@ module ApplicationHelper
   def lesson_evaluator_text(evaluator_id)
     return '' unless evaluator_id
     return t('helpers.self_evaluation') if evaluator_id.zero?
-    t('helpers.evaluator') + ' ：' + User.find(evaluator_id).full_name
+    t('helpers.evaluator') + ' : ' + User.find(evaluator_id).full_name
   end
 
   def page_num_text(page_num, max_page_num)
