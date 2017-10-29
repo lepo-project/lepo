@@ -37,6 +37,8 @@ ja:
       disabled_to_be_draft: 公開中/アーカイブの状態から、準備中には戻せません
       no_course_manager_form: 公開中またはアーカイブのコースでは、コースメンバーページから編集可能
     goal_card:
+      assigned_objectives: 対応するレッスン目標
+      goals: コース目標
       none: なし
       points: 点
       show_details: 詳細を表示 / 非表示
@@ -118,6 +120,7 @@ ja:
       show_rest: 続きを表示 / 非表示
     cover_page:
       assignment: 課題
+      objectives: レッスン目標
     main_nav:
       home: ホーム
       open_courses: 実行中のコース

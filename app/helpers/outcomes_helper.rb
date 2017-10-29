@@ -43,14 +43,10 @@ module OutcomesHelper
   def outcome_status_text(outcome_status, score)
     case outcome_status
     when 'draft'
-      return '修正中' if score && score > 0
-      '未提出'
-    when 'submit'
-      '評価依頼中'
-    when 'self_submit'
-      '自己評価完了'
-    when 'return'
-      '評価完了'
+      return t('activerecord.others.outcome.status.fix') if score && score > 0
+      t('activerecord.others.outcome.status.draft')
+    when 'submit', 'self_submit', 'return'
+      t('activerecord.others.outcome.status.' + outcome_status)
     end
   end
 

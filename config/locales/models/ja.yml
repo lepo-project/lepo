@@ -339,6 +339,13 @@ ja:
           draft: 作成中
           open: 公開中
           review: 相互評価中
+      outcome:
+        status:
+          draft: 未提出
+          fix: 修正中
+          return: 評価完了
+          self_submit: 自己評価完了
+          submit: 評価依頼中
       updated_at: 更新日時
       sticky:
         category:

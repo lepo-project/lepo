@@ -37,6 +37,8 @@ en:
       disabled_to_be_draft: Draft status can not select from open / archived status.
       no_course_manager_form: For open / archive status, managers can be edit at the course member page
     goal_card:
+      assigned_objectives: Assigned Lesson Objectives
+      goals: Course Goals
       none: none
       points: points
       show_details: Show / Hide Details
@@ -118,6 +120,7 @@ en:
       show_rest: Show / Hide the rest
     cover_page:
       assignment: Assignment
+      objectives: Lesson Objectives
     main_nav:
       home: Home
       open_courses: Open Courses

@@ -59,8 +59,8 @@ en:
         title: Title
 
       content:
-        as_category: Assignment category
-        as_overview: Assignment overview
+        as_category: Assignment Category
+        as_overview: Assignment Overview
         asset_files: Asset files
         attachment_files: Attachment files
         category: Category
@@ -339,6 +339,13 @@ en:
           draft: Writing
           open: Open
           review: Review
+      outcome:
+        status:
+          draft: Draft
+          fix: Fixing
+          return: Evaluated
+          self_submit: Self Evaluated
+          submit: Evaluation Requesting
       updated_at: updated at
       sticky:
         category:
