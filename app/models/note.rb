@@ -19,16 +19,16 @@
 class Note < ApplicationRecord
   belongs_to :course
   belongs_to :manager, class_name: 'User'
-  has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
+  has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :note_indices, -> { order('note_indices.display_order asc, note_indices.updated_at asc') }, dependent: :destroy
   has_many :note_stars, dependent: :destroy
-  has_many :snippets, -> { order('note_indices.display_order asc') }, through: :note_indices
+  has_many :snippets, -> { order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :stared_users, -> { where('note_stars.stared = ?', true) }, through: :note_stars, source: :manager
   has_many :stickies, as: :target, dependent: :destroy
-  has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
-  has_many :upload_snippets, -> { where('snippets.source_type = ?', 'upload').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
-  has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
-  has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category = ?', 'web', 'text').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
+  has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
+  has_many :upload_snippets, -> { where('snippets.source_type = ?', 'upload').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
+  has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
+  has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category = ?', 'web', 'text').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   validates_presence_of :manager_id
   validates_presence_of :title
   validates_inclusion_of :peer_reviews_count, in: (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a

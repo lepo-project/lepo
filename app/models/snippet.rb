@@ -17,7 +17,7 @@ class Snippet < ApplicationRecord
   belongs_to :source, class_name: 'WebPage'
   has_one :snippet_file, dependent: :destroy
   has_many :notes, through: :note_indices
-  has_many :note_indices, dependent: :destroy
+  has_many :note_indices, as: :item, dependent: :destroy
   validates_presence_of :description, if: "source_type == 'direct'"
   validates_presence_of :manager_id
   validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
@@ -49,7 +49,7 @@ class Snippet < ApplicationRecord
 
   def display_order_for(note_id = nil)
     return nil unless note_id
-    note_index = NoteIndex.find_by(snippet_id: id, note_id: note_id)
+    note_index = NoteIndex.find_by(item_id: id, item_type: 'Snippet', note_id: note_id)
     note_index ? note_index.display_order : nil
   end
 
