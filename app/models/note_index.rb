@@ -17,6 +17,6 @@ class NoteIndex < ApplicationRecord
   validates_presence_of :display_order
   validates_presence_of :note_id
   validates_presence_of :item_id
-  # validates_uniqueness_of :snippet_id, scope: [:note_id]
+  validates_uniqueness_of :item_id, scope: %i[item_type note_id]
   validates_inclusion_of :item_type, in: %w[Snippet Content]
 end

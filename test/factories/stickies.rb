@@ -19,10 +19,8 @@ FactoryBot.define do
   factory :sticky do
     association :manager, factory: :user
     association :content
-    # association :target, factory: :page_file
-    # association :target, factory: :note
+    association :target, factory: :page_file
     sequence(:course_id) { |i| i }
-    sequence(:target_id) { |i| i }
     message 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
 
     factory :course_sticky do
@@ -31,12 +29,14 @@ FactoryBot.define do
 
     factory :note_sticky do
       content_id :nil
+      association :target, factory: :note
       target_type 'Note'
     end
 
     factory :course_note_sticky do
       category 'course'
       content_id :nil
+      association :target, factory: :note
       target_type 'Note'
     end
   end
