@@ -492,7 +492,7 @@ module ApplicationHelper
 
   def link_to_target_in_course(sticky, grouped_by_content)
     case sticky.target_type
-    when 'page'
+    when 'PageFile'
       page_num_text = page_num_by_id_text sticky.content, sticky.target_id
       sticky_title = page_num_text
       sticky_title = sticky.content.title + ': ' + sticky_title unless grouped_by_content
@@ -502,7 +502,7 @@ module ApplicationHelper
       else
         sticky_title
       end
-    when 'note'
+    when 'Note'
       note = Note.find(sticky.target_id)
       sticky_title = note.title + ' by ' + note.manager.full_name
 

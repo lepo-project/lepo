@@ -24,7 +24,7 @@ class Note < ApplicationRecord
   has_many :note_stars, dependent: :destroy
   has_many :snippets, -> { order('note_indices.display_order asc') }, through: :note_indices
   has_many :stared_users, -> { where('note_stars.stared = ?', true) }, through: :note_stars, source: :manager
-  has_many :stickies, -> { where('stickies.target_type = ?', 'note') }, foreign_key: 'target_id', dependent: :destroy
+  has_many :stickies, as: :target, dependent: :destroy
   has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
   has_many :upload_snippets, -> { where('snippets.source_type = ?', 'upload').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
   has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet

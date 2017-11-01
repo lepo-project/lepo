@@ -7,7 +7,7 @@
 #  content_id  :integer
 #  course_id   :integer
 #  target_id   :integer
-#  target_type :string           default("page")
+#  target_type :string           default("PageFile")
 #  stars_count :integer          default(0)
 #  category    :string           default("private")
 #  message     :text
@@ -30,12 +30,14 @@ FactoryBot.define do
     end
 
     factory :note_sticky do
-      target_type 'note'
+      content_id :nil
+      target_type 'Note'
     end
 
     factory :course_note_sticky do
       category 'course'
-      target_type 'note'
+      content_id :nil
+      target_type 'Note'
     end
   end
 end

@@ -21,7 +21,7 @@
 <div id="toolbar-btns">
   <div class="btn-group">
     <div id="sticky-toolbar">
-      <% url_hash = {action: 'ajax_arrange_sticky_panel', target_type: 'note', target_id:  @sticky.target_id, sticky_panel: 'show'} %>
+      <% url_hash = {action: 'ajax_arrange_sticky_panel', target_type: 'Note', target_id:  @sticky.target_id, sticky_panel: 'show'} %>
       <%= render partial: 'stickies/toolbar', locals: {stickies: @stickies, url_hash: url_hash} %>
     </div>
   </div>

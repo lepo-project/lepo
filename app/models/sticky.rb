@@ -7,7 +7,7 @@
 #  content_id  :integer
 #  course_id   :integer
 #  target_id   :integer
-#  target_type :string           default("page")
+#  target_type :string           default("PageFile")
 #  stars_count :integer          default(0)
 #  category    :string           default("private")
 #  message     :text
@@ -18,15 +18,15 @@
 class Sticky < ApplicationRecord
   belongs_to :manager, class_name: 'User'
   belongs_to :content
-  # belongs_to :target, class_name: 'PageFile'
-  # belongs_to :target, class_name: 'Note'
+  belongs_to :target, polymorphic: true
   has_many :sticky_stars, dependent: :destroy
   has_many :stared_users, -> { where('sticky_stars.stared = ?', true) }, through: :sticky_stars, source: :manager
-  validates_presence_of :content_id, if: "target_type == 'page'"
+  validates_absence_of :content_id, if: "target_type == 'Note'"
+  validates_presence_of :content_id, if: "target_type == 'PageFile'"
   validates_presence_of :manager_id
   validates_presence_of :target_id
   validates_inclusion_of :category, in: %w[private course]
-  validates_inclusion_of :target_type, in: %w[page note]
+  validates_inclusion_of :target_type, in: %w[PageFile Note]
 
   # ====================================================================
   # Public Functions

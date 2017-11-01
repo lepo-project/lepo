@@ -103,7 +103,7 @@ class NotesController < ApplicationController
   end
 
   def get_stickies(course_id, note_id)
-    @stickies = get_course_stickies_by_target course_id, 'note', note_id
-    @sticky = Sticky.new(course_id: course_id, target_type: 'note', target_id: note_id)
+    @stickies = get_course_stickies_by_target course_id, 'Note', note_id
+    @sticky = Sticky.new(course_id: course_id, target_type: 'Note', target_id: note_id)
   end
 end
