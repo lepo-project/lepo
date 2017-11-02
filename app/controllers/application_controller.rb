@@ -188,9 +188,9 @@ class ApplicationController < ActionController::Base
     p['file_id'] = get_page_file_id(content, session[:page_num], session[:max_page_num])
 
     if (session[:nav_section] == 'open_courses') || ((session[:nav_section] == 'repository') && (session[:nav_controller] == 'courses'))
-      p['stickies'] = get_course_stickies_by_target session[:nav_id], 'page', p['file_id'], content.id
+      p['stickies'] = get_course_stickies_by_target session[:nav_id], 'PageFile', p['file_id'], content.id
     else
-      p['stickies'] = get_stickies content.id, 'page', p['file_id']
+      p['stickies'] = get_content_stickies content.id, p['file_id']
     end
     p
   end
@@ -223,11 +223,11 @@ class ApplicationController < ActionController::Base
     [[0, page_num].max, max_page_num].min
   end
 
-  def get_stickies(content_id, target_type, target_id = nil)
-    if target_id
-      stickies = Sticky.where(manager_id: session[:id], content_id: content_id, target_type: target_type, target_id: target_id).limit(100)
+  def get_content_stickies(content_id, page_file_id = nil)
+    if page_file_id
+      stickies = Sticky.where(manager_id: session[:id], content_id: content_id, target_type: 'PageFile', target_id: page_file_id).limit(100)
     else
-      stickies = Sticky.where(manager_id: session[:id], content_id: content_id, target_type: target_type).limit(1000)
+      stickies = Sticky.where(manager_id: session[:id], content_id: content_id, target_type: 'PageFile').limit(1000)
     end
     sort_sticky stickies
   end

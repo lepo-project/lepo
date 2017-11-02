@@ -140,8 +140,9 @@ en:
       written_char_count: written char count
     note_subtitle:
       default: Default
-      private: Private note
-      worksheet: Worksheet
+      private: :activerecord.others.note.category.private
+      lesson: :activerecord.others.note.category.lesson
+      work: :activerecord.others.note.category.work
     page_number:
       portfolio: :helpers.portfolio
     search_members:
@@ -156,10 +157,10 @@ en:
   notes:
     form:
       char_num_error: Number of characters exceeded
-      status_message1: Other states become selectable after creating the worksheet
-      status_message2: Worksheets distributed to learners can only be edited by distributed learners
-      status_message3: Only one worksheet can be distributed to learners in the course
-      review_message: Changing the number of reviews after starting the review makes also changing the worksheets to review by learners
+      status_message1: Other states become selectable after creating the work sheet
+      status_message2: Distributed work sheets can only be edited by distributed learners
+      status_message3: Only one work sheet can be distributed to learners in the course
+      review_message: Changing the number of reviews after starting the review makes also changing the work sheets to review by learners
     group:
       group: :course_members.index.group
       users: :course_members.members.users

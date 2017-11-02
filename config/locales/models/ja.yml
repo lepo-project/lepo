@@ -93,9 +93,9 @@ ja:
         learners: 学習者
         lessons: :activerecord.models.lesson
         managers: 教師
-        original_draft_worksheets: ワークシート（非公開）
-        original_open_worksheets: ワークシート（公開）
-        original_review_worksheets: ワークシート（レビュー）
+        original_draft_work_sheets: ワークシート（非公開）
+        original_open_work_sheets: ワークシート（公開）
+        original_review_work_sheets: ワークシート（レビュー）
         members: メンバー
         notices: :activerecord.models.notice
         open_lessons: レッスン（公開中）
@@ -331,8 +331,9 @@ ja:
       created_at: 作成日時
       note:
         category:
-          private: 個人ノート
-          worksheet: ワークシート
+          private: 個人シート
+          lesson: レッスンシート
+          work: ワークシート
         status:
           archived: アーカイブ
           distributed_draft: 学生に配布

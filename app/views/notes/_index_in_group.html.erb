@@ -12,7 +12,7 @@
       <% else %>
 
       <!-- Peer Review -->
-      <% if @course.original_review_worksheets.size > 0 %>
+      <% if @course.original_review_work_sheets.size > 0 %>
       <% group_notes = group_notes.sort! {|a, b| a.id <=> b.id} %>
       <% peer_review = get_peer_review group_notes, @group_index, session[:id] %>
       <% if peer_review[:eval].length > 0 %>

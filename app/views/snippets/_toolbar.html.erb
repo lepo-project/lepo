@@ -16,15 +16,15 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
 </nav>
 <div id="toolbar-btns">
-<% if current_user.worksheet_manageable? %>
+<% if current_user.work_sheet_manageable? %>
 <div class="btn-group">
   <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class='fa fa-plus'></i> <%= t('activerecord.models.note') %></a>
   <div class="dropdown-menu">
     <%= link_to({action: 'ajax_new_note', category: 'private'}, {class: 'dropdown-item', remote: true}) do %>
     <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.private') %>
     <% end %>
-    <%= link_to({action: 'ajax_new_note', category: 'worksheet'}, {class: 'dropdown-item', remote: true}) do %>
-    <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.worksheet') %>
+    <%= link_to({action: 'ajax_new_note', category: 'work'}, {class: 'dropdown-item', remote: true}) do %>
+    <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.work') %>
     <% end %>
   </div>
 </div>

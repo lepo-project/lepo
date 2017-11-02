@@ -140,8 +140,9 @@ ja:
       written_char_count: 書き込んだ文字の数
     note_subtitle:
       default: 標準
-      private: 個人ノート
-      worksheet: ワークシート
+      private: :activerecord.others.note.category.private
+      lesson: :activerecord.others.note.category.lesson
+      work: :activerecord.others.note.category.work
     page_number:
       portfolio: :helpers.portfolio
     search_members:

@@ -203,9 +203,9 @@ class User < ApplicationRecord
     false
   end
 
-  def worksheet_manageable?
+  def work_sheet_manageable?
     return true if %w[admin manager].include? role
-    distributable_courses = Course.worksheet_distributable_by id
+    distributable_courses = Course.work_sheet_distributable_by id
     return true unless distributable_courses.size.zero?
     false
   end

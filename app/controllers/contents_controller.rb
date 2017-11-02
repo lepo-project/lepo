@@ -15,7 +15,7 @@ class ContentsController < ApplicationController
     set_page_session 0, @content
 
     pg = get_page 0, @content
-    @sticky = Sticky.new(content_id: @content.id, target_type: 'page', target_id: pg['file_id'])
+    @sticky = Sticky.new(content_id: @content.id, target_id: pg['file_id'])
     get_content_resources
     set_sticky_panel_session
     render 'layouts/renders/all_with_pg', locals: { resource: 'layouts/cover_page', pg: pg }
@@ -27,7 +27,7 @@ class ContentsController < ApplicationController
     set_sticky_panel_session
 
     pg = get_page 0, @content
-    @sticky = Sticky.new(content_id: @content.id, target_type: 'page', target_id: pg['file_id'])
+    @sticky = Sticky.new(content_id: @content.id, target_id: pg['file_id'])
     @lesson = Lesson.new
     get_outcome_resources @lesson, @content
 
@@ -92,7 +92,7 @@ class ContentsController < ApplicationController
           render 'layouts/renders/main_pane', locals: { resource: 'edit_pages' }
         when 'archived'
           pg = get_page(0, @content)
-          @sticky = Sticky.new(content_id: @content.id, target_type: 'page', target_id: pg['file_id'])
+          @sticky = Sticky.new(content_id: @content.id, target_id: pg['file_id'])
           render 'layouts/renders/main_pane_with_pg', locals: { resource: 'layouts/cover_page', pg: pg }
         end
       else

@@ -18,7 +18,7 @@ class SnippetsController < ApplicationController
     @snippet = Snippet.new(manager_id: session[:id], category: params[:category], description: params[:snippet][:description], source_type: 'direct')
     Snippet.transaction do
       @snippet.save!
-      NoteIndex.create!(note_id: note_id, snippet_id: @snippet.id, display_order: params[:display_order].to_i)
+      NoteIndex.create!(note_id: note_id, item_id: @snippet.id, item_type: 'Snippet', display_order: params[:display_order].to_i)
     end
     render_snippets note_id
   rescue StandardError
@@ -34,7 +34,7 @@ class SnippetsController < ApplicationController
     @snippet = Snippet.new(manager_id: session[:id], category: 'image', source_type: 'upload')
     Snippet.transaction do
       @snippet.save!
-      NoteIndex.create!(note_id: note_id, snippet_id: @snippet.id, display_order: params[:display_order].to_i)
+      NoteIndex.create!(note_id: note_id, item_id: @snippet.id, item_type: 'Snippet', display_order: params[:display_order].to_i)
       param_hash = snippet_file_params
       param_hash['snippet_id'] = @snippet.id
       snippet_file = SnippetFile.new(param_hash)
@@ -128,7 +128,7 @@ class SnippetsController < ApplicationController
 
   def ajax_new_note
     case params[:category]
-    when 'private', 'worksheet'
+    when 'private', 'work'
       @note = Note.new(category: params[:category])
       render 'layouts/renders/main_pane', locals: { resource: 'notes/new' }
     end
@@ -144,19 +144,19 @@ class SnippetsController < ApplicationController
         display_order = NoteIndex.where(note_id: to_note_id).count + 1
         @notes = current_user.notes
         if from_note_id
-          ni = NoteIndex.find_by(note_id: from_note_id, snippet_id: snippet.id)
+          ni = NoteIndex.find_by(note_id: from_note_id, item_id: snippet.id, item_type: 'Snippet')
           ni.update_attributes(note_id: to_note_id, display_order: display_order)
           @note = Note.find from_note_id
           @note.align_display_order
           @snippets = @note.snippets
           render 'layouts/renders/resource', locals: { resource: 'show' }
         else
-          NoteIndex.create(note_id: to_note_id, snippet_id: snippet.id, display_order: display_order)
+          NoteIndex.create(note_id: to_note_id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
           @snippets = Snippet.web_snippets_without_note_by session[:id]
           render 'layouts/renders/resource', locals: { resource: 'index' }
         end
       else
-        ni = NoteIndex.find_by(note_id: from_note_id, snippet_id: snippet.id)
+        ni = NoteIndex.find_by(note_id: from_note_id, item_id: snippet.id, item_type: 'Snippet')
         ni.destroy
         @note = Note.find from_note_id
         @note.align_display_order
@@ -184,7 +184,7 @@ class SnippetsController < ApplicationController
   def ajax_sort
     @note = Note.find params[:note_id].to_i
     params[:snippet].each_with_index do |id, i|
-      ni = NoteIndex.find_by(note_id: @note.id, snippet_id: id)
+      ni = NoteIndex.find_by(note_id: @note.id, item_id: id, item_type: 'Snippet')
       ni.update_attributes(display_order: i + 1) if ni
     end
     @notes = current_user.notes
@@ -211,7 +211,7 @@ class SnippetsController < ApplicationController
     @note = Note.find params[:note_id].to_i
 
     if @note.status_updatable?(params[:note][:status], session[:id]) && @note.update_attributes(note_params)
-      distribute_worksheet @note if @note.status == 'distributed_draft'
+      distribute_work_sheet @note if @note.status == 'distributed_draft'
       @snippets = @note.snippets
       render 'layouts/renders/main_pane', locals: { resource: 'show' }
     else
@@ -276,7 +276,7 @@ class SnippetsController < ApplicationController
     { formats: ['js'], layout: false, locals: { duration: duration, tags: tags, token: token } }
   end
 
-  def distribute_worksheet(original_ws)
+  def distribute_work_sheet(original_ws)
     copy_snippets = original_ws.direct_snippets
     course = Course.find(original_ws.course_id)
     course.learners.each do |l|
@@ -284,10 +284,10 @@ class SnippetsController < ApplicationController
       next unless notes.size.zero?
 
       Snippet.transaction do
-        note = Note.create!(manager_id: l.id, course_id: course.id, title: original_ws.title, overview: original_ws.overview, category: 'worksheet', status: 'original_ws', original_ws_id: original_ws.id)
+        note = Note.create!(manager_id: l.id, course_id: course.id, title: original_ws.title, overview: original_ws.overview, category: 'work', status: 'original_ws', original_ws_id: original_ws.id)
         copy_snippets.each_with_index do |cs, i|
           snippet = Snippet.create!(manager_id: l.id, category: cs.category, description: cs.description, source_type: 'direct')
-          NoteIndex.create!(note_id: note.id, snippet_id: snippet.id, display_order: i + 1)
+          NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: i + 1)
         end
       end
     end
@@ -341,7 +341,7 @@ class SnippetsController < ApplicationController
         display_order = Note.find(note_id).snippets.size + 1
         Snippet.transaction do
           snippet = Snippet.create!(manager_id: user.id, category: category, description: description, source_type: 'web', source_id: source_id)
-          NoteIndex.create!(snippet_id: snippet.id, note_id: note_id, display_order: display_order)
+          NoteIndex.create!(item_id: snippet.id, item_type: 'Snippet', note_id: note_id, display_order: display_order)
         end
       else
         Snippet.create(manager_id: user.id, category: category, description: description, source_type: 'web', source_id: source_id)
@@ -385,7 +385,7 @@ class SnippetsController < ApplicationController
         display_order = Note.find(note_id).snippets.size + 1
         Snippet.transaction do
           snippet = Snippet.create!(manager_id: user.id, category: category, description: '', source_type: 'web', source_id: source_id, note_id: note_id)
-          NoteIndex.create!(snippet_id: snippet.id, note_id: note_id, display_order: display_order)
+          NoteIndex.create!(item_id: snippet.id, item_type: 'Snippet', note_id: note_id, display_order: display_order)
         end
       else
         Snippet.create(manager_id: user.id, category: category, description: '', source_type: 'web', source_id: source_id)

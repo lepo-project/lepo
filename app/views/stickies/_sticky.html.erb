@@ -2,10 +2,10 @@
   <div class="side-area" title="<%= sticky.manager.full_name %>">
 
     <!-- FIXME: note_sticky  -->
-    <% if sticky.target_type == 'page' %>
+    <% if sticky.target_type == 'PageFile' %>
     <div class="triangle-corner <%= sticky_star_btn_class session[:id], sticky %>">
       <% keyword = @keyword ? @keyword : '' %>
-      <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: 'ajax_toggle_star_sticky', id: sticky.id, content_id: sticky.content_id, target_type: 'page', target_id: sticky.target_id, view_category: view_category, keyword: keyword}, {remote: true}) %>
+      <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: 'ajax_toggle_star_sticky', id: sticky.id, content_id: sticky.content_id, target_type: 'PageFile', target_id: sticky.target_id, view_category: view_category, keyword: keyword}, {remote: true}) %>
     </div>
     <% end %>
     <div class="side-image">

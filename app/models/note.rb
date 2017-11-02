@@ -19,26 +19,28 @@
 class Note < ApplicationRecord
   belongs_to :course
   belongs_to :manager, class_name: 'User'
-  has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
+  has_many :contents, -> { order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Content'
+  has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :note_indices, -> { order('note_indices.display_order asc, note_indices.updated_at asc') }, dependent: :destroy
   has_many :note_stars, dependent: :destroy
-  has_many :snippets, -> { order('note_indices.display_order asc') }, through: :note_indices
+  has_many :snippets, -> { order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :stared_users, -> { where('note_stars.stared = ?', true) }, through: :note_stars, source: :manager
-  has_many :stickies, -> { where('stickies.target_type = ?', 'note') }, foreign_key: 'target_id', dependent: :destroy
-  has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
-  has_many :upload_snippets, -> { where('snippets.source_type = ?', 'upload').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
-  has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
-  has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category = ?', 'web', 'text').order('note_indices.display_order asc') }, through: :note_indices, source: :snippet
+  has_many :stickies, as: :target, dependent: :destroy
+  has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader")').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
+  has_many :upload_snippets, -> { where('snippets.source_type = ?', 'upload').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
+  has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
+  has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category = ?', 'web', 'text').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   validates_presence_of :manager_id
   validates_presence_of :title
   validates_inclusion_of :peer_reviews_count, in: (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a
-  validates_inclusion_of :category, in: %w[private worksheet]
-  validates_inclusion_of :status, in: %w[draft archived associated_course], if: "category == 'private'"
-  validates_inclusion_of :status, in: %w[draft distributed_draft review open archived original_ws], if: "category == 'worksheet'"
-  validates_numericality_of :course_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'private'"
-  validates_numericality_of :course_id, allow_nil: false, greater_than: 0, if: "category == 'worksheet'"
-  validates_numericality_of :original_ws_id, allow_nil: false, equal_to: 0, if: "category == 'private'"
-  validates_numericality_of :original_ws_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'worksheet'"
+  validates_inclusion_of :category, in: %w[private lesson work]
+  validates_inclusion_of :status, in: %w[draft archived], if: "category == 'private'"
+  validates_inclusion_of :status, in: %w[associated_course], if: "category == 'lesson'"
+  validates_inclusion_of :status, in: %w[draft distributed_draft review open archived original_ws], if: "category == 'work'"
+  validates_numericality_of :course_id, allow_nil: false, equal_to: 0, if: "category == 'private'"
+  validates_numericality_of :course_id, allow_nil: false, greater_than: 0, if: "category != 'private'"
+  validates_numericality_of :original_ws_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'work'"
+  validates_numericality_of :original_ws_id, allow_nil: false, equal_to: 0, if: "category != 'work'"
 
   # ====================================================================
   # Public Functions
@@ -52,7 +54,7 @@ class Note < ApplicationRecord
   # For the mutual review of notes by anonymously
   def anonymous?(user_id)
     return false if manager_id == user_id
-    if category == 'worksheet' && status == 'original_ws'
+    if category == 'work' && status == 'original_ws'
       original_ws = Note.find_by(id: original_ws_id)
       (original_ws.status == 'review')
     else
@@ -64,7 +66,7 @@ class Note < ApplicationRecord
     case category
     when 'private'
       (manager_id == user_id) && snippets.size.zero? && stickies.size.zero?
-    when 'worksheet'
+    when 'work'
       if original_ws_id.zero?
         !Note.where(original_ws_id: id).exists?
       else
@@ -109,7 +111,7 @@ class Note < ApplicationRecord
 
   def open?
     case category
-    when 'worksheet'
+    when 'work'
       if status == 'original_ws'
         original_ws = Note.find(original_ws_id)
         (original_ws.status == 'open')
@@ -123,7 +125,7 @@ class Note < ApplicationRecord
 
   def review_or_open?
     case category
-    when 'worksheet'
+    when 'work'
       if status == 'original_ws'
         original_ws = Note.find(original_ws_id)
         (original_ws.status == 'review') || (original_ws.status == 'open')
@@ -137,7 +139,7 @@ class Note < ApplicationRecord
 
   def review?
     case category
-    when 'worksheet'
+    when 'work'
       if status == 'original_ws'
         original_ws = Note.find(original_ws_id)
         (original_ws.status == 'review')
@@ -208,16 +210,16 @@ class Note < ApplicationRecord
       else
         false
       end
-    when 'worksheet'
+    when 'work'
       course = Course.find_by(id: course_id)
       return false if !course || !course.staff?(user_id)
       case update_status
       when 'draft'
         new_record? || Note.where(original_ws_id: id).empty?
       when 'distributed_draft'
-        !new_record? && course.original_worksheets.empty?
+        !new_record? && course.original_work_sheets.empty?
       when 'review', 'open'
-        Note.where(original_ws_id: id).any? && course.original_worksheets.size == 1
+        Note.where(original_ws_id: id).any? && course.original_work_sheets.size == 1
       when 'archived'
         !new_record?
       else

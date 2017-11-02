@@ -7,7 +7,7 @@
 #  content_id  :integer
 #  course_id   :integer
 #  target_id   :integer
-#  target_type :string           default("page")
+#  target_type :string           default("PageFile")
 #  stars_count :integer          default(0)
 #  category    :string           default("private")
 #  message     :text
@@ -29,8 +29,13 @@ class StickyTest < ActiveSupport::TestCase
     assert build(:course_note_sticky).valid?
   end
 
-  # test for validates_presence_of :content_id, if: "target_type == 'page'"
-  test 'a sticky without content_id is invalid' do
+  # test for validates_absence_of :content_id, if: "target_type == 'Note'"
+  test 'a note sticky with content_id is invalid' do
+    assert_invalid build(:note_sticky, content_id: 1), :content_id
+  end
+
+  # test for validates_presence_of :content_id, if: "target_type == 'PageFile'"
+  test 'a page sticky without content_id is invalid' do
     assert_invalid build(:sticky, content_id: ''), :content_id
     assert_invalid build(:sticky, content_id: nil), :content_id
   end
@@ -53,8 +58,8 @@ class StickyTest < ActiveSupport::TestCase
     assert_invalid build(:sticky, category: nil), :category
   end
 
-  # test for validates_inclusion_of :target_type, in: %w[page note]
-  test 'a sticky with target_type that is not incluede in [page note] is invalid' do
+  # test for validates_inclusion_of :target_type, in: %w[PageFile Note]
+  test 'a sticky with target_type that is not incluede in [PageFile Note] is invalid' do
     assert_invalid build(:sticky, target_type: ''), :target_type
     assert_invalid build(:sticky, target_type: nil), :target_type
   end

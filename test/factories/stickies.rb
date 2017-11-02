@@ -7,7 +7,7 @@
 #  content_id  :integer
 #  course_id   :integer
 #  target_id   :integer
-#  target_type :string           default("page")
+#  target_type :string           default("PageFile")
 #  stars_count :integer          default(0)
 #  category    :string           default("private")
 #  message     :text
@@ -19,10 +19,8 @@ FactoryBot.define do
   factory :sticky do
     association :manager, factory: :user
     association :content
-    # association :target, factory: :page_file
-    # association :target, factory: :note
+    association :target, factory: :page_file
     sequence(:course_id) { |i| i }
-    sequence(:target_id) { |i| i }
     message 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
 
     factory :course_sticky do
@@ -30,12 +28,16 @@ FactoryBot.define do
     end
 
     factory :note_sticky do
-      target_type 'note'
+      content_id :nil
+      association :target, factory: :note
+      target_type 'Note'
     end
 
     factory :course_note_sticky do
       category 'course'
-      target_type 'note'
+      content_id :nil
+      association :target, factory: :note
+      target_type 'Note'
     end
   end
 end

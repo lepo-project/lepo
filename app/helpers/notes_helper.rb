@@ -41,7 +41,7 @@ module NotesHelper
   end
 
   def note_course_candidates
-    courses = Course.worksheet_distributable_by session[:id]
+    courses = Course.work_sheet_distributable_by session[:id]
     courses.pluck(:title, :id)
   end
 
@@ -50,7 +50,7 @@ module NotesHelper
     when 'private'
       candidates = [['draft', t('activerecord.others.note.status.draft'), !note.status_updatable?('draft', session[:id])]]
       candidates.push ['archived', t('activerecord.others.note.status.archived'), !note.status_updatable?('archived', session[:id])]
-    when 'worksheet'
+    when 'work'
       candidates = [['draft', t('activerecord.others.note.status.draft'), !note.status_updatable?('draft', session[:id])]]
       candidates.push ['distributed_draft', t('activerecord.others.note.status.distributed_draft'), !note.status_updatable?('distributed_draft', session[:id])]
       candidates.push ['review', t('activerecord.others.note.status.review'), !note.status_updatable?('review', session[:id])]

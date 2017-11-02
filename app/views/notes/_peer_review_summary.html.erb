@@ -15,7 +15,7 @@
     <% end %>
   </ul>
   <ul>
-    <% stickies = Sticky.where(course_id: @course.id, manager_id: m.id, target_type: "note") %>
+    <% stickies = Sticky.where(course_id: @course.id, manager_id: m.id, target_type: 'Note') %>
     <% stickies.each do |s| %>
     <% note = Note.find(s.target_id) %>
     <li>ふせん：<%= note.manager.full_name %> 「<%= s.message %>」</li>

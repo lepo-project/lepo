@@ -98,12 +98,12 @@ class NotesController < ApplicationController
   def get_resources
     @course = Course.find(session[:nav_id])
 
-    private_notes = Note.where(course_id: session[:nav_id], category: 'private', manager_id: session[:id]).to_a
-    @notes = private_notes + @course.learner_worksheets(session[:id], @course.staff?(session[:id]))
+    private_sheets = Note.where(course_id: session[:nav_id], category: 'private', manager_id: session[:id]).to_a
+    @notes = private_sheets + @course.learner_work_sheets(session[:id], @course.staff?(session[:id]))
   end
 
   def get_stickies(course_id, note_id)
-    @stickies = get_course_stickies_by_target course_id, 'note', note_id
-    @sticky = Sticky.new(course_id: course_id, target_type: 'note', target_id: note_id)
+    @stickies = get_course_stickies_by_target course_id, 'Note', note_id
+    @sticky = Sticky.new(course_id: course_id, target_type: 'Note', target_id: note_id)
   end
 end

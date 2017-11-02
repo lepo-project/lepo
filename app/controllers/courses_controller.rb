@@ -27,7 +27,7 @@ class CoursesController < ApplicationController
     set_page_session 0, @content
     set_sticky_panel_session
     pg = get_page(@lesson.id, @content)
-    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_type: 'page', target_id: pg['file_id'])
+    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
     render 'layouts/renders/all_with_pg', locals: { resource: 'layouts/cover_page', pg: pg }
   end
 
@@ -39,7 +39,7 @@ class CoursesController < ApplicationController
     set_page_session params[:page_num].to_i, @content
     set_sticky_panel_session
     pg = get_page(@lesson.id, @content)
-    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_type: 'page', target_id: pg['file_id'])
+    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
     get_outcome_resources @lesson, @content
     @message_templates = get_message_templates(@course.manager?(session[:id])) if session[:page_num] == session[:max_page_num]
     render_content_page pg
@@ -57,7 +57,7 @@ class CoursesController < ApplicationController
     set_page_session page_num, @content
 
     pg = get_page @lesson.id, @content
-    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_type: 'page', target_id: pg['file_id'])
+    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
     set_sticky_panel_session
     get_outcome_resources @lesson, @content
     @message_templates = get_message_templates(@course.manager?(session[:id])) if session[:page_num] == session[:max_page_num]
@@ -79,7 +79,7 @@ class CoursesController < ApplicationController
     page_num = session[:page_num] ? session[:page_num].to_i : 0
     set_page_session page_num, @content
     pg = get_page @lesson.id, @content
-    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_type: 'page', target_id: pg['file_id'])
+    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
     set_sticky_panel_session
     get_outcome_resources @lesson, @content
     @message_templates = get_message_templates(@course.manager?(session[:id])) if session[:page_num] == session[:max_page_num]

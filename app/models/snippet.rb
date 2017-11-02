@@ -17,7 +17,7 @@ class Snippet < ApplicationRecord
   belongs_to :source, class_name: 'WebPage'
   has_one :snippet_file, dependent: :destroy
   has_many :notes, through: :note_indices
-  has_many :note_indices, dependent: :destroy
+  has_many :note_indices, as: :item, dependent: :destroy
   validates_presence_of :description, if: "source_type == 'direct'"
   validates_presence_of :manager_id
   validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
@@ -49,7 +49,7 @@ class Snippet < ApplicationRecord
 
   def display_order_for(note_id = nil)
     return nil unless note_id
-    note_index = NoteIndex.find_by(snippet_id: id, note_id: note_id)
+    note_index = NoteIndex.find_by(item_id: id, item_type: 'Snippet', note_id: note_id)
     note_index ? note_index.display_order : nil
   end
 
@@ -89,9 +89,9 @@ class Snippet < ApplicationRecord
 
   def transferable?(user_id, to_note_id = nil)
     manager = manager_id == user_id
-    # snippets in worksheet with the operation by course learner
+    # snippets in work sheet with the operation by course learner
     return false unless manager
-    # snippets in worksheet with the operation by worksheet manager
+    # snippets in work sheet with the operation by work sheet manager
     return false if note_indices.size > 1
     case note_indices.size
     when 1
