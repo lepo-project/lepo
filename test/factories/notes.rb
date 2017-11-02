@@ -18,23 +18,30 @@
 
 FactoryBot.define do
   factory :note do
-    association :course
     association :manager, factory: :user
     sequence(:title) { |i| "Note #{i} Title" }
     overview 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
 
-    factory :original_draft_worksheet do
-      category 'worksheet'
-      status 'draft'
+    factory :lesson_sheet do
+      category 'lesson'
+      association :course
+      status 'associated_course'
     end
 
-    factory :original_review_worksheet do
-      category 'worksheet'
+    factory :original_draft_work_sheet do
+      category 'work'
+      association :course
+    end
+
+    factory :original_review_work_sheet do
+      category 'work'
+      association :course
       status 'review'
     end
 
-    factory :original_open_worksheet do
-      category 'worksheet'
+    factory :original_open_work_sheet do
+      category 'work'
+      association :course
       status 'open'
     end
   end

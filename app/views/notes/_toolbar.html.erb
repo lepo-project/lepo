@@ -17,7 +17,7 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [t('.group', index: gid + 1), {action: 'ajax_index_in_group', group_index: gid}], [@note.title]]} %>
 </nav>
 <% end %>
-<% if @note.category == 'worksheet' && @note.status='original_ws' %>
+<% if @note.category == 'work' && @note.status='original_ws' %>
 <div id="toolbar-btns">
   <div class="btn-group">
     <div id="sticky-toolbar">

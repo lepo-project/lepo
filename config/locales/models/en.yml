@@ -93,9 +93,9 @@ en:
         learners: Learners
         lessons: Lessons
         managers: Managers
-        original_draft_worksheets: Worksheet (draft)
-        original_open_worksheets: Worksheet (open)
-        original_review_worksheets: Worksheet (review)
+        original_draft_work_sheets: Work sheet (draft)
+        original_open_work_sheets: Work sheet (open)
+        original_review_work_sheets: Work sheet (review)
         members: Members
         notes: Notes
         notices: Notices
@@ -331,8 +331,9 @@ en:
       created_at: created at
       note:
         category:
-          private: Private Note
-          worksheet: Worksheet
+          private: Private sheet
+          lesson: Lesson sheet
+          work: Work sheet
         status:
           archived: Archived
           distributed_draft: Distribution

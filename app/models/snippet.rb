@@ -89,9 +89,9 @@ class Snippet < ApplicationRecord
 
   def transferable?(user_id, to_note_id = nil)
     manager = manager_id == user_id
-    # snippets in worksheet with the operation by course learner
+    # snippets in work sheet with the operation by course learner
     return false unless manager
-    # snippets in worksheet with the operation by worksheet manager
+    # snippets in work sheet with the operation by work sheet manager
     return false if note_indices.size > 1
     case note_indices.size
     when 1

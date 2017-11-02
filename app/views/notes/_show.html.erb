@@ -24,7 +24,7 @@
   </div>
 </div>
 
-<% if @note.category == 'worksheet' && @note.status='original_ws' %>
+<% if @note.category == 'work' && @note.status='original_ws' %>
 <div id="sticky-panel">
 <%= render partial: 'stickies/sticky_panel', locals: { stickies: @stickies } %>
 </div>

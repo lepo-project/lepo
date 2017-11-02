@@ -128,7 +128,7 @@ class SnippetsController < ApplicationController
 
   def ajax_new_note
     case params[:category]
-    when 'private', 'worksheet'
+    when 'private', 'work'
       @note = Note.new(category: params[:category])
       render 'layouts/renders/main_pane', locals: { resource: 'notes/new' }
     end
@@ -211,7 +211,7 @@ class SnippetsController < ApplicationController
     @note = Note.find params[:note_id].to_i
 
     if @note.status_updatable?(params[:note][:status], session[:id]) && @note.update_attributes(note_params)
-      distribute_worksheet @note if @note.status == 'distributed_draft'
+      distribute_work_sheet @note if @note.status == 'distributed_draft'
       @snippets = @note.snippets
       render 'layouts/renders/main_pane', locals: { resource: 'show' }
     else
@@ -276,7 +276,7 @@ class SnippetsController < ApplicationController
     { formats: ['js'], layout: false, locals: { duration: duration, tags: tags, token: token } }
   end
 
-  def distribute_worksheet(original_ws)
+  def distribute_work_sheet(original_ws)
     copy_snippets = original_ws.direct_snippets
     course = Course.find(original_ws.course_id)
     course.learners.each do |l|
@@ -284,7 +284,7 @@ class SnippetsController < ApplicationController
       next unless notes.size.zero?
 
       Snippet.transaction do
-        note = Note.create!(manager_id: l.id, course_id: course.id, title: original_ws.title, overview: original_ws.overview, category: 'worksheet', status: 'original_ws', original_ws_id: original_ws.id)
+        note = Note.create!(manager_id: l.id, course_id: course.id, title: original_ws.title, overview: original_ws.overview, category: 'work', status: 'original_ws', original_ws_id: original_ws.id)
         copy_snippets.each_with_index do |cs, i|
           snippet = Snippet.create!(manager_id: l.id, category: cs.category, description: cs.description, source_type: 'direct')
           NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: i + 1)
