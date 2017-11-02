@@ -5,7 +5,7 @@
       <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: 'ajax_toggle_star', id: @note.id, resource: 'show'}, {remote: true}) %>
     </div>
     <% end %>
-    <%= render partial: 'layouts/note_subtitle', locals: {note: @note, char_limit: 20} %>
+    <%= render partial: 'notes/subtitle', locals: {note: @note, char_limit: 20} %>
     <h1 class="card-title"><%= @note.title %></h1>
   </div>
 
@@ -23,7 +23,7 @@
     </div>
     <div class="main-area">
       <p class="overview"><%= @note.overview %></p>
-      <%= render(partial: 'snippets/items/headers', locals: {headers: Snippet.headers(@snippets)}) %>
+      <%= render(partial: 'notes/header_index', locals: {headers: NoteIndex.headers(@note_items)}) %>
     </div>
   </div>
 

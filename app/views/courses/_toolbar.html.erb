@@ -14,9 +14,7 @@
       <%= link_to({action: 'ajax_edit_notice'}, {class: 'dropdown-item', remote: true}) do %>
       <i class="fa fa-bullhorn"></i> <%= t('activerecord.models.notice') %>
       <% end %>
-      <% if (@course.assistant? session[:id]) || (@course.manager? session[:id]) ||  (User.system_staff? session[:id]) %>
       <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_edit', id: @course.id}, id_attr: 'toolbar-edit-btn'} %>
-      <% end %>
     </div>
   </div>
 </div>

@@ -1,0 +1,5 @@
+<% case item.item_type when 'Snippet' %>
+<%= render partial: 'layouts/snippet', locals: {note_item: item, snippet: item.item, editable_snippet: editable_snippet} %>
+<% when 'Content' %>
+<h2 id="header-item-<%= item.id %>"><%= item.header_title @note_items %></h2>
+<% end %>

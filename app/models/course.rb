@@ -30,7 +30,7 @@ class Course < ApplicationRecord
   validates_attachment_size :image, less_than: IMAGE_MAX_FILE_SIZE.megabytes # original file is resized, so this is not important
   belongs_to :term
   has_many :assistants, -> { where('course_members.role = ?', 'assistant') }, through: :course_members, source: :user
-  has_many :contents, -> { order(display_order: :asc) }, through: :lessons
+  has_many :contents, -> { order('lessons.display_order asc') }, through: :lessons
   has_many :course_members, dependent: :destroy
   has_many :goals, -> { order(id: :asc) }, dependent: :destroy
   has_many :learners, -> { where('course_members.role = ?', 'learner').order(signin_name: :asc) }, through: :course_members, source: :user
@@ -233,6 +233,11 @@ class Course < ApplicationRecord
 
   def manager_changeable?(user_id)
     (managers.size > 1) && (manager?(user_id) || User.system_staff?(user_id))
+  end
+
+  def member?(user_id)
+    role = user_role user_id
+    (role == 'manager') || (role == 'assistant') || (role == 'learner')
   end
 
   def staff?(user_id)

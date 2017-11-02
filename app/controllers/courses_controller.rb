@@ -522,6 +522,8 @@ class CoursesController < ApplicationController
     @goals = get_goal_resources @course
     @marked_lessons = marked_lessons @course.id
     @lesson_resources = get_lesson_resources @course.lessons
+    # lesson note creationion
+    Note.create_lesson_note(session[:id], params[:nav_id], @course.title, @course.overview, @course.contents) if @course.member? session[:id]
     render 'layouts/renders/all', locals: { resource: 'index' }
   end
 end

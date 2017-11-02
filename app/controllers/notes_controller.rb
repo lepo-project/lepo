@@ -25,7 +25,7 @@ class NotesController < ApplicationController
     @note = Note.find note_id
     get_resources
     get_stickies course_id, note_id
-    @snippets = @note.snippets
+    @note_items = @note.note_indices
     @group_index = @course.group_index_for @note.manager_id
 
     set_sticky_panel_session
@@ -38,7 +38,7 @@ class NotesController < ApplicationController
     @note = Note.find note_id
     get_resources
     get_stickies @note.course_id, @note.id
-    @snippets = @note.snippets
+    @note_items = @note.note_indices
     @group_index = @course.group_index_for @note.manager_id
 
     set_sticky_panel_session
@@ -68,7 +68,7 @@ class NotesController < ApplicationController
     get_resources
     get_stickies @course.id, @note.id if params[:resource] == 'show'
     @group_index = @course.group_index_for @note.manager_id if params[:resource] == 'index_in_group'
-    @snippets = @note.snippets
+    @note_items = @note.note_indices
     @note = Note.new if params[:resource] != 'show'
 
     case params[:resource]

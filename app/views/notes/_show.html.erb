@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-md-12">
       <div class="block">
-        <%= render partial: 'layouts/note_header', locals: {editable_snippet: false}  %>
-      </div>
-      <div id="snippets" class="block">
-        <%= render partial: 'layouts/snippet', collection: @snippets, locals: {editable_snippet: false} %>
+        <%= render partial: 'notes/header' %>
+        <div id="items">
+          <%= render partial: 'notes/item', collection: @note_items, locals: {editable_snippet: false} %>
+        </div>
       </div>
 
       <% references = @note.references %>
@@ -26,6 +26,6 @@
 
 <% if @note.category == 'work' && @note.status='original_ws' %>
 <div id="sticky-panel">
-<%= render partial: 'stickies/sticky_panel', locals: { stickies: @stickies } %>
+  <%= render partial: 'stickies/sticky_panel', locals: { stickies: @stickies } %>
 </div>
 <% end %>
