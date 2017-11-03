@@ -30,14 +30,6 @@ class Snippet < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.headers(snippets)
-    headers = []
-    snippets.each do |snippet|
-      headers.push(snippet) if snippet.category == 'header'
-    end
-    headers
-  end
-
   def self.web_snippets_without_note_by(manager_id)
     snippets = where(manager_id: manager_id, source_type: 'web').order(created_at: :desc).to_a
     snippets.delete_if { |s| s.note_indices.count > 0 }
@@ -61,30 +53,6 @@ class Snippet < ApplicationRecord
       end
     end
     ''
-  end
-
-  def header_title(snippets)
-    return '' unless category == 'header'
-    header_ids = snippets.map { |s| s.id if s.category == 'header' }.compact
-    chapter_num = header_ids.index id
-    chapter_num.nil? ? description : (chapter_num + 1).to_s + '. ' + description
-  end
-
-  def subheader_title(snippets)
-    return '' unless category == 'subheader'
-    chapter_num = 0
-    section_num = 0
-    snippets.each do |s|
-      case s.category
-      when 'header'
-        chapter_num += 1
-        section_num = 0
-      when 'subheader'
-        section_num += 1
-        return chapter_num.to_s + '.' + section_num.to_s + '. ' + description if (s.id == id) && !chapter_num.zero?
-      end
-    end
-    description
   end
 
   def transferable?(user_id, to_note_id = nil)

@@ -11,7 +11,7 @@
       <%= link_to((note.title), {controller: 'notes', action: 'ajax_show_from_others', nav_id: course_id, id: note.id}, {remote: true}) %>
     </h3>
     <% else %>
-    <%= render partial: 'layouts/note_subtitle', locals: {note: note, char_limit: 12} %>
+    <%= render partial: 'notes/subtitle', locals: {note: note, char_limit: 12} %>
     <h2 class="card-title">
       <%= link_to_resource((note.title), note.id, {}) %>
     </h2>

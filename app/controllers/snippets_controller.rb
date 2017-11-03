@@ -122,7 +122,7 @@ class SnippetsController < ApplicationController
   def ajax_edit_note
     @notes = current_user.notes
     @note = Note.find params[:note_id]
-    @snippets = @note.snippets
+    @note_items = @note.note_indices
     render 'layouts/renders/main_pane', locals: { resource: 'notes/edit' }
   end
 
@@ -148,7 +148,7 @@ class SnippetsController < ApplicationController
           ni.update_attributes(note_id: to_note_id, display_order: display_order)
           @note = Note.find from_note_id
           @note.align_display_order
-          @snippets = @note.snippets
+          @note_items = @note.note_indices
           render 'layouts/renders/resource', locals: { resource: 'show' }
         else
           NoteIndex.create(note_id: to_note_id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
@@ -161,7 +161,7 @@ class SnippetsController < ApplicationController
         @note = Note.find from_note_id
         @note.align_display_order
         @notes = current_user.notes
-        @snippets = @note.snippets
+        @note_items = @note.note_indices
         render 'layouts/renders/resource', locals: { resource: 'show' }
       end
     else
@@ -177,18 +177,18 @@ class SnippetsController < ApplicationController
     note_id = params[:id].to_i
     @note = Note.find note_id
     @notes = current_user.notes
-    @snippets = @note.snippets
+    @note_items = @note.note_indices
     render 'layouts/renders/main_pane', locals: { resource: 'show' }
   end
 
   def ajax_sort
     @note = Note.find params[:note_id].to_i
-    params[:snippet].each_with_index do |id, i|
+    params[:items].each_with_index do |id, i|
       ni = NoteIndex.find_by(note_id: @note.id, item_id: id, item_type: 'Snippet')
       ni.update_attributes(display_order: i + 1) if ni
     end
     @notes = current_user.notes
-    @snippets = @note.snippets
+    @note_items = @note.note_indices
     render 'snippets/renders/snippets'
   end
 
@@ -197,7 +197,7 @@ class SnippetsController < ApplicationController
     @note = Note.new(note_params)
     @note.manager_id = session[:id]
     if @note.save
-      @snippets = []
+      @note_items = []
       render 'layouts/renders/main_pane', locals: { resource: 'show' }
     else
       flash[:message] = t('controllers.snippets.note_creation_error')
@@ -212,7 +212,7 @@ class SnippetsController < ApplicationController
 
     if @note.status_updatable?(params[:note][:status], session[:id]) && @note.update_attributes(note_params)
       distribute_work_sheet @note if @note.status == 'distributed_draft'
-      @snippets = @note.snippets
+      @note_items = @note.note_indices
       render 'layouts/renders/main_pane', locals: { resource: 'show' }
     else
       flash[:message] = t('controllers.snippets.note_creation_error')
@@ -329,7 +329,7 @@ class SnippetsController < ApplicationController
   def render_snippets(note_id)
     @note = Note.find note_id
     @note.align_display_order
-    @snippets = @note.snippets
+    @note_items = @note.note_indices
     render 'snippets/renders/snippets'
   end
 

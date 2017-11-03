@@ -129,20 +129,6 @@ en:
       no_search_results: No Search Results
     message_card:
       shortcut_key: :contents.index.shortcut_key
-    note_header:
-      characters: characters
-      media_count: media count
-      pages: pages
-      pieces: pieces
-      referenced_web_count: referenced web count
-      star_count: star count
-      uploaded_media_count: uploaded media count
-      written_char_count: written char count
-    note_subtitle:
-      default: Default
-      private: :activerecord.others.note.category.private
-      lesson: :activerecord.others.note.category.lesson
-      work: :activerecord.others.note.category.work
     page_number:
       portfolio: :helpers.portfolio
     search_members:
@@ -164,9 +150,25 @@ en:
     group:
       group: :course_members.index.group
       users: :course_members.members.users
+    header:
+      characters: characters
+      media_count: media count
+      pages: pages
+      pieces: pieces
+      referenced_web_count: referenced web count
+      star_count: star count
+      uploaded_media_count: uploaded media count
+      written_char_count: written char count
+    header_index:
+      index: Index
+    subtitle:
+      default: Default
+      private: :activerecord.others.note.category.private
+      lesson: :activerecord.others.note.category.lesson
+      work: :activerecord.others.note.category.work
     note:
-      media_count: :layouts.note_header.media_count
-      star_count: :layouts.note_header.star_count
+      media_count: :notes.header.media_count
+      star_count: :notes.header.star_count
       sticky_count: sticky count
     show:
       references: References
@@ -248,8 +250,6 @@ en:
     items:
       footer:
         operations: Operations
-      headers:
-        header: :snippets.create_snippet_btns.header
       operations_direct:
         edit: :layouts.buttons.edit.edit
       operations_upload:

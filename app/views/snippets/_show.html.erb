@@ -2,9 +2,9 @@
   <div class="row">
     <div class="col-md-12">
       <div class="block">
-        <%= render partial: 'layouts/note_header', locals: {editable_snippet: true}  %>
+        <%= render partial: 'notes/header' %>
         <%= render(partial: 'snippets/create_snippet_btns', locals: {display_order: 0, note_id: @note.id}) %>
-        <%= render partial: 'snippets/snippets' %>
+        <%= render partial: 'notes/items' %>
       </div>
     </div>
   </div>

@@ -45,6 +45,20 @@ class Note < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
+  def self.create_lesson_note(user_id, course_id, course_title, course_overview, course_contents)
+    # create lesson note if it doesn't exist
+    lesson_note = find_by(manager_id: user_id, course_id: course_id, category: 'lesson')
+    lesson_note ||= lesson_note.create(manager_id: user_id, course_id: course_id, category: 'lesson', title: course_title, overview: course_overview, status: 'associated_course')
+
+    course_contents.each do |c|
+      note_index = NoteIndex.find_by(note_id: lesson_note.id, item_id: c.id, item_type: 'Content')
+      next if note_index
+      max_display_order = NoteIndex.where(note_id: lesson_note.id).maximum(:display_order)
+      display_order = max_display_order ? max_display_order + 1 : 1
+      NoteIndex.create(note_id: lesson_note.id, item_id: c.id, item_type: 'Content', display_order: display_order)
+    end
+  end
+
   def align_display_order
     note_indices.each_with_index do |ni, i|
       ni.update_attributes(display_order: i + 1)
@@ -80,14 +94,19 @@ class Note < ApplicationRecord
   def export_html
     export_html = '<h1>' + title + '</h1>'
     export_html += '<p>' + overview + '</p>'
-    snippets.each do |snippet|
-      case snippet.category
-      when 'text'
-        export_html += '<p>' + snippet.description + '</p>' if snippet.source_type == 'direct'
-      when 'header'
-        export_html += '<h2>' + snippet.header_title(snippets) + '</h2>'
-      when 'subheader'
-        export_html += '<h3>' + snippet.subheader_title(snippets) + '</h3>'
+    note_indices.each do |ni|
+      case ni.item_type
+      when 'Snippet'
+        case ni.item.category
+        when 'text'
+          export_html += '<p>' + ni.item.description + '</p>' if ni.item.source_type == 'direct'
+        when 'header'
+          export_html += '<h2>' + ni.header_title(note_indices) + '</h2>'
+        when 'subheader'
+          export_html += '<h3>' + ni.subheader_title(note_indices) + '</h3>'
+        end
+      when 'Content'
+        export_html += '<h2>' + ni.header_title(note_indices) + '</h2>'
       end
     end
 
