@@ -142,6 +142,23 @@ class Note < ApplicationRecord
     end
   end
 
+  def reference_ids
+    ids = []
+    web_snippets.each do |s|
+      ids.push s.source_id unless ids.include? s.source_id
+    end
+    ids
+  end
+
+  def references
+    ids = reference_ids
+    references = []
+    ids.each do |id|
+      references.push WebPage.find(id)
+    end
+    references
+  end
+
   def review_or_open?
     case category
     when 'work'
@@ -170,17 +187,6 @@ class Note < ApplicationRecord
     end
   end
 
-  def snippets_media_count(source_type)
-    case source_type
-    when 'all'
-      snippets.size - text_snippets.size
-    when 'upload'
-      upload_snippets.size
-    when 'web'
-      web_snippets.size - web_text_snippets.size
-    end
-  end
-
   def snippets_char_count(source_type)
     char_count = 0
     case source_type
@@ -200,21 +206,15 @@ class Note < ApplicationRecord
     char_count
   end
 
-  def reference_ids
-    ids = []
-    web_snippets.each do |s|
-      ids.push s.source_id unless ids.include? s.source_id
+  def snippets_media_count(source_type)
+    case source_type
+    when 'all'
+      snippets.size - text_snippets.size
+    when 'upload'
+      upload_snippets.size
+    when 'web'
+      web_snippets.size - web_text_snippets.size
     end
-    ids
-  end
-
-  def references
-    ids = reference_ids
-    references = []
-    ids.each do |id|
-      references.push WebPage.find(id)
-    end
-    references
   end
 
   def status_updatable?(update_status, user_id)
