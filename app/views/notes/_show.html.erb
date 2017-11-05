@@ -1,13 +1,19 @@
 <div id="note-resource" class="scroll-pane">
   <div class="row">
     <div class="col-md-12">
+      <% case session[:nav_section] when 'home' %>
+      <div class="block">
+        <%= render partial: 'notes/header' %>
+        <%= render(partial: 'snippets/create_snippet_btns', locals: {display_order: 0, note_id: @note.id}) %>
+        <%= render partial: 'notes/note_items' %>
+      </div>
+      <% when 'open_courses' %>
       <div class="block">
         <%= render partial: 'notes/header' %>
         <div id="items">
-          <%= render partial: 'notes/item', collection: @note_items, locals: {editable_snippet: false} %>
+          <%= render partial: 'notes/note_item', collection: @note_items, locals: {editable_snippet: false} %>
         </div>
       </div>
-
       <% references = @note.references %>
       <% unless references.size.zero? %>
       <div id="references" class="block">
@@ -19,12 +25,13 @@
         </ol>
       </div>
       <% end %>
-
+      <% end %>
     </div>
   </div>
 </div>
 
-<% if @note.category == 'work' && @note.status='original_ws' %>
+
+<% if session[:nav_section] == 'open_courses' && @note.category == 'work' && @note.status='original_ws' %>
 <div id="sticky-panel">
   <%= render partial: 'stickies/sticky_panel', locals: { stickies: @stickies } %>
 </div>

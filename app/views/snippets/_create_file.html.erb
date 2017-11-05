@@ -1,7 +1,7 @@
 <% form_id = 'create-file-form-' + display_order.to_s %>
 <div id="<%= form_id %>" class="to-be-hidden">
   画像とPDFファイルのみアップロード可能（ファイル名が長いとアップロードできません）
-  <%= form_for :snippet_file, url: {action: :ajax_upload, display_order: display_order, note_id: note_id}, html: {id: form_id + '-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
+  <%= form_for :snippet_file, url: {controller: :snippets, action: :ajax_upload, display_order: display_order, note_id: note_id}, html: {id: form_id + '-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
   <%= render partial: 'snippets/file_form', locals: {f: f, form_id: form_id} %>
   <% end %>
 </div>

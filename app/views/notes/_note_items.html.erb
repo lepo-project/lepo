@@ -1,12 +1,12 @@
-<div id="items" style="overflow: auto;">
+<div id="note-items" style="overflow: auto;">
   <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
-  <%= render partial: 'notes/item', collection: @note_items, locals: {editable_snippet: true} %>
+  <%= render partial: 'notes/note_item', collection: @note_items, locals: {editable_snippet: true} %>
 </div>
 
 
 <script>
 $(function () {
-  $('#items').sortable({
+  $('#note-items').sortable({
     axis:'y',
     opacity: 0.8,
     update:function () {

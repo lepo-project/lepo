@@ -1,4 +1,4 @@
 $("#note-header").replaceWith("<%= j render partial: 'notes/header' %>");
-$("#snippet_<%= snippet.id %>").replaceWith("<%= j render(partial: 'layouts/snippet', locals: {snippet: snippet, editable_snippet: true}) %>");
+$("#snippet-<%= snippet.id %>").replaceWith("<%= j render(partial: 'layouts/snippet', locals: {snippet: snippet, editable_snippet: true}) %>");
 autosize($('.elastic_textarea'));
 $('.to-be-hidden').hide();

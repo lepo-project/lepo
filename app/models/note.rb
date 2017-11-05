@@ -48,7 +48,7 @@ class Note < ApplicationRecord
   def self.create_lesson_note(user_id, course_id, course_title, course_overview, course_contents)
     # create lesson note if it doesn't exist
     lesson_note = find_by(manager_id: user_id, course_id: course_id, category: 'lesson')
-    lesson_note ||= lesson_note.create(manager_id: user_id, course_id: course_id, category: 'lesson', title: course_title, overview: course_overview, status: 'associated_course')
+    lesson_note ||= create(manager_id: user_id, course_id: course_id, category: 'lesson', title: course_title, overview: course_overview, status: 'associated_course')
 
     course_contents.each do |c|
       note_index = NoteIndex.find_by(note_id: lesson_note.id, item_id: c.id, item_type: 'Content')

@@ -11,6 +11,41 @@
   @include snippet-card;
   @include source-card;
 
+  div.head {
+    margin-bottom: 1rem;
+    max-width: 720px;
+    h1 {
+      font-size: 16pt;
+      line-height: 30px;
+      margin-bottom: 4px;
+      padding-left: 15px;
+      text-align: center;
+    }
+  }
+  .create-snippet-btn {
+    margin-left: 12px;
+    width: 100px;
+  }
+  .operation-direct {
+    clear: both;
+    height: 20px;
+    a {
+      color: #999;
+      display: block;
+      float: right;
+      font-size: 12pt;
+      padding: 0 10px;
+      &:hover {
+        color: #fff;
+        text-decoration: underline;
+      }
+    }
+  }
+  .form-group label.active {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: #fff;
+  }
   #references {
     margin-top: 30px;
     h1 {

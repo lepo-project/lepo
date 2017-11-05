@@ -1,0 +1,46 @@
+<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+<div class="clearfix">
+  <% if @notes.size.zero? %>
+  <%= render partial: 'layouts/system_message', locals: {message: t('.no_note_resources'), message_category: 'info'} %>
+  <% else %>
+  <%= render partial: 'notes/note', collection: @notes, locals: {resource: 'index', droppable: true} %>
+  <% end %>
+</div>
+<% if @snippets.size > 0 %>
+<%= render partial: 'layouts/system_message', locals: {message: t('.snippet_transfer'), message_category: 'info'} %>
+<% else %>
+<% if @notes.size > 0 %>
+<%= render partial: 'layouts/system_message', locals: {message: t('.no_snippets'), message_category: 'info'} %>
+<% end %>
+<% end %>
+<div id="snippets" class="block">
+  <%= render partial: 'layouts/snippet', collection: @snippets, locals: {editable_snippet: true} %>
+</div>
+
+
+<script>
+$(function () {
+  // For Snippet drag and drop
+  $('.draggable').draggable({
+    opacity: 0.8,
+    revert: "invalid",
+    revertDuration: 200
+  })
+  $('.droppable').droppable({
+    hoverClass: "drop-hover",
+    tolerance: "pointer",
+    drop: function (e, ui) {
+      var snippet_id = ui.draggable.attr('id').substr('snippet_'.length);
+      var note_id = $(this).attr('id').substr('note_'.length);
+      $.ajax({
+        url:'<%= Rails.application.config.relative_url_root %>/snippets/ajax_transfer/'+snippet_id+'?to_note_id='+note_id
+      })
+      ui.draggable.hide();
+    }
+  })
+  // for snippet edit form
+  autosize($('.elastic_textarea'));
+  // for snippet edit form: this is necessary to fit height when initial text exists in textarea
+  $('.to-be-hidden').hide();
+});
+</script>

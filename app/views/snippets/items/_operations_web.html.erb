@@ -6,14 +6,14 @@
     <% end %>
     <% @notes.each do |note| %>
     <% if snippet.transferable? session[:id], note.id %>
-    <% link_hash = @note ? {action: 'ajax_transfer', id: snippet.id, to_note_id: note.id, from_note_id: @note.id} : {action: 'ajax_transfer', id: snippet.id, to_note_id: note.id} %>
+    <% link_hash = @note ? {controller: :snippets, action: 'ajax_transfer', id: snippet.id, to_note_id: note.id, from_note_id: @note.id} : {controller: :snippets, action: 'ajax_transfer', id: snippet.id, to_note_id: note.id} %>
     <li><%= link_to(raw("<i class='fa-li fa fa-file-text-o'></i>") + t('.transfer_to', note_title: note.title), link_hash, {remote: true}) %></li>
     <% end %>
     <% end %>
     <% if snippet.transferable? session[:id] %>
-    <li><%= link_to(raw("<i class='fa-li fa fa-file-text'></i>") + t('.remove'), {action: 'ajax_transfer', id: snippet.id, from_note_id: @note.id}, {remote: true}) %></li>
+    <li><%= link_to(raw("<i class='fa-li fa fa-file-text'></i>") + t('.remove'), {controller: :snippets, action: 'ajax_transfer', id: snippet.id, from_note_id: @note.id}, {remote: true}) %></li>
     <% end %>
-    <% link_hash = @note ? {action: 'ajax_destroy', id: snippet.id, note_id: @note.id} : {action: 'ajax_destroy', id: snippet.id} %>
+    <% link_hash = @note ? {controller: :snippets, action: 'ajax_destroy', id: snippet.id, note_id: @note.id} : {controller: :snippets, action: 'ajax_destroy', id: snippet.id} %>
     <li><%= link_to(raw("<i class='fa-li fa fa-trash-o'></i>") + t('.delete'), link_hash, {remote: true}) %></li>
   </ul>
 </div>

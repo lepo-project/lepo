@@ -1,6 +1,6 @@
-<div id="items_<%= snippet.id %>" class="draggable">
-  <div id="categorized-snippet-<%= snippet.id %>">
-    <%= render(partial: "snippets/items/#{snippet.category}", locals: {note_item: note_item, snippet: snippet, editable_snippet: editable_snippet}) %>
+<div id="snippet-<%= snippet.id %>" class="draggable">
+  <div id="snippet-<%= snippet.id %>-item">
+    <%= render(partial: "snippets/items/#{snippet.category}", locals: {snippet: snippet, editable_snippet: editable_snippet}) %>
   </div>
   <% if editable_snippet %>
   <% case snippet.source_type when 'direct' %>
