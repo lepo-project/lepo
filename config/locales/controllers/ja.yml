@@ -6,13 +6,14 @@ ja:
       updated: ブックマークを更新しました
     courses:
       no_courses_with_criteria: 条件を満たすコースが見つかりません
+    notes:
+      creation_error: ノートの作成に失敗しました。入力した値を確認して下さい。
     signin:
       error1: アクセスを許可されていません
       error2: User ID または Password に間違いがあります
       setup_error1: 最高管理者アカウントの作成に失敗しました。入力した文字列を確認し、再度、作成してみましょう
       setup_error2: 既に最高管理者アカウントが登録されているため、再度、登録することはできません
     snippets:
-      note_creation_error: ノートの作成に失敗しました。入力した値を確認して下さい。
-      note_transfer_error: ノートの移動に失敗しました
-      snippet_creation_error: テキストの保存に失敗しました
-      snippet_upload_error: ファイルの保存に失敗しました
+      transfer_error: ノートの移動に失敗しました
+      creation_error: テキストの保存に失敗しました
+      upload_error: ファイルの保存に失敗しました

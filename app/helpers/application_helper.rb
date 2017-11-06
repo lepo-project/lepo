@@ -415,7 +415,7 @@ module ApplicationHelper
     case section
     when 'home'
       items.push(nav_section: 'home', nav_controller: 'dashboard', title: t('helpers.dashboard'), class: 'fa fa-dashboard fa-lg')
-      items.push(nav_section: 'home', nav_controller: 'snippets', title: t('helpers.note_management'), class: 'fa fa-file-text fa-lg')
+      items.push(nav_section: 'home', nav_controller: 'notes', title: t('helpers.note_management'), class: 'fa fa-file-text fa-lg')
       items.push(nav_section: 'home', nav_controller: 'contents', title: t('helpers.support'), class: 'fa fa-question-circle fa-lg')
       items.push(nav_section: 'home', nav_controller: 'preferences', title: t('helpers.preferences'), class: 'fa fa-cog fa-lg')
     when 'open_courses'

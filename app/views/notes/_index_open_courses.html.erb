@@ -1,0 +1,16 @@
+<% if @course.groups_count == 1 %>
+<!-- Without Groups (Only One Group) -->
+<% if @notes.size == 0 %>
+<%= render partial: 'layouts/system_message', locals: {message: '現在、公開されているノートは、ありません。', message_category: 'info'} %>
+<% else %>
+<%= render partial: 'note', collection: @notes, locals: {resource: 'index', droppable: false} %>
+<% end %>
+<% else %>
+<!-- With Groups -->
+<!-- #FIXME: Group work -->
+<% @course.groups_count.times do |group_index| %>
+<%= link_to({action: 'ajax_index_in_group', group_index: group_index}, {remote: true}) do %>
+<%= render partial: 'group', locals: {group_index: group_index} %>
+<% end %>
+<% end %>
+<% end %>

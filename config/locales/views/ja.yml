@@ -161,6 +161,10 @@ ja:
       written_char_count: 書き込んだ文字の数
     header_index:
       index: 目次
+    index_home:
+      no_note_resources: 現在、管理しているノートはありません
+      no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
+      snippet_transfer: 引用した情報はドラッグ＆ドロップ、またはメニュー「操作」からノートに移動して下さい
     subtitle:
       default: 標準
       private: :activerecord.others.note.category.private
@@ -173,7 +177,9 @@ ja:
     show:
       references: 参考資料
     toolbar:
+      export: 文章を出力
       group: :course_members.index.group
+      preferences: :helpers.preferences
 
   outcomes:
     evaluator:
@@ -243,10 +249,6 @@ ja:
     form:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error
-    index:
-      no_note_resources: 現在、管理しているノートはありません
-      no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
-      snippet_transfer: 引用した情報はドラッグ＆ドロップ、またはメニュー「操作」からノートに移動して下さい
     items:
       footer:
         operations: 操作
@@ -261,9 +263,6 @@ ja:
         enter_citation: PDFファイルからの引用文を入力
         remove: このノートからはがす
         transfer_to: '「%{note_title}」に移動'
-    toolbar:
-      export: 文章を出力
-      preferences: :helpers.preferences
 
   stickies:
     edit:

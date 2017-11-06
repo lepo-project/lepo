@@ -33,7 +33,7 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     create(:course_manager, user_id: user.id, course_id: open_course.id)
     signin_with user.signin_name, user.password
     # nav-home
-    click_main_nav_item '#nav-home', I18n.t('helpers.note_management'), '#snippet-resource'
+    click_main_nav_item '#nav-home', I18n.t('helpers.note_management'), '#note-resource'
     click_main_nav_item '#nav-home', I18n.t('helpers.support'), '#content-resource'
     click_main_nav_item '#nav-home', I18n.t('helpers.preferences'), '#preference-resource'
     # nav-open-courses

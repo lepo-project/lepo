@@ -1,6 +1,6 @@
 <% form_id = 'update-pdf-form-' + snippet.id.to_s %>
 <div id="<%= form_id %>" class="to-be-hidden">
-  <% url_hash = @note ? {action: :ajax_update_pdf, id: snippet.id, note_id: @note.id} : {action: :ajax_update_pdf, id: snippet.id} %>
+  <% url_hash = @note ? {controller: :snippets, action: :ajax_update_pdf, id: snippet.id, note_id: @note.id} : {controller: :snippets, action: :ajax_update_pdf, id: snippet.id} %>
   <%= form_for snippet, url: url_hash, html: {id: 'snippet-form', class: 'form-horizontal', name: 'snippet-form', multipart: true}, remote: true do |f| %>
   <%= render partial: 'snippets/form', locals: {snippet: snippet, f: f, form_id: form_id, category: snippet.category} %>
   <% end %>

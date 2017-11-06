@@ -4,13 +4,6 @@ class SnippetsController < ApplicationController
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def ajax_index
-    set_nav_session params[:nav_section], 'snippets'
-    @notes = current_user.notes
-    @snippets = Snippet.web_snippets_without_note_by session[:id]
-    render 'layouts/renders/all', locals: { resource: 'index' }
-  end
-
   def ajax_create
     @notes = current_user.notes
     note_id = params[:note_id].to_i
@@ -22,30 +15,73 @@ class SnippetsController < ApplicationController
     end
     render_snippets note_id
   rescue StandardError
-    flash[:message] = t('controllers.snippets.snippet_creation_error')
+    flash[:message] = t('controllers.snippets.creation_error')
     flash[:message_category] = 'error'
     render_snippets note_id
   end
 
-  def ajax_upload
+  def ajax_destroy
+    snippet = Snippet.find(params[:id])
+    return unless snippet.deletable? session[:id]
     @notes = current_user.notes
-    note_id = params[:note_id].to_i
+    note_id = params[:note_id].to_i if params[:note_id]
+    snippet.destroy
 
-    @snippet = Snippet.new(manager_id: session[:id], category: 'image', source_type: 'upload')
-    Snippet.transaction do
-      @snippet.save!
-      NoteIndex.create!(note_id: note_id, item_id: @snippet.id, item_type: 'Snippet', display_order: params[:display_order].to_i)
-      param_hash = snippet_file_params
-      param_hash['snippet_id'] = @snippet.id
-      snippet_file = SnippetFile.new(param_hash)
-      snippet_file.save!
-      @snippet.update_attributes!(category: snippet_file.file_type, source_id: snippet_file.id, description: snippet_file.upload.url)
+    if note_id
+      render_snippets note_id
+    else
+      @snippets = Snippet.web_snippets_without_note_by session[:id]
+      render 'layouts/renders/resource', locals: { resource: 'notes/index' }
     end
-    render_snippets note_id
-  rescue StandardError
-    flash[:message] = t('controllers.snippets.snippet_upload_error')
-    flash[:message_category] = 'error'
-    render_snippets note_id
+  end
+
+  def ajax_sort
+    @note = Note.find params[:note_id].to_i
+    params[:item].each_with_index do |id, i|
+      ni = NoteIndex.find_by(id: id)
+      ni.update_attributes(display_order: i + 1) if ni
+    end
+    @note_items = @note.note_indices
+    render 'snippets/renders/snippets'
+  end
+
+  def ajax_transfer
+    snippet = Snippet.find params[:id] if params[:id]
+    from_note_id = params[:from_note_id].to_i if params[:from_note_id]
+    to_note_id = params[:to_note_id].to_i if params[:to_note_id]
+
+    if snippet.transferable? session[:id], to_note_id
+      if to_note_id
+        display_order = NoteIndex.where(note_id: to_note_id).count + 1
+        @notes = current_user.notes
+        if from_note_id
+          ni = NoteIndex.find_by(note_id: from_note_id, item_id: snippet.id, item_type: 'Snippet')
+          ni.update_attributes(note_id: to_note_id, display_order: display_order)
+          @note = Note.find from_note_id
+          @note.align_display_order
+          @note_items = @note.note_indices
+          render 'layouts/renders/resource', locals: { resource: 'notes/show' }
+        else
+          NoteIndex.create(note_id: to_note_id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
+          @snippets = Snippet.web_snippets_without_note_by session[:id]
+          render 'layouts/renders/resource', locals: { resource: 'notes/index' }
+        end
+      else
+        ni = NoteIndex.find_by(note_id: from_note_id, item_id: snippet.id, item_type: 'Snippet')
+        ni.destroy
+        @note = Note.find from_note_id
+        @note.align_display_order
+        @notes = current_user.notes
+        @note_items = @note.note_indices
+        render 'layouts/renders/resource', locals: { resource: 'notes/show' }
+      end
+    else
+      flash[:message] = t('controllers.snippets.transfer_error')
+      flash[:message_category] = 'error'
+      @notes = current_user.notes
+      @snippets = Snippet.web_snippets_without_note_by session[:id]
+      render 'layouts/renders/resource', locals: { resource: 'notes/index' }
+    end
   end
 
   def ajax_update
@@ -76,7 +112,7 @@ class SnippetsController < ApplicationController
       # snippet outside the note
       @notes = current_user.notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
-      render 'layouts/renders/resource', locals: { resource: 'index' }
+      render 'layouts/renders/resource', locals: { resource: 'notes/index' }
     end
   end
 
@@ -88,137 +124,25 @@ class SnippetsController < ApplicationController
     render_snippet params[:note_id], snippet
   end
 
-  def ajax_destroy
-    snippet = Snippet.find(params[:id])
-    return unless snippet.deletable? session[:id]
+  def ajax_upload
     @notes = current_user.notes
-    note_id = params[:note_id].to_i if params[:note_id]
-    snippet.destroy
+    note_id = params[:note_id].to_i
 
-    if note_id
-      render_snippets note_id
-    else
-      @snippets = Snippet.web_snippets_without_note_by session[:id]
-      render 'layouts/renders/resource', locals: { resource: 'index' }
+    @snippet = Snippet.new(manager_id: session[:id], category: 'image', source_type: 'upload')
+    Snippet.transaction do
+      @snippet.save!
+      NoteIndex.create!(note_id: note_id, item_id: @snippet.id, item_type: 'Snippet', display_order: params[:display_order].to_i)
+      param_hash = snippet_file_params
+      param_hash['snippet_id'] = @snippet.id
+      snippet_file = SnippetFile.new(param_hash)
+      snippet_file.save!
+      @snippet.update_attributes!(category: snippet_file.file_type, source_id: snippet_file.id, description: snippet_file.upload.url)
     end
-  end
-
-  def ajax_destroy_note
-    @note = Note.find params[:note_id]
-    if @note.deletable? session[:id]
-      @note.destroy
-      current_user.update_attributes(default_note_id: 0) if current_user.default_note_id == params[:note_id].to_i
-      @notes = current_user.notes
-      @snippets = Snippet.web_snippets_without_note_by session[:id]
-      render 'layouts/renders/all', locals: { resource: 'index' }
-    else
-      @notes = current_user.notes
-      @snippets = @note.snippets
-      flash[:message] = '切り抜き または コースふせんのあるノートは削除できません'
-      render 'layouts/renders/main_pane', locals: { resource: 'notes/edit' }
-    end
-  end
-
-  def ajax_edit_note
-    @notes = current_user.notes
-    @note = Note.find params[:note_id]
-    @note_items = @note.note_indices
-    render 'layouts/renders/main_pane', locals: { resource: 'notes/edit' }
-  end
-
-  def ajax_new_note
-    case params[:category]
-    when 'private', 'work'
-      @note = Note.new(category: params[:category])
-      render 'layouts/renders/main_pane', locals: { resource: 'notes/new' }
-    end
-  end
-
-  def ajax_transfer
-    snippet = Snippet.find params[:id] if params[:id]
-    from_note_id = params[:from_note_id].to_i if params[:from_note_id]
-    to_note_id = params[:to_note_id].to_i if params[:to_note_id]
-
-    if snippet.transferable? session[:id], to_note_id
-      if to_note_id
-        display_order = NoteIndex.where(note_id: to_note_id).count + 1
-        @notes = current_user.notes
-        if from_note_id
-          ni = NoteIndex.find_by(note_id: from_note_id, item_id: snippet.id, item_type: 'Snippet')
-          ni.update_attributes(note_id: to_note_id, display_order: display_order)
-          @note = Note.find from_note_id
-          @note.align_display_order
-          @note_items = @note.note_indices
-          render 'layouts/renders/resource', locals: { resource: 'show' }
-        else
-          NoteIndex.create(note_id: to_note_id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
-          @snippets = Snippet.web_snippets_without_note_by session[:id]
-          render 'layouts/renders/resource', locals: { resource: 'index' }
-        end
-      else
-        ni = NoteIndex.find_by(note_id: from_note_id, item_id: snippet.id, item_type: 'Snippet')
-        ni.destroy
-        @note = Note.find from_note_id
-        @note.align_display_order
-        @notes = current_user.notes
-        @note_items = @note.note_indices
-        render 'layouts/renders/resource', locals: { resource: 'show' }
-      end
-    else
-      flash[:message] = t('controllers.snippets.note_transfer_error')
-      flash[:message_category] = 'error'
-      @notes = current_user.notes
-      @snippets = Snippet.web_snippets_without_note_by session[:id]
-      render 'layouts/renders/resource', locals: { resource: 'index' }
-    end
-  end
-
-  def ajax_show
-    note_id = params[:id].to_i
-    @note = Note.find note_id
-    @notes = current_user.notes
-    @note_items = @note.note_indices
-    render 'layouts/renders/main_pane', locals: { resource: 'show' }
-  end
-
-  def ajax_sort
-    @note = Note.find params[:note_id].to_i
-    params[:items].each_with_index do |id, i|
-      ni = NoteIndex.find_by(note_id: @note.id, item_id: id, item_type: 'Snippet')
-      ni.update_attributes(display_order: i + 1) if ni
-    end
-    @notes = current_user.notes
-    @note_items = @note.note_indices
-    render 'snippets/renders/snippets'
-  end
-
-  def ajax_create_note
-    params[:note][:overview] = params[:note][:overview][0, NOTE_OVERVIEW_MAX_LENGTH]
-    @note = Note.new(note_params)
-    @note.manager_id = session[:id]
-    if @note.save
-      @note_items = []
-      render 'layouts/renders/main_pane', locals: { resource: 'show' }
-    else
-      flash[:message] = t('controllers.snippets.note_creation_error')
-      flash[:message_category] = 'error'
-      render 'layouts/renders/resource', locals: { resource: 'notes/new' }
-    end
-  end
-
-  def ajax_update_note
-    params[:note][:overview] = params[:note][:overview][0, NOTE_OVERVIEW_MAX_LENGTH]
-    @note = Note.find params[:note_id].to_i
-
-    if @note.status_updatable?(params[:note][:status], session[:id]) && @note.update_attributes(note_params)
-      distribute_work_sheet @note if @note.status == 'distributed_draft'
-      @note_items = @note.note_indices
-      render 'layouts/renders/main_pane', locals: { resource: 'show' }
-    else
-      flash[:message] = t('controllers.snippets.note_creation_error')
-      flash[:message_category] = 'error'
-      render 'layouts/renders/resource', locals: { resource: 'notes/edit' }
-    end
+    render_snippets note_id
+  rescue StandardError
+    flash[:message] = t('controllers.snippets.upload_error')
+    flash[:message_category] = 'error'
+    render_snippets note_id
   end
 
   def create_web_snippet
@@ -301,10 +225,6 @@ class SnippetsController < ApplicationController
     params.require(:snippet_file).permit(:upload)
   end
 
-  def note_params
-    params.require(:note).permit(:course_id, :overview, :category, :status, :title, :peer_reviews_count)
-  end
-
   def embed_url?(url)
     (WebPage.scratch_url? url) || (WebPage.ted_url? url) || (WebPage.youtube_url? url)
   end
@@ -322,7 +242,8 @@ class SnippetsController < ApplicationController
 
   def render_snippet(note_id, snippet)
     @note = Note.find note_id
-    @snippets = @note.snippets
+    # @snippets = @note.snippets
+    @note_items = @note.note_indices
     render 'snippets/renders/snippet', locals: { snippet: snippet }
   end
 

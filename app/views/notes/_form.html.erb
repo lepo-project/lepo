@@ -12,7 +12,7 @@
   <div class="col-md-10">
     <%= f.text_area :overview, id: 'overview-form', class: 'form-control', rows: 8 %>
     <div style="margin-top: 2px; text-align:right;">
-      <span id="char-count"><span id="char-count-num"></span> <%= t('layouts.note_header.characters') %></span>
+      <span id="char-count"><span id="char-count-num"></span> <%= t('notes.header.characters') %></span>
       <span id="char-count-error" style="display:none;"><%= t('.char_num_error') %></span>
     </div>
   </div>
@@ -82,7 +82,7 @@
 </span>
 <% if !@note.new_record? && @note.status == 'draft' %>
 <span style="margin-left:3rem;">
-  <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_note', note_id: @note.id}} %>
+  <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: @note.id}} %>
 </span>
 <% end %>
 <% end %>

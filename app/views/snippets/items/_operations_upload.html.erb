@@ -1,4 +1,4 @@
 <div class="operation-direct">
-  <%= link_to(raw("<i class='fa fa-trash-o fa-lg'></i>"), {action: 'ajax_destroy', id: snippet.id, note_id: @note.id}, {title: t('.delete'), remote: true}) %>
+  <%= link_to(raw("<i class='fa fa-trash-o fa-lg'></i>"), {controller: :snippets, action: 'ajax_destroy', id: snippet.id, note_id: @note.id}, {title: t('.delete'), remote: true}) %>
   <a id="update-snippet-btn-<%= snippet.display_order_for @note.id %>" style="cursor:pointer;"><i class='fa fa-upload fa-lg' title="<%= t('.edit') %>"></i></a>
 </div>

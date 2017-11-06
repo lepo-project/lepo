@@ -153,6 +153,13 @@ class Course < ApplicationRecord
     notes
   end
 
+  def lesson_note(manager_id)
+    # create lesson note if it doesn't exist
+    lesson_note = Note.find_by(manager_id: manager_id, course_id: id, category: 'lesson')
+    lesson_note ||= Note.create(manager_id: manager_id, course_id: id, category: 'lesson', title: title, overview: overview, status: 'associated_course')
+    lesson_note
+  end
+
   def self.archived_courses_in_days(user_id, days)
     courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
     courses.map!(&:course)

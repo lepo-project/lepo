@@ -41,24 +41,11 @@ class Note < ApplicationRecord
   validates_numericality_of :course_id, allow_nil: false, greater_than: 0, if: "category != 'private'"
   validates_numericality_of :original_ws_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'work'"
   validates_numericality_of :original_ws_id, allow_nil: false, equal_to: 0, if: "category != 'work'"
+  validates_uniqueness_of :manager_id, scope: [:course_id], if: "category == 'lesson'"
 
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.create_lesson_note(user_id, course_id, course_title, course_overview, course_contents)
-    # create lesson note if it doesn't exist
-    lesson_note = find_by(manager_id: user_id, course_id: course_id, category: 'lesson')
-    lesson_note ||= lesson_note.create(manager_id: user_id, course_id: course_id, category: 'lesson', title: course_title, overview: course_overview, status: 'associated_course')
-
-    course_contents.each do |c|
-      note_index = NoteIndex.find_by(note_id: lesson_note.id, item_id: c.id, item_type: 'Content')
-      next if note_index
-      max_display_order = NoteIndex.where(note_id: lesson_note.id).maximum(:display_order)
-      display_order = max_display_order ? max_display_order + 1 : 1
-      NoteIndex.create(note_id: lesson_note.id, item_id: c.id, item_type: 'Content', display_order: display_order)
-    end
-  end
-
   def align_display_order
     note_indices.each_with_index do |ni, i|
       ni.update_attributes(display_order: i + 1)
@@ -142,6 +129,23 @@ class Note < ApplicationRecord
     end
   end
 
+  def reference_ids
+    ids = []
+    web_snippets.each do |s|
+      ids.push s.source_id unless ids.include? s.source_id
+    end
+    ids
+  end
+
+  def references
+    ids = reference_ids
+    references = []
+    ids.each do |id|
+      references.push WebPage.find(id)
+    end
+    references
+  end
+
   def review_or_open?
     case category
     when 'work'
@@ -170,17 +174,6 @@ class Note < ApplicationRecord
     end
   end
 
-  def snippets_media_count(source_type)
-    case source_type
-    when 'all'
-      snippets.size - text_snippets.size
-    when 'upload'
-      upload_snippets.size
-    when 'web'
-      web_snippets.size - web_text_snippets.size
-    end
-  end
-
   def snippets_char_count(source_type)
     char_count = 0
     case source_type
@@ -200,21 +193,15 @@ class Note < ApplicationRecord
     char_count
   end
 
-  def reference_ids
-    ids = []
-    web_snippets.each do |s|
-      ids.push s.source_id unless ids.include? s.source_id
+  def snippets_media_count(source_type)
+    case source_type
+    when 'all'
+      snippets.size - text_snippets.size
+    when 'upload'
+      upload_snippets.size
+    when 'web'
+      web_snippets.size - web_text_snippets.size
     end
-    ids
-  end
-
-  def references
-    ids = reference_ids
-    references = []
-    ids.each do |id|
-      references.push WebPage.find(id)
-    end
-    references
   end
 
   def status_updatable?(update_status, user_id)
@@ -246,6 +233,27 @@ class Note < ApplicationRecord
       end
     else
       false
+    end
+  end
+
+  def update_items(course_contents)
+    # note headers with lesson content title
+    course_contents.each do |c|
+      note_index = NoteIndex.find_by(note_id: id, item_id: c.id, item_type: 'Content')
+      unless note_index
+        max_display_order = NoteIndex.where(note_id: id).maximum(:display_order)
+        display_order = max_display_order ? max_display_order + 1 : 1
+        NoteIndex.create(note_id: id, item_id: c.id, item_type: 'Content', display_order: display_order)
+      end
+      # page stickies
+      stickies = Sticky.where(manager_id: manager_id, content_id: c.id, target_type: 'PageFile')
+      stickies.each do |s|
+        note_index = NoteIndex.find_by(note_id: id, item_id: s.id, item_type: 'Sticky')
+        next if note_index
+        max_display_order = NoteIndex.where(note_id: id).maximum(:display_order)
+        display_order = max_display_order ? max_display_order + 1 : 1
+        NoteIndex.create(note_id: id, item_id: s.id, item_type: 'Sticky', display_order: display_order)
+      end
     end
   end
 end

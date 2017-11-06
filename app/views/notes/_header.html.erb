@@ -1,6 +1,6 @@
 <div id="note-header" class="note-header-card card">
   <div class="card-body">
-    <% if controller_name == 'notes' %>
+    <% if session[:nav_section] == 'open_courses' %>
     <div class="triangle-corner <%= note_star_btn_class session[:id], @note %>">
       <%= link_to( raw("<i class='fa fa-star fa-lg'></i>"), {action: 'ajax_toggle_star', id: @note.id, resource: 'show'}, {remote: true}) %>
     </div>
@@ -47,18 +47,16 @@
     </div>
   </div>
 
-</div>
-
-
-<script>
-$(function () {
-  $(".scroll").click(function(event){
-    event.preventDefault();
-    var url = this.href;
-    var parts = url.split("#");
-    var header = $("#"+parts[1]).offset();
-    var pane_top = $(".scroll-pane").offset();
-    $(".scroll-pane").animate({scrollTop:(header.top-pane_top.top)}, 500);
+  <script>
+  $(function () {
+    $(".scroll").click(function(event){
+      event.preventDefault();
+      var url = this.href;
+      var parts = url.split("#");
+      var header = $("#"+parts[1]).offset();
+      var pane_top = $(".scroll-pane").offset();
+      $(".scroll-pane").animate({scrollTop:(header.top-pane_top.top)}, 500);
+    });
   });
-});
-</script>
+  </script>
+</div>

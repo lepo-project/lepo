@@ -1,0 +1,13 @@
+<div id="item_<%= note_item.id %>">
+  <% case note_item.item_type when 'Snippet' %>
+  <% @header_title = note_item.header_title(@note_items) if note_item.item.category == 'header' %>
+  <% @subheader_title = note_item.subheader_title(@note_items) if note_item.item.category == 'subheader' %>
+  <%= render partial: 'layouts/snippet', locals: {snippet: note_item.item, editable_snippet: editable_snippet} %>
+  <% when 'Content' %>
+  <h2><%= note_item.header_title @note_items %></h2>
+  <% when 'Sticky' %>
+  <div class="block show clearfix">
+  	<%= render partial: 'stickies/sticky', locals: {sticky: note_item.item, view_category: 'note'} %>
+  </div>
+  <% end %>
+</div>

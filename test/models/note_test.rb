@@ -99,4 +99,10 @@ class NoteTest < ActiveSupport::TestCase
     assert_invalid build(:lesson_sheet, original_ws_id: 1), :original_ws_id
     assert_invalid build(:lesson_sheet, original_ws_id: -1), :original_ws_id
   end
+
+  # test for validates_uniqueness_of :manager_id, scope: [:course_id], if: "category == 'lesson'"
+  test 'some lesson notes with same manager_id and course_id are invalid' do
+    lesson_note = create(:lesson_sheet)
+    assert_invalid build(:lesson_sheet, manager_id: lesson_note.manager_id, course_id: lesson_note.course_id), :manager_id
+  end
 end

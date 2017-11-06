@@ -161,6 +161,10 @@ en:
       written_char_count: written char count
     header_index:
       index: Index
+    index_home:
+      no_note_resources: Currently no notes managed
+      no_snippets: Currently no snippets
+      snippet_transfer: Please transfer the citation to the note by drag and drop or select the item in "Operation"
     subtitle:
       default: Default
       private: :activerecord.others.note.category.private
@@ -173,7 +177,9 @@ en:
     show:
       references: References
     toolbar:
+      export: Export to text
       group: :course_members.index.group
+      preferences: :helpers.preferences
 
   outcomes:
     evaluator:
@@ -243,10 +249,6 @@ en:
     form:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error
-    index:
-      no_note_resources: Currently no notes managed
-      no_snippets: Currently no snippets
-      snippet_transfer: Please transfer the citation to the note by drag and drop or select the item in "Operation"
     items:
       footer:
         operations: Operations
@@ -261,9 +263,6 @@ en:
         enter_citation: Enter citation text from PDF file
         remove: Remove from this note
         transfer_to: 'Transfer to "%{note_title}"'
-    toolbar:
-      export: Export to text
-      preferences: :helpers.preferences
 
   stickies:
     edit:
