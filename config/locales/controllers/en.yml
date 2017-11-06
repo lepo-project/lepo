@@ -6,13 +6,14 @@ en:
       updated: Bookmark updated
     courses:
       no_courses_with_criteria: No courses with these criteria.
+    notes:
+      creation_error: Creating note failed. Please check the input values.
     signin:
       error1: You are not allowed to access.
       error2: There is a mistake in User ID or Password.
       setup_error1: Creating admin account failed. Please check the input character string and try to create it again.
       setup_error2: As the admin account has already been registered, you can not register again.
     snippets:
-      note_creation_error: Creating note failed. Please check the input values.
-      note_transfer_error: Transferring note failed
-      snippet_creation_error: Failed to save text
-      snippet_upload_error: Failed to save file
+      transfer_error: Transferring note failed
+      creation_error: Failed to save text
+      upload_error: Failed to save file

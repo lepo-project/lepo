@@ -55,6 +55,66 @@ class NotesController < ApplicationController
     render 'layouts/renders/all', locals: { resource: 'show' }
   end
 
+  def ajax_create
+    params[:note][:overview] = params[:note][:overview][0, NOTE_OVERVIEW_MAX_LENGTH]
+    @note = Note.new(note_params)
+    @note.manager_id = session[:id]
+    if @note.save
+      @note_items = []
+      render 'layouts/renders/main_pane', locals: { resource: 'show' }
+    else
+      flash[:message] = t('controllers.notes.creation_error')
+      flash[:message_category] = 'error'
+      render 'layouts/renders/resource', locals: { resource: 'new' }
+    end
+  end
+
+  def ajax_destroy
+    @note = Note.find params[:id]
+    if @note.deletable? session[:id]
+      @note.destroy
+      current_user.update_attributes(default_note_id: 0) if current_user.default_note_id == params[:id].to_i
+      @notes = current_user.notes
+      @snippets = Snippet.web_snippets_without_note_by session[:id]
+      render 'layouts/renders/all', locals: { resource: 'index' }
+    else
+      @notes = current_user.notes
+      @snippets = @note.snippets
+      flash[:message] = '切り抜き または コースふせんのあるノートは削除できません'
+      render 'layouts/renders/main_pane', locals: { resource: 'edit' }
+    end
+  end
+
+  def ajax_edit
+    @notes = current_user.notes
+    @note = Note.find params[:id]
+    @note_items = @note.note_indices
+    render 'layouts/renders/main_pane', locals: { resource: 'edit' }
+  end
+
+  def ajax_new
+    case params[:category]
+    when 'private', 'work'
+      @note = Note.new(category: params[:category])
+      render 'layouts/renders/main_pane', locals: { resource: 'new' }
+    end
+  end
+
+  def ajax_update
+    params[:note][:overview] = params[:note][:overview][0, NOTE_OVERVIEW_MAX_LENGTH]
+    @note = Note.find params[:id].to_i
+
+    if @note.status_updatable?(params[:note][:status], session[:id]) && @note.update_attributes(note_params)
+      distribute_work_sheet @note if @note.status == 'distributed_draft'
+      @note_items = @note.note_indices
+      render 'layouts/renders/main_pane', locals: { resource: 'show' }
+    else
+      flash[:message] = t('controllers.notes.creation_error')
+      flash[:message_category] = 'error'
+      render 'layouts/renders/resource', locals: { resource: 'edit' }
+    end
+  end
+
   def ajax_toggle_star
     @note = Note.find_by(id: params[:id])
     if @note
@@ -93,72 +153,6 @@ class NotesController < ApplicationController
       end
     end
   end
-
-
-
-  def ajax_destroy
-    @note = Note.find params[:id]
-    if @note.deletable? session[:id]
-      @note.destroy
-      current_user.update_attributes(default_note_id: 0) if current_user.default_note_id == params[:id].to_i
-      @notes = current_user.notes
-      @snippets = Snippet.web_snippets_without_note_by session[:id]
-      render 'layouts/renders/all', locals: { resource: 'index' }
-    else
-      @notes = current_user.notes
-      @snippets = @note.snippets
-      flash[:message] = '切り抜き または コースふせんのあるノートは削除できません'
-      render 'layouts/renders/main_pane', locals: { resource: 'edit' }
-    end
-  end
-
-  def ajax_edit
-    @notes = current_user.notes
-    @note = Note.find params[:id]
-    @note_items = @note.note_indices
-    render 'layouts/renders/main_pane', locals: { resource: 'edit' }
-  end
-
-  def ajax_new
-    case params[:category]
-    when 'private', 'work'
-      @note = Note.new(category: params[:category])
-      render 'layouts/renders/main_pane', locals: { resource: 'new' }
-    end
-  end
-
-  def ajax_create
-    params[:note][:overview] = params[:note][:overview][0, NOTE_OVERVIEW_MAX_LENGTH]
-    @note = Note.new(note_params)
-    @note.manager_id = session[:id]
-    if @note.save
-      @note_items = []
-      render 'layouts/renders/main_pane', locals: { resource: 'show' }
-    else
-      flash[:message] = t('controllers.snippets.note_creation_error')
-      flash[:message_category] = 'error'
-      render 'layouts/renders/resource', locals: { resource: 'new' }
-    end
-  end
-
-  def ajax_update
-    params[:note][:overview] = params[:note][:overview][0, NOTE_OVERVIEW_MAX_LENGTH]
-    @note = Note.find params[:id].to_i
-
-    if @note.status_updatable?(params[:note][:status], session[:id]) && @note.update_attributes(note_params)
-      distribute_work_sheet @note if @note.status == 'distributed_draft'
-      @note_items = @note.note_indices
-      render 'layouts/renders/main_pane', locals: { resource: 'show' }
-    else
-      flash[:message] = t('controllers.snippets.note_creation_error')
-      flash[:message_category] = 'error'
-      render 'layouts/renders/resource', locals: { resource: 'edit' }
-    end
-  end
-
-
-
-
 
   def export_html
     @note = Note.find params[:id]

@@ -41,11 +41,12 @@ class Note < ApplicationRecord
   validates_numericality_of :course_id, allow_nil: false, greater_than: 0, if: "category != 'private'"
   validates_numericality_of :original_ws_id, allow_nil: false, greater_than_or_equal_to: 0, if: "category == 'work'"
   validates_numericality_of :original_ws_id, allow_nil: false, equal_to: 0, if: "category != 'work'"
+  validates_uniqueness_of :manager_id, scope: [:course_id], if: "category == 'lesson'"
 
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.create_lesson_note(user_id, course_id, course_title, course_overview, course_contents)
+  def self.create_lesson_note_header(user_id, course_id, course_title, course_overview, course_contents)
     # create lesson note if it doesn't exist
     lesson_note = find_by(manager_id: user_id, course_id: course_id, category: 'lesson')
     lesson_note ||= create(manager_id: user_id, course_id: course_id, category: 'lesson', title: course_title, overview: course_overview, status: 'associated_course')
@@ -246,6 +247,17 @@ class Note < ApplicationRecord
       end
     else
       false
+    end
+  end
+
+  def update_items(course_contents)
+    # note headers with lesson content title
+    course_contents.each do |c|
+      note_index = NoteIndex.find_by(note_id: id, item_id: c.id, item_type: 'Content')
+      next if note_index
+      max_display_order = NoteIndex.where(note_id: id).maximum(:display_order)
+      display_order = max_display_order ? max_display_order + 1 : 1
+      NoteIndex.create(note_id: id, item_id: c.id, item_type: 'Content', display_order: display_order)
     end
   end
 end

@@ -15,7 +15,7 @@ class SnippetsController < ApplicationController
     end
     render_snippets note_id
   rescue StandardError
-    flash[:message] = t('controllers.snippets.snippet_creation_error')
+    flash[:message] = t('controllers.snippets.creation_error')
     flash[:message_category] = 'error'
     render_snippets note_id
   end
@@ -76,7 +76,7 @@ class SnippetsController < ApplicationController
         render 'layouts/renders/resource', locals: { resource: 'notes/show' }
       end
     else
-      flash[:message] = t('controllers.snippets.note_transfer_error')
+      flash[:message] = t('controllers.snippets.transfer_error')
       flash[:message_category] = 'error'
       @notes = current_user.notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
@@ -140,7 +140,7 @@ class SnippetsController < ApplicationController
     end
     render_snippets note_id
   rescue StandardError
-    flash[:message] = t('controllers.snippets.snippet_upload_error')
+    flash[:message] = t('controllers.snippets.upload_error')
     flash[:message_category] = 'error'
     render_snippets note_id
   end
