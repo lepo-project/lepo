@@ -5,5 +5,9 @@
   <%= render partial: 'layouts/snippet', locals: {snippet: note_item.item, editable_snippet: editable_snippet} %>
   <% when 'Content' %>
   <h2><%= note_item.header_title @note_items %></h2>
+  <% when 'Sticky' %>
+  <div class="block show clearfix">
+  	<%= render partial: 'stickies/sticky', locals: {sticky: note_item.item, view_category: 'note'} %>
+  </div>
   <% end %>
 </div>

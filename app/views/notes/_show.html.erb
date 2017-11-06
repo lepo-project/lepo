@@ -4,7 +4,7 @@
       <% case session[:nav_section] when 'home' %>
       <div class="block">
         <%= render partial: 'notes/header' %>
-        <%= render(partial: 'snippets/create_snippet_btns', locals: {display_order: 0, note_id: @note.id}) %>
+        <%= render(partial: 'snippets/create_snippet_btns', locals: {display_order: 0, note_id: @note.id}) if @note.category != 'lesson' %>
         <%= render partial: 'notes/note_items' %>
       </div>
       <% when 'open_courses' %>

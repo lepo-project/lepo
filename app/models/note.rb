@@ -46,20 +46,6 @@ class Note < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.create_lesson_note_header(user_id, course_id, course_title, course_overview, course_contents)
-    # create lesson note if it doesn't exist
-    lesson_note = find_by(manager_id: user_id, course_id: course_id, category: 'lesson')
-    lesson_note ||= create(manager_id: user_id, course_id: course_id, category: 'lesson', title: course_title, overview: course_overview, status: 'associated_course')
-
-    course_contents.each do |c|
-      note_index = NoteIndex.find_by(note_id: lesson_note.id, item_id: c.id, item_type: 'Content')
-      next if note_index
-      max_display_order = NoteIndex.where(note_id: lesson_note.id).maximum(:display_order)
-      display_order = max_display_order ? max_display_order + 1 : 1
-      NoteIndex.create(note_id: lesson_note.id, item_id: c.id, item_type: 'Content', display_order: display_order)
-    end
-  end
-
   def align_display_order
     note_indices.each_with_index do |ni, i|
       ni.update_attributes(display_order: i + 1)
@@ -254,10 +240,20 @@ class Note < ApplicationRecord
     # note headers with lesson content title
     course_contents.each do |c|
       note_index = NoteIndex.find_by(note_id: id, item_id: c.id, item_type: 'Content')
-      next if note_index
-      max_display_order = NoteIndex.where(note_id: id).maximum(:display_order)
-      display_order = max_display_order ? max_display_order + 1 : 1
-      NoteIndex.create(note_id: id, item_id: c.id, item_type: 'Content', display_order: display_order)
+      unless note_index
+        max_display_order = NoteIndex.where(note_id: id).maximum(:display_order)
+        display_order = max_display_order ? max_display_order + 1 : 1
+        NoteIndex.create(note_id: id, item_id: c.id, item_type: 'Content', display_order: display_order)
+      end
+      # page stickies
+      stickies = Sticky.where(manager_id: manager_id, content_id: c.id, target_type: 'PageFile')
+      stickies.each do |s|
+        note_index = NoteIndex.find_by(note_id: id, item_id: s.id, item_type: 'Sticky')
+        next if note_index
+        max_display_order = NoteIndex.where(note_id: id).maximum(:display_order)
+        display_order = max_display_order ? max_display_order + 1 : 1
+        NoteIndex.create(note_id: id, item_id: s.id, item_type: 'Sticky', display_order: display_order)
+      end
     end
   end
 end
