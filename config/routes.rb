@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   root 'signin#index'
   match ':controller(/:action(/:id(.:format)))', via: [:get, :post, :put, :patch]
 
+  mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

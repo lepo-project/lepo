@@ -147,7 +147,11 @@ class ContentsController < ApplicationController
   end
 
   def ajax_upload_page_file
-    upload_file(params[:page_file], PageFile.new(page_file_params))
+    create_file = PageFile.new(page_file_params)
+    upload_file_check_and_save(params[:page_file], create_file)
+    content_type = create_file.id.nil? ? nil : create_file.upload_content_type
+    split_pages_of_pdf(create_file) if content_type == 'application/pdf'
+    render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
   end
 
   def ajax_sort_page_files
@@ -207,6 +211,11 @@ class ContentsController < ApplicationController
   end
 
   def upload_file(file, new_file)
+    upload_file_check_and_save(file, new_file)
+    render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
+  end
+
+  def upload_file_check_and_save(file, new_file)
     @content = Content.find(params[:id])
 
     filename = new_file.upload_file_name
@@ -232,7 +241,6 @@ class ContentsController < ApplicationController
       flash.now[:message] = '「' + filename + '」のアップロードに失敗しました' unless new_file.save
       flash[:message_category] = 'info'
     end
-    render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
   end
 
   def replace_page_with_fill_objectives(resource_name)
@@ -245,5 +253,32 @@ class ContentsController < ApplicationController
     objectives.each do |_key, objective|
       objective['_destroy'] = 'true' if objective[:title].blank?
     end
+  end
+
+  def split_pages_of_pdf(create_file)
+    filepath = create_file.upload.path
+    dirname = File.dirname(filepath)
+    extname = File.extname(filepath)
+    filename = File.basename(filepath, extname)
+    i = 1
+    pages = CombinePDF.load(filepath).pages
+    return unless pages.size > 1
+    org_file = create_file.dup
+    display_order = org_file[:display_order]
+    pages.each do |page|
+      pdf = CombinePDF.new
+      pdf << page
+      new_file_name = filename + '_p' + i.to_s + extname
+      new_file_path = File.join(dirname, new_file_name)
+      pdf.save new_file_path
+      new_file = i == 1 ? org_file : org_file.dup
+      new_file[:upload_file_name] = new_file_name
+      new_file[:display_order] = display_order
+      new_file[:upload_file_size] = File.size(new_file_path)
+      new_file.save
+      i += 1
+      display_order += 1
+    end
+    create_file.destroy
   end
 end
