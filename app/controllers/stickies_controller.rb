@@ -11,8 +11,9 @@ class StickiesController < ApplicationController
       set_star_sort_stickies_session
       case sticky.target_type
       when 'PageFile'
+        update_lesson_note_items sticky.course_id if sticky.course_id
         stickies = stickies_by_content_from_panel sticky.target_id, sticky.content_id
-        @sticky = Sticky.new(course_id: sticky.course_id, content_id: sticky.content_id, target_type: sticky.target_type, target_id: sticky.target_id)
+        @sticky = Sticky.new(content_id: sticky.content_id, course_id: sticky.course_id, target_type: sticky.target_type, target_id: sticky.target_id)
       when 'Note'
         stickies = stickies_by_note_from_panel sticky.target_id
         @sticky = Sticky.new(course_id: sticky.course_id, target_type: sticky.target_type, target_id: sticky.target_id)
@@ -73,12 +74,19 @@ class StickiesController < ApplicationController
       @keyword = params[:keyword] if params[:keyword]
       sticky = Sticky.find(params[:id])
       content_id = sticky.content_id
+      course_id = sticky.course_id
       target_type = sticky.target_type
       target_id = sticky.target_id
-      sticky.destroy if sticky.destroyable? session[:id]
+      if sticky.destroyable? session[:id]
+        sticky.destroy
+        update_lesson_note_items(course_id) if course_id && target_type == 'PageFile'
+      end
 
-      if params[:view_category] == 'panel'
-        render_sticky_panel sticky.course_id, target_type, target_id, content_id
+      case params[:view_category]
+      when 'panel'
+        render_sticky_panel course_id, target_type, target_id, content_id
+      when 'note'
+        render_note_items course_id
       else
         render_sticky_view params[:view_category], target_type, target_id, content_id
       end
@@ -104,8 +112,11 @@ class StickiesController < ApplicationController
         end
       end
 
-      if params[:view_category] == 'panel'
+      case params[:view_category]
+      when 'panel'
         render_sticky_panel sticky.course_id, params[:target_type], params[:target_id], params[:content_id]
+      when 'note'
+        render_note_items sticky.course_id
       else
         render_sticky_view params[:view_category], params[:target_type], params[:target_id], params[:content_id]
       end
@@ -131,12 +142,18 @@ class StickiesController < ApplicationController
       case target_type
       when 'PageFile'
         stickies = stickies_by_content_from_panel target_id, content_id
-        @sticky = Sticky.new(course_id: course_id, target_id: target_id, content_id: content_id)
+        @sticky = Sticky.new(content_id: content_id, course_id: course_id, target_id: target_id)
       when 'Note'
         stickies = stickies_by_note_from_panel target_id
         @sticky = Sticky.new(course_id: course_id, target_type: 'Note', target_id: target_id)
       end
       render_page_with_sticky_panel stickies
+    end
+
+    def render_note_items(course_id)
+      @note = Note.find_by(course_id: course_id, manager_id: session[:id], category: 'lesson')
+      @note_items = @note.note_indices
+      render 'snippets/renders/snippets'
     end
 
     def render_sticky_view(view_category, _target_type, _target_id, content_id = nil)
@@ -206,6 +223,11 @@ class StickiesController < ApplicationController
 
     def sticky_params
       params.require(:sticky).permit(:content_id, :course_id, :target_type, :target_id, :category, :message)
+    end
+
+    def update_lesson_note_items(course_id)
+      course = Course.find_by(id: course_id)
+      course.lesson_note(session[:id]).update_items(course.open_lessons) if course.member? session[:id]
     end
   end
 end

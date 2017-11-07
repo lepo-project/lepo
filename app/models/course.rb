@@ -160,6 +160,13 @@ class Course < ApplicationRecord
     lesson_note
   end
 
+  def update_lesson_notes
+    notes = Note.where(course_id: id, category: 'lesson')
+    notes.each do |note|
+      note.update_attributes(title: title, overview: overview) if (note.title != title) || (note.overview != overview)
+    end
+  end
+
   def self.archived_courses_in_days(user_id, days)
     courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
     courses.map!(&:course)
@@ -177,16 +184,6 @@ class Course < ApplicationRecord
     courses = Course.where(status: 'open').order(created_at: :desc).limit(30).to_a
     courses.delete_if { |c| CourseMember.find_by_course_id_and_user_id(c.id, user_id) }
   end
-
-  # def self.associated_by_with_status user_id, role, status
-  #  courses = self.associated_by user_id, role
-  #  return courses.delete_if { |c| c.status != status }
-  # end
-  #
-  # def self.associated_by_without_status user_id, role, status
-  #  courses = self.associated_by user_id, role
-  #  return courses.delete_if { |c| c.status == status }
-  # end
 
   def self.work_sheet_distributable_by(user_id)
     courses = associated_by(user_id, %w[manager staff])

@@ -184,6 +184,8 @@ class CoursesController < ApplicationController
       destroy_blank_goals(course_form[:goals_attributes])
 
       if @course.update_attributes course_form
+        # update lesson note
+        @course.update_lesson_notes
         check_course_groups course_form[:groups_count]
         case @course.status
         when 'archived'
@@ -523,7 +525,7 @@ class CoursesController < ApplicationController
     @marked_lessons = marked_lessons @course.id
     @lesson_resources = get_lesson_resources @course.lessons
     # update items in lesson note
-    @course.lesson_note(session[:id]).update_items(@course.contents) if @course.member? session[:id]
+    @course.lesson_note(session[:id]).update_items(@course.open_lessons) if @course.member? session[:id]
     render 'layouts/renders/all', locals: { resource: 'index' }
   end
 end

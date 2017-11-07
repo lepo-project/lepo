@@ -41,8 +41,8 @@ class OutcomesController < ApplicationController
     # end
 
     pg = get_page(@lesson.id, @content)
-    @sticky = Sticky.new(content_id: @content.id, target_id: pg['file_id'])
     get_values
+    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
     @message_templates = get_message_templates(@course.manager?(session[:id]))
 
     render 'layouts/renders/main_nav_resource_with_pg', locals: { resource: 'layouts/assignment_page', pg: pg }
@@ -72,8 +72,8 @@ class OutcomesController < ApplicationController
     @content = @lesson.content
 
     pg = get_page(@lesson.id, @content)
-    @sticky = Sticky.new(content_id: @content.id, target_id: pg['file_id'])
     get_values
+    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
     @message_templates = get_message_templates(@course.manager?(session[:id]))
 
     # latest_item = @outcome.outcome_messages[0]
@@ -144,8 +144,8 @@ class OutcomesController < ApplicationController
     @lesson = @outcome.lesson
     @content = @lesson.content
     pg = get_page(@lesson.id, @content)
-    @sticky = Sticky.new(content_id: @content.id, target_id: pg['file_id'])
     get_values
+    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
 
     render 'layouts/renders/resource_with_pg', locals: { resource: 'layouts/assignment_page', pg: pg }
   end
