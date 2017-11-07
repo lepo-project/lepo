@@ -25,6 +25,7 @@ class Sticky < ApplicationRecord
   has_many :stared_users, -> { where('sticky_stars.stared = ?', true) }, through: :sticky_stars, source: :manager
   validates_absence_of :content_id, if: "target_type == 'Note'"
   validates_presence_of :content_id, if: "target_type == 'PageFile'"
+  validates_presence_of :course_id, if: "category == 'course'"
   validates_presence_of :manager_id
   validates_presence_of :target_id
   validates_inclusion_of :category, in: %w[private course]

@@ -40,6 +40,12 @@ class StickyTest < ActiveSupport::TestCase
     assert_invalid build(:sticky, content_id: nil), :content_id
   end
 
+  # test for validates_presence_of :course_id, if: "category == 'course'"
+  test 'a course sticky without course_id is invalid' do
+    assert_invalid build(:course_sticky, course_id: ''), :course_id
+    assert_invalid build(:course_sticky, course_id: nil), :course_id
+  end
+
   # test for validates_presence_of :manager_id
   test 'a sticky without manager_id is invalid' do
     assert_invalid build(:sticky, manager_id: ''), :manager_id
