@@ -26,16 +26,16 @@ class Bookmark < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.by_user(user_id)
-    Bookmark.where(manager_id: user_id).order(display_order: :asc).limit(BOOKMARK_MAX_SIZE).to_a
-  end
-
   def self.by_system_staffs
     bookmarks = []
     User.system_staffs.each do |ss|
       bookmarks += by_user ss.id
     end
     bookmarks.sort_by(&:display_order)
+  end
+
+  def self.by_user(user_id)
+    Bookmark.where(manager_id: user_id).order(display_order: :asc).limit(BOOKMARK_MAX_SIZE).to_a
   end
 
   def deletable?(user)
