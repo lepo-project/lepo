@@ -385,6 +385,9 @@
   .note-card {
     @include default-card-small;
     @include triangle-corner;
+    .card-body-flex .side-area {
+      min-height: 100px;
+    }
     &.drop-hover {
       background-color: #d0ddee;
       border-color: $toolbar-hover-color;
