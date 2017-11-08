@@ -21,27 +21,9 @@ class CourseMember < ApplicationRecord
   validates_inclusion_of :group_index, in: (0...COURSE_GROUP_MAX_SIZE).to_a
   validates_inclusion_of :role, in: %w[manager assistant learner]
 
-  def deletable?
-    stickies = Sticky.where(course_id: course_id, manager_id: user_id)
-    case role
-    when 'manager'
-      course = Course.find(course_id)
-      return false if course.evaluator? user_id
-
-      manager_num = CourseMember.where(course_id: course_id, role: 'manager').size
-      return (stickies.size.zero? && (manager_num > 1))
-    when 'assistant'
-      return stickies.size.zero?
-    when 'learner'
-      outcomes = Outcome.where(manager_id: user_id, course_id: course_id)
-      outcomes.each do |outcome|
-        return false unless outcome.outcome_messages.empty?
-      end
-      return stickies.size.zero?
-    end
-    false
-  end
-
+  # ====================================================================
+  # Public Functions
+  # ====================================================================
   def self.update_managers(course_id, current_ids, ids)
     transaction do
       # unregister
@@ -64,5 +46,26 @@ class CourseMember < ApplicationRecord
   rescue StandardError
     logger.info(e.inspect)
     return false
+  end
+
+  def deletable?
+    stickies = Sticky.where(course_id: course_id, manager_id: user_id)
+    case role
+    when 'manager'
+      course = Course.find(course_id)
+      return false if course.evaluator? user_id
+
+      manager_num = CourseMember.where(course_id: course_id, role: 'manager').size
+      return (stickies.size.zero? && (manager_num > 1))
+    when 'assistant'
+      return stickies.size.zero?
+    when 'learner'
+      outcomes = Outcome.where(manager_id: user_id, course_id: course_id)
+      outcomes.each do |outcome|
+        return false unless outcome.outcome_messages.empty?
+      end
+      return stickies.size.zero?
+    end
+    false
   end
 end

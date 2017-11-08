@@ -84,6 +84,59 @@ function setNavSection(section) {
   $("#nav-" + section + " h1 a").click(function(){toggleNavSection(section);});
 }
 
+function sortBookmarks() {
+  $('#bookmarks').sortable({
+    axis:'y',
+    opacity: 0.8,
+    update:function () {
+      $.ajax({
+        url:'<%= Rails.application.config.relative_url_root %>/bookmarks/ajax_sort/',
+        data:$(this).sortable('serialize')
+      })
+    }
+  })
+}
+
+function sortLessons(course_id) {
+  $('#lessons').sortable({
+    axis:'y',
+    opacity: 0.8,
+    update:function () {
+      $.ajax({
+        url:'<%= Rails.application.config.relative_url_root %>/courses/ajax_sort_lessons/' + course_id,
+        data:$(this).sortable('serialize')
+      })
+    }
+  })
+}
+
+function sortNoteImtes(note_id, disabled) {
+  $('#note-items').sortable({
+    axis:'y',
+    disabled: disabled,
+    opacity: 0.8,
+    update:function () {
+      $.ajax({
+        url:'<%= Rails.application.config.relative_url_root %>/snippets/ajax_sort/?note_id=' + note_id,
+        data:$(this).sortable('serialize')
+      })
+    }
+  })
+}
+
+function sortPageFiles (content_id) {
+  $('#page-files').sortable({
+    axis:'y',
+    opacity: 0.8,
+    update:function () {
+      $.ajax({
+        url:'<%= Rails.application.config.relative_url_root %>/contents/ajax_sort_page_files/' + content_id,
+        data:$(this).sortable('serialize')
+      })
+    }
+  })
+}
+
 function toggleNavSection(section) {
   $("#nav-" + section).toggleClass("nav-hidden");
   var navClass = (sessionStorage.getItem("nav-" + section + "-class") == "nav-hidden") ? "" : "nav-hidden";

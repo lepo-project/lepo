@@ -20,6 +20,7 @@
 
   <div class="card-body-flex">
     <div class="side-area">
+      <% case note.category when 'work' %>
       <% obj = (@course && @course.learner?(session[:id]) && note.anonymous?(session[:id])) ? nil : note.manager %>
       <%= render partial: 'layouts/image', locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>
       <div class='caption'>
@@ -29,6 +30,11 @@
         <%= sanitize note.manager.full_name %>
         <% end %>
       </div>
+      <% else %>
+      <div style="margin-top:10px;">
+        <%= render partial: 'layouts/image', locals: {obj: nil, fa_class: 'fa-file-text', size: 'l'} %>
+      </div>
+      <% end %>
     </div>
     <div class="main-area">
       <%= sanitize(add_br note.overview) %>

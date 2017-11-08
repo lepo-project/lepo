@@ -23,7 +23,6 @@ class NotesController < ApplicationController
     render 'layouts/renders/main_pane', locals: { resource: 'index_in_group' }
   end
 
-  # same action for snippets_controller without @sticky
   def ajax_show
     note_id = params[:id].to_i
     @note = Note.find note_id

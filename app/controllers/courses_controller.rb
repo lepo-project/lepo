@@ -233,6 +233,7 @@ class CoursesController < ApplicationController
       @goals = get_goal_resources @course
       @marked_lessons = marked_lessons @course.id
       @lesson_resources = get_lesson_resources @course.lessons
+      @course.lesson_note(session[:id]).update_items(@course.open_lessons)
       render 'layouts/renders/resource', locals: { resource: 'index' }
     when 'edit_lessons'
       get_content_array

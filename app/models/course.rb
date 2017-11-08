@@ -58,6 +58,64 @@ class Course < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
+  def self.archived_courses_in_days(user_id, days)
+    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
+    courses.map!(&:course)
+    courses.delete_if { |c| c.status != 'archived' }
+    limit_time = Time.now - days * 24 * 60 * 60
+    courses.delete_if { |c| c.updated_at < limit_time }
+  end
+
+  def self.associated_by(user_id, role)
+    courses = CourseMember.where(user_id: user_id, role: role).order(updated_at: :desc).to_a
+    courses.map!(&:course)
+  end
+
+  def self.not_associated_by(user_id)
+    courses = Course.where(status: 'open').order(created_at: :desc).limit(30).to_a
+    courses.delete_if { |c| CourseMember.find_by_course_id_and_user_id(c.id, user_id) }
+  end
+
+  def self.work_sheet_distributable_by(user_id)
+    courses = associated_by(user_id, %w[manager staff])
+    courses.delete_if { |c| %w[draft open].exclude? c.status }
+  end
+
+  def self.open_with(user_id)
+    user = User.find(user_id)
+    return Course.where(status: 'open').order(updated_at: :desc).limit(100) if user.system_staff?
+
+    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
+    courses.map!(&:course)
+    courses.delete_if { |c| c.status != 'open' }
+  end
+
+  def self.not_open_with(user_id)
+    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
+    courses.map!(&:course)
+    courses.delete_if { |c| (c.status == 'open') || ((c.status == 'draft') && (c.learner? user_id)) }
+  end
+
+  def self.search(term_id, status, title_parts, manager_parts)
+    @candidates = Course.all
+    @candidates = @candidates.where(term_id: term_id) unless term_id.empty?
+    @candidates = @candidates.where(status: status) unless status.empty?
+    @candidates = @candidates.where('title like ?', '%' + title_parts + '%') if title_parts.present?
+    if manager_parts.present?
+      manager_parts = manager_parts.tr('　', ' ')
+      search_words = manager_parts.split(' ')
+      case search_words.length
+      when 2
+        manager_ids = User.where('family_name like ? and given_name like ?', "%#{search_words[0]}%", "%#{search_words[1]}%").or(User.where('family_name like ? and given_name like ? ', "%#{search_words[1]}%", "%#{search_words[0]}%")).pluck(:id)
+      else
+        manager_ids = User.search(manager_parts, '', User.count).pluck(:id)
+      end
+      course_ids = CourseMember.where(role: 'manager').where('user_id IN (?)', manager_ids).pluck(:course_id).uniq
+      @candidates = @candidates.where('id IN(?)', course_ids)
+    end
+    @candidates.limit(COURSE_SEARCH_MAX_SIZE)
+  end
+
   # FIXME: Group work
   def group_index_for(user_id)
     CourseMember.where(course_id: id, user_id: user_id).first.group_index
@@ -167,44 +225,6 @@ class Course < ApplicationRecord
     end
   end
 
-  def self.archived_courses_in_days(user_id, days)
-    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
-    courses.map!(&:course)
-    courses.delete_if { |c| c.status != 'archived' }
-    limit_time = Time.now - days * 24 * 60 * 60
-    courses.delete_if { |c| c.updated_at < limit_time }
-  end
-
-  def self.associated_by(user_id, role)
-    courses = CourseMember.where(user_id: user_id, role: role).order(updated_at: :desc).to_a
-    courses.map!(&:course)
-  end
-
-  def self.not_associated_by(user_id)
-    courses = Course.where(status: 'open').order(created_at: :desc).limit(30).to_a
-    courses.delete_if { |c| CourseMember.find_by_course_id_and_user_id(c.id, user_id) }
-  end
-
-  def self.work_sheet_distributable_by(user_id)
-    courses = associated_by(user_id, %w[manager staff])
-    courses.delete_if { |c| %w[draft open].exclude? c.status }
-  end
-
-  def self.open_with(user_id)
-    user = User.find(user_id)
-    return Course.where(status: 'open').order(updated_at: :desc).limit(100) if user.system_staff?
-
-    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
-    courses.map!(&:course)
-    courses.delete_if { |c| c.status != 'open' }
-  end
-
-  def self.not_open_with(user_id)
-    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
-    courses.map!(&:course)
-    courses.delete_if { |c| (c.status == 'open') || ((c.status == 'draft') && (c.learner? user_id)) }
-  end
-
   def deletable?(user_id)
     return false if new_record?
     lessons.size.zero? && (staff? user_id)
@@ -275,26 +295,6 @@ class Course < ApplicationRecord
     else
       return 'some'
     end
-  end
-
-  def self.search(term_id, status, title_parts, manager_parts)
-    @candidates = Course.all
-    @candidates = @candidates.where(term_id: term_id) unless term_id.empty?
-    @candidates = @candidates.where(status: status) unless status.empty?
-    @candidates = @candidates.where('title like ?', '%' + title_parts + '%') if title_parts.present?
-    if manager_parts.present?
-      manager_parts = manager_parts.tr('　', ' ')
-      search_words = manager_parts.split(' ')
-      case search_words.length
-      when 2
-        manager_ids = User.where('family_name like ? and given_name like ?', "%#{search_words[0]}%", "%#{search_words[1]}%").or(User.where('family_name like ? and given_name like ? ', "%#{search_words[1]}%", "%#{search_words[0]}%")).pluck(:id)
-      else
-        manager_ids = User.search(manager_parts, '', User.count).pluck(:id)
-      end
-      course_ids = CourseMember.where(role: 'manager').where('user_id IN (?)', manager_ids).pluck(:course_id).uniq
-      @candidates = @candidates.where('id IN(?)', course_ids)
-    end
-    @candidates.limit(COURSE_SEARCH_MAX_SIZE)
   end
 
   # ====================================================================

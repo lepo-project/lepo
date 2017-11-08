@@ -40,20 +40,20 @@ class Lesson < ApplicationRecord
     lessons.select { |l| l.evaluator_id > 0 }
   end
 
-  def user_role(user_id)
-    return 'observer' if new_record?
-    return 'evaluator' if user_id == evaluator_id
-    course_member = CourseMember.find_by_user_id_and_course_id(user_id, course_id)
-    course_member ? course_member.role : 'observer'
+  def deletable?(user_id)
+    stickies = Sticky.where(content_id: content_id, course_id: course_id)
+    return false if !outcomes.empty? || !stickies.empty?
+    course.staff? user_id
   end
 
   def evaluator?(user_id)
     evaluator_id == user_id
   end
 
-  def deletable?(user_id)
-    stickies = Sticky.where(content_id: content_id, course_id: course_id)
-    return false if !outcomes.empty? || !stickies.empty?
-    course.staff? user_id
+  def user_role(user_id)
+    return 'observer' if new_record?
+    return 'evaluator' if user_id == evaluator_id
+    course_member = CourseMember.find_by_user_id_and_course_id(user_id, course_id)
+    course_member ? course_member.role : 'observer'
   end
 end

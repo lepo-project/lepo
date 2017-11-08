@@ -64,15 +64,6 @@
 
 <script>
 $(function () {
-  $('#lessons').sortable({
-    axis:'y',
-    opacity: 0.8,
-    update:function () {
-      $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/courses/ajax_sort_lessons/<%= @course.id %>',
-        data:$(this).sortable('serialize')
-      })
-    }
-  })
+  sortLessons(<%= @course.id %>);
 });
 </script>

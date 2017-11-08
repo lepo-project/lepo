@@ -55,15 +55,6 @@
 
 <script>
 $(function () {
-	$('#bookmarks').sortable({
-		axis:'y',
-		opacity: 0.8,
-		update:function () {
-			$.ajax({
-				url:'<%= Rails.application.config.relative_url_root %>/bookmarks/ajax_sort/',
-				data:$(this).sortable('serialize')
-			})
-		}
-	})
+	sortBookmarks();
 });
 </script>

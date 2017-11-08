@@ -40,7 +40,6 @@ class Content < ApplicationRecord
   validates_inclusion_of :status, in: %w[open archived]
   #  validate :presence_of_objective  # doesn't work for update(2011-01-09)
   #  validate_on_create :presence_of_objective
-
   accepts_nested_attributes_for :objectives, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: CONTENT_OBJECTIVE_MAX_SIZE
   after_save :adjust_allocation
 
@@ -64,19 +63,23 @@ class Content < ApplicationRecord
     contents.delete_if { |c| c.status == status }
   end
 
-  def page_file_id(page_num)
-    pages = page_files.select(:id).to_a
-    return pages[page_num - 1].id if (page_num >= 1) && (page_num <= pages.size)
-    return -1 if (page_num == -1) || (page_num == pages.size + 1) # content assignment page
-    0 # content cover page or something wrong
-  end
-
   def self.by_system_managers
     contents = []
     User.system_staffs.each do |sm|
       contents += associated_by_with_status sm.id, 'manager', 'open'
     end
     contents
+  end
+
+  def deletable?(user_id)
+    return false if new_record?
+    lessons.size.zero? && (staff? user_id)
+  end
+
+  def fill_goals
+    (COURSE_GOAL_MAX_SIZE - goals.size).times do |_g|
+      goals.build
+    end
   end
 
   def fill_objectives
@@ -115,19 +118,15 @@ class Content < ApplicationRecord
     true
   end
 
+  def page_file_id(page_num)
+    pages = page_files.select(:id).to_a
+    return pages[page_num - 1].id if (page_num >= 1) && (page_num <= pages.size)
+    return -1 if (page_num == -1) || (page_num == pages.size + 1) # content assignment page
+    0 # content cover page or something wrong
+  end
+
   def staff?(user_id)
     (manager? user_id) || (assistant? user_id)
-  end
-
-  def deletable?(user_id)
-    return false if new_record?
-    lessons.size.zero? && (staff? user_id)
-  end
-
-  def fill_goals
-    (COURSE_GOAL_MAX_SIZE - goals.size).times do |_g|
-      goals.build
-    end
   end
 
   def presence_of_objective
