@@ -81,16 +81,7 @@
 
 <script>
 $(function () {
-  $('#page-files').sortable({
-    axis:'y',
-    opacity: 0.8,
-    update:function () {
-      $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/contents/ajax_sort_page_files/<%= @content.id %>',
-        data:$(this).sortable('serialize')
-      })
-    }
-  })
+  sortPageFiles (<%= @content.id %>);
 
   $('#page-file-upload').change(function () {
     $('#page-file-form').submit();

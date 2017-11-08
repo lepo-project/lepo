@@ -6,16 +6,7 @@
 
 <script>
 $(function () {
-  $('#note-items').sortable({
-    axis:'y',
-    opacity: 0.8,
-    update:function () {
-      $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/snippets/ajax_sort/?note_id=<%= @note.id %>',
-        data:$(this).sortable('serialize')
-      })
-    }
-  })
+  sortNoteImtes(<%= @note.id %>, <%= @note.category == 'lesson' %>);
   // for snippet edit form
   autosize($('.elastic_textarea'));
   // for snippet edit form: this is necessary to fit height when initial text exists in textarea
