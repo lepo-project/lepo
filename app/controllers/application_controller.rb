@@ -213,6 +213,8 @@ class ApplicationController < ActionController::Base
         else
           return 'iframe/video_page/' + file.id.to_s
         end
+      when 'a' then
+        return content_type_pdf?(file.upload_content_type) ? '/pdfjs/minimal?file=' + file.upload.url : 'iframe/object_page/' + file.id.to_s
       end
     end
   end
@@ -386,5 +388,10 @@ class ApplicationController < ActionController::Base
     when max_page_num
       -1
     end
+  end
+
+  def content_type_pdf?(type)
+    types = type.split('/')
+    types.nil? || types.length < 2 ? false : types[1].include?('pdf')
   end
 end
