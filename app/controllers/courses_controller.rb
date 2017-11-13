@@ -300,6 +300,16 @@ class CoursesController < ApplicationController
       render_course_index(course.status, course.id)
     end
   end
+
+  def create_page_snippet
+    # if session[:content_id] > 0 && session[:page_num] > 0
+    #   p params[:selected_text]
+    #   # snippet creation
+    #   Snippet.new(manager_id: session[:id], category: 'text', description: params[:selected_text], source_type: 'page_file', source_id: )
+    #   # note_index creation
+    # end
+  end
+
   # ====================================================================
   # Private Functions
   # ====================================================================

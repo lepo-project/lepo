@@ -1,11 +1,13 @@
-<iframe id="page_frame" name="page_frame" src="<%= pg['file'] %>" frameborder="0" marginheight="0" marginwidth="0" style="opacity: 0;" onload="this.style.opacity=1;"></iframe>
+<iframe id="page-frame" name="page-frame" src="<%= pg['file'] %>" frameborder="0" marginheight="0" marginwidth="0" style="opacity: 0;" onload="this.style.opacity=1;"></iframe>
 
 <div id="sticky-panel">
-<%= render(partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] }) %>
+	<%= render(partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] }) %>
 </div>
 
 <script>
 $(function () {
-	keyBinder($(document.getElementById('page_frame').contentWindow));
+	// To be able to call keyBinder even when clicking the content in the iframe
+	keyBinder($(document.getElementById('page-frame').contentWindow));
+	textHighlighter($(document.getElementById('page-frame').contentWindow), document.getElementById('page-frame').contentWindow);
 })
 </script>

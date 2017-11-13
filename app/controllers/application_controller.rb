@@ -196,26 +196,18 @@ class ApplicationController < ActionController::Base
   end
 
   def get_page_file(_lesson_id, content, page_num, max_page_num)
-    if (page_num > 0) && (page_num < max_page_num)
-      file = content.page_files[page_num - 1]
-      case file.upload_content_type[0, 1]
-      when 't' then
-        return file.upload.url
-      when 'i' then
-        if ENV['RAILS_RELATIVE_URL_ROOT']
-          return "#{ENV['RAILS_RELATIVE_URL_ROOT']}/iframe/image_page/" + file.id.to_s
-        else
-          return 'iframe/image_page/' + file.id.to_s
-        end
-      when 'v' then
-        if ENV['RAILS_RELATIVE_URL_ROOT']
-          return "#{ENV['RAILS_RELATIVE_URL_ROOT']}/iframe/video_page/" + file.id.to_s
-        else
-          return 'iframe/video_page/' + file.id.to_s
-        end
-      when 'a' then
-        return content_type_pdf?(file.upload_content_type) ? '/pdfjs/minimal?file=' + file.upload.url : 'iframe/object_page/' + file.id.to_s
-      end
+    return nil unless (page_num > 0) && (page_num < max_page_num)
+    file = content.page_files[page_num - 1]
+    relative_url_prefix = ENV['RAILS_RELATIVE_URL_ROOT'] ? ENV['RAILS_RELATIVE_URL_ROOT'] + '/' : ''
+    case file.upload_content_type[0, 1]
+    when 't' then
+      return file.upload.url
+    when 'i' then
+      return relative_url_prefix + 'iframe/image_page/' + file.id.to_s
+    when 'v' then
+      return relative_url_prefix + 'iframe/video_page/' + file.id.to_s
+    when 'a' then
+      return content_type_pdf?(file.upload_content_type) ? relative_url_prefix + '/pdfjs/minimal?file=' + file.upload.url : relative_url_prefix + 'iframe/object_page/' + file.id.to_s
     end
   end
 

@@ -21,6 +21,18 @@ $(document).ajaxSend(function (e, xhr, options) {
   xhr.setRequestHeader("X-CSRF-Token", token);
 });
 
+function textHighlighter(mouseup_target, selection_target) {
+  // mouseup_target: jQuery element to detect mouseup event
+  mouseup_target.mouseup(function(evt) {
+    // selection_target: document element for text selection
+    var selected_text = selection_target.getSelection().toString();
+    if (selected_text.length > 0) {
+      alert("text: " + selected_text);
+      jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/create_page_snippet/?selected_text=" + selected_text});
+    };
+  });
+}
+
 function keyBinder(target_doc) {
   // target_doc may be document or iframe's document
   var binding_keys = ["left", "j", "shift+left", "shift+j", "right", "k", "shift+right", "shift+k", "shift+up", "shift+down"]; // page move
@@ -29,7 +41,7 @@ function keyBinder(target_doc) {
   binding_keys = binding_keys.concat(["f"]); // sub-pane toggle
   binding_keys = binding_keys.concat(["/", "shift+/"]); // message-card toggle
   jQuery.each(binding_keys, function (i, binding_key) {
-    target_doc.bind("keyup", binding_key, function (evt) {
+    target_doc.keyup(binding_key, function (evt) {
       switch (binding_key) {
         case "l":
         toggleCreateSticky();

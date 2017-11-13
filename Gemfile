@@ -9,6 +9,7 @@ gem 'autosize', '~> 2.4'
 gem 'bootstrap', '~> 4.0.0.beta'
 # gem "chartkick"
 gem 'coffee-rails', '~> 4.2.0'
+gem 'combine_pdf', '~> 1.0.7'
 gem 'font-awesome-rails', '~> 4.7'
 gem 'http_accept_language', '~> 2.1.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -18,6 +19,7 @@ gem 'jquery-rails', '~> 4.2.0'
 gem 'jquery-ui-rails', '~> 6.0.0'
 gem 'net-ldap', '~> 0.16.0'
 gem 'paperclip', '~> 5.1.0'
+gem 'pdfjs_viewer-rails', '~> 0.2.0'
 gem 'rails', '~> 5.0.4'
 gem 'rails-assets-tether', '~> 1.1'
 gem 'rails_autolink'
@@ -30,8 +32,6 @@ gem 'sass-rails', '~> 5.0.6'
 # gem 'therubyracer', platforms: :ruby
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '~> 3.2.0'
-gem 'combine_pdf'
-gem 'pdfjs_viewer-rails'
 
 group :development, :test do
   gem 'sqlite3', '~> 1.3.0'

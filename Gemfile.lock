@@ -277,7 +277,7 @@ DEPENDENCIES
   capybara (~> 2.15.0)
   chromedriver-helper
   coffee-rails (~> 4.2.0)
-  combine_pdf
+  combine_pdf (~> 1.0.7)
   database_cleaner (~> 1.6.0)
   factory_bot_rails (~> 4.8)
   font-awesome-rails (~> 4.7)
@@ -291,7 +291,7 @@ DEPENDENCIES
   mysql2 (~> 0.4.0)
   net-ldap (~> 0.16.0)
   paperclip (~> 5.1.0)
-  pdfjs_viewer-rails
+  pdfjs_viewer-rails (~> 0.2.0)
   rails (~> 5.0.4)
   rails-assets-tether (~> 1.1)
   rails_autolink

@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'signin#index'
-  match ':controller(/:action(/:id(.:format)))', via: [:get, :post, :put, :patch]
+  match ':controller(/:action(/:id(.:format)))', via: %i[get post put patch]
 
-  mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
+  mount PdfjsViewer::Rails::Engine => '/pdfjs', as: 'pdfjs'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

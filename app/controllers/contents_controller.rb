@@ -260,6 +260,7 @@ class ContentsController < ApplicationController
     dirname = File.dirname(filepath)
     extname = File.extname(filepath)
     filename = File.basename(filepath, extname)
+
     i = 1
     pages = CombinePDF.load(filepath).pages
     return unless pages.size > 1
