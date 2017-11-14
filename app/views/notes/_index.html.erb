@@ -1,7 +1,11 @@
 <div id="note-resource" class="scroll-pane">
   <div class="row">
     <div class="col-md-12">
-      <%= render 'index_' + session[:nav_section] if %w[home open_courses].include? session[:nav_section] %>
+      <% case session[:nav_section] when 'home' %>
+      <%= render 'index_home' %>
+      <% when 'open_courses', 'repository' %>
+      <%= render 'index_courses' %>
+      <% end %>
     </div>
   </div>
 </div>

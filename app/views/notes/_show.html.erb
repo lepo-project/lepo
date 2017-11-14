@@ -7,7 +7,7 @@
         <%= render(partial: 'snippets/create_snippet_btns', locals: {display_order: 0, note_id: @note.id}) if @note.category != 'lesson' %>
         <%= render partial: 'notes/note_items' %>
       </div>
-      <% when 'open_courses' %>
+      <% when 'open_courses', 'repository' %>
       <div class="block">
         <%= render partial: 'notes/header' %>
         <div id="items">
