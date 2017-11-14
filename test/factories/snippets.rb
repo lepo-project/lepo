@@ -26,6 +26,10 @@ FactoryBot.define do
       category 'subheader'
     end
 
+    factory :page_file_text_snippet do
+      source_type 'page_file'
+    end
+
     factory :upload_image_snippet do
       source_type 'upload'
       category 'image'

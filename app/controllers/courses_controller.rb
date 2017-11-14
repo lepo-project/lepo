@@ -8,14 +8,14 @@ class CoursesController < ApplicationController
     render_course_index(params[:nav_section], params[:nav_id])
   end
 
-  def ajax_delete_image
-    course = Course.find(params[:id].to_i)
-    if course.staff? session[:id]
-      course.image.clear
-      flash[:message] = '画像を削除しました。' if course.save
-      flash[:message_category] = 'info'
+  def ajax_index_by_system_staff
+    course = Course.find_by(id: params[:id])
+    if course.nil? || (!User.system_staff? session[:id])
+      ajax_index_no_course
+      render 'layouts/renders/main_pane_candidates', locals: { resource: 'select_course' }
+    else
+      render_course_index(course.status, course.id)
     end
-    ajax_edit
   end
 
   def ajax_show
@@ -87,12 +87,13 @@ class CoursesController < ApplicationController
     render_content_page pg, true
   end
 
-  def ajax_new
-    set_nav_session 'repository', 'courses', 0
-    @course = Course.new
-    @course.fill_goals
-    @course.goals[0].title = '(目標未定)'
-    render 'layouts/renders/all_with_sub_toolbar', locals: { resource: 'new' }
+  def ajax_course_pref
+    # for security reason
+    if User.system_staff? session[:id]
+      render 'layouts/renders/main_pane', locals: { resource: 'course_pref' }
+    else
+      head :ok
+    end
   end
 
   def ajax_create
@@ -123,6 +124,76 @@ class CoursesController < ApplicationController
     end
   end
 
+  def ajax_create_lesson
+    lesson = Lesson.new(lesson_params)
+
+    lesson.course_id = params[:id]
+    lesson.status = LESSON_STATUS_DEFAULT
+    lesson.save
+
+    lesson.content.objectives.each { |o| GoalsObjective.create(lesson_id: lesson.id, objective_id: o.id, goal_id: 0) }
+
+    @course = Course.find(params[:id].to_i)
+    get_content_array # for new lesson creation
+    render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
+  end
+
+  def ajax_create_snippet
+    @course = Course.find(session[:nav_id])
+    @content = Content.find(session[:content_id])
+    @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
+    if session[:page_num] > 0 && session[:page_num] < session[:max_page_num]
+      page_file_id = @content.page_file_id session[:page_num]
+      note = @course.lesson_note(session[:id])
+      display_order = note.note_indices.size + 1
+      Snippet.transaction do
+        snippet = Snippet.create!(manager_id: session[:id], category: 'text', description: params[:description], source_type: 'page_file', source_id: page_file_id)
+        NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
+      end
+      note.update_items(@course.open_lessons)
+    end
+    set_sticky_panel_session
+    pg = get_page(@lesson.id, @content)
+    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
+    get_outcome_resources @lesson, @content
+    render 'layouts/renders/resource_with_pg_and_message', locals: { resource: 'layouts/page_viewer', pg: pg }
+  end
+
+  def ajax_delete_image
+    course = Course.find(params[:id].to_i)
+    if course.staff? session[:id]
+      course.image.clear
+      flash[:message] = '画像を削除しました。' if course.save
+      flash[:message_category] = 'info'
+    end
+    ajax_edit
+  end
+
+  def ajax_destroy
+    @course = Course.find(params[:id].to_i)
+    @course.destroy if @course.deletable? session[:id]
+    redirect_to controller: 'contents', action: 'ajax_index', nav_section: 'home', nav_id: 0
+  end
+
+  def ajax_destroy_lesson
+    @course = Course.find(params[:id])
+    lesson = Lesson.find(params[:lesson_id])
+
+    if lesson.deletable? session[:id]
+      lesson.destroy
+      @course.lessons.each_with_index do |lsn, i|
+        lsn.update_attributes(display_order: i + 1)
+      end
+      @course.reload
+    else
+      flash[:message] = '課題提出やふせん添付があるレッスンは、削除できません'
+      flash[:message_category] = 'error'
+    end
+
+    get_content_array
+    render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
+  end
+
   def ajax_duplicate
     original_course = Course.find(params[:original_id].to_i)
     return unless original_course
@@ -145,24 +216,18 @@ class CoursesController < ApplicationController
     end
   end
 
-  def ajax_create_lesson
-    lesson = Lesson.new(lesson_params)
-
-    lesson.course_id = params[:id]
-    lesson.status = LESSON_STATUS_DEFAULT
-    lesson.save
-
-    lesson.content.objectives.each { |o| GoalsObjective.create(lesson_id: lesson.id, objective_id: o.id, goal_id: 0) }
-
-    @course = Course.find(params[:id].to_i)
-    get_content_array # for new lesson creation
-    render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
-  end
-
   def ajax_edit
     @course = Course.find(params[:id].to_i)
     @course.fill_goals
     render 'layouts/renders/main_pane', locals: { resource: 'courses/edit' }
+  end
+
+  def ajax_new
+    set_nav_session 'repository', 'courses', 0
+    @course = Course.new
+    @course.fill_goals
+    @course.goals[0].title = '(目標未定)'
+    render 'layouts/renders/all_with_sub_toolbar', locals: { resource: 'new' }
   end
 
   def ajax_update
@@ -202,12 +267,6 @@ class CoursesController < ApplicationController
     end
   end
 
-  def ajax_destroy
-    @course = Course.find(params[:id].to_i)
-    @course.destroy if @course.deletable? session[:id]
-    redirect_to controller: 'contents', action: 'ajax_index', nav_section: 'home', nav_id: 0
-  end
-
   def ajax_update_association
     # update goal - objective association
     @course = Course.find(params[:id])
@@ -222,6 +281,13 @@ class CoursesController < ApplicationController
     else
       GoalsObjective.create(lesson_id: params[:lesson_id], objective_id: params[:objective_id], goal_id: params[:g_id])
     end
+    render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
+  end
+
+  def ajax_update_evaluator_from
+    @course = Course.find(params[:id].to_i)
+    set_lesson_evaluator @course.managers, params[:lesson_id]
+    get_content_array
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
   end
 
@@ -241,30 +307,12 @@ class CoursesController < ApplicationController
     end
   end
 
-  def ajax_update_evaluator_from
-    @course = Course.find(params[:id].to_i)
-    set_lesson_evaluator @course.managers, params[:lesson_id]
-    get_content_array
-    render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
-  end
-
-  def ajax_destroy_lesson
-    @course = Course.find(params[:id])
-    lesson = Lesson.find(params[:lesson_id])
-
-    if lesson.deletable? session[:id]
-      lesson.destroy
-      @course.lessons.each_with_index do |lsn, i|
-        lsn.update_attributes(display_order: i + 1)
-      end
-      @course.reload
-    else
-      flash[:message] = '課題提出やふせん添付があるレッスンは、削除できません'
-      flash[:message_category] = 'error'
+  def ajax_search_courses
+    @candidates = Course.search(params[:term_id], params[:status], params[:title], params[:manager])
+    if @candidates.size.zero? || (!User.system_staff? session[:id])
+      ajax_index_no_course
     end
-
-    get_content_array
-    render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
+    render 'layouts/renders/main_pane_candidates', locals: { resource: 'select_course' }
   end
 
   def ajax_sort_lessons
@@ -274,32 +322,6 @@ class CoursesController < ApplicationController
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
   end
 
-  def ajax_course_pref
-    # for security reason
-    if User.system_staff? session[:id]
-      render 'layouts/renders/main_pane', locals: { resource: 'course_pref' }
-    else
-      head :ok
-    end
-  end
-
-  def ajax_search_courses
-    @candidates = Course.search(params[:term_id], params[:status], params[:title], params[:manager])
-    if @candidates.size.zero? || (!User.system_staff? session[:id])
-      ajax_index_no_course
-    end
-    render 'layouts/renders/main_pane_candidates', locals: { resource: 'select_course' }
-  end
-
-  def ajax_index_by_system_staff
-    course = Course.find_by(id: params[:id])
-    if course.nil? || (!User.system_staff? session[:id])
-      ajax_index_no_course
-      render 'layouts/renders/main_pane_candidates', locals: { resource: 'select_course' }
-    else
-      render_course_index(course.status, course.id)
-    end
-  end
   # ====================================================================
   # Private Functions
   # ====================================================================

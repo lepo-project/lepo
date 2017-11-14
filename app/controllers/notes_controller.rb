@@ -12,6 +12,9 @@ class NotesController < ApplicationController
     when 'open_courses'
       set_nav_session 'open_courses', 'notes', params[:nav_id]
       get_resources
+    when 'repository'
+      set_nav_session 'repository', 'notes', params[:nav_id]
+      get_resources
     end
     render 'layouts/renders/all', locals: { resource: 'index' }
   end

@@ -251,6 +251,13 @@ class Note < ApplicationRecord
         display_order += 1
         items.push note_id: id, item_id: s.id, item_type: 'Sticky', display_order: display_order
       end
+      content.page_files.each do |pf|
+        snippets = Snippet.where(manager_id: manager_id, category: 'text', source_type: 'page_file', source_id: pf.id)
+        snippets.each do |s|
+          display_order += 1
+          items.push note_id: id, item_id: s.id, item_type: 'Snippet', display_order: display_order
+        end
+      end
     end
 
     # update note_indices for lesson note

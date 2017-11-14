@@ -119,10 +119,12 @@ class Content < ApplicationRecord
   end
 
   def page_file_id(page_num)
-    pages = page_files.select(:id).to_a
-    return pages[page_num - 1].id if (page_num >= 1) && (page_num <= pages.size)
-    return -1 if (page_num == -1) || (page_num == pages.size + 1) # content assignment page
-    0 # content cover page or something wrong
+    # content cover page
+    return 0 if page_num.zero?
+    pages = page_files.pluck(:id)
+    return pages[page_num - 1] if page_num.between?(1, pages.size)
+    # content assignment page
+    return -1 if [-1, pages.size + 1].include? page_num
   end
 
   def staff?(user_id)

@@ -185,7 +185,7 @@ class ApplicationController < ActionController::Base
     p = {}
     p['parent_id'] = lesson_id > 0 ? lesson_id : content.id # only open course contents are lesson_id > 0
     p['file'] = get_page_file(lesson_id, content, session[:page_num], session[:max_page_num])
-    p['file_id'] = get_page_file_id(content, session[:page_num], session[:max_page_num])
+    p['file_id'] = content.page_file_id session[:page_num]
 
     if (session[:nav_section] == 'open_courses') || ((session[:nav_section] == 'repository') && (session[:nav_controller] == 'courses'))
       p['stickies'] = get_course_stickies_by_target session[:nav_id], 'PageFile', p['file_id'], content.id
@@ -196,26 +196,18 @@ class ApplicationController < ActionController::Base
   end
 
   def get_page_file(_lesson_id, content, page_num, max_page_num)
-    if (page_num > 0) && (page_num < max_page_num)
-      file = content.page_files[page_num - 1]
-      case file.upload_content_type[0, 1]
-      when 't' then
-        return file.upload.url
-      when 'i' then
-        if ENV['RAILS_RELATIVE_URL_ROOT']
-          return "#{ENV['RAILS_RELATIVE_URL_ROOT']}/iframe/image_page/" + file.id.to_s
-        else
-          return 'iframe/image_page/' + file.id.to_s
-        end
-      when 'v' then
-        if ENV['RAILS_RELATIVE_URL_ROOT']
-          return "#{ENV['RAILS_RELATIVE_URL_ROOT']}/iframe/video_page/" + file.id.to_s
-        else
-          return 'iframe/video_page/' + file.id.to_s
-        end
-      when 'a' then
-        return content_type_pdf?(file.upload_content_type) ? '/pdfjs/minimal?file=' + file.upload.url : 'iframe/object_page/' + file.id.to_s
-      end
+    return nil unless (page_num > 0) && (page_num < max_page_num)
+    file = content.page_files[page_num - 1]
+    relative_url_prefix = ENV['RAILS_RELATIVE_URL_ROOT'] ? ENV['RAILS_RELATIVE_URL_ROOT'] + '/' : ''
+    case file.upload_content_type[0, 1]
+    when 't' then
+      return file.upload.url
+    when 'i' then
+      return relative_url_prefix + 'iframe/image_page/' + file.id.to_s
+    when 'v' then
+      return relative_url_prefix + 'iframe/video_page/' + file.id.to_s
+    when 'a' then
+      return content_type_pdf?(file.upload_content_type) ? relative_url_prefix + '/pdfjs/minimal?file=' + file.upload.url : relative_url_prefix + 'iframe/object_page/' + file.id.to_s
     end
   end
 
@@ -375,18 +367,6 @@ class ApplicationController < ActionController::Base
       [{ header: '未読の課題評価', content: '以下のレッスンに未読の課題評価があります。', list: list }]
     when 'manager'
       [{ header: '未評価の提出課題', content: '以下のレッスンに未評価の提出課題があります。', list: list }]
-    end
-  end
-
-  def get_page_file_id(content, page_num, max_page_num)
-    case page_num
-    when 0
-      0
-    when 1..(max_page_num - 1)
-      page_file = content.page_files[page_num - 1]
-      page_file.id
-    when max_page_num
-      -1
     end
   end
 
