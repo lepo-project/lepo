@@ -31,6 +31,16 @@ class CoursesController < ApplicationController
     render 'layouts/renders/all_with_pg', locals: { resource: 'layouts/cover_page', pg: pg }
   end
 
+  def ajax_show_lesson_note
+    @course = Course.find(session[:nav_id])
+    @content = Content.find(session[:content_id])
+    @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
+    pg = get_page(@lesson.id, @content)
+    @note = @course.lesson_note(session[:id])
+    @note_items = @note.note_indices
+    render 'layouts/renders/main_pane_with_pg', locals: { resource: '/notes/show', pg: pg }
+  end
+
   def ajax_show_page
     set_related_course_stickies_session
     @course = Course.find(session[:nav_id])

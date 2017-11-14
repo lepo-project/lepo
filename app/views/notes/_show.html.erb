@@ -10,7 +10,7 @@
       <% when 'open_courses', 'repository' %>
       <div class="block">
         <%= render partial: 'notes/header' %>
-        <div id="items">
+        <div id="note-items">
           <%= render partial: 'notes/note_item', collection: @note_items, locals: {editable_snippet: false} %>
         </div>
       </div>
