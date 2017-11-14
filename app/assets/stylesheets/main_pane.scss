@@ -149,7 +149,19 @@
   }
 
   #message-card {
-    .optional-info {
+    .message-info {
+      background-color: #666;
+      color: #fff;
+      display: none;
+      font-size: 20pt;
+      padding: 20px 0;
+      position: absolute;
+      text-align: center;
+      top: 32px;
+      width: 100%;
+      z-index: 1000;
+    }
+    .card-info {
       background-color: #ffb;
       box-shadow: 1px 1px 2px #222;
       color: #000;

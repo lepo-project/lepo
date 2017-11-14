@@ -20,7 +20,7 @@ en:
       course_content_management: Course & Content Management
       recommended_browser: Recommended Web Browser
       released_at: Released at
-      shortcut_key: Shortcut Key
+      shortcut_keys: Shortcut Keys
       system_version: System Version
     toolbar_show:
       edit: :layouts.buttons.edit.edit
@@ -128,7 +128,8 @@ en:
     member_candidates:
       no_search_results: No Search Results
     message_card:
-      shortcut_key: :contents.index.shortcut_key
+      snippet_saved: Saved to the lesson note !
+      shortcut_keys: :contents.index.shortcut_keys
     page_number:
       portfolio: :helpers.portfolio
     search_members:
@@ -250,15 +251,17 @@ en:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error
     items:
-      footer:
-        operations: Operations
+      footer_page_file:
+        delete: :layouts.buttons.delete.delete
+      footer_web:
+        operations: :snippets.items.footer_page_file.operations
       operations_direct:
         edit: :layouts.buttons.edit.edit
       operations_upload:
         delete: :layouts.buttons.delete.delete
         edit: :layouts.buttons.edit.edit
       operations_web:
-        cited_date: Cited date
+        cited_date: :snippets.items.operations_page_file.cited_date
         delete: :layouts.buttons.delete.delete
         enter_citation: Enter citation text from PDF file
         remove: Remove from this note

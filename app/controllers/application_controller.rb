@@ -185,7 +185,7 @@ class ApplicationController < ActionController::Base
     p = {}
     p['parent_id'] = lesson_id > 0 ? lesson_id : content.id # only open course contents are lesson_id > 0
     p['file'] = get_page_file(lesson_id, content, session[:page_num], session[:max_page_num])
-    p['file_id'] = get_page_file_id(content, session[:page_num], session[:max_page_num])
+    p['file_id'] = content.page_file_id session[:page_num]
 
     if (session[:nav_section] == 'open_courses') || ((session[:nav_section] == 'repository') && (session[:nav_controller] == 'courses'))
       p['stickies'] = get_course_stickies_by_target session[:nav_id], 'PageFile', p['file_id'], content.id
@@ -367,18 +367,6 @@ class ApplicationController < ActionController::Base
       [{ header: '未読の課題評価', content: '以下のレッスンに未読の課題評価があります。', list: list }]
     when 'manager'
       [{ header: '未評価の提出課題', content: '以下のレッスンに未評価の提出課題があります。', list: list }]
-    end
-  end
-
-  def get_page_file_id(content, page_num, max_page_num)
-    case page_num
-    when 0
-      0
-    when 1..(max_page_num - 1)
-      page_file = content.page_files[page_num - 1]
-      page_file.id
-    when max_page_num
-      -1
     end
   end
 

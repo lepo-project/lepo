@@ -1,20 +1,34 @@
 <% case snippet.source_type when 'direct' %>
 <div class="snippet-direct">
-  <div class="body" style="font-size:small;">
+  <!-- <div class="body" style="font-size:small;"> -->
+  <div class="body">
     <% add_br_body = add_br snippet.description %>
     <%= auto_link(sanitize(add_br_body), html: { class: 'bright-link', target: '_blank' }) %>
     <%= render(partial: 'snippets/items/operations_direct', locals: {snippet: snippet}) if editable_snippet %>
   </div>
 </div>
 
-<% when 'web' %>
+<% when 'page_file' %>
 <div class="snippet-card card">
   <div class="main-area">
-    <div class="body" style="font-size:small;">
+    <!-- <div class="body" style="font-size:small;"> -->
+    <div class="body">
       <% add_br_body = add_br snippet.description %>
       <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
     </div>
-    <%= render(partial: 'snippets/items/footer', locals: {snippet: snippet}) %>
+    <%= render(partial: 'snippets/items/footer_page_file', locals: {snippet: snippet}) %>
+  </div>
+</div>
+
+<% when 'web' %>
+<div class="snippet-card card">
+  <div class="main-area">
+    <!-- <div class="body" style="font-size:small;"> -->
+    <div class="body">
+      <% add_br_body = add_br snippet.description %>
+      <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
+    </div>
+    <%= render(partial: 'snippets/items/footer_web', locals: {snippet: snippet}) %>
   </div>
 </div>
 <% end %>

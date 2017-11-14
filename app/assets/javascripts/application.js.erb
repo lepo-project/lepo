@@ -27,8 +27,7 @@ function textHighlighter(mouseup_target, selection_target) {
     // selection_target: document element for text selection
     var selected_text = selection_target.getSelection().toString();
     if (selected_text.length > 0) {
-      alert("text: " + selected_text);
-      jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/create_page_snippet/?selected_text=" + selected_text});
+      jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/?description=" + selected_text});
     };
   });
 }
@@ -166,7 +165,7 @@ function toggleOutcomeMessage(outcome_id) {
   $("#outcome_" + outcome_id + " .show_message_form").toggle();
 }
 function toggleShortcutKey() {
-  $("#shortcut_key").slideToggle(100);
+  $("#shortcut-key").slideToggle(100);
 }
 
 function toggleOptionForm() {

@@ -1,0 +1,17 @@
+<div class="footer">
+  <div class="card-footer">
+    <div class="d-flex justify-content-between">
+      <div>
+        <% page_file = PageFile.find_by(id: snippet.source_id) %>
+        <%= link_to_target_in_course_snippet snippet, page_file %>
+      </div>
+      <div>
+        <%= l(snippet.created_at, format: :default) %>
+        <span style="text-indent:1rem;">
+          <% link_hash = {controller: :snippets, action: 'ajax_destroy', id: snippet.id, note_id: @note.id} %>
+          <%= link_to(raw(" <i class='fa fa-trash-o fa-lg'></i> ") + t('.delete'), link_hash, {remote: true}) %>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

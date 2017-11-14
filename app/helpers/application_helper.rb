@@ -498,7 +498,7 @@ module ApplicationHelper
       sticky_title = sticky.content.title + ': ' + sticky_title unless grouped_by_content
       course_id_for_link = sticky.course_id_for_link
       if course_id_for_link > 0
-        link_to(sticky_title, { controller: 'courses', action: 'ajax_show_page_from_sticky', course_id: course_id_for_link, content_id: sticky.content.id, target_id: sticky.target_id }, title: '教材に移動', remote: true)
+        link_to(sticky_title, { controller: 'courses', action: 'ajax_show_page_from_sticky', course_id: course_id_for_link, content_id: sticky.content.id, target_id: sticky.target_id }, remote: true)
       else
         sticky_title
       end
@@ -512,6 +512,18 @@ module ApplicationHelper
       else
         sticky_title
       end
+    end
+  end
+
+  def link_to_target_in_course_snippet(snippet, page_file)
+    content = page_file.content
+    page_num_text = page_num_by_id_text content, page_file.id
+    title = content.title + ': ' + page_num_text
+    course_id = snippet.notes[0].course_id
+    if course_id > 0
+      link_to(title, { controller: 'courses', action: 'ajax_show_page_from_sticky', course_id: course_id, content_id: content.id, target_id: page_file.id }, style: 'font-weight: bold;', remote: true)
+    else
+      sticky_title
     end
   end
 

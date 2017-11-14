@@ -20,7 +20,7 @@ ja:
       course_content_management: コースと教材の管理
       recommended_browser: 推奨するWebブラウザ
       released_at: 公開日
-      shortcut_key: ショートカットキー
+      shortcut_keys: ショートカットキー
       system_version: システムのバージョン
     toolbar_show:
       edit: :layouts.buttons.edit.edit
@@ -128,7 +128,8 @@ ja:
     member_candidates:
       no_search_results: 検索条件を満たす結果はありません
     message_card:
-      shortcut_key: :contents.index.shortcut_key
+      snippet_saved: レッスンノートに保存しました
+      shortcut_keys: :contents.index.shortcut_keys
     page_number:
       portfolio: :helpers.portfolio
     search_members:
@@ -250,15 +251,17 @@ ja:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error
     items:
-      footer:
-        operations: 操作
+      footer_page_file:
+        delete: :layouts.buttons.delete.delete
+      footer_web:
+        operations: :snippets.items.footer_page_file.operations
       operations_direct:
         edit: :layouts.buttons.edit.edit
       operations_upload:
         delete: :layouts.buttons.delete.delete
         edit: :layouts.buttons.edit.edit
       operations_web:
-        cited_date: 引用日
+        cited_date: :snippets.items.operations_page_file.cited_date
         delete: :layouts.buttons.delete.delete
         enter_citation: PDFファイルからの引用文を入力
         remove: このノートからはがす
