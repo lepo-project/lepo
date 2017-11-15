@@ -7,7 +7,7 @@
 <div id="toolbar-btns">
   <div class="btn-group">
     <% case action_name when 'ajax_show_lesson_note' %>
-    <%= link_to(raw("<i class='fa fa-book'></i> ") + t('activerecord.models.content'), { controller: 'courses', action: 'ajax_show_page', locales: {page_num: session[:page_num]}}, class: 'toolbar-btn', remote: true) %>
+    <%= link_to(raw("<i class='fa fa-book'></i> ") + t('activerecord.models.content'), {controller: 'courses', action: 'ajax_show_page_from_others', nav_section: session[:nav_section], nav_id: session[:nav_id], lesson_id: @lesson.id}, {class: 'toolbar-btn', remote: true}) %>
     <div class="toolbar-btn">
       <i class='fa fa-plus'></i> <%= t('activerecord.models.sticky') %> (<%= pg['stickies'].size %>)
     </div>

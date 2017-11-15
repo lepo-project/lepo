@@ -75,7 +75,7 @@ class CoursesController < ApplicationController
     render_content_page pg, true
   end
 
-  def ajax_show_page_with_transition
+  def ajax_show_page_from_others
     set_related_course_stickies_session
     session[:nav_section] = params[:nav_section]
     session[:nav_controller] = 'courses'
