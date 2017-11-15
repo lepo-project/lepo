@@ -217,7 +217,6 @@ class ContentsController < ApplicationController
 
   def upload_file_check_and_save(file, new_file)
     @content = Content.find(params[:id])
-
     filename = new_file.upload_file_name
     page = PageFile.find_by_content_id_and_upload_file_name(@content.id, filename)
     asset = AssetFile.find_by_content_id_and_upload_file_name(@content.id, filename)
@@ -260,7 +259,6 @@ class ContentsController < ApplicationController
     dirname = File.dirname(filepath)
     extname = File.extname(filepath)
     filename = File.basename(filepath, extname)
-
     i = 1
     pages = CombinePDF.load(filepath).pages
     return unless pages.size > 1
@@ -272,13 +270,21 @@ class ContentsController < ApplicationController
       new_file_name = filename + '_p' + i.to_s + extname
       new_file_path = File.join(dirname, new_file_name)
       pdf.save new_file_path
-      new_file = i == 1 ? org_file : org_file.dup
-      new_file[:upload_file_name] = new_file_name
-      new_file[:display_order] = display_order
-      new_file[:upload_file_size] = File.size(new_file_path)
-      new_file.save
+      page = PageFile.find_by_content_id_and_upload_file_name(org_file.content_id, new_file_name)
+      if page
+        page[:upload_file_size] = File.size(new_file_path)
+        page.save
+        flash.now[:message] = t('activerecord.models.asset_file') + '「' + filename + '」を更新しました'
+        flash[:message_category] = 'info'
+      else
+        new_file = i == 1 ? org_file : org_file.dup
+        new_file[:upload_file_name] = new_file_name
+        new_file[:display_order] = display_order
+        new_file[:upload_file_size] = File.size(new_file_path)
+        new_file.save
+        display_order += 1
+      end
       i += 1
-      display_order += 1
     end
     create_file.destroy
   end
