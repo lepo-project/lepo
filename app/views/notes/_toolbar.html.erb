@@ -17,23 +17,23 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
 </nav>
 <div id="toolbar-btns">
-<% if current_user.work_sheet_manageable? %>
-<div class="btn-group">
-  <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class='fa fa-plus'></i> <%= t('activerecord.models.note') %></a>
-  <div class="dropdown-menu">
-    <%= link_to({action: 'ajax_new', category: 'private'}, {class: 'dropdown-item', remote: true}) do %>
-    <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.private') %>
-    <% end %>
-    <%= link_to({action: 'ajax_new', category: 'work'}, {class: 'dropdown-item', remote: true}) do %>
-    <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.work') %>
-    <% end %>
+  <% if current_user.work_sheet_manageable? %>
+  <div class="btn-group">
+    <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class='fa fa-plus'></i> <%= t('activerecord.models.note') %></a>
+    <div class="dropdown-menu">
+      <%= link_to({action: 'ajax_new', category: 'private'}, {class: 'dropdown-item', remote: true}) do %>
+      <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.private') %>
+      <% end %>
+      <%= link_to({action: 'ajax_new', category: 'work'}, {class: 'dropdown-item', remote: true}) do %>
+      <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.work') %>
+      <% end %>
+    </div>
   </div>
-</div>
-<% else %>
-<%= link_to({action: 'ajax_new', category: 'private'}, {class: 'toolbar-btn', remote: true}) do %>
-<i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.private') %>
-<% end %>
-<% end %>
+  <% else %>
+  <%= link_to({action: 'ajax_new', category: 'private'}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.private') %>
+  <% end %>
+  <% end %>
 </div>
 
 <% else %>
@@ -56,7 +56,7 @@
 <% end %>
 
 
-<% when 'open_courses' %>
+<% when 'open_courses', 'repository' %>
 <% case action_name when 'ajax_index' %>
 <nav id="sub-nav">
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>

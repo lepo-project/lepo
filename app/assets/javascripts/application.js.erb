@@ -27,7 +27,8 @@ function textHighlighter(mouseup_target, selection_target) {
     // selection_target: document element for text selection
     var selected_text = selection_target.getSelection().toString();
     if (selected_text.length > 0) {
-      jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/?description=" + selected_text});
+      // jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/?description=" + selected_text});
+      jQuery.ajax({type:"post", url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/", data:{'description':selected_text}});
     };
   });
 }

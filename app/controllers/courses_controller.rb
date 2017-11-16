@@ -31,6 +31,16 @@ class CoursesController < ApplicationController
     render 'layouts/renders/all_with_pg', locals: { resource: 'layouts/cover_page', pg: pg }
   end
 
+  def ajax_show_lesson_note
+    @course = Course.find(session[:nav_id])
+    @content = Content.find(session[:content_id])
+    @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
+    pg = get_page(@lesson.id, @content)
+    @note = @course.lesson_note(session[:id])
+    @note_items = @note.note_indices
+    render 'layouts/renders/main_pane_with_pg', locals: { resource: '/notes/show', pg: pg }
+  end
+
   def ajax_show_page
     set_related_course_stickies_session
     @course = Course.find(session[:nav_id])
@@ -65,7 +75,7 @@ class CoursesController < ApplicationController
     render_content_page pg, true
   end
 
-  def ajax_show_page_with_transition
+  def ajax_show_page_from_others
     set_related_course_stickies_session
     session[:nav_section] = params[:nav_section]
     session[:nav_controller] = 'courses'
@@ -139,24 +149,18 @@ class CoursesController < ApplicationController
   end
 
   def ajax_create_snippet
+    return unless session[:page_num] > 0 && session[:page_num] < session[:max_page_num]
     @course = Course.find(session[:nav_id])
     @content = Content.find(session[:content_id])
-    @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
-    if session[:page_num] > 0 && session[:page_num] < session[:max_page_num]
-      page_file_id = @content.page_file_id session[:page_num]
-      note = @course.lesson_note(session[:id])
-      display_order = note.note_indices.size + 1
-      Snippet.transaction do
-        snippet = Snippet.create!(manager_id: session[:id], category: 'text', description: params[:description], source_type: 'page_file', source_id: page_file_id)
-        NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
-      end
-      note.update_items(@course.open_lessons)
+    page_file_id = @content.page_file_id session[:page_num]
+    note = @course.lesson_note(session[:id])
+    display_order = note.note_indices.size + 1
+    Snippet.transaction do
+      snippet = Snippet.create!(manager_id: session[:id], category: 'text', description: params[:description], source_type: 'page_file', source_id: page_file_id)
+      NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
     end
-    set_sticky_panel_session
-    pg = get_page(@lesson.id, @content)
-    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
-    get_outcome_resources @lesson, @content
-    render 'layouts/renders/resource_with_pg_and_message', locals: { resource: 'layouts/page_viewer', pg: pg }
+    note.update_items(@course.open_lessons)
+    render 'courses/renders/snippet_saved'
   end
 
   def ajax_delete_image

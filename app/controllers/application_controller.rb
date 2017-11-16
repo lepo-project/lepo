@@ -354,9 +354,9 @@ class ApplicationController < ActionController::Base
         nav_section = course.status == 'open' ? 'open_courses' : 'repository'
         case role
         when 'learner'
-          list.push(title: course.title + ' / Lesson ' + lesson.display_order.to_s, controller: 'courses', action: 'ajax_show_page_with_transition', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
+          list.push(title: course.title + ' / Lesson ' + lesson.display_order.to_s, controller: 'courses', action: 'ajax_show_page_from_others', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
         when 'manager'
-          list.push(title: course.title + ' / Lesson ' + lesson.display_order.to_s + ' : 評価依頼' + marked_outcome_num.to_s + '件', controller: 'courses', action: 'ajax_show_page_with_transition', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
+          list.push(title: course.title + ' / Lesson ' + lesson.display_order.to_s + ' : 評価依頼' + marked_outcome_num.to_s + '件', controller: 'courses', action: 'ajax_show_page_from_others', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
         end
       end
     end
