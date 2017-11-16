@@ -16,6 +16,18 @@ en:
       no_contents: No contents to display
       pages: "pp.%{num}"
       updated_at: Upated at
+    edit_pages:
+      asset_file_explanation: Image file etc. used for page file
+      asset_file_content_type: 'File type: No constraint'
+      asset_file_upload_folder: 'Upload folder: Same as page file'
+      attachment_file_explanation: Attached to the cover page
+      attachment_file_content_type: 'File type: No constraint'
+      attachment_file_upload_folder: 'Upload folder: Different to page / asset files'
+      content_file_edit: Content file edit
+      max_file_size: "File size limit: %{size}MB/file"
+      page_file_explanation: Construct content pages
+      page_file_content_type: 'File type: HTML, PDF, Image (gif, jpg, png), Video (mov, mp4)'
+      page_file_sort: 'Page order: Set by drag & drop'
     index:
       course_content_management: Course & Content Management
       recommended_browser: Recommended Web Browser

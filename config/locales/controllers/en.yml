@@ -4,6 +4,9 @@ en:
       created: Bookmark created
       creation_failed: Bookmark creation failed
       updated: Bookmark updated
+    contents:
+      updated: "%{name} updated."
+      update_failed: " %{name} update failed."
     courses:
       no_courses_with_criteria: No courses with these criteria.
     notes:

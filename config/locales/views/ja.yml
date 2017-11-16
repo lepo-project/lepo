@@ -16,6 +16,18 @@ ja:
       no_contents: 表示する教材はありません
       pages: "%{num}ページ"
       updated_at: 最終更新日
+    edit_pages:
+      asset_file_explanation: ページファイルで用いる画像ファイル等
+      asset_file_content_type: ファイル形式：制限無し
+      asset_file_upload_folder: アップロードフォルダ：ページファイルと同じ
+      attachment_file_explanation: 教材の表紙に添付
+      attachment_file_content_type: ファイル形式：制限無し
+      attachment_file_upload_folder: アップロードフォルダ：ページ・素材ファイルとは別
+      content_file_edit: 教材ファイルの編集
+      max_file_size: "ファイルサイズの上限：%{size}MB/ファイル"
+      page_file_explanation: 教材のページを構成
+      page_file_content_type: ファイル形式：HTML, PDF, 画像 (gif, jpg, png), 映像 (mov, mp4)
+      page_file_sort: ページ順：ドラッグ＆ドロップで設定
     index:
       course_content_management: コースと教材の管理
       recommended_browser: 推奨するWebブラウザ
