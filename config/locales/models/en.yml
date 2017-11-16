@@ -331,9 +331,9 @@ en:
       created_at: created at
       note:
         category:
-          private: Private sheet
-          lesson: Lesson sheet
-          work: Work sheet
+          private: Private note
+          lesson: Lesson note
+          work: Worksheet note
         status:
           archived: Archived
           distributed_draft: Distribution
