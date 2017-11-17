@@ -65,6 +65,12 @@ class Note < ApplicationRecord
     end
   end
 
+  def content_header_id(content_id)
+    return unless category == 'lesson'
+    ni = NoteIndex.find_by(note_id: id, item_type: 'Content', item_id: content_id)
+    ni ? ni.id : nil
+  end
+
   def deletable?(user_id)
     case category
     when 'private'
@@ -246,7 +252,7 @@ class Note < ApplicationRecord
       display_order += 1
       content = lesson.content
       items.push note_id: id, item_id: content.id, item_type: 'Content', display_order: display_order
-      stickies = Sticky.where(manager_id: manager_id, content_id: content.id, target_type: 'PageFile')
+      stickies = Sticky.where(manager_id: manager_id, course_id: course_id, content_id: content.id, target_type: 'PageFile')
       stickies.each do |s|
         display_order += 1
         items.push note_id: id, item_id: s.id, item_type: 'Sticky', display_order: display_order

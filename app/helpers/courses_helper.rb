@@ -4,8 +4,8 @@ module CoursesHelper
   # ====================================================================
 
   def course_crumbs(course_id, lesson_num, lesson_status, nav_section, _page_num)
-    crumb_title = t('activerecord.models.lesson') + ' ' + lesson_num.to_s
-    crumb_title += '（非公開）' if lesson_status == 'draft'
+    crumb_title = lesson_status == 'draft' ? "<i class='fa fa-lock'></i> " : ''
+    crumb_title += t('activerecord.models.lesson') + ' ' + lesson_num.to_s
     c1 = ['', { action: 'ajax_index', nav_section: nav_section, nav_id: course_id }]
     c2 = [crumb_title]
     [c1, c2]

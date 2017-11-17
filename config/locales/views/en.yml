@@ -190,6 +190,7 @@ en:
       star_count: :notes.header.star_count
       sticky_count: sticky count
     show:
+      accessed: "accessed %{date}"
       references: References
     toolbar:
       export: Export to text
