@@ -65,6 +65,12 @@ class Note < ApplicationRecord
     end
   end
 
+  def content_header_id(content_id)
+    return unless category == 'lesson'
+    ni = NoteIndex.find_by(note_id: id, item_type: 'Content', item_id: content_id)
+    ni ? ni.id : nil
+  end
+
   def deletable?(user_id)
     case category
     when 'private'
@@ -246,16 +252,21 @@ class Note < ApplicationRecord
       display_order += 1
       content = lesson.content
       items.push note_id: id, item_id: content.id, item_type: 'Content', display_order: display_order
-      stickies = Sticky.where(manager_id: manager_id, content_id: content.id, target_type: 'PageFile')
-      stickies.each do |s|
-        display_order += 1
-        items.push note_id: id, item_id: s.id, item_type: 'Sticky', display_order: display_order
-      end
-      content.page_files.each do |pf|
-        snippets = Snippet.where(manager_id: manager_id, category: 'text', source_type: 'page_file', source_id: pf.id)
-        snippets.each do |s|
+
+      page_file_ids = content.page_files.pluck(:id)
+      content_stickies = Sticky.where(manager_id: manager_id, course_id: course_id, target_type: 'PageFile', target_id: page_file_ids).order(:created_at)
+      content_snippets = Snippet.where(manager_id: manager_id, category: 'text', source_type: 'page_file', source_id: page_file_ids).order(:created_at)
+
+      page_file_ids.each do |pf_id|
+        page_stickies = content_stickies.select { |sticky| sticky.target_id == pf_id }
+        page_stickies.each do |pst|
           display_order += 1
-          items.push note_id: id, item_id: s.id, item_type: 'Snippet', display_order: display_order
+          items.push note_id: id, item_id: pst.id, item_type: 'Sticky', display_order: display_order
+        end
+        page_snippets = content_snippets.select { |snippet| snippet.source_id == pf_id }
+        page_snippets.each do |psn|
+          display_order += 1
+          items.push note_id: id, item_id: psn.id, item_type: 'Snippet', display_order: display_order
         end
       end
     end
@@ -263,7 +274,7 @@ class Note < ApplicationRecord
     # update note_indices for lesson note
     current_indices = note_indices.to_a
     items.each do |item|
-      indices = current_indices.select { |ci| (ci.item_id == item[:item_id]) && (ci.item_type == item[:item_type]) }
+      indices = current_indices.select { |ci| (ci.item_type == item[:item_type]) && (ci.item_id == item[:item_id]) }
       if indices[0]
         indices[0].update_attributes(display_order: item[:display_order]) if indices[0].display_order != item[:display_order]
         current_indices.delete_if { |ci| ci.id == indices[0].id }

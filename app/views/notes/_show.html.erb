@@ -20,7 +20,7 @@
         <h1><%= t('.references') %></h1>
         <ol>
           <% references.each do |ref| %>
-          <li><%= display_title ref %>, <%= link_to(ref.url, ref.url, { target: '_blank'}) %> (<%= ref.created_at.strftime('%Y年%-m月%-d日') %>閲覧)</li>
+          <li><%= display_title ref %>, <%= link_to(ref.url, ref.url, { target: '_blank'}) %> (<%= t('.accessed', date: l(ref.created_at, format: :short)) %>)</li>
           <% end %>
         </ol>
       </div>
@@ -31,8 +31,15 @@
 </div>
 
 
-<% if session[:nav_section] == 'open_courses' && @note.category == 'work' && @note.status='original_ws' %>
+<% if @note.category == 'work' && @note.status='original_ws' && session[:nav_section] == 'open_courses' %>
 <div id="sticky-panel">
   <%= render partial: 'stickies/sticky_panel', locals: { stickies: @stickies } %>
 </div>
+<% end %>
+
+<% if @note.category == 'lesson' && @content%>
+<script>
+// offset: toolbar height + 4px margin
+$("#note-resource").animate({scrollTop:$('#item_<%= @note.content_header_id @content.id %>').offset().top - 36});
+</script>
 <% end %>

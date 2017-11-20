@@ -16,12 +16,27 @@ en:
       no_contents: No contents to display
       pages: "pp.%{num}"
       updated_at: Upated at
+    edit_pages:
+      asset_file_explanation: Image file etc. used for page file
+      asset_file_content_type: 'File type: No constraint'
+      asset_file_upload_folder: 'Upload folder: Same as page file'
+      attachment_file_explanation: Attached to the cover page
+      attachment_file_content_type: 'File type: No constraint'
+      attachment_file_upload_folder: 'Upload folder: Different to page / asset files'
+      content_file_edit: Content file edit
+      max_file_size: "File size limit: %{size}MB/file"
+      page_file_explanation: Construct content pages
+      page_file_content_type: 'File type: HTML, PDF, Image (gif, jpg, png), Video (mov, mp4)'
+      page_file_sort: 'Page order: Set by drag & drop'
     index:
       course_content_management: Course & Content Management
-      recommended_browser: Recommended Web Browser
+      newest: newest
+      recommended_browsers: Recommended Web Browsers
       released_at: Released at
+      remarks_for_edge: Note function can not be used with Edge browser.
       shortcut_keys: Shortcut Keys
       system_version: System Version
+      use_following_browsers: Please use LePo in the following web browsers
     toolbar_show:
       edit: :layouts.buttons.edit.edit
 
@@ -128,12 +143,29 @@ en:
     member_candidates:
       no_search_results: No Search Results
     message_card:
+      card_closer: close
       snippet_saved: Saved to the lesson note !
       shortcut_keys: :contents.index.shortcut_keys
     page_number:
       portfolio: :helpers.portfolio
     search_members:
       search_word: search word
+    shortcut_keys:
+      page_operations: Page Operations
+      one_page_back: Show previous page
+      one_page_next: Show next Page
+      five_pages_back: Show 5 pages back
+      five_pages_next: Show 5 pages next
+      cover_page: Show cover page
+      assignment_page: Show assignment page
+      sticky_operations: Sticky Operations
+      create_sticky: Create sticky
+      submit_edited_sticky: Submit edited sticky
+      cancel_edited_sticky: Cancel edited sticky
+      other_operations: Other operations
+      toggle_lesson_note_display: Toggle lesson note display
+      toggle_sub_pane_display: Toggle side pane display
+      toggle_message_card: Toggle message card
     sub_toolbar:
       add: :courses.course_manager_select.add
       new_bookmark: New Bookmark
@@ -162,6 +194,8 @@ en:
       written_char_count: written char count
     header_index:
       index: Index
+    index_courses:
+      no_worksheet_notes: Currently no worksheets
     index_home:
       no_note_resources: Currently no notes managed
       no_snippets: Currently no snippets
@@ -176,6 +210,7 @@ en:
       star_count: :notes.header.star_count
       sticky_count: sticky count
     show:
+      accessed: "accessed %{date}"
       references: References
     toolbar:
       export: Export to text

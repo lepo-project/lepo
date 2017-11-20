@@ -6,7 +6,7 @@
 
 <script>
 $(function () {
-  sortNoteImtes(<%= @note.id %>, <%= @note.category == 'lesson' %>);
+  sortNoteItems(<%= @note.id %>, <%= @note.category == 'lesson' %>);
   // for snippet edit form
   autosize($('.elastic_textarea'));
   // for snippet edit form: this is necessary to fit height when initial text exists in textarea

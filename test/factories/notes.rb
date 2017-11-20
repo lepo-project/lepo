@@ -22,7 +22,7 @@ FactoryBot.define do
     sequence(:title) { |i| "Note #{i} Title" }
     overview 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
 
-    factory :lesson_sheet do
+    factory :lesson_note do
       category 'lesson'
       association :course
       status 'associated_course'

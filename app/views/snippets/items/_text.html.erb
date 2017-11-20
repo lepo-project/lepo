@@ -1,6 +1,5 @@
 <% case snippet.source_type when 'direct' %>
 <div class="snippet-direct">
-  <!-- <div class="body" style="font-size:small;"> -->
   <div class="body">
     <% add_br_body = add_br snippet.description %>
     <%= auto_link(sanitize(add_br_body), html: { class: 'bright-link', target: '_blank' }) %>
@@ -11,7 +10,6 @@
 <% when 'page_file' %>
 <div class="snippet-card card">
   <div class="main-area">
-    <!-- <div class="body" style="font-size:small;"> -->
     <div class="body">
       <% add_br_body = add_br snippet.description %>
       <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
@@ -23,7 +21,6 @@
 <% when 'web' %>
 <div class="snippet-card card">
   <div class="main-area">
-    <!-- <div class="body" style="font-size:small;"> -->
     <div class="body">
       <% add_br_body = add_br snippet.description %>
       <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>

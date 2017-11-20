@@ -39,7 +39,7 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     # nav-open-courses
     click_main_nav_item '#nav-open-courses', open_course.title, '#course-resource'
     click_main_nav_item '#nav-open-courses', I18n.t('helpers.portfolio'), '#portfolio-resource'
-    click_main_nav_item '#nav-open-courses', I18n.t('activerecord.models.note'), '#note-resource'
+    click_main_nav_item '#nav-open-courses', I18n.t('helpers.worksheet_note'), '#note-resource'
     click_main_nav_item '#nav-open-courses', I18n.t('activerecord.models.course_member'), '#course-member-resource'
     # nav-repository
     find('#main-nav > #nav-repository').click

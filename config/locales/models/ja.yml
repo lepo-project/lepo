@@ -331,9 +331,9 @@ ja:
       created_at: 作成日時
       note:
         category:
-          private: 個人シート
-          lesson: レッスンシート
-          work: ワークシート
+          private: 個人ノート
+          lesson: レッスンノート
+          work: ワークシートノート
         status:
           archived: アーカイブ
           distributed_draft: 学生に配布

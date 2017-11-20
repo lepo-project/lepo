@@ -31,14 +31,23 @@ class CoursesController < ApplicationController
     render 'layouts/renders/all_with_pg', locals: { resource: 'layouts/cover_page', pg: pg }
   end
 
-  def ajax_show_lesson_note
+  def ajax_toggle_lesson_note
+    return unless (session[:content_id] > 0) && session[:page_num]
     @course = Course.find(session[:nav_id])
     @content = Content.find(session[:content_id])
     @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
     pg = get_page(@lesson.id, @content)
-    @note = @course.lesson_note(session[:id])
-    @note_items = @note.note_indices
-    render 'layouts/renders/main_pane_with_pg', locals: { resource: '/notes/show', pg: pg }
+    case params[:from]
+    when 'content'
+      @note = @course.lesson_note(session[:id])
+      @note_items = @note.note_indices
+      render 'layouts/renders/main_pane_with_pg', locals: { resource: '/notes/show', pg: pg }
+    when 'note'
+      @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
+      get_outcome_resources @lesson, @content
+      @message_templates = get_message_templates(@course.manager?(session[:id])) if session[:page_num] == session[:max_page_num]
+      render_content_page pg
+    end
   end
 
   def ajax_show_page

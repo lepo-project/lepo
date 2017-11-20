@@ -46,11 +46,10 @@
     }
   }
   .sticky {
-    @include image-40px;
     margin: 4px;
   }
 }
-#resource #sticky-panel, #resource #sticky-reports, #resource #course-stickies, #resource #private-stickies, #resource #hot-stickies, #resource #user-stickies , #resource #note-items {
+#resource #sticky-panel, #resource #sticky-reports, #resource #course-stickies, #resource #private-stickies, #resource #hot-stickies, #resource #user-stickies, #resource #note-items {
   .show, .edit {
     clear: both;
     #sort-btn, #reload-btn {
@@ -58,17 +57,18 @@
         line-height: 100%;
       }
     }
-    .sticky {
-      background-color: #fff;
-      border-right-style: solid;
-      border-right-width: 10px;
-      display: flex;
-      width: 356px;
-      .word-wrap {
-        white-space: pre-line;
-      }
+  }
+  .sticky {
+    background-color: #fff;
+    border-right-style: solid;
+    border-right-width: 10px;
+    display: flex;
+    width: 356px;
+    .word-wrap {
+      white-space: pre-line;
     }
     .side-area {
+      @include image-40px;
       @include triangle-corner;
       height: 100%;
       margin: 0;
@@ -117,14 +117,14 @@
         }
       }
     }
-    #new-sticky {
-      padding: 0 12px 0 2px;
-      textarea {
-        height: 50px;
-        margin: 2px 0;
-        max-height: 300px;
-        width: 100%;
-      }
+  }
+  #new-sticky {
+    padding: 0 12px 0 2px;
+    textarea {
+      height: 50px;
+      margin: 2px 0;
+      max-height: 300px;
+      width: 100%;
     }
   }
 }

@@ -19,6 +19,14 @@
       height: inherit;
     }
   }
+  .table {
+    thead th {
+      font-weight: bold;
+    }
+    tbody td {
+      padding-left: 1rem;
+    }
+  }
   #main-toolbar {
     background-color: $toolbar-bgcolor;
     font-size: 1.2rem;
@@ -30,7 +38,7 @@
     width: 100%;
     div#fixed-toolbar {
       border-right: 1px solid #bbb;
-      margin-right: 12px;
+      margin-right: 8px;
     }
     div#variable-toolbar {
       height: 100%;
@@ -60,7 +68,7 @@
       div.page-number {
         float: left;
         height: 100%;
-        padding-top: 3px;
+        padding-top: 2px;
         .btn-group {
           float: left;
           width: 5rem;
@@ -88,7 +96,7 @@
           float: left;
           height: 100%;
           .toolbar-btn {
-            padding-top: 1px;
+            padding-top: 3px;
           }
         }
       }
@@ -96,6 +104,7 @@
     div#toolbar-btns {
       float: right;
       height: 100%;
+      padding-top: 2px;
       div.dropdown-menu {
         left: -12rem;
         width: 18rem;
@@ -130,10 +139,10 @@
       height: 100%;
       margin: 0 4px;
       min-width: 30px;
-      padding: 4px 8px;
+      padding: 4px;
       text-align: center;
       i {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
       }
     }
     a.toolbar-btn {
@@ -178,15 +187,6 @@
         font-size: 16px;
         margin-bottom: 4px;
         text-align: center;
-      }
-      td {
-        padding: 4px;
-        &.action {
-          padding-right: 8px;
-        }
-        &.key {
-          text-align: center;
-        }
       }
       a {
         color: #26f;

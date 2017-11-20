@@ -129,10 +129,10 @@ class ContentsController < ApplicationController
     attachment = AttachmentFile.find_by_content_id_and_upload_file_name(@content.id, filename)
     if attachment
       if attachment.update_attributes(upload: file[:upload])
-        flash.now[:message] = '添付ファイル「' + filename + '」を更新しました'
+        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.attachment_file') + ': ' + filename)
         flash[:message_category] = 'info'
       else
-        flash.now[:message] = '添付ファイル「' + filename + '」の更新に失敗しました'
+        flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.attachment_file') + ': ' + filename)
         flash[:message_category] = 'error'
       end
     else
@@ -222,18 +222,18 @@ class ContentsController < ApplicationController
     asset = AssetFile.find_by_content_id_and_upload_file_name(@content.id, filename)
     if page
       if page.update_attributes(upload: file[:upload])
-        flash.now[:message] = t('activerecord.models.page_file') + '「' + filename + '」を更新しました'
+        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.page_file') + ': ' + filename)
         flash[:message_category] = 'info'
       else
-        flash.now[:message] = t('activerecord.models.page_file') + '「' + filename + '」の更新に失敗しました'
+        flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.page_file') + ': ' + filename)
         flash[:message_category] = 'error'
       end
     elsif asset
       if asset.update_attributes(upload: file[:upload])
-        flash.now[:message] = t('activerecord.models.asset_file') + '「' + filename + '」を更新しました'
+        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.asset_file') + ': ' + filename)
         flash[:message_category] = 'info'
       else
-        flash.now[:message] = t('activerecord.models.asset_file') + '「' + filename + '」の更新に失敗しました'
+        flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.asset_file') + ': ' + filename)
         flash[:message_category] = 'error'
       end
     else
@@ -273,8 +273,9 @@ class ContentsController < ApplicationController
       page = PageFile.find_by_content_id_and_upload_file_name(org_file.content_id, new_file_name)
       if page
         page[:upload_file_size] = File.size(new_file_path)
+        page[:upload_updated_at] = File.mtime(new_file_path)
         page.save
-        flash.now[:message] = t('activerecord.models.asset_file') + '「' + filename + '」を更新しました'
+        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.page_file') + ': ' + filename)
         flash[:message_category] = 'info'
       else
         new_file = i == 1 ? org_file : org_file.dup

@@ -1,14 +1,14 @@
 <div id="content-resource" class="scroll-pane">
   <div class="row">
     <div class="col-md-12">
-      <h1>教材ファイルの設定
-        <div class="header-explanation">1ファイル<%= CONTENT_MAX_FILE_SIZE %>MBまでアップロード可能</div>
+      <h1><%= t('.content_file_edit') %>
+        <div class="header-explanation"><%= t('.max_file_size', size: CONTENT_MAX_FILE_SIZE) %></div>
       </h1>
       <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 
       <div class="bordered-block clearfix">
         <h2><%= t('activerecord.models.page_file') %>
-          <div class="header-explanation">教材のページを構成するファイル</div>
+          <div class="header-explanation"><%= t('.page_file_explanation') %></div>
         </h2>
         <div class="form-side-area">
           <%= form_for :page_file, url: {action: :ajax_upload_page_file, id: @content.id}, html: {id: 'page-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
@@ -18,8 +18,10 @@
 
           <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'page', form_id: 'page-file-upload'} %>
           <% end %>
-          <div style="margin-top: 8px;">・html, 画像(gif, jpg, png), 映像(f4v, mov)に対応</div>
-          <div>・ドラッグ＆ドロップでページ順を変更可能</div>
+          <ul style="padding: 1rem 0.5rem 0 1.5rem;">
+            <li><%= t('.page_file_content_type') %></li>
+            <li><%= t('.page_file_sort') %></li>
+          </ul>
         </div>
         <div class="form-main-area">
           <div id="page-files" class="files" style="overflow: auto;">
@@ -30,7 +32,7 @@
 
       <div class="bordered-block clearfix">
         <h2><%= t('activerecord.models.asset_file') %>
-          <div class="header-explanation">ページファイルで用いる画像ファイル等</div>
+          <div class="header-explanation"><%= t('.asset_file_explanation') %></div>
         </h2>
         <div class="form-side-area">
           <%= form_for :asset_file, url: {action: :ajax_upload_asset_file, id: @content.id}, html: {id: 'asset-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
@@ -38,8 +40,10 @@
           <%= f.hidden_field :content_id, value: @content.id %>
           <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'asset', form_id: 'asset-file-upload'} %>
           <% end %>
-          <div style="margin-top: 8px;">・全てのファイル形式に対応</div>
-          <div>・ページファイルと同じフォルダにアップロード</div>
+          <ul style="padding: 1rem 0.5rem 0 1.5rem;">
+            <li><%= t('.asset_file_content_type') %></li>
+            <li><%= t('.asset_file_upload_folder') %></li>
+          </ul>
         </div>
         <div class="form-main-area">
           <div id="asset-files" class="files">
@@ -50,7 +54,7 @@
 
       <div class="bordered-block clearfix">
         <h2><%= t('activerecord.models.attachment_file') %>
-          <div class="header-explanation">教材表紙に添付するファイル</div>
+          <div class="header-explanation"><%= t('.attachment_file_explanation') %></div>
         </h2>
         <div class="form-side-area">
           <%= form_for :attachment_file, url: {action: :ajax_upload_attachment_file, id: @content.id}, html: {id: 'attachment-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
@@ -58,8 +62,10 @@
           <%= f.hidden_field :content_id, value: @content.id %>
           <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'attachment', form_id: 'attachment-file-upload'} %>
           <% end %>
-          <div style="margin-top: 8px;">・全てのファイル形式に対応</div>
-          <div>・ページ・素材ファイルと異なるフォルダにアップロード</div>
+          <ul style="padding: 1rem 0.5rem 0 1.5rem;">
+            <li><%= t('.attachment_file_content_type') %></li>
+            <li><%= t('.attachment_file_upload_folder') %></li>
+          </ul>
         </div>
         <div class="form-main-area">
           <div id="attachment-files" class="files">

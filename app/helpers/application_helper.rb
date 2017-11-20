@@ -93,7 +93,7 @@ module ApplicationHelper
     when max_page_num then
       t('helpers.assignment_page')
     else
-      'p.' + page_num.to_s
+      'p' + page_num.to_s
     end
   end
 
@@ -423,7 +423,7 @@ module ApplicationHelper
         items.push(nav_section: 'open_courses', nav_controller: 'courses', nav_id: course.id, title: course.title, class: 'fa fa-flag fa-lg')
         items.push(nav_section: 'open_courses', nav_controller: 'portfolios', nav_id: course.id, title: t('helpers.portfolio'), class: 'no-icon')
         # items.push(nav_section: 'open_courses', nav_controller: 'stickies', nav_id: course.id, title: t('activerecord.models.sticky'), class: 'no-icon')
-        items.push(nav_section: 'open_courses', nav_controller: 'notes', nav_id: course.id, title: t('activerecord.models.note'), class: 'no-icon')
+        items.push(nav_section: 'open_courses', nav_controller: 'notes', nav_id: course.id, title: t('helpers.worksheet_note'), class: 'no-icon')
         items.push(nav_section: 'open_courses', nav_controller: 'course_members', nav_id: course.id, title: t('activerecord.models.course_member'), class: 'no-icon')
       end
     when 'repository'

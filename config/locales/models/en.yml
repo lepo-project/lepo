@@ -23,7 +23,7 @@ en:
       outcome_message: Outcome Message
       outcome_text: Outcome Text
       outcomes_objective: Outcomes Objective
-      page_file: Page File
+      page_file: Page file
       signin: Signin
       snippet: Snippet
       snippet_file: Snippet File
@@ -331,9 +331,9 @@ en:
       created_at: created at
       note:
         category:
-          private: Private sheet
-          lesson: Lesson sheet
-          work: Work sheet
+          private: Private note
+          lesson: Lesson note
+          work: Worksheet note
         status:
           archived: Archived
           distributed_draft: Distribution
