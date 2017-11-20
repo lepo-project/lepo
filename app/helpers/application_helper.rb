@@ -93,7 +93,7 @@ module ApplicationHelper
     when max_page_num then
       t('helpers.assignment_page')
     else
-      'p.' + page_num.to_s
+      'p' + page_num.to_s
     end
   end
 

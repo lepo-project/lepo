@@ -5,49 +5,27 @@
       <!-- Contents -->
       <%= render partial: 'contents/contents_card' if @contents.size > 0 %>
       <div class="card">
-        <h2 class="card-header"><%= t('.recommended_browser') %></h2>
+        <h2 class="card-header"><%= t('.recommended_browsers') %></h2>
         <div class="card-body">
-          <p class="card-text">
-            以下のwebブラウザで、LePoを利用してください。
-          </p>
+          <p class="card-text"><%= t('.use_following_browsers') %></p>
           <ul>
-            <li>Windows: Internet Explorer 11, Chrome 最新版</li>
-            <li>macOS: Chrome 最新版</li>
+            <li>Windows: Internet Explorer 11, Chrome (<%= t('.newest') %>)</li>
+            <li>macOS: Chrome (<%= t('.newest') %>)</li>
           </ul>
-          <p class="card-text">
-            なお、Edgeブラウザでは、ノート機能が利用できません
-          </p>
+          <p class="card-text"><%= t('.remarks_for_edge') %></p>
         </div>
       </div>
 
       <div class="card">
         <h2 class="card-header"><%= t('.shortcut_keys') %></h2>
         <div class="card-body">
-          <p class="card-text">
-            教材を表示している時は、以下のキー操作が利用できます。なお、これらのキー操作は?キーで確認できます。
-          </p>
-          【ページ操作】
-          <ul>
-            <li>前のページに移動： ← または j</li>
-            <li>次のページに移動： → または k</li>
-            <li>5ページ前に移動： Shift + ← または Shift + j</li>
-            <li>5ページ先に移動： Shift + → または Shift + k</li>
-            <li>表紙ページに移動： Shift + ↑</li>
-            <li>課題ページに移動： Shift + ↓</li>
-          </ul>
-          【ふせん操作】
-          <ul>
-            <li>ふせんを作成： l（エル）</li>
-            <!-- <li>コースふせんを作成： Shift + l</li> -->
-            <li>編集中のふせんを貼る： Shift + Enter</li>
-            <li>編集中のふせんをキャンセル： Esc</li>
-          </ul>
+          <%= render 'layouts/shortcut_keys' %>
         </div>
       </div>
 
       <div class="card">
         <h2 class="card-header"><%= t('.course_content_management') %></h2>
-          <div class="card-body">
+        <div class="card-body">
           <p class="card-text">
             システム管理者のみコースの登録が可能であり、特定のユーザをコース管理者に指定してコース登録することで、そのユーザがコースを管理できるようになります。
           </p>

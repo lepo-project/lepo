@@ -36,8 +36,8 @@ function textHighlighter(mouseup_target, selection_target) {
 function keyBinder(target_doc) {
   // target_doc may be document or iframe's document
   var binding_keys = ["left", "j", "shift+left", "shift+j", "right", "k", "shift+right", "shift+k", "shift+up", "shift+down"]; // page move
-  // binding_keys = binding_keys.concat(["l", "shift+l"]); // sticky form
   binding_keys = binding_keys.concat(["l"]); // sticky form
+  binding_keys = binding_keys.concat(["n"]); // lesson note / content toggle
   binding_keys = binding_keys.concat(["f"]); // sub-pane toggle
   binding_keys = binding_keys.concat(["/", "shift+/"]); // message-card toggle
   jQuery.each(binding_keys, function (i, binding_key) {
@@ -46,15 +46,21 @@ function keyBinder(target_doc) {
         case "l":
         toggleCreateSticky();
         break;
-        // case "shift+l":
-        // toggleCreateSticky();
-        // break;
         case "f":
         $("#wrapper").toggleClass("toggled");
         break;
         case "/":
         case "shift+/":
         toggleShortcutKey();
+        break;
+        case "n":
+        if ($('#page-frame')[0] || $('#simple-html-content')[0]) {
+          // showing content page
+          jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_toggle_lesson_note/?from=content"});
+        } else if ($('#note-resource')[0]) {
+          // showing lesson note
+          jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_toggle_lesson_note/?from=note"});
+        }
         break;
         default:
         jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/application/key_binder/?key=" + binding_key});

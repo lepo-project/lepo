@@ -1,77 +1,15 @@
 <div id="shortcut-key" class="card-info ">
   <h2><%= t('.shortcut_keys') %></h2>
-  <table>
-    <tr>
-      <td class="action">【ページ操作】</td>
-      <td class="key"></td>
-    </tr>
-    <tr>
-      <td class="action">　・前のページに移動</td>
-      <td class="key">← または j</td>
-    </tr>
-    <tr>
-      <td class="action">　・次のページに移動</td>
-      <td class="key">→ または k</td>
-    </tr>
-    <tr>
-      <td class="action">　・5ページ前に移動</td>
-      <td class="key">Shift + ← または Shift + j</td>
-    </tr>
-    <tr>
-      <td class="action">　・5ページ先に移動</td>
-      <td class="key">Shift + → または Shift + k</td>
-    </tr>
-    <tr>
-      <td class="action">　・表紙ページに移動</td>
-      <td class="key">Shift + ↑</td>
-    </tr>
-    <tr>
-      <td class="action">　・課題ページに移動</td>
-      <td class="key">Shift + ↓</td>
-    </tr>
-    <tr>
-      <td class="action">【ふせん操作】</td>
-      <td class="key"></td>
-    </tr>
-    <tr>
-      <td class="action">　・ふせんを作成</td>
-      <td class="key">l（エル）</td>
-    </tr>
-    <!-- <tr>
-    <td class="action">　・コースふせんを作成</td>
-    <td class="key">Shift + l</td>
-  </tr> -->
-  <tr>
-    <td class="action">　・編集中のふせんを貼る</td>
-    <td class="key">Shift + Enter</td>
-  </tr>
-  <tr>
-    <td class="action">　・編集中のふせんをキャンセル</td>
-    <td class="key">Esc</td>
-  </tr>
-  <tr>
-    <td class="action">【その他】</td>
-    <td class="key"></td>
-  </tr>
-  <tr>
-    <td class="action">　・サイドパネルの開閉</td>
-    <td class="key">f</td>
-  </tr>
-  <tr>
-    <td class="action">　・このメッセージの開閉</td>
-    <td class="key">?</td>
-  </tr>
-</table>
-<div style="margin-top: 8px; text-align: right;">
-  <a id="message-card-closer" style="cursor:pointer;">閉じる</a>
+  <%= render 'layouts/shortcut_keys' %>
+  <div style="margin-top: 8px; text-align: right;">
+    <a id="message-card-closer" style="cursor:pointer;"><%= t('.card_closer') %></a>
+  </div>
 </div>
-</div>
+<script>
+$("#message-card-closer").click(function(){toggleShortcutKey();})
+</script>
 
 
 <div id="page-file-snippet-saved" class="message-info">
   <%= t('.snippet_saved') %>
 </div>
-
-<script>
-$("#message-card-closer").click(function(){toggleShortcutKey();})
-</script>

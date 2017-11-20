@@ -30,10 +30,13 @@ ja:
       page_file_sort: ページ順：ドラッグ＆ドロップで設定
     index:
       course_content_management: コースと教材の管理
-      recommended_browser: 推奨するWebブラウザ
+      newest: 最新版
+      recommended_browsers: 推奨するWebブラウザ
       released_at: 公開日
+      remarks_for_edge: なお、Edgeブラウザでは、ノート機能が利用できません
       shortcut_keys: ショートカットキー
       system_version: システムのバージョン
+      use_following_browsers: LePoは、以下のwebブラウザで利用してください
     toolbar_show:
       edit: :layouts.buttons.edit.edit
 
@@ -140,12 +143,29 @@ ja:
     member_candidates:
       no_search_results: 検索条件を満たす結果はありません
     message_card:
+      card_closer: 閉じる
       snippet_saved: レッスンノートに保存しました
       shortcut_keys: :contents.index.shortcut_keys
     page_number:
       portfolio: :helpers.portfolio
     search_members:
       search_word: 検索語句
+    shortcut_keys:
+      page_operations: ページ操作
+      one_page_back: 前のページを表示
+      one_page_next: 次のページを表示
+      five_pages_back: 5ページ前を表示
+      five_pages_next: 5ページ先を表示
+      cover_page: 表紙ページを表示
+      assignment_page: 課題ページを表示
+      sticky_operations: ふせん操作
+      create_sticky: ふせんを作成
+      submit_edited_sticky: 編集中のふせんを貼る
+      cancel_edited_sticky: 編集中のふせんをキャンセル
+      other_operations: その他
+      toggle_lesson_note_display: レッスンノートの表示/非表示
+      toggle_sub_pane_display: サイドパネルの開閉
+      toggle_message_card: このメッセージの開閉
     sub_toolbar:
       add: :courses.course_manager_select.add
       new_bookmark: ブックマークを作成
