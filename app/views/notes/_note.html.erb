@@ -13,7 +13,7 @@
     <% else %>
     <%= render partial: 'notes/subtitle', locals: {note: note, char_limit: 12} %>
     <h2 class="card-title">
-      <%= link_to_resource((note.title), note.id, {}) %>
+      <%= link_to(sanitize("<div>#{note.title}</div>"), {controller: 'notes',  action: 'ajax_show', id: note.id }, {remote: true}) %>
     </h2>
     <% end %>
   </div>

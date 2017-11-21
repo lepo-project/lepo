@@ -19,4 +19,5 @@ ja:
     snippets:
       transfer_error: ノートの移動に失敗しました
       creation_error: テキストの保存に失敗しました
+      pdf_creation: "PDF: URLのみ保存しました（選択文字は未保存）"
       upload_error: ファイルの保存に失敗しました

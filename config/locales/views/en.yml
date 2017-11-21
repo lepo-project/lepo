@@ -289,7 +289,7 @@ en:
       footer_page_file:
         delete: :layouts.buttons.delete.delete
       footer_web:
-        operations: :snippets.items.footer_page_file.operations
+        operations: Operations
       operations_direct:
         edit: :layouts.buttons.edit.edit
       operations_upload:
