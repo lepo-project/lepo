@@ -65,6 +65,23 @@ class Note < ApplicationRecord
     end
   end
 
+  def archived?
+    case category
+    when 'lesson'
+      course = Course.find_by(id: course_id)
+      (course.status == 'archived')
+    when 'private'
+      (status == 'archived')
+    when 'work'
+      if status == 'original_ws'
+        original_ws = Note.find_by(id: original_ws_id)
+        (original_ws.status == 'archived')
+      else
+        (status == 'archived')
+      end
+    end
+  end
+
   def content_header_id(content_id)
     return unless category == 'lesson'
     ni = NoteIndex.find_by(note_id: id, item_type: 'Content', item_id: content_id)
@@ -127,7 +144,7 @@ class Note < ApplicationRecord
     case category
     when 'work'
       if status == 'original_ws'
-        original_ws = Note.find(original_ws_id)
+        original_ws = Note.find_by(id: original_ws_id)
         (original_ws.status == 'open')
       else
         (status == 'open')
@@ -158,7 +175,7 @@ class Note < ApplicationRecord
     case category
     when 'work'
       if status == 'original_ws'
-        original_ws = Note.find(original_ws_id)
+        original_ws = Note.find_by(id: original_ws_id)
         (original_ws.status == 'review') || (original_ws.status == 'open')
       else
         (status == 'review') || (status == 'open')

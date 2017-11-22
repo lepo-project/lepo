@@ -7,7 +7,7 @@ class NotesController < ApplicationController
     case params[:nav_section]
     when 'home'
       set_nav_session 'home', 'notes'
-      @notes = current_user.notes
+      @notes = current_user.open_notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
     when 'open_courses'
       set_nav_session 'open_courses', 'notes', params[:nav_id]
@@ -166,6 +166,23 @@ class NotesController < ApplicationController
   # ====================================================================
 
   private
+
+  def distribute_work_sheet(original_ws)
+    copy_snippets = original_ws.direct_snippets
+    course = Course.find(original_ws.course_id)
+    course.learners.each do |l|
+      notes = Note.where(manager_id: l.id, status: 'original_ws', original_ws_id: original_ws.id).to_a
+      next unless notes.size.zero?
+
+      Snippet.transaction do
+        note = Note.create!(manager_id: l.id, course_id: course.id, title: original_ws.title, overview: original_ws.overview, category: 'work', status: 'original_ws', original_ws_id: original_ws.id)
+        copy_snippets.each_with_index do |cs, i|
+          snippet = Snippet.create!(manager_id: l.id, category: cs.category, description: cs.description, source_type: 'direct')
+          NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: i + 1)
+        end
+      end
+    end
+  end
 
   def get_resources
     @course = Course.find(session[:nav_id])

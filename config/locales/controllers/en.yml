@@ -19,4 +19,5 @@ en:
     snippets:
       transfer_error: Transferring note failed
       creation_error: Failed to save text
+      pdf_creation: "PDF: Only the URL was saved (Not the selected characters)"
       upload_error: Failed to save file

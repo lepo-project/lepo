@@ -159,12 +159,12 @@ class SnippetsController < ApplicationController
       render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 5000)
     elsif lepo_url? url
       @warning_message = 'LePo内の情報は、+Noteできません'
-      render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
+      render_warning
     elsif description.size > 255
       # This doesn't work for WEBrick, but works for NGINX
       # Upper limit of description is introduced by varchar(255) of MySQL and copyrigt point of view
       @warning_message = '選択した文字が多すぎるため、+Noteできません'
-      render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
+      render_warning
     elsif WebPage.pdf_url? url
       # Firefox: text snippet from PDF works for url, title and description
       # Chrome & Safari: text snippet from PDF works for url, but not for title and description
@@ -200,23 +200,6 @@ class SnippetsController < ApplicationController
     { formats: ['js'], layout: false, locals: { duration: duration, tags: tags, token: token } }
   end
 
-  def distribute_work_sheet(original_ws)
-    copy_snippets = original_ws.direct_snippets
-    course = Course.find(original_ws.course_id)
-    course.learners.each do |l|
-      notes = Note.where(manager_id: l.id, status: 'original_ws', original_ws_id: original_ws.id).to_a
-      next unless notes.size.zero?
-
-      Snippet.transaction do
-        note = Note.create!(manager_id: l.id, course_id: course.id, title: original_ws.title, overview: original_ws.overview, category: 'work', status: 'original_ws', original_ws_id: original_ws.id)
-        copy_snippets.each_with_index do |cs, i|
-          snippet = Snippet.create!(manager_id: l.id, category: cs.category, description: cs.description, source_type: 'direct')
-          NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: i + 1)
-        end
-      end
-    end
-  end
-
   def snippet_params
     params.require(:snippet).permit(:category, :description)
   end
@@ -240,6 +223,10 @@ class SnippetsController < ApplicationController
     description
   end
 
+  def render_creation
+    render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_create', 2000)
+  end
+
   def render_snippet(note_id, snippet)
     @note = Note.find note_id
     # @snippets = @note.snippets
@@ -254,74 +241,67 @@ class SnippetsController < ApplicationController
     render 'snippets/renders/snippets'
   end
 
+  def render_warning
+    render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
+  end
+
+  def save_snippet(description, category, user, source_id)
+    note_id = user.default_note_id
+    if note_id > 0 && Note.find_by(id: note_id) && Note.find(note_id).manager_id == user.id
+      display_order = Note.find(note_id).snippets.size + 1
+      Snippet.transaction do
+        snippet = Snippet.create!(manager_id: user.id, category: category, description: description, source_type: 'web', source_id: source_id)
+        NoteIndex.create!(item_id: snippet.id, item_type: 'Snippet', note_id: note_id, display_order: display_order)
+      end
+      return true
+    else
+      snippet = Snippet.new(manager_id: user.id, category: category, description: description, source_type: 'web', source_id: source_id)
+      return snippet.save
+    end
+  rescue StandardError
+    return false
+  end
+
   def save_web_snippet(url, title, description, category, user)
     source_id = save_web_page url, title
-    if (source_id > 0) && ((category == 'text') || (category == 'pdf'))
-      note_id = user.default_note_id
-      if note_id > 0 && Note.find_by(id: note_id) && Note.find(note_id).manager_id == user.id
-        display_order = Note.find(note_id).snippets.size + 1
-        Snippet.transaction do
-          snippet = Snippet.create!(manager_id: user.id, category: category, description: description, source_type: 'web', source_id: source_id)
-          NoteIndex.create!(item_id: snippet.id, item_type: 'Snippet', note_id: note_id, display_order: display_order)
-        end
-      else
-        Snippet.create(manager_id: user.id, category: category, description: description, source_type: 'web', source_id: source_id)
-      end
-      case category
-      when 'text'
-        render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_create', 2000)
-      when 'pdf'
-        @warning_message = 'PDF：URLのみ保存しました（選択文は未保存）'
-        render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
-      end
-    elsif (source_id > 0) && (category == 'image')
+    render_warning unless source_id > 0
+    case category
+    when 'text'
+      save_snippet(description, category, user, source_id) ? render_creation : render_warning
+    when 'pdf'
+      # @warning_message = save_snippet(description, category, user, source_id) ? 'PDF：URLのみ保存しました（選択文字は未保存）' : nil
+      @warning_message = save_snippet(description, category, user, source_id) ? t('controllers.snippets.pdf_creation') : nil
+      render_warning
+    when 'image'
       # TODO: Naver Matome Preparation
       description = prep_for_nm_image description
-      snippet = Snippet.new(manager_id: user.id, category: 'image', description: description, source_type: 'web', source_id: source_id)
-      if snippet.save
-        render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_create', 2000)
-      else
-        render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
-      end
+      save_snippet(description, category, user, source_id) ? render_creation : render_warning
     else
-      render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
+      render_warning
     end
   end
 
   def save_web_embed_snippet(url, title, user)
     source_id = save_web_page url, title
-    if source_id > 0
-      # snippet creation
-      if WebPage.scratch_url? url
-        category = 'scratch'
-      elsif WebPage.ted_url? url
-        category = 'ted'
-      elsif WebPage.youtube_url? url
-        category = 'youtube'
-      else
-        category = 'text'
-      end
-      note_id = user.default_note_id
-      if note_id > 0 && Note.find_by(id: note_id) && Note.find(note_id).manager_id == user.id
-        display_order = Note.find(note_id).snippets.size + 1
-        Snippet.transaction do
-          snippet = Snippet.create!(manager_id: user.id, category: category, description: '', source_type: 'web', source_id: source_id, note_id: note_id)
-          NoteIndex.create!(item_id: snippet.id, item_type: 'Snippet', note_id: note_id, display_order: display_order)
-        end
-      else
-        Snippet.create(manager_id: user.id, category: category, description: '', source_type: 'web', source_id: source_id)
-      end
-      render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_create', 2000)
+    render_warning unless source_id > 0
+    # snippet creation
+    if WebPage.scratch_url? url
+      category = 'scratch'
+    elsif WebPage.ted_url? url
+      category = 'ted'
+    elsif WebPage.youtube_url? url
+      category = 'youtube'
     else
-      render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
+      category = 'text'
     end
+    save_snippet('', category, user, source_id) ? render_creation : render_warning
   end
 
   def save_web_page(url, title)
     # web_page creation
     source = WebPage.find_or_initialize_by(url: url)
     unless source.update(title: title)
-      render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 2000)
+      render_warning
       return 0
     end
     source.id

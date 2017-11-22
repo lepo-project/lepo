@@ -2,9 +2,9 @@
   <div class="row">
     <div class="col-md-12">
       <% case session[:nav_section] when 'home' %>
-      <%= render 'index_home' %>
+      <%= render 'notes/index_home' %>
       <% when 'open_courses', 'repository' %>
-      <%= render 'index_courses' %>
+      <%= render 'notes/index_courses' %>
       <% end %>
     </div>
   </div>

@@ -47,13 +47,14 @@ class User < ApplicationRecord
   # FIXME: PushNotification
   has_many :devices, foreign_key: :manager_id, dependent: :destroy
   has_many :lessons, foreign_key: :evaluator_id
+  has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
+  has_many :open_courses, -> { where('courses.status = ?', 'open') }, through: :course_members, source: :course
   has_many :outcomes, foreign_key: :manager_id
   has_many :outcome_messages, foreign_key: :manager_id
   has_many :signins
   has_many :snippets, foreign_key: :manager_id
   has_many :stickies, foreign_key: :manager_id
   has_many :sticky_stars, foreign_key: :manager_id
-  has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
   validates_presence_of :family_name
   validates_presence_of :folder_name
   validates_presence_of :hashed_password, if: "authentication == 'local'"
@@ -179,6 +180,15 @@ class User < ApplicationRecord
   def full_name_all
     return full_name unless USER_PHONETIC_NAME_FLAG
     phonetic_full_name == ' ' ? full_name : full_name + ' / ' + phonetic_full_name
+  end
+
+  def open_notes
+    open_course_ids = open_courses.pluck(:id)
+    notes = Note.where(manager_id: id, category: 'work', course_id: open_course_ids).order(updated_at: :desc).to_a
+    notes.delete_if(&:archived?)
+    notes += Note.where(manager_id: id, category: 'lesson', course_id: open_course_ids).order(updated_at: :desc)
+    notes += Note.where(manager_id: id, category: 'private', status: 'draft').order(updated_at: :desc)
+    notes
   end
 
   def phonetic_full_name
