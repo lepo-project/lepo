@@ -7,7 +7,7 @@ class NotesController < ApplicationController
     case params[:nav_section]
     when 'home'
       set_nav_session 'home', 'notes'
-      @notes = current_user.notes
+      @notes = current_user.open_notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
     when 'open_courses'
       set_nav_session 'open_courses', 'notes', params[:nav_id]

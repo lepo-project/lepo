@@ -431,7 +431,7 @@ module ApplicationHelper
       subsections.each do |course|
         items.push(nav_section: 'repository', nav_controller: 'courses', nav_id: course.id, title: course.title, class: 'fa fa-flag fa-lg')
         items.push(nav_section: 'repository', nav_controller: 'portfolios', nav_id: course.id, title: t('helpers.portfolio'), class: 'no-icon')
-        items.push(nav_section: 'repository', nav_controller: 'notes', nav_id: course.id, title: t('activerecord.models.note'), class: 'no-icon')
+        items.push(nav_section: 'repository', nav_controller: 'notes', nav_id: course.id, title: t('helpers.worksheet_note'), class: 'no-icon')
         items.push(nav_section: 'repository', nav_controller: 'course_members', nav_id: course.id, title: t('activerecord.models.course_member'), class: 'no-icon')
       end
     end
