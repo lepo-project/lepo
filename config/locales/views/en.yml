@@ -301,6 +301,8 @@ en:
         enter_citation: Enter citation text from PDF file
         remove: Remove from this note
         transfer_to: 'Transfer to "%{note_title}"'
+      pdf:
+        input_pdf_text: You can not cite directly from PDF file. Please enter the cited text from "Operations" button.
 
   stickies:
     edit:

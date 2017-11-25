@@ -116,14 +116,6 @@ class SnippetsController < ApplicationController
     end
   end
 
-  def ajax_update_file
-    snippet = Snippet.find(params[:id])
-    snippet_file = snippet.snippet_file
-    snippet_file.update_attributes(snippet_file_params)
-    snippet.update_attributes(category: snippet_file.file_type, description: snippet_file.upload.url)
-    render_snippet params[:note_id], snippet
-  end
-
   def ajax_upload
     @notes = current_user.notes
     note_id = params[:note_id].to_i
@@ -136,7 +128,7 @@ class SnippetsController < ApplicationController
       param_hash['snippet_id'] = @snippet.id
       snippet_file = SnippetFile.new(param_hash)
       snippet_file.save!
-      @snippet.update_attributes!(category: snippet_file.file_type, source_id: snippet_file.id, description: snippet_file.upload.url)
+      @snippet.update_attributes!(category: 'image', source_id: snippet_file.id, description: snippet_file.upload.url)
     end
     render_snippets note_id
   rescue StandardError

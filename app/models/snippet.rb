@@ -26,7 +26,7 @@ class Snippet < ApplicationRecord
   # validates_presence_of :source_id, if: '%w[page_file upload web].include? source_type'
   validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
   validates_inclusion_of :category, in: %w[text], if: "source_type == 'page_file'"
-  validates_inclusion_of :category, in: %w[image pdf], if: "source_type == 'upload'"
+  validates_inclusion_of :category, in: %w[image], if: "source_type == 'upload'"
   validates_inclusion_of :category, in: %w[text image pdf scratch ted youtube], if: "source_type == 'web'"
   validates_inclusion_of :source_type, in: %w[direct page_file upload web]
   validates_format_of :description, with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension', if: "source_type == 'web' && category == 'image'"

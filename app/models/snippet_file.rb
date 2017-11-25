@@ -17,8 +17,7 @@ class SnippetFile < ApplicationRecord
   path: ':rails_root/public/system/users/:snippet_manager_folder_name/upload_snippets/:snippet_id/:filename',
   url: ':relative_url_root/system/users/:snippet_manager_folder_name/upload_snippets/:snippet_id/:filename'
   validates_attachment_size :upload, less_than: IMAGE_MAX_FILE_SIZE.megabytes
-  validates_attachment_content_type :upload, content_type: ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'application/pdf']
-  
+  validates_attachment_content_type :upload, content_type: ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png']
   belongs_to :snippet, touch: true
   validates_presence_of :snippet_id
   validates_presence_of :upload_file_name
@@ -27,9 +26,4 @@ class SnippetFile < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
-
-  def file_type
-    return 'pdf' if upload_content_type == 'application/pdf'
-    'image'
-  end
 end

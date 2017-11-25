@@ -301,6 +301,8 @@ ja:
         enter_citation: PDFファイルからの引用文を入力
         remove: このノートからはがす
         transfer_to: '「%{note_title}」に移動'
+      pdf:
+        input_pdf_text: PDFファイルからは直接引用できません。「操作」ボタンから引用文を入力してください。
 
   stickies:
     edit:
