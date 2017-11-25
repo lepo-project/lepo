@@ -35,11 +35,6 @@ FactoryBot.define do
       category 'image'
     end
 
-    factory :upload_pdf_snippet do
-      source_type 'upload'
-      category 'pdf'
-    end
-
     factory :web_text_snippet do
       source_type 'web'
       category 'text'
