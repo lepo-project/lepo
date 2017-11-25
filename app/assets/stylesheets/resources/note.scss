@@ -2,9 +2,11 @@
 // CSS for note-resource
 //
 
+@import 'components/file_submit_btn';
 @import 'components/versatile_cards';
 
 #resource #note-resource {
+  @include file-submit-btn;
   @include group-card;
   @include note-card;
   @include note-header-card;
@@ -63,6 +65,13 @@
           }
         }
       }
+    }
+  }
+  div.snippet-file-submit-button {
+    height: 32px;
+    width: 140px;
+    button {
+      width: 120px;
     }
   }
 }

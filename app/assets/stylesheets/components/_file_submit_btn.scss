@@ -1,0 +1,30 @@
+@mixin file-submit-btn {
+  div.file-submit-button {
+    height: 48px;
+    overflow: hidden;
+    position: relative;
+    width: 180px;
+    button {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+      &.disabled {
+        display: none;
+      }
+    }
+    input {
+      cursor: pointer;
+      filter: alpha(opacity = 0);
+      font-size: 100px;
+      height: 100%;
+      -moz-opacity: 0;
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      z-index: 20;
+    }
+  }
+}

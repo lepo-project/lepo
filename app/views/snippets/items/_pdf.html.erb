@@ -1,17 +1,8 @@
-<% case snippet.source_type when 'upload' %>
-<div class="snippet-direct">
-  <div class="body" style="max-width: 560px; margin: 0 1rem 1rem;">
-    <i class="fa fa-file-pdf-o"></i> アップロードPDF（<%= l(snippet.snippet_file.created_at, format: :default) %>）： <a href="<%= snippet.description %>" target="_blank" class="bright-link"><%= snippet.snippet_file.upload_file_name %></a>
-  </div>
-  <%= render(partial: 'snippets/items/operations_upload', locals: {snippet: snippet})  if editable_snippet %>
-</div>
-
-<% when 'web' %>
 <div class="snippet-card card">
   <div class="main-area">
     <div class="body" style="font-size:small;">
       <% if snippet.description.empty? %>
-      PDFファイルからは直接引用できません。操作メニュー <i class="fa fa-chevron-circle-down fa-lg"></i> から引用文を入力してください。
+      <%= t('.input_pdf_text') %>
       <% else %>
       <% add_br_body = add_br snippet.description %>
       <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
@@ -20,4 +11,3 @@
     <%= render(partial: 'snippets/items/footer_web', locals: {snippet: snippet}) %>
   </div>
 </div>
-<% end %>

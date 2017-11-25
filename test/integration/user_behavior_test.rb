@@ -46,7 +46,7 @@ class UserBehaviorTest < ActionDispatch::IntegrationTest
     click_main_nav_item '#nav-repository', I18n.t('activerecord.models.content'), '#content-resource'
     click_main_nav_item '#nav-repository', course.title, '#course-resource'
     click_main_nav_item '#nav-repository', I18n.t('helpers.portfolio'), '#portfolio-resource'
-    click_main_nav_item '#nav-repository', I18n.t('activerecord.models.note'), '#note-resource'
+    click_main_nav_item '#nav-repository', I18n.t('helpers.worksheet_note'), '#note-resource'
     click_main_nav_item '#nav-repository', I18n.t('activerecord.models.course_member'), '#course-member-resource'
     # signout
     click_link 'signout-btn'

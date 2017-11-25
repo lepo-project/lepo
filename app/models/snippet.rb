@@ -22,10 +22,11 @@ class Snippet < ApplicationRecord
   has_many :note_indices, as: :item, dependent: :destroy
   validates_presence_of :description, if: '%w[direct page_file].include? source_type'
   validates_presence_of :manager_id
-  validates_presence_of :source_id, if: '%w[page_file upload web].include? source_type'
+  # FIXME: Because of inconsistency between snippet and snippet_file, temporarily comment out
+  # validates_presence_of :source_id, if: '%w[page_file upload web].include? source_type'
   validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
   validates_inclusion_of :category, in: %w[text], if: "source_type == 'page_file'"
-  validates_inclusion_of :category, in: %w[image pdf], if: "source_type == 'upload'"
+  validates_inclusion_of :category, in: %w[image], if: "source_type == 'upload'"
   validates_inclusion_of :category, in: %w[text image pdf scratch ted youtube], if: "source_type == 'web'"
   validates_inclusion_of :source_type, in: %w[direct page_file upload web]
   validates_format_of :description, with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension', if: "source_type == 'web' && category == 'image'"

@@ -1,25 +1,20 @@
-<% form_id = 'create-file-form-' + display_order.to_s %>
-<div id="<%= form_id %>" class="to-be-hidden">
-  画像とPDFファイルのみアップロード可能（ファイル名が長いとアップロードできません）
-  <%= form_for :snippet_file, url: {controller: :snippets, action: :ajax_upload, display_order: display_order, note_id: note_id}, html: {id: form_id + '-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
-  <%= render partial: 'snippets/file_form', locals: {f: f, form_id: form_id} %>
-  <% end %>
+<% file_category = "snippet-#{display_order}" %>
+<%= form_for :snippet_file, url: {controller: :snippets, action: :ajax_upload, display_order: display_order, note_id: note_id}, html: {id: file_category + '-file-form', multipart: true}, remote: true do |f| %>
+
+<div id="<%= file_category %>-file-submit" class="file-submit-button snippet-file-submit-button">
+  <%= f.file_field :upload %>
+  <button type="submit" id="<%= file_category %>-file-submit-btn" class="btn btn-sm btn-outline-light create-snippet-btn">
+    <i class="fa fa-plus"></i> <%= t('.image') %>
+  </button>
+  <button disabled id="<%= file_category %>-file-progress-btn" class="btn btn-sm btn-outline-light create-snippet-btn disabled">
+    <i class="fa fa-clock-o"></i> <%= t('.uploading') %>
+  </button>
 </div>
+<% end %>
 
 
 <script>
-$("#cancel-<%= form_id %>").click(function(){toggleCreateSnippet(<%= display_order %>, "file");});
-
 $(function () {
-  $("#<%= form_id %> #snippet-file-upload").change(function () {
-    $("#<%= form_id %>-file-form").submit();
-    $("#<%= form_id %>-file-submit-btn").css("display", "none")
-    $("#<%= form_id %>-file-progress-btn").css("display", "block")
-  })
-
-  $('*').ajaxStop(function () {
-    $("#<%= form_id %>-file-submit-btn").css("display", "block")
-    $("#<%= form_id %>-file-progress-btn").css("display", "none")
-  });
+  fileSubmitStatus("<%= file_category %>");
 });
 </script>

@@ -275,13 +275,13 @@ ja:
       signout: :layouts.sub_toolbar.signout
 
   snippets:
+    create_file:
+      image: 画像
+      uploading: :layouts.buttons.file_submit.uploading
     create_snippet_btns:
-      file: ファイル
       header: 見出し
       subheader: 小見出し
       text: 文章
-    file_form:
-      cancel: :layouts.buttons.cancel.cancel
     form:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error
@@ -301,6 +301,8 @@ ja:
         enter_citation: PDFファイルからの引用文を入力
         remove: このノートからはがす
         transfer_to: '「%{note_title}」に移動'
+      pdf:
+        input_pdf_text: PDFファイルからは直接引用できません。「操作」ボタンから引用文を入力してください。
 
   stickies:
     edit:
