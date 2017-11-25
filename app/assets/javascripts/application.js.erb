@@ -21,6 +21,17 @@ $(document).ajaxSend(function (e, xhr, options) {
   xhr.setRequestHeader("X-CSRF-Token", token);
 });
 
+function fileSubmitStatus(fileCategory) {
+  $('#' + fileCategory + '-file-submit').change(function () {
+    $('#' + fileCategory + '-file-form').submit();
+    $('#' + fileCategory + '-file-submit-btn').css("display", "none")
+    $('#' + fileCategory + '-file-progress-btn').css("display", "block")
+  })
+  $('*').ajaxStop(function () {
+    $('#' + fileCategory + '-file-submit-btn').css("display", "block")
+    $('#' + fileCategory + '-file-progress-btn').css("display", "none")
+  });
+}
 function textHighlighter(mouseup_target, selection_target) {
   // mouseup_target: jQuery element to detect mouseup event
   mouseup_target.mouseup(function(evt) {

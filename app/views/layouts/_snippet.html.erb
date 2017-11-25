@@ -7,7 +7,6 @@
   <%= render(partial: 'snippets/edit', locals: {snippet: snippet, display_order: snippet.display_order_for(@note.id), note_id: @note.id}) %>
   <%= render(partial: 'snippets/create_snippet_btns', locals: {display_order: snippet.display_order_for(@note.id), note_id: @note.id}) %>
   <% when 'upload' %>
-  <%= render(partial: 'snippets/edit_file', locals: {snippet: snippet, display_order: snippet.display_order_for(@note.id), note_id: @note.id}) %>
   <%= render(partial: 'snippets/create_snippet_btns', locals: {display_order: snippet.display_order_for(@note.id), note_id: @note.id}) %>
   <% when 'web' %>
   <%= render(partial: 'snippets/edit_pdf', locals: {snippet: snippet}) if snippet.category == 'pdf' %>

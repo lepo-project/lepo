@@ -16,7 +16,7 @@
           <%= f.hidden_field :content_id, value: @content.id %>
           <%= f.hidden_field :display_order, value: @content.page_files.size+1 %>
 
-          <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'page', form_id: 'page-file-upload'} %>
+          <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'page'} %>
           <% end %>
           <ul style="padding: 1rem 0.5rem 0 1.5rem;">
             <li><%= t('.page_file_content_type') %></li>
@@ -38,7 +38,7 @@
           <%= form_for :asset_file, url: {action: :ajax_upload_asset_file, id: @content.id}, html: {id: 'asset-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
           <%#= f.error_messages %>
           <%= f.hidden_field :content_id, value: @content.id %>
-          <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'asset', form_id: 'asset-file-upload'} %>
+          <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'asset'} %>
           <% end %>
           <ul style="padding: 1rem 0.5rem 0 1.5rem;">
             <li><%= t('.asset_file_content_type') %></li>
@@ -60,7 +60,7 @@
           <%= form_for :attachment_file, url: {action: :ajax_upload_attachment_file, id: @content.id}, html: {id: 'attachment-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
           <%#= f.error_messages %>
           <%= f.hidden_field :content_id, value: @content.id %>
-          <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'attachment', form_id: 'attachment-file-upload'} %>
+          <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'attachment'} %>
           <% end %>
           <ul style="padding: 1rem 0.5rem 0 1.5rem;">
             <li><%= t('.attachment_file_content_type') %></li>
@@ -88,32 +88,8 @@
 <script>
 $(function () {
   sortPageFiles (<%= @content.id %>);
-
-  $('#page-file-upload').change(function () {
-    $('#page-file-form').submit();
-    $('#page-file-submit-btn').css("display", "none")
-    $('#page-file-progress-btn').css("display", "block")
-  })
-
-  $('#asset-file-upload').change(function () {
-    $('#asset-file-form').submit();
-    $('#asset-file-submit-btn').css("display", "none")
-    $('#asset-file-progress-btn').css("display", "block")
-  })
-
-  $('#attachment-file-upload').change(function () {
-    $('#attachment-file-form').submit();
-    $('#attachment-file-submit-btn').css("display", "none")
-    $('#attachment-file-progress-btn').css("display", "block")
-  })
-
-  $('*').ajaxStop(function () {
-    $('#page-file-submit-btn').css("display", "block")
-    $('#page-file-progress-btn').css("display", "none")
-    $('#asset-file-submit-btn').css("display", "block")
-    $('#asset-file-progress-btn').css("display", "none")
-    $('#attachment-file-submit-btn').css("display", "block")
-    $('#attachment-file-progress-btn').css("display", "none")
-  });
+  fileSubmitStatus("page");
+  fileSubmitStatus("asset");
+  fileSubmitStatus("attachment");
 });
 </script>

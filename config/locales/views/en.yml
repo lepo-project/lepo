@@ -275,13 +275,13 @@ en:
       signout: :layouts.sub_toolbar.signout
 
   snippets:
+    create_file:
+      image: Image
+      uploading: :layouts.buttons.file_submit.uploading
     create_snippet_btns:
-      file: File
       header: Header
       subheader: Subheader
       text: Text
-    file_form:
-      cancel: :layouts.buttons.cancel.cancel
     form:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error

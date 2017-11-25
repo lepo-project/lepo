@@ -5,6 +5,7 @@
 @import 'components/block';
 @import 'components/card';
 @import 'components/color';
+@import 'components/file_submit_btn';
 @import 'components/image';
 @import 'components/toolbar';
 @import 'components/versatile_cards';
@@ -199,9 +200,10 @@
   }
 
   #resource {
+    @include file-submit-btn;
+    @include image-80px;
     @include report-card;
     @include resources-card;
-    @include image-80px;
     background-color: #444;
     color: #fff;
     height: 100%;
@@ -333,34 +335,6 @@
             background-color: #999;
           }
         }
-      }
-    }
-    div.file-submit-button {
-      height: 48px;
-      overflow: hidden;
-      position: relative;
-      width: 180px;
-      button {
-        height: 100%;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        z-index: 1;
-        &.disabled {
-          display: none;
-        }
-      }
-      input#outcome-file-upload, input#page-file-upload, input#asset-file-upload, input#attachment-file-upload, input#snippet-file-upload {
-        cursor: pointer;
-        filter: alpha(opacity = 0);
-        font-size: 100px;
-        height: 100%;
-        -moz-opacity: 0;
-        opacity: 0;
-        position: absolute;
-        right: 0;
-        z-index: 20;
       }
     }
     .required {
