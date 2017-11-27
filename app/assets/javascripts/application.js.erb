@@ -201,14 +201,7 @@ function toggleUpdateSticky(sticky_id) {
   $("#update_sticky_" + sticky_id + ' #sticky_message').focus();
 }
 
-function toggleCreateSnippetBtns(display_order) {
-  $("#create-file-btn-" + display_order).toggle();
-  $("#create-text-btn-" + display_order).toggle();
-  $("#create-header-btn-" + display_order).toggle();
-  $("#create-subheader-btn-" + display_order).toggle();
-}
 function toggleCreateSnippet(display_order, category) {
-  toggleCreateSnippetBtns(display_order)
   $("#create-" + category + "-form-" + display_order).toggle();
   $("#create-" + category + "-form-" + display_order + " #snippet_description").focus();
 }

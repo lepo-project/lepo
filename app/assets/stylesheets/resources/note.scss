@@ -27,6 +27,9 @@
   .create-snippet-btn {
     margin-left: 12px;
     width: 100px;
+    &:hover {
+      color: #000;
+    }
   }
   .operation-direct {
     clear: both;

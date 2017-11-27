@@ -105,13 +105,12 @@ class SnippetsController < ApplicationController
     snippet = Snippet.find(params[:id])
 
     snippet.update_attributes(snippet_params)
+    @notes = current_user.open_notes
     if params[:note_id]
       # snippet inside the note
-      @notes = current_user.open_notes
       render_snippet params[:note_id], snippet
     else
       # snippet outside the note
-      @notes = current_user.open_notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
       render 'layouts/renders/resource', locals: { resource: 'notes/index' }
     end
