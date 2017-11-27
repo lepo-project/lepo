@@ -5,7 +5,7 @@ class SnippetsController < ApplicationController
   # Public Functions
   # ====================================================================
   def ajax_create
-    @notes = current_user.notes
+    @notes = current_user.open_notes
     note_id = params[:note_id].to_i
 
     @snippet = Snippet.new(manager_id: session[:id], category: params[:category], description: params[:snippet][:description], source_type: 'direct')
@@ -23,7 +23,7 @@ class SnippetsController < ApplicationController
   def ajax_destroy
     snippet = Snippet.find(params[:id])
     return unless snippet.deletable? session[:id]
-    @notes = current_user.notes
+    @notes = current_user.open_notes
     note_id = params[:note_id].to_i if params[:note_id]
     snippet.destroy
 
@@ -53,7 +53,7 @@ class SnippetsController < ApplicationController
     if snippet.transferable? session[:id], to_note_id
       if to_note_id
         display_order = NoteIndex.where(note_id: to_note_id).count + 1
-        @notes = current_user.notes
+        @notes = current_user.open_notes
         if from_note_id
           ni = NoteIndex.find_by(note_id: from_note_id, item_id: snippet.id, item_type: 'Snippet')
           ni.update_attributes(note_id: to_note_id, display_order: display_order)
@@ -71,14 +71,14 @@ class SnippetsController < ApplicationController
         ni.destroy
         @note = Note.find from_note_id
         @note.align_display_order
-        @notes = current_user.notes
+        @notes = current_user.open_notes
         @note_items = @note.note_indices
         render 'layouts/renders/resource', locals: { resource: 'notes/show' }
       end
     else
       flash[:message] = t('controllers.snippets.transfer_error')
       flash[:message_category] = 'error'
-      @notes = current_user.notes
+      @notes = current_user.open_notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
       render 'layouts/renders/resource', locals: { resource: 'notes/index' }
     end
@@ -107,17 +107,18 @@ class SnippetsController < ApplicationController
     snippet.update_attributes(snippet_params)
     if params[:note_id]
       # snippet inside the note
+      @notes = current_user.open_notes
       render_snippet params[:note_id], snippet
     else
       # snippet outside the note
-      @notes = current_user.notes
+      @notes = current_user.open_notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
       render 'layouts/renders/resource', locals: { resource: 'notes/index' }
     end
   end
 
   def ajax_upload
-    @notes = current_user.notes
+    @notes = current_user.open_notes
     note_id = params[:note_id].to_i
 
     @snippet = Snippet.new(manager_id: session[:id], category: 'image', source_type: 'upload')

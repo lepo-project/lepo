@@ -71,12 +71,14 @@ class Snippet < ApplicationRecord
       # snippet manager: from note to nil
       return true unless to_note_id
       # snippet manager: from note to note
-      return note_indices[0].note_id != to_note_id
+      to_note_category = Note.find_by(id: to_note_id).category
+      return (note_indices[0].note_id != to_note_id) && (to_note_category != 'lesson')
     when 0
       # snippet manager: from nil to nil
       return false unless to_note_id
       # snippet manager: from nil to note
-      Note.find_by(id: to_note_id).manager_id == user_id
+      to_note = Note.find_by(id: to_note_id)
+      (to_note.manager_id == user_id) && (to_note.category != 'lesson')
     end
   end
 

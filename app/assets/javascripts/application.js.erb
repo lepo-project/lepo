@@ -32,17 +32,6 @@ function fileSubmitStatus(fileCategory) {
     $('#' + fileCategory + '-file-progress-btn').css("display", "none")
   });
 }
-function textHighlighter(mouseup_target, selection_target) {
-  // mouseup_target: jQuery element to detect mouseup event
-  mouseup_target.mouseup(function(evt) {
-    // selection_target: document element for text selection
-    var selected_text = selection_target.getSelection().toString();
-    if (selected_text.length > 0) {
-      // jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/?description=" + selected_text});
-      jQuery.ajax({type:"post", url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/", data:{'description':selected_text}});
-    };
-  });
-}
 
 function keyBinder(target_doc) {
   // target_doc may be document or iframe's document
@@ -79,6 +68,17 @@ function keyBinder(target_doc) {
       }
       return false;
     });
+  });
+}
+
+function textHighlighter(mouseup_target, selection_target) {
+  // mouseup_target: jQuery element to detect mouseup event
+  mouseup_target.mouseup(function(evt) {
+    // selection_target: document element for text selection
+    var selected_text = selection_target.getSelection().toString();
+    if (selected_text.length > 0) {
+      jQuery.ajax({type:"post", url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/", data:{'description':selected_text}});
+    };
   });
 }
 
