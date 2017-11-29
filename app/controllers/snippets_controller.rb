@@ -35,12 +35,21 @@ class SnippetsController < ApplicationController
     end
   end
 
+  def ajax_move
+    snippet_ni = NoteIndex.find_by(item_id: params[:id], item_type: 'Snippet', note_id: params[:note_id])
+    header_ni = NoteIndex.find_by(id: params[:header_item_id])
+    snippet_ni.update_attributes(display_order: header_ni.display_order) if snippet_ni && header_ni
+    @notes = current_user.open_notes
+    render_snippets params[:note_id]
+  end
+
   def ajax_sort
     @note = Note.find params[:note_id].to_i
     params[:item].each_with_index do |id, i|
       ni = NoteIndex.find_by(id: id)
       ni.update_attributes(display_order: i + 1) if ni
     end
+    @notes = current_user.open_notes
     @note_items = @note.note_indices
     render 'snippets/renders/snippets'
   end

@@ -296,11 +296,12 @@ en:
         delete: :layouts.buttons.delete.delete
         edit: :layouts.buttons.edit.edit
       operations_web:
-        cited_date: :snippets.items.operations_page_file.cited_date
+        cited_at: 'Cited at %{datetime}'
         delete: :layouts.buttons.delete.delete
         enter_citation: Enter citation text from PDF file
-        remove: Remove from this note
-        transfer_to: 'Transfer to "%{note_title}"'
+        move_to: 'Move under "%{title}"'
+        remove: Transfer this out of note
+        transfer_to: 'Transfer this to "%{note_title}"'
       pdf:
         input_pdf_text: You can not cite directly from PDF file. Please enter the cited text from "Operations" button.
 
