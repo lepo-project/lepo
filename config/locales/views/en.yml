@@ -212,10 +212,12 @@ en:
     show:
       accessed: "accessed %{date}"
       references: References
-    toolbar:
-      export: Export to text
-      group: :course_members.index.group
-      preferences: :helpers.preferences
+    toolbars:
+      courses:
+        group: :course_members.index.group
+      home:
+        export: Export to text
+        reload: Reload note
 
   outcomes:
     evaluator:

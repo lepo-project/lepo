@@ -212,10 +212,12 @@ ja:
     show:
       accessed: "%{date} 閲覧"
       references: 参考資料
-    toolbar:
-      export: 文章を出力
-      group: :course_members.index.group
-      preferences: :helpers.preferences
+    toolbars:
+      courses:
+        group: :course_members.index.group
+      home:
+        export: 文章を出力
+        reload: ノートを再読み込み
 
   outcomes:
     evaluator:

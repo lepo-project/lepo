@@ -1,0 +1,58 @@
+<% action = controller.action_name %>
+<% if action == 'ajax_new' %>
+<div id="toolbar-btns">
+  <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_index', nav_section: 'home'}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
+  <%= render partial: 'layouts/buttons/toolbar_create', locals: {onclick_txt: "$('#note_form').submit()"} %>
+</div>
+
+<% elsif (action == 'ajax_edit') || ((action == 'ajax_destroy') && !@note.destroyed?) %>
+<div id="toolbar-btns">
+  <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_show', id: @note.id}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
+  <%= render partial: 'layouts/buttons/toolbar_update', locals: {onclick_txt: "$('#note_form').submit()"} %>
+</div>
+
+<% elsif (action == 'ajax_index') || (action == 'ajax_destroy') %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
+</nav>
+<div id="toolbar-btns">
+  <% if current_user.work_sheet_manageable? %>
+  <div class="btn-group">
+    <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class='fa fa-plus'></i> <%= t('activerecord.models.note') %></a>
+    <div class="dropdown-menu">
+      <%= link_to({action: 'ajax_new', category: 'private'}, {class: 'dropdown-item', remote: true}) do %>
+      <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.private') %>
+      <% end %>
+      <%= link_to({action: 'ajax_new', category: 'work'}, {class: 'dropdown-item', remote: true}) do %>
+      <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.work') %>
+      <% end %>
+    </div>
+  </div>
+  <% else %>
+  <%= link_to({action: 'ajax_new', category: 'private'}, {class: 'toolbar-btn', remote: true}) do %>
+  <i class='fa fa-plus'></i> <%= t('activerecord.others.note.category.private') %>
+  <% end %>
+  <% end %>
+</div>
+
+<% else %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section]}], [@note.title]]} %>
+</nav>
+<% if (@note.manager? session[:id]) && @note.category != 'lesson' %>
+<div id="toolbar-btns">
+  <div class="btn-group">
+    <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class="fa fa-cog"></i></a>
+    <div class="dropdown-menu">
+      <%= link_to({controller: 'notes', action: 'ajax_show', id: @note.id}, {class: 'dropdown-item', remote: true}) do %>
+      <i class="fa fa-repeat"></i> <%= t('.reload') %>
+      <% end %>
+      <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_edit', id: @note.id}, id_attr: 'toolbar-edit-btn'} %>
+      <%= link_to({controller: 'notes', action: 'export_html', id: @note.id}, {class: 'dropdown-item', target: '_blank'}) do %>
+      <i class="fa fa-share"></i> <%= t('.export') %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<% end %>
+<% end %>
