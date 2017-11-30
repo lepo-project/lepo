@@ -301,9 +301,9 @@ ja:
         cited_at: '%{datetime} 引用'
         delete: :layouts.buttons.delete.delete
         enter_citation: PDFファイルからの引用文を入力
-        move_to: '"%{title}"の下に移動'
+        move_to: '%{title} の下に移動'
         remove: ノートの外に移動
-        transfer_to: '"%{note_title}"に移動'
+        transfer_to: '%{note_title}に移動'
       pdf:
         input_pdf_text: PDFファイルからは直接引用できません。「操作」ボタンから引用文を入力してください。
 

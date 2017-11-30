@@ -301,9 +301,9 @@ en:
         cited_at: 'Cited at %{datetime}'
         delete: :layouts.buttons.delete.delete
         enter_citation: Enter citation text from PDF file
-        move_to: 'Move under "%{title}"'
+        move_to: 'Move under %{title}'
         remove: Transfer this out of note
-        transfer_to: 'Transfer this to "%{note_title}"'
+        transfer_to: 'Transfer this to %{note_title}'
       pdf:
         input_pdf_text: You can not cite directly from PDF file. Please enter the cited text from "Operations" button.
 
