@@ -33,10 +33,10 @@
 
   <div class="card-footer">
     <div class="align-left" title="<%= t('helpers.char_count') %>">
-      <i class='fa fa-font fa-lg'></i><%= @note.snippets_char_count('all') %> <%= t('.characters') %><span title="<%= t('.written_char_count') %>">（<i class='fa fa-user fa-lg'></i><%= @note.snippets_char_count('direct') %> <%= t('.characters') %>）</span>
+      <i class='fa fa-font fa-lg'></i><%= @note.snippets_char_count('all') %> <span title="<%= t('.written_char_count') %>">(<i class='fa fa-user fa-lg'></i><%= @note.snippets_char_count('direct') %>)</span> <%= t('.characters') %>
     </div>
     <div class="align-left" title="<%= t('.media_count') %>">
-      <i class='fa fa-picture-o fa-lg'></i><%= @note.snippets_media_count "all" %> <%= t('.pieces') %><span title="<%= t('.uploaded_media_count') %>">（<i class='fa fa-user fa-lg'></i><%= @note.snippets_media_count "upload" %> <%= t('.pieces') %>）</span>
+      <i class='fa fa-picture-o fa-lg'></i><%= @note.snippets_media_count "all" %> <span title="<%= t('.uploaded_media_count') %>"> (<i class='fa fa-user fa-lg'></i><%= @note.snippets_media_count "upload" %>)</span> <%= t('.pieces') %>
     </div>
     <div class="align-left" title="<%= t('.referenced_web_count') %>">
       <i class='fa fa-globe fa-lg'></i><%= @note.reference_ids.size %> <%= t('.pages') %>

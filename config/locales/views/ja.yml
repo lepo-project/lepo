@@ -201,11 +201,11 @@ ja:
       no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
       snippet_transfer: 引用した情報はドラッグ＆ドロップ、またはメニュー「操作」からノートに移動して下さい
     subtitle:
-      default: 標準
       private: :activerecord.others.note.category.private
       lesson: :activerecord.others.note.category.lesson
       work: :activerecord.others.note.category.work
     note:
+      default: 標準
       media_count: :notes.header.media_count
       star_count: :notes.header.star_count
       sticky_count: ふせんの数

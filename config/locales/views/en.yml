@@ -201,11 +201,11 @@ en:
       no_snippets: Currently no snippets
       snippet_transfer: Please transfer the citation to the note by drag and drop or select the item in "Operation"
     subtitle:
-      default: Default
       private: :activerecord.others.note.category.private
       lesson: :activerecord.others.note.category.lesson
       work: :activerecord.others.note.category.work
     note:
+      default: Default
       media_count: :notes.header.media_count
       star_count: :notes.header.star_count
       sticky_count: sticky count
