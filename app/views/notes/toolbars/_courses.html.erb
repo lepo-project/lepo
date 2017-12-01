@@ -1,0 +1,33 @@
+<% case action_name when 'ajax_index' %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
+</nav>
+
+<% when 'ajax_index_in_group' %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [t('.group', index: @group_index + 1)]]} %>
+</nav>
+
+<% when 'ajax_show', 'ajax_show_from_others' %>
+<% if @course.groups_count == 1 %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [@note.title]]} %>
+</nav>
+
+<% else %>
+<% gid = @course.group_index_for @note.manager_id %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [t('.group', index: gid + 1), {action: 'ajax_index_in_group', group_index: gid}], [@note.title]]} %>
+</nav>
+<% end %>
+<% if @note.category == 'work' && @note.status='original_ws' %>
+<div id="toolbar-btns">
+  <div class="btn-group">
+    <div id="sticky-toolbar">
+      <% url_hash = {action: 'ajax_arrange_sticky_panel', target_type: 'Note', target_id:  @sticky.target_id, sticky_panel: 'show'} %>
+      <%= render partial: 'stickies/toolbar', locals: {stickies: @stickies, url_hash: url_hash} %>
+    </div>
+  </div>
+</div>
+<% end %>
+<% end %>

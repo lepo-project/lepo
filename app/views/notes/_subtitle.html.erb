@@ -1,6 +1,5 @@
 <div class="card-subtitle text-right text-muted">
-  <%= raw("<span class='badge badge-primary'>#{t('.default')} </span> ") if note.id == current_user.default_note_id %>
   <%= raw("<i class='fa fa-lock'></i> ") if !note.review_or_open? %>
   <%= t(".#{note.category}") %>
-  <%= ' / ' + get_short_string(note.course.title, char_limit) if note.course && controller_name == 'snippets' %>
+  <%= ' / ' + get_short_string(note.course.title, char_limit) if note.course && session[:nav_section] == 'home' %>
 </div>

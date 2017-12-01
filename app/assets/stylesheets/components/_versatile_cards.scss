@@ -392,6 +392,13 @@
       background-color: #d0ddee;
       border-color: $toolbar-hover-color;
     }
+    .card-footer {
+      align-items: center;
+      display: flex;
+      min-height: 2.25rem;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
   }
 }
 
@@ -459,7 +466,7 @@
     .card-footer {
       display: flex;
       div.align-left {
-        margin-right: 1rem;
+        margin-right: 1.5rem;
       }
       div.align-right {
         margin-left: auto;

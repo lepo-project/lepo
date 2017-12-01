@@ -31,7 +31,7 @@ class NotesController < ApplicationController
     @note = Note.find note_id
     case session[:nav_section]
     when 'home'
-      @notes = current_user.notes
+      @notes = current_user.open_notes
       @note_items = @note.note_indices
     when 'open_courses', 'repository'
       course_id = session[:nav_id].to_i
@@ -76,11 +76,11 @@ class NotesController < ApplicationController
     if @note.deletable? session[:id]
       @note.destroy
       current_user.update_attributes(default_note_id: 0) if current_user.default_note_id == params[:id].to_i
-      @notes = current_user.notes
+      @notes = current_user.open_notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
       render 'layouts/renders/all', locals: { resource: 'index' }
     else
-      @notes = current_user.notes
+      @notes = current_user.open_notes
       @snippets = @note.snippets
       flash[:message] = '切り抜き または コースふせんのあるノートは削除できません'
       render 'layouts/renders/main_pane', locals: { resource: 'edit' }
@@ -88,7 +88,7 @@ class NotesController < ApplicationController
   end
 
   def ajax_edit
-    @notes = current_user.notes
+    @notes = current_user.open_notes
     @note = Note.find params[:id]
     @note_items = @note.note_indices
     render 'layouts/renders/main_pane', locals: { resource: 'edit' }

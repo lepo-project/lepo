@@ -1,2 +1,4 @@
-<h3><%= @subheader_title %></h3>
-<%= render(partial: 'snippets/items/operations_direct', locals: {snippet: snippet})  if editable_snippet %>
+<div class="snippet-direct">
+  <h3><%= @subheader_title %></h3>
+  <%= render(partial: 'snippets/items/operations_direct', locals: {snippet: snippet})  if editable_snippet %>
+</div>

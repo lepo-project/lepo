@@ -201,21 +201,23 @@ en:
       no_snippets: Currently no snippets
       snippet_transfer: Please transfer the citation to the note by drag and drop or select the item in "Operation"
     subtitle:
-      default: Default
       private: :activerecord.others.note.category.private
       lesson: :activerecord.others.note.category.lesson
       work: :activerecord.others.note.category.work
     note:
+      default: Default
       media_count: :notes.header.media_count
       star_count: :notes.header.star_count
       sticky_count: sticky count
     show:
       accessed: "accessed %{date}"
       references: References
-    toolbar:
-      export: Export to text
-      group: :course_members.index.group
-      preferences: :helpers.preferences
+    toolbars:
+      courses:
+        group: :course_members.index.group
+      home:
+        export: Export to text
+        reload: Reload note
 
   outcomes:
     evaluator:
@@ -296,11 +298,12 @@ en:
         delete: :layouts.buttons.delete.delete
         edit: :layouts.buttons.edit.edit
       operations_web:
-        cited_date: :snippets.items.operations_page_file.cited_date
+        cited_at: 'Cited at %{datetime}'
         delete: :layouts.buttons.delete.delete
         enter_citation: Enter citation text from PDF file
-        remove: Remove from this note
-        transfer_to: 'Transfer to "%{note_title}"'
+        move_to: 'Move under %{title}'
+        remove: Transfer this out of note
+        transfer_to: 'Transfer this to %{note_title}'
       pdf:
         input_pdf_text: You can not cite directly from PDF file. Please enter the cited text from "Operations" button.
 

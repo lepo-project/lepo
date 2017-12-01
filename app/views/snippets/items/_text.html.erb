@@ -1,10 +1,10 @@
 <% case snippet.source_type when 'direct' %>
 <div class="snippet-direct">
-  <div class="body">
+  <div class="body" style="margin: 0.5rem 0;">
     <% add_br_body = add_br snippet.description %>
     <%= auto_link(sanitize(add_br_body), html: { class: 'bright-link', target: '_blank' }) %>
-    <%= render(partial: 'snippets/items/operations_direct', locals: {snippet: snippet}) if editable_snippet %>
   </div>
+  <%= render(partial: 'snippets/items/operations_direct', locals: {snippet: snippet}) if editable_snippet %>
 </div>
 
 <% when 'page_file' %>

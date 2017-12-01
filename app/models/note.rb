@@ -57,12 +57,8 @@ class Note < ApplicationRecord
   # For the mutual review of notes by anonymously
   def anonymous?(user_id)
     return false if manager_id == user_id
-    if category == 'work' && status == 'original_ws'
-      original_ws = Note.find_by(id: original_ws_id)
-      (original_ws.status == 'review')
-    else
-      false
-    end
+    return (original_ws.status == 'review') if original_ws
+    false
   end
 
   def archived?
@@ -73,12 +69,7 @@ class Note < ApplicationRecord
     when 'private'
       (status == 'archived')
     when 'work'
-      if status == 'original_ws'
-        original_ws = Note.find_by(id: original_ws_id)
-        (original_ws.status == 'archived')
-      else
-        (status == 'archived')
-      end
+      status == 'original_ws' ? (original_ws.status == 'archived') : (status == 'archived')
     end
   end
 
@@ -143,15 +134,15 @@ class Note < ApplicationRecord
   def open?
     case category
     when 'work'
-      if status == 'original_ws'
-        original_ws = Note.find_by(id: original_ws_id)
-        (original_ws.status == 'open')
-      else
-        (status == 'open')
-      end
+      status == 'original_ws' ? (original_ws.status == 'open') : (status == 'open')
     else
       false
     end
+  end
+
+  def original_ws
+    return nil unless category == 'work' && status == 'original_ws'
+    Note.find_by(id: original_ws_id)
   end
 
   def reference_ids
@@ -175,7 +166,6 @@ class Note < ApplicationRecord
     case category
     when 'work'
       if status == 'original_ws'
-        original_ws = Note.find_by(id: original_ws_id)
         (original_ws.status == 'review') || (original_ws.status == 'open')
       else
         (status == 'review') || (status == 'open')
@@ -188,12 +178,7 @@ class Note < ApplicationRecord
   def review?
     case category
     when 'work'
-      if status == 'original_ws'
-        original_ws = Note.find(original_ws_id)
-        (original_ws.status == 'review')
-      else
-        (status == 'review')
-      end
+      status == 'original_ws' ? (original_ws.status == 'review') : (status == 'review')
     else
       false
     end
@@ -232,33 +217,30 @@ class Note < ApplicationRecord
   def status_updatable?(update_status, user_id)
     return true if status == update_status
     case category
+    when 'lesson'
+      return false
     when 'private'
       case update_status
       when 'draft'
-        true
+        return true
       when 'archived'
-        !new_record?
-      else
-        false
+        return !new_record?
       end
     when 'work'
       course = Course.find_by(id: course_id)
       return false if !course || !course.staff?(user_id)
       case update_status
       when 'draft'
-        new_record? || Note.where(original_ws_id: id).empty?
+        return new_record? || Note.where(original_ws_id: id).empty?
       when 'distributed_draft'
-        !new_record? && course.original_work_sheets.empty?
+        return !new_record? && course.original_work_sheets.empty?
       when 'review', 'open'
-        Note.where(original_ws_id: id).any? && course.original_work_sheets.size == 1
+        return Note.where(original_ws_id: id).any? && course.original_work_sheets.size == 1
       when 'archived'
-        !new_record?
-      else
-        false
+        return !new_record?
       end
-    else
-      false
     end
+    false
   end
 
   def update_items(open_lessons)

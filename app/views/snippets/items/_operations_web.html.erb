@@ -1,18 +1,29 @@
 <div id="snippet-<%= snippet.id %>-operations" class="collapse operation-list">
-  <div class="operation-header"><%= t('.cited_date') %> : <%= l(snippet.created_at, format: :default) %></div>
+  <div class="operation-header"><%= t('.cited_at', datetime: l(snippet.created_at, format: :default)) %></div>
   <ul class="fa-ul">
+    <!-- Input text for PDF file-->
     <% if snippet.category == 'pdf' %>
     <li><a id="update-pdf-snippet-btn-<%= snippet.id %>" style="cursor:pointer;"><i class='fa fa-li fa-pencil'></i> <%= t('.enter_citation') %></a></li>
     <% end %>
+    <!-- Move snippet under certain header -->
+    <% NoteIndex.headers(@note_items).each_with_index do |header, i| %>
+    <% link_hash = {controller: :snippets, action: 'ajax_move', id: snippet.id, header_item_id: header[:id], note_id: @note.id} %>
+    <% header_title = t('.move_to', title: (i + 1).to_s + '. ' + header[:title]) %>
+    <li><%= link_to(raw("<i class='fa-li fa fa-arrows-v'></i>") + header_title, link_hash, {remote: true}) %></li>
+    <% end %>
+    <div class="dropdown-divider"></div>
+    <!-- Transfer snippet to different note -->
     <% @notes.each do |note| %>
     <% if snippet.transferable? session[:id], note.id %>
     <% link_hash = @note ? {controller: :snippets, action: 'ajax_transfer', id: snippet.id, to_note_id: note.id, from_note_id: @note.id} : {controller: :snippets, action: 'ajax_transfer', id: snippet.id, to_note_id: note.id} %>
     <li><%= link_to(raw("<i class='fa-li fa fa-file-text-o'></i>") + t('.transfer_to', note_title: note.title), link_hash, {remote: true}) %></li>
     <% end %>
     <% end %>
+    <!-- Transfer snippet out of note -->
     <% if snippet.transferable? session[:id] %>
     <li><%= link_to(raw("<i class='fa-li fa fa-file-text'></i>") + t('.remove'), {controller: :snippets, action: 'ajax_transfer', id: snippet.id, from_note_id: @note.id}, {remote: true}) %></li>
     <% end %>
+    <!-- Delete snippet -->
     <% link_hash = @note ? {controller: :snippets, action: 'ajax_destroy', id: snippet.id, note_id: @note.id} : {controller: :snippets, action: 'ajax_destroy', id: snippet.id} %>
     <li><%= link_to(raw("<i class='fa-li fa fa-trash-o'></i>") + t('.delete'), link_hash, {remote: true}) %></li>
   </ul>

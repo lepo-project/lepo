@@ -5,7 +5,7 @@ class SnippetsController < ApplicationController
   # Public Functions
   # ====================================================================
   def ajax_create
-    @notes = current_user.notes
+    @notes = current_user.open_notes
     note_id = params[:note_id].to_i
 
     @snippet = Snippet.new(manager_id: session[:id], category: params[:category], description: params[:snippet][:description], source_type: 'direct')
@@ -23,7 +23,7 @@ class SnippetsController < ApplicationController
   def ajax_destroy
     snippet = Snippet.find(params[:id])
     return unless snippet.deletable? session[:id]
-    @notes = current_user.notes
+    @notes = current_user.open_notes
     note_id = params[:note_id].to_i if params[:note_id]
     snippet.destroy
 
@@ -35,12 +35,21 @@ class SnippetsController < ApplicationController
     end
   end
 
+  def ajax_move
+    snippet_ni = NoteIndex.find_by(item_id: params[:id], item_type: 'Snippet', note_id: params[:note_id])
+    header_ni = NoteIndex.find_by(id: params[:header_item_id])
+    snippet_ni.update_attributes(display_order: header_ni.display_order) if snippet_ni && header_ni
+    @notes = current_user.open_notes
+    render_snippets params[:note_id]
+  end
+
   def ajax_sort
     @note = Note.find params[:note_id].to_i
     params[:item].each_with_index do |id, i|
       ni = NoteIndex.find_by(id: id)
       ni.update_attributes(display_order: i + 1) if ni
     end
+    @notes = current_user.open_notes
     @note_items = @note.note_indices
     render 'snippets/renders/snippets'
   end
@@ -53,7 +62,7 @@ class SnippetsController < ApplicationController
     if snippet.transferable? session[:id], to_note_id
       if to_note_id
         display_order = NoteIndex.where(note_id: to_note_id).count + 1
-        @notes = current_user.notes
+        @notes = current_user.open_notes
         if from_note_id
           ni = NoteIndex.find_by(note_id: from_note_id, item_id: snippet.id, item_type: 'Snippet')
           ni.update_attributes(note_id: to_note_id, display_order: display_order)
@@ -71,14 +80,14 @@ class SnippetsController < ApplicationController
         ni.destroy
         @note = Note.find from_note_id
         @note.align_display_order
-        @notes = current_user.notes
+        @notes = current_user.open_notes
         @note_items = @note.note_indices
         render 'layouts/renders/resource', locals: { resource: 'notes/show' }
       end
     else
       flash[:message] = t('controllers.snippets.transfer_error')
       flash[:message_category] = 'error'
-      @notes = current_user.notes
+      @notes = current_user.open_notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
       render 'layouts/renders/resource', locals: { resource: 'notes/index' }
     end
@@ -97,6 +106,14 @@ class SnippetsController < ApplicationController
       # max character length for user text form is USER_TEXT_LENGTH
       params[:snippet][:description] = params[:snippet][:description][0, USER_TEXT_LENGTH]
       snippet.update_attributes(snippet_params)
+
+      if %w[header subheader].include? snippet.category
+        note = Note.find params[:note_id]
+        note_indices = note.note_indices
+        note_index = note_indices.find_by(item_id: snippet.id, item_type: 'Snippet')
+        @header_title = note_index.header_title(note_indices) if snippet.category == 'header'
+        @subheader_title = note_index.subheader_title(note_indices) if snippet.category == 'subheader'
+      end
       render_snippet params[:note_id], snippet
     end
   end
@@ -105,19 +122,19 @@ class SnippetsController < ApplicationController
     snippet = Snippet.find(params[:id])
 
     snippet.update_attributes(snippet_params)
+    @notes = current_user.open_notes
     if params[:note_id]
       # snippet inside the note
       render_snippet params[:note_id], snippet
     else
       # snippet outside the note
-      @notes = current_user.notes
       @snippets = Snippet.web_snippets_without_note_by session[:id]
       render 'layouts/renders/resource', locals: { resource: 'notes/index' }
     end
   end
 
   def ajax_upload
-    @notes = current_user.notes
+    @notes = current_user.open_notes
     note_id = params[:note_id].to_i
 
     @snippet = Snippet.new(manager_id: session[:id], category: 'image', source_type: 'upload')

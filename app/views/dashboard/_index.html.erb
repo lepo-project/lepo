@@ -1,12 +1,10 @@
 <div id="dashboard-resource" class="scroll-pane">
   <div class="row">
-    <% if @cards.size == 0 %>
-    <div class="col-md-12">
+    <div class="col-md-12 block">
+      <% if @cards.size == 0 %>
       <%= render partial: 'layouts/system_message', locals: {message: t('.no_dashboard_resources'), message_category: 'info'} %>
-    </div>
-    <% else %>
-    <% @cards.each do |card| %>
-    <div class="col-md-6">
+      <% else %>
+      <% @cards.each do |card| %>
       <div class="card">
         <h2 class="card-header"><%= card[:header] %></h2>
         <div class="card-body">
@@ -30,8 +28,8 @@
           <% end %>
         </ul>
       </div>
+      <% end %>
+      <% end %>
     </div>
-    <% end %>
-    <% end %>
   </div>
 </div>

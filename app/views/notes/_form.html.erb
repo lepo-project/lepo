@@ -29,6 +29,10 @@
 <div class="form-group row">
   <%= f.label :status, class: 'col-md-2 col-form-label text-sm-right' %>
   <div class="col-md-10">
+    <% if @note.status == 'original_ws' %>
+    <%= f.label t("activerecord.others.note.status.#{@note.original_ws.status}"), class: 'col-form-label' %>
+    <%= f.hidden_field(:status, value: 'original_ws') %>
+    <% else %>
     <div class="btn-group" data-toggle="buttons">
       <% note_status_candidates(@note).each do |item| %>
       <label class="btn btn-light <%= 'active' if item[0] == @note.status %> <%= 'disabled' if item[2] %>" value="<%= item[0] %>">
@@ -46,6 +50,7 @@
       <% end %>
     </ul>
     <% end %>
+    <% end %>
   </div>
 </div>
 
@@ -57,7 +62,7 @@
     <%= f.select :course_id, note_course_candidates, {}, {class: 'form-control'} %>
     <% else %>
     <%= f.label @note.course.title, class: 'col-form-label' %>
-    <%= f.hidden_field :course_id, value: @note.course_id %>
+    <%= f.hidden_field(:course_id, value: @note.course_id) unless @note.status == 'original_ws' %>
     <% end %>
   </div>
 </div>

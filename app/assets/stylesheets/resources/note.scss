@@ -27,12 +27,15 @@
   .create-snippet-btn {
     margin-left: 12px;
     width: 100px;
+    &:hover {
+      color: #000;
+    }
   }
   .operation-direct {
     clear: both;
     height: 20px;
     a {
-      color: #999;
+      color: #aaa;
       display: block;
       float: right;
       font-size: 12pt;

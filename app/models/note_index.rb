@@ -24,6 +24,7 @@ class NoteIndex < ApplicationRecord
   # Public Functions
   # ====================================================================
   def self.headers(items)
+    return [] unless items
     header_items = items.select { |i| (i.item_type == 'Content') || (i.item_type == 'Snippet' && i.item.category == 'header') }
     headers = []
     header_items.each do |note_item|

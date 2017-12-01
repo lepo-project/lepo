@@ -60,6 +60,11 @@
       <i class='fa fa-star fa-lg'></i><%= note.stars_count %>
     </div>
     <% end %>
+    <% if note.id == current_user.default_note_id %>
+    <div class="align-right" style="font-size: large;">
+      <span class='badge badge-primary'><%= t('.default') %></span>
+    </div>
+    <% end %>
   </div>
 
 </div>

@@ -1,5 +1,6 @@
+<% learners = @course.learners_in_group group_index %>
+<% unless learners.size.zero? %>
 <div class="group-card card">
-  <% learners = @course.learners_in_group group_index %>
   <h2 class="card-header" style="margin-bottom:0;">
     <%= t('.group', index: group_index + 1) %> : <%= t('.users', num: learners.size) %>
   </h2>
@@ -13,3 +14,4 @@
     <% end %>
   </ul>
 </div>
+<% end %>
