@@ -10,17 +10,17 @@ document.getElementById('page-frame').onload = function(e){
 	this.style.opacity = 1;
 	// Make keyBinder to work even when clicking the content in the iframe
 	keyBinder($(this.contentWindow));
-	textHighlighter($(this.contentWindow), this.contentWindow);
+	addHighlight($(this.contentWindow), this.contentWindow, "<%= Rails.application.config.relative_url_root %>");
 
 	<% case pg['file_type'] when 'pdf' %>
 	this.contentDocument.addEventListener('textlayerrendered', function (e) {
 		<% current_user.highlight_texts(pg['file_id']).each do |text| %>
-		startHighlight(this, 'textLayer', "<%= text %>");
+		showHighlight(this, 'textLayer', "<%= text %>");
 		<% end %>
 	}, true);
 	<% when 'html' %>
 	<% current_user.highlight_texts(pg['file_id']).each do |text| %>
-	startHighlight(this.contentDocument, '', "<%= text %>");
+	showHighlight(this.contentDocument, '', "<%= text %>");
 	<% end %>
 	<% end %>
 };

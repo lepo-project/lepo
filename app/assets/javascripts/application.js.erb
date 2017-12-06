@@ -70,17 +70,6 @@ function keyBinder(target_doc) {
   });
 }
 
-function textHighlighter(mouseup_target, selection_target) {
-  // mouseup_target: jQuery element to detect mouseup event
-  mouseup_target.mouseup(function(evt) {
-    // selection_target: document element for text selection
-    var selected_text = selection_target.getSelection().toString();
-    if (selected_text.length > 0) {
-      jQuery.ajax({type:"post", url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/", data:{'description':selected_text}});
-    };
-  });
-}
-
 // sub-pane
 function closeSubPane() {
   if ( !window.matchMedia('(min-width:768px)').matches ) {

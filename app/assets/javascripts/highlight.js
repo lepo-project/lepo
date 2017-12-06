@@ -1,4 +1,16 @@
-function startHighlight(targetDocument, targetClass, highlightText) {
+function addHighlight(mouseup_target, selection_target, relative_url_root) {
+  // mouseup_target: jQuery element to detect mouseup event
+  mouseup_target.mouseup(function(evt) {
+    // selection_target: document element for text selection
+    var selected_text = selection_target.getSelection().toString();
+    if (selected_text.length > 0) {
+      jQuery.ajax({type: "post", url: relative_url_root + "/courses/ajax_create_snippet/", data:{'description': selected_text}});
+    };
+  });
+}
+
+
+function showHighlight(targetDocument, targetClass, highlightText) {
   var documentText = "";   // Full text of target document
   var textNodes = [];  // Array to store text nodes
   var textAccumLengths = [];   // Array to store accumulate character lengths for text node
@@ -12,10 +24,10 @@ function startHighlight(targetDocument, targetClass, highlightText) {
     textAccumLengths = [];
     if (targetClass === "") {
       // For HTML
-      var walker = targetDocument.createTreeWalker(targetDocument.body);
+      var walker = targetDocument.createTreeWalker(targetDocument.body, NodeFilter.SHOW_ALL, null, false);
     } else {
       // For PDF with PDFjs viewer
-      var walker = targetDocument.createTreeWalker(targetDocument.getElementsByClassName(targetClass)[0]);
+      var walker = targetDocument.createTreeWalker(targetDocument.getElementsByClassName(targetClass)[0], NodeFilter.SHOW_ALL, null, false);
     }
     searchTextNode(walker);
 

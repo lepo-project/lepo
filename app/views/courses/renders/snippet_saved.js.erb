@@ -7,9 +7,9 @@ setTimeout(function() {
 <% current_user.highlight_texts(pg['file_id']).each do |text| %>
 var iframe_document = document.getElementById('page-frame').contentDocument;
 <% case pg['file_type'] when 'pdf' %>
-startHighlight(iframe_document, 'textLayer', "<%= text %>");
+showHighlight(iframe_document, 'textLayer', "<%= text %>");
 <% when 'html' %>
-startHighlight(iframe_document, '', "<%= text %>");
+showHighlight(iframe_document, '', "<%= text %>");
 <% end %>
 <% end %>
 
