@@ -3,4 +3,4 @@ $('#variable-toolbar').html("<%= j render(partial: 'toolbar_show', locals: {pg: 
 $('#resource').html("<%= j render(partial: resource, locals: {pg: pg}) %>");
 
 // FIXME: Currently, text highlights can only be abled on pages other than the cover nor assignment
-// textHighlighter($(document.getElementById("simple-html-content")), document);
+// addHighlight($(document.getElementById("simple-html-content")), document, "<%#= Rails.application.config.relative_url_root %>");

@@ -109,6 +109,7 @@ class NotesController < ApplicationController
     if @note.status_updatable?(params[:note][:status], session[:id]) && @note.update_attributes(note_params)
       distribute_work_sheet @note if @note.status == 'distributed_draft'
       @note_items = @note.note_indices
+      @notes = current_user.open_notes
       render 'layouts/renders/main_pane', locals: { resource: 'show' }
     else
       flash[:message] = t('controllers.notes.creation_error')
