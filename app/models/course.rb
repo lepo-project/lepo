@@ -149,7 +149,7 @@ class Course < ApplicationRecord
   end
 
   def hot_notes
-    duration = 28
+    duration = 14
     max_size = 5
     notes = Note.where("category = 'work' and course_id = ? and updated_at >= ? and stars_count > 1", id, Date.today - duration).order('stars_count DESC, created_at DESC').limit(max_size)
     notes.to_a.delete_if { |note| !note.open? }

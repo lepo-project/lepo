@@ -196,6 +196,12 @@ en:
       index: Index
     index_courses:
       no_worksheet_notes: Currently no worksheets
+    index_group:
+      for_peer_review: For peer review
+      for_peer_review_message: Please review the following worksheet(s) using sticky or star. The target of review varies from learner to learner.
+      no_open_worksheet: Currently, there is no opened worksheet.
+      not_for_peer_review: Not for peer review
+      not_for_peer_review_message: You do not have to review the following worksheet(s).
     index_home:
       no_note_resources: Currently no notes managed
       no_snippets: Currently no snippets

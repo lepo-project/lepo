@@ -184,8 +184,10 @@ class ApplicationController < ActionController::Base
   def get_page(lesson_id, content)
     p = {}
     p['parent_id'] = lesson_id > 0 ? lesson_id : content.id # only open course contents are lesson_id > 0
-    p['file'] = get_page_file(lesson_id, content, session[:page_num], session[:max_page_num])
     p['file_id'] = content.page_file_id session[:page_num]
+    file_info = page_file_info(lesson_id, content, session[:page_num], session[:max_page_num])
+    p['file_type'] = file_info[0]
+    p['file_path'] = file_info[1]
 
     if (session[:nav_section] == 'open_courses') || ((session[:nav_section] == 'repository') && (session[:nav_controller] == 'courses'))
       p['stickies'] = get_course_stickies_by_target session[:nav_id], 'PageFile', p['file_id'], content.id
@@ -195,19 +197,23 @@ class ApplicationController < ActionController::Base
     p
   end
 
-  def get_page_file(_lesson_id, content, page_num, max_page_num)
-    return nil unless (page_num > 0) && (page_num < max_page_num)
+  def page_file_info(_lesson_id, content, page_num, max_page_num)
+    return [nil, nil] unless (page_num > 0) && (page_num < max_page_num)
     file = content.page_files[page_num - 1]
     relative_url_prefix = ENV['RAILS_RELATIVE_URL_ROOT'] ? ENV['RAILS_RELATIVE_URL_ROOT'] + '/' : ''
     case file.upload_content_type[0, 1]
     when 't' then
-      return file.upload.url
+      return ['html', file.upload.url]
     when 'i' then
-      return relative_url_prefix + 'iframe/image_page/' + file.id.to_s
+      return ['image', "#{relative_url_prefix}iframe/image_page/#{file.id}"]
     when 'v' then
-      return relative_url_prefix + 'iframe/video_page/' + file.id.to_s
+      return ['video', "#{relative_url_prefix}iframe/video_page/#{file.id}"]
     when 'a' then
-      return content_type_pdf?(file.upload_content_type) ? relative_url_prefix + '/pdfjs/minimal?file=' + file.upload.url : relative_url_prefix + 'iframe/object_page/' + file.id.to_s
+      if content_type_pdf?(file.upload_content_type)
+        ['pdf', "#{relative_url_prefix}/pdfjs/minimal?file=#{file.upload.url}"]
+      else
+        ['application', "#{relative_url_prefix}iframe/object_page/#{file.id}"]
+      end
     end
   end
 

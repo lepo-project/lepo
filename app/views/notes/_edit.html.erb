@@ -8,7 +8,7 @@
         <h1><%= t('activerecord.others.note.category.' + @note.category) %></h1>
         <%= render partial: 'notes/form', locals: {submit_hash: {action: 'ajax_update', id: @note.id}, cancel_hash: {action: 'ajax_show', id: @note.id}} %>
       </div>
-      <div id="items" class="block">
+      <div id="note-items" class="block">
         <%= render partial: 'notes/note_item', collection: @note_items, locals: {editable_snippet: false} %>
       </div>
     </div>
