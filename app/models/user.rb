@@ -182,6 +182,10 @@ class User < ApplicationRecord
     phonetic_full_name == ' ' ? full_name : full_name + ' / ' + phonetic_full_name
   end
 
+  def highlight_texts(page_file_id)
+    Snippet.where(manager_id: id, category: 'text', source_type: 'page_file', source_id: page_file_id).pluck(:description)
+  end
+
   def open_notes
     open_course_ids = open_courses.pluck(:id)
     notes = Note.where(manager_id: id, category: 'work', course_id: open_course_ids).order(updated_at: :desc).to_a

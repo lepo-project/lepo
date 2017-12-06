@@ -64,7 +64,6 @@ function keyBinder(target_doc) {
         break;
         default:
         jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/application/key_binder/?key=" + binding_key});
-        end
       }
       return false;
     });

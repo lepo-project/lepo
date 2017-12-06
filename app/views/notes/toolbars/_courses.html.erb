@@ -3,7 +3,7 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
 </nav>
 
-<% when 'ajax_index_in_group' %>
+<% when 'ajax_index_group' %>
 <nav id="sub-nav">
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [t('.group', index: @group_index + 1)]]} %>
 </nav>
@@ -17,7 +17,7 @@
 <% else %>
 <% gid = @course.group_index_for @note.manager_id %>
 <nav id="sub-nav">
-  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [t('.group', index: gid + 1), {action: 'ajax_index_in_group', group_index: gid}], [@note.title]]} %>
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [t('.group', index: gid + 1), {action: 'ajax_index_group', group_index: gid}], [@note.title]]} %>
 </nav>
 <% end %>
 <% if @note.category == 'work' && @note.status='original_ws' %>

@@ -1,13 +1,27 @@
-<iframe id="page-frame" name="page-frame" src="<%= pg['file'] %>" frameborder="0" marginheight="0" marginwidth="0" style="opacity: 0;" onload="this.style.opacity=1;"></iframe>
+<iframe id="page-frame" name="page-frame" src="<%= pg['file_path'] %>" frameborder="0" marginheight="0" marginwidth="0" style="opacity: 0;"></iframe>
 
 <div id="sticky-panel">
 	<%= render(partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] }) %>
 </div>
 
+
 <script>
-$(function () {
-	// To be able to call keyBinder even when clicking the content in the iframe
-	keyBinder($(document.getElementById('page-frame').contentWindow));
-	textHighlighter($(document.getElementById('page-frame').contentWindow), document.getElementById('page-frame').contentWindow);
-})
+document.getElementById('page-frame').onload = function(e){
+	this.style.opacity = 1;
+	// Make keyBinder to work even when clicking the content in the iframe
+	keyBinder($(this.contentWindow));
+	textHighlighter($(this.contentWindow), this.contentWindow);
+
+	<% case pg['file_type'] when 'pdf' %>
+	this.contentDocument.addEventListener('textlayerrendered', function (e) {
+		<% current_user.highlight_texts(pg['file_id']).each do |text| %>
+		startHighlight(this, 'textLayer', "<%= text %>");
+		<% end %>
+	}, true);
+	<% when 'html' %>
+	<% current_user.highlight_texts(pg['file_id']).each do |text| %>
+	startHighlight(this.contentDocument, '', "<%= text %>");
+	<% end %>
+	<% end %>
+};
 </script>

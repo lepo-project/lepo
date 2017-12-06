@@ -55,7 +55,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '~> 2.15.0'
+  gem 'capybara', '~> 2.16.0'
   gem 'chromedriver-helper'
   gem 'database_cleaner', '~> 1.6.0'
   gem 'factory_bot_rails', '~> 4.8'

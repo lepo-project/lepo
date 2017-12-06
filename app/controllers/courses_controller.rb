@@ -169,7 +169,12 @@ class CoursesController < ApplicationController
       NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
     end
     note.update_items(@course.open_lessons)
-    render 'courses/renders/snippet_saved'
+
+    @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
+    pg = get_page(@lesson.id, @content)
+    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
+
+    render 'courses/renders/snippet_saved', locals: { pg: pg }
   end
 
   def ajax_delete_image

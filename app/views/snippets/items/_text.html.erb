@@ -12,7 +12,9 @@
   <div class="main-area">
     <div class="body">
       <% add_br_body = add_br snippet.description %>
-      <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
+      <span style="background-color: #fe0;">
+        <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
+      </span>
     </div>
     <%= render(partial: 'snippets/items/footer_page_file', locals: {snippet: snippet}) %>
   </div>

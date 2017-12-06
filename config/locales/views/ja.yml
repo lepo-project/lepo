@@ -196,6 +196,12 @@ ja:
       index: 目次
     index_courses:
       no_worksheet_notes: 現在、ワークシートはありません
+    index_group:
+      for_peer_review: 相互評価の対象
+      for_peer_review_message: ふせんやスターを用いて、以下のワークシートを評価をして下さい。評価の対象は人により異なります。
+      no_open_worksheet: 現在、公開されているワークシートは、ありません。
+      not_for_peer_review: 相互評価の対象外
+      not_for_peer_review_message: あなたは以下のワークシートを評価しなくて構いません。
     index_home:
       no_note_resources: 現在、管理しているノートはありません
       no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
