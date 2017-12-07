@@ -1,10 +1,10 @@
-function addHighlight(mouseup_target, selection_target, relative_url_root) {
-  // mouseup_target: jQuery element to detect mouseup event
-  mouseup_target.mouseup(function(evt) {
-    // selection_target: document element for text selection
-    var selected_text = selection_target.getSelection().toString();
+function addHighlight(mouseupTarget, selectionTarget, relativeUrl) {
+  // mouseupTarget: jQuery element to detect mouseup event
+  mouseupTarget.mouseup(function(evt) {
+    // selectionTarget: document element for text selection
+    var selected_text = selectionTarget.getSelection().getRangeAt(0).toString();
     if (selected_text.length > 0) {
-      jQuery.ajax({type: "post", url: relative_url_root + "/courses/ajax_create_snippet/", data:{'description': selected_text}});
+      jQuery.ajax({type: "post", url: relativeUrl + "/courses/ajax_create_snippet/", data:{'description': selected_text}});
     };
   });
 }
