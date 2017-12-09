@@ -1,13 +1,13 @@
-function addHighlight(mouseup_target, selection_target, relative_url_root) {
-  // mouseup_target: jQuery element to detect mouseup event
-  mouseup_target.mouseup(function(evt) {
-    // selection_target: document element for text selection
-    var selected_text = selection_target.getSelection().toString();
-    if (selected_text.length > 0) {
-      jQuery.ajax({type: "post", url: relative_url_root + "/courses/ajax_create_snippet/", data:{'description': selected_text}});
+function addHighlight(mouseupTarget, selectionTarget, relativeUrl) {
+  // mouseupTarget: jQuery element to detect mouseup event
+  mouseupTarget.mouseup(function(evt) {
+    // selectionTarget: document element for text selection
+    var selectedText = selectionTarget.getSelection().getRangeAt(0).toString();
+    if (selectedText.length > 0) {
+      jQuery.ajax({type: "post", url: relativeUrl + "/courses/ajax_create_snippet/", data:{'description': selectedText}});
     };
   });
-}
+};
 
 
 function showHighlight(targetDocument, targetClass, highlightText) {
@@ -43,7 +43,6 @@ function showHighlight(targetDocument, targetClass, highlightText) {
           else if (node.nodeType === node.TEXT_NODE) {
             var text = node.nodeValue;
             if (text) {
-              // text= removeSpace(text);
               documentText += text;
               textNodes.push(node);
               textAccumLengths.push(documentText.length);
@@ -53,10 +52,6 @@ function showHighlight(targetDocument, targetClass, highlightText) {
         walker.parentNode();
       }
     }
-
-    // function removeSpace(text){
-    //   return text;
-    // }
   }
 
   function searchHighlightText(checkText, trim){
