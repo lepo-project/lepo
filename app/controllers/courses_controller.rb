@@ -437,7 +437,7 @@ class CoursesController < ApplicationController
     return lessons unless %w[manager learner].include? user_role
 
     course.lessons.each do |lesson|
-      lesson = { lesson.id => get_marked_outcome_num(lesson.id, lesson.user_role(user_id)) }
+      lesson = { lesson.id => lesson.marked_outcome_num(user_id) }
       lessons.merge! lesson
     end
     lessons

@@ -171,6 +171,13 @@ class User < ApplicationRecord
     results.uniq.order(signin_name: :asc).limit(max_search_num).to_a
   end
 
+  def dashboard_cards
+    cards = []
+    cards.concat(evaluation_card('uneval_outcome'))
+    cards.concat(evaluation_card('unread_evaluation'))
+    cards.concat(archive_card)
+  end
+
   def full_name
     # rather than using the family_name or given_name directly in the view files, use the full_name or short_name
     # for the case given_name is nil, to_s is added
@@ -267,8 +274,41 @@ class User < ApplicationRecord
   # ====================================================================
   private
 
+  def archive_card
+    list = []
+    card_display_days = 14
+    archived_courses = Course.archived_courses_in_days id, card_display_days
+    archived_courses.each do |course|
+      list.push(title: course.title, controller: 'courses', action: 'ajax_index', nav_section: 'repository', nav_id: course.id)
+    end
+
+    list.size.zero? ? [] : [{ category: 'archived_course', list: list }]
+  end
+
   def create_new_salt
     self.salt = object_id.to_s + rand.to_s
+  end
+
+  def evaluation_card(category)
+    return [] if system_staff? || %w[unread_evaluation uneval_outcome].exclude?(category)
+
+    list = []
+    courses = category == 'unread_evaluation' ? Course.associated_by(id, 'learner') : Course.associated_by(id, 'manager')
+    courses.delete_if { |c| c.status != 'open' }
+    courses.each do |course|
+      course.lessons.each do |lesson|
+        marked_outcome_num = lesson.marked_outcome_num id
+        next unless marked_outcome_num > 0
+        nav_section = course.status == 'open' ? 'open_courses' : 'repository'
+        if category == 'unread_evaluation'
+          list.push(title: course.title + " Lesson #{lesson.display_order}", controller: 'courses', action: 'ajax_show_page_from_others', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
+        else
+          list.push(title: course.title + " Lesson #{lesson.display_order}", outcome_num: marked_outcome_num, controller: 'courses', action: 'ajax_show_page_from_others', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
+        end
+      end
+    end
+
+    list.size.zero? ? [] : [{ category: category, list: list }]
   end
 
   def password_non_blank

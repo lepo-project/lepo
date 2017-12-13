@@ -50,6 +50,18 @@ class Lesson < ApplicationRecord
     evaluator_id == user_id
   end
 
+  def marked_outcome_num(user_id)
+    case user_role user_id
+    when 'evaluator'
+      outcomes = Outcome.where(lesson_id: id, status: 'submit').order(updated_at: :asc) || []
+      return outcomes.size
+    when 'learner'
+      outcome = Outcome.find_by_manager_id_and_lesson_id user_id, id
+      return 1 if (outcome && outcome.status == 'return' && !outcome.checked) || (outcome && outcome.status == 'self_submit' && !outcome.checked)
+    end
+    0
+  end
+
   def user_role(user_id)
     return 'observer' if new_record?
     return 'evaluator' if user_id == evaluator_id
