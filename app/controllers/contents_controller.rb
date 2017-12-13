@@ -148,9 +148,9 @@ class ContentsController < ApplicationController
 
   def ajax_upload_page_file
     create_file = PageFile.new(page_file_params)
-    upload_file_check_and_save(params[:page_file], create_file)
-    content_type = create_file.id.nil? ? nil : create_file.upload_content_type
-    split_pages_of_pdf(create_file) if content_type == 'application/pdf'
+    page_file = upload_file_check_and_save(params[:page_file], create_file)
+    content_type = page_file.upload_content_type
+    split_pages_of_pdf(page_file) if content_type == 'application/pdf'
     render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
   end
 
@@ -228,6 +228,7 @@ class ContentsController < ApplicationController
         flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.page_file') + ': ' + filename)
         flash[:message_category] = 'error'
       end
+      page
     elsif asset
       if asset.update_attributes(upload: file[:upload])
         flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.asset_file') + ': ' + filename)
@@ -236,9 +237,11 @@ class ContentsController < ApplicationController
         flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.asset_file') + ': ' + filename)
         flash[:message_category] = 'error'
       end
+      asset
     else
       flash.now[:message] = '「' + filename + '」のアップロードに失敗しました' unless new_file.save
       flash[:message_category] = 'info'
+      new_file
     end
   end
 
