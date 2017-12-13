@@ -23,7 +23,10 @@ class WebPage < ApplicationRecord
   end
 
   def self.pdf_url?(url)
-    url[-4, 4].casecmp('.pdf').zero?
+    rightmost_slash = url.rindex('/')
+    return false unless rightmost_slash
+    rightmost_part = url.slice(rightmost_slash + 1, url.length - rightmost_slash - 1)
+    !rightmost_part.match(/.+\.pdf/).nil?
   end
 
   def self.scratch_id(url)

@@ -125,13 +125,6 @@ class ApplicationController < ActionController::Base
   end
 
   # 1. variable getter =========================================================
-  def get_dashboard_resources(user)
-    @cards = []
-    @cards.concat(dashboard_evaluation_card(user, 'manager'))
-    @cards.concat(dashboard_evaluation_card(user, 'learner'))
-    @cards.concat(dashboard_archive_card(user))
-  end
-
   def get_outcome_resources(lesson, content)
     @lesson_role = lesson.user_role session[:id]
     if !@lesson.new_record? && @lesson_role != 'assistant'
@@ -148,18 +141,6 @@ class ApplicationController < ActionController::Base
         outcome.outcomes_objectives.build(objective_id: co.id) unless OutcomesObjective.find_by_outcome_id_and_objective_id(outcome.id, co.id)
       end
     end
-  end
-
-  def get_marked_outcome_num(lesson_id, user_role)
-    case user_role
-    when 'evaluator'
-      outcomes = Outcome.where(lesson_id: lesson_id, status: 'submit').order(updated_at: :asc) || []
-      return outcomes.size
-    when 'learner'
-      outcome = Outcome.find_by_manager_id_and_lesson_id session[:id], lesson_id
-      return 1 if (outcome && outcome.status == 'return' && !outcome.checked) || (outcome && outcome.status == 'self_submit' && !outcome.checked)
-    end
-    0
   end
 
   def get_message_templates(course_manager)
@@ -334,47 +315,6 @@ class ApplicationController < ActionController::Base
   # ====================================================================
 
   private
-
-  def dashboard_archive_card(user)
-    list = []
-    card_display_days = 14
-    archived_courses = Course.archived_courses_in_days user.id, card_display_days
-    archived_courses.each do |course|
-      list.push(title: course.title, controller: 'courses', action: 'ajax_index', nav_section: 'repository', nav_id: course.id)
-    end
-
-    return [] if list.size.zero?
-    [{ header: '保管庫に移動したコース', content: "以下のコースは、過去#{card_display_days}日以内に終了処理が行われたため保管庫に移動しました。", list: list }]
-  end
-
-  def dashboard_evaluation_card(user, role)
-    return [] if user.system_staff?
-
-    list = []
-    courses = Course.associated_by user.id, role
-    courses.delete_if { |c| c.status != 'open' }
-    courses.each do |course|
-      course.lessons.each do |lesson|
-        marked_outcome_num = get_marked_outcome_num(lesson.id, lesson.user_role(user.id))
-        next unless marked_outcome_num > 0
-        nav_section = course.status == 'open' ? 'open_courses' : 'repository'
-        case role
-        when 'learner'
-          list.push(title: course.title + ' / Lesson ' + lesson.display_order.to_s, controller: 'courses', action: 'ajax_show_page_from_others', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
-        when 'manager'
-          list.push(title: course.title + ' / Lesson ' + lesson.display_order.to_s + ' : 評価依頼' + marked_outcome_num.to_s + '件', controller: 'courses', action: 'ajax_show_page_from_others', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
-        end
-      end
-    end
-
-    return [] if list.size.zero?
-    case role
-    when 'learner'
-      [{ header: '未読の課題評価', content: '以下のレッスンに未読の課題評価があります。', list: list }]
-    when 'manager'
-      [{ header: '未評価の提出課題', content: '以下のレッスンに未評価の提出課題があります。', list: list }]
-    end
-  end
 
   def content_type_pdf?(type)
     types = type.split('/')

@@ -1,15 +1,16 @@
 <div id="dashboard-resource" class="scroll-pane">
   <div class="row">
     <div class="col-md-12 block">
-      <% if @cards.size == 0 %>
-      <%= render partial: 'layouts/system_message', locals: {message: t('.no_dashboard_resources'), message_category: 'info'} %>
+      <% cards = current_user.dashboard_cards %>
+      <% if cards.size.zero? %>
+      <%= render partial: 'layouts/system_message', locals: {message: t('.no_dashboard_cards'), message_category: 'info'} %>
       <% else %>
-      <% @cards.each do |card| %>
+      <% cards.each do |card| %>
       <div class="card">
-        <h2 class="card-header"><%= card[:header] %></h2>
+        <h2 class="card-header"><%= t(".header_#{card[:category]}") %></h2>
         <div class="card-body">
           <p class="card-text">
-            <%= card[:content] %>
+            <%= t(".body_#{card[:category]}") %>
           </p>
         </div>
         <ul class="list-group list-group-flush">
@@ -18,6 +19,7 @@
           <li class="list-group-item">
             <% if li[:lesson_id] %>
             <!--  for lesson related links -->
+            <% li[:title] += ' : ' + t('.outcome_num', num: li[:outcome_num]) if li[:outcome_num] %>
             <%= link_to(li[:title], {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id], lesson_id: li[:lesson_id], page_num: li[:page_num]}, {remote: true}) %>
             <% else %>
             <!--  for course related links -->
