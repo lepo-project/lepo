@@ -116,41 +116,39 @@ class ContentsController < ApplicationController
     destroy_file(AttachmentFile.find(params[:file_id]), 'attachment')
   end
 
+  def ajax_destroy_page_file
+    destroy_file(PageFile.find(params[:file_id]), 'page')
+  end
+
   def ajax_upload_asset_file
     upload_file(params[:asset_file], AssetFile.new(asset_file_params))
+    render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
   end
 
   def ajax_upload_attachment_file
     @content = Content.find(params[:id])
     file = params[:attachment_file]
     new_file = AttachmentFile.new(attachment_file_params)
-    filename = new_file.upload_file_name
+    file_name = new_file.upload_file_name
 
-    attachment = AttachmentFile.find_by_content_id_and_upload_file_name(@content.id, filename)
+    attachment = AttachmentFile.find_by_content_id_and_upload_file_name(@content.id, file_name)
     if attachment
       if attachment.update_attributes(upload: file[:upload])
-        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.attachment_file') + ': ' + filename)
+        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.attachment_file') + ': ' + file_name)
         flash[:message_category] = 'info'
       else
-        flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.attachment_file') + ': ' + filename)
+        flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.attachment_file') + ': ' + file_name)
         flash[:message_category] = 'error'
       end
     else
-      flash.now[:message] = '「' + filename + '」のアップロードに失敗しました' unless new_file.save
+      flash.now[:message] = t('controllers.contents.upload_failed', name: file_name)
       flash[:message_category] = 'error'
     end
     render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
   end
 
-  def ajax_destroy_page_file
-    destroy_file(PageFile.find(params[:file_id]), 'page')
-  end
-
   def ajax_upload_page_file
-    create_file = PageFile.new(page_file_params)
-    page_file = upload_file_check_and_save(params[:page_file], create_file)
-    content_type = page_file.upload_content_type
-    split_pages_of_pdf(page_file) if content_type == 'application/pdf'
+    upload_file(params[:page_file], PageFile.new(page_file_params))
     render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
   end
 
@@ -194,6 +192,12 @@ class ContentsController < ApplicationController
     params.require(:page_file).permit(:content_id, :display_order, :upload)
   end
 
+  def destroy_blank_objectives(objectives)
+    objectives.each_value do |objective|
+      objective['_destroy'] = 'true' if objective[:title].blank?
+    end
+  end
+
   def destroy_file(file, category)
     file.destroy
     @content = Content.find(params[:id])
@@ -210,51 +214,10 @@ class ContentsController < ApplicationController
     render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
   end
 
-  def upload_file(file, new_file)
-    upload_file_check_and_save(file, new_file)
-    render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
-  end
-
-  def upload_file_check_and_save(file, new_file)
-    @content = Content.find(params[:id])
-    filename = new_file.upload_file_name
-    page = PageFile.find_by_content_id_and_upload_file_name(@content.id, filename)
-    asset = AssetFile.find_by_content_id_and_upload_file_name(@content.id, filename)
-    if page
-      if page.update_attributes(upload: file[:upload])
-        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.page_file') + ': ' + filename)
-        flash[:message_category] = 'info'
-      else
-        flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.page_file') + ': ' + filename)
-        flash[:message_category] = 'error'
-      end
-      page
-    elsif asset
-      if asset.update_attributes(upload: file[:upload])
-        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.asset_file') + ': ' + filename)
-        flash[:message_category] = 'info'
-      else
-        flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.asset_file') + ': ' + filename)
-        flash[:message_category] = 'error'
-      end
-      asset
-    else
-      flash.now[:message] = '「' + filename + '」のアップロードに失敗しました' unless new_file.save
-      flash[:message_category] = 'info'
-      new_file
-    end
-  end
-
   def replace_page_with_fill_objectives(resource_name)
     @content.fill_objectives
     get_content_resources
     render 'layouts/renders/resource', locals: { resource: resource_name }
-  end
-
-  def destroy_blank_objectives(objectives)
-    objectives.each do |_key, objective|
-      objective['_destroy'] = 'true' if objective[:title].blank?
-    end
   end
 
   def split_pages_of_pdf(create_file)
@@ -291,5 +254,35 @@ class ContentsController < ApplicationController
       i += 1
     end
     create_file.destroy
+  end
+
+  def upload_file(file, new_file)
+    @content = Content.find(params[:id])
+    file_name = new_file.upload_file_name
+    page = PageFile.find_by(content_id: @content.id, upload_file_name: file_name)
+    asset = AssetFile.find_by(content_id: @content.id, upload_file_name: file_name)
+    if page
+      if page.update_attributes(upload: file[:upload])
+        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.page_file') + ': ' + file_name)
+        flash[:message_category] = 'info'
+        split_pages_of_pdf(page) if page.upload_content_type == 'application/pdf'
+      else
+        flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.page_file') + ': ' + file_name)
+        flash[:message_category] = 'error'
+      end
+    elsif asset
+      if asset.update_attributes(upload: file[:upload])
+        flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.asset_file') + ': ' + file_name)
+        flash[:message_category] = 'info'
+      else
+        flash.now[:message] = t('controllers.contents.update_failed', name: t('activerecord.models.asset_file') + ': ' + file_name)
+        flash[:message_category] = 'error'
+      end
+    elsif new_file.save
+      split_pages_of_pdf(new_file) if new_file.upload_content_type == 'application/pdf' && new_file.instance_of?(PageFile)
+    else
+      flash.now[:message] = t('controllers.contents.upload_failed', name: file_name)
+      flash[:message_category] = 'error'
+    end
   end
 end

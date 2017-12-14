@@ -7,6 +7,7 @@ en:
     contents:
       updated: "%{name} updated."
       update_failed: " %{name} update failed."
+      upload_failed: " %{name} upload failed."
     courses:
       no_courses_with_criteria: No courses with these criteria.
     notes:
