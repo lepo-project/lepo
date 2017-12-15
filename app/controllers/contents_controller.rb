@@ -141,7 +141,7 @@ class ContentsController < ApplicationController
         flash[:message_category] = 'error'
       end
     else
-      flash.now[:message] = t('controllers.contents.upload_failed', name: file_name)
+      flash.now[:message] = t('controllers.contents.upload_failed', name: file_name) unless new_file.save
       flash[:message_category] = 'error'
     end
     render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
