@@ -7,23 +7,15 @@
       <% else %>
       <% cards.each do |card| %>
       <div class="card">
-        <h2 class="card-header"><%= t(".header_#{card[:category]}") %></h2>
-        <div class="card-body">
-          <p class="card-text">
-            <%= t(".body_#{card[:category]}") %>
-          </p>
-        </div>
+        <h2 class="card-header"><%= card[:title] %></h2>
         <ul class="list-group list-group-flush">
           <% if card[:list] %>
           <% card[:list].each do |li| %>
           <li class="list-group-item">
-            <% if li[:lesson_id] %>
-            <!--  for lesson related links -->
-            <% li[:title] += ' : ' + t('.outcome_num', num: li[:outcome_num]) if li[:outcome_num] %>
-            <%= link_to(li[:title], {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id], lesson_id: li[:lesson_id], page_num: li[:page_num]}, {remote: true}) %>
-            <% else %>
-            <!--  for course related links -->
-            <%= link_to(li[:title], {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id]}, {remote: true}) %>
+            <% case li[:category] when 'learner_outcome', 'evaluator_outcome' %>
+            <%= link_to(t(".#{li[:category]}", display_order: li[:display_order], outcome_num: li[:outcome_num]), {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id], lesson_id: li[:lesson_id], page_num: li[:page_num]}, {remote: true}) %>
+            <% when 'archived_course' %>
+            <%= link_to(t(".#{li[:category]}"), {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id]}, {remote: true}) %>
             <% end %>
           </li>
           <% end %>

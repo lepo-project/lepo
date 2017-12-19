@@ -39,6 +39,7 @@ class User < ApplicationRecord
   styles: { px40: '40x40>', px80: '80x80>', original: '160x160>' }
   validates_attachment_content_type :image, content_type: ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png']
   validates_attachment_size :image, less_than: IMAGE_MAX_FILE_SIZE.megabytes # original file is resized, so this is not important
+  has_many :archived_courses, -> { where('courses.status = ?', 'archived') }, through: :course_members, source: :course
   has_many :attendances
   has_many :content_members
   has_many :contents, through: :content_members
@@ -173,9 +174,12 @@ class User < ApplicationRecord
 
   def dashboard_cards
     cards = []
-    cards.concat(evaluation_card('uneval_outcome'))
-    cards.concat(evaluation_card('unread_evaluation'))
-    cards.concat(archive_card)
+    if system_staff?
+      cards
+    else
+      cards.concat open_course_cards
+      cards.concat archived_course_cards
+    end
   end
 
   def full_name
@@ -274,41 +278,35 @@ class User < ApplicationRecord
   # ====================================================================
   private
 
-  def archive_card
-    list = []
-    card_display_days = 14
-    archived_courses = Course.archived_courses_in_days id, card_display_days
-    archived_courses.each do |course|
-      list.push(title: course.title, controller: 'courses', action: 'ajax_index', nav_section: 'repository', nav_id: course.id)
+  def archived_course_cards
+    cards = []
+    display_days = 14
+    courses = archived_courses.to_a.delete_if { |c| c.updated_at < (Time.now - display_days * 24 * 60 * 60) }
+    courses.each do |course|
+      cards.concat [{ title: course.title, list: [{ category: 'archived_course', controller: 'courses', action: 'ajax_index', nav_section: 'repository', nav_id: course.id }] }]
     end
-
-    list.size.zero? ? [] : [{ category: 'archived_course', list: list }]
+    cards
   end
 
   def create_new_salt
     self.salt = object_id.to_s + rand.to_s
   end
 
-  def evaluation_card(category)
-    return [] if system_staff? || %w[unread_evaluation uneval_outcome].exclude?(category)
-
-    list = []
-    courses = category == 'unread_evaluation' ? Course.associated_by(id, 'learner') : Course.associated_by(id, 'manager')
-    courses.delete_if { |c| c.status != 'open' }
-    courses.each do |course|
+  def open_course_cards
+    cards = []
+    open_courses.each do |course|
+      list = []
       course.lessons.each do |lesson|
         marked_outcome_num = lesson.marked_outcome_num id
         next unless marked_outcome_num > 0
-        nav_section = course.status == 'open' ? 'open_courses' : 'repository'
-        if category == 'unread_evaluation'
-          list.push(title: course.title + " Lesson #{lesson.display_order}", controller: 'courses', action: 'ajax_show_page_from_others', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
-        else
-          list.push(title: course.title + " Lesson #{lesson.display_order}", outcome_num: marked_outcome_num, controller: 'courses', action: 'ajax_show_page_from_others', nav_section: nav_section, nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
+        lesson_role = lesson.user_role(id)
+        if %w[learner evaluator].include? lesson_role
+          list.push(category: lesson_role + '_outcome', display_order: lesson.display_order, outcome_num: marked_outcome_num, controller: 'courses', action: 'ajax_show_page_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
         end
       end
+      cards.concat [{ title: course.title, list: list }] unless list.size.zero?
     end
-
-    list.size.zero? ? [] : [{ category: category, list: list }]
+    cards
   end
 
   def password_non_blank
