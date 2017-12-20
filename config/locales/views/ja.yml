@@ -89,8 +89,9 @@ ja:
   dashboard:
     index:
       archived_course: コースが終了したため、保管庫に移動しました
-      evaluator_outcome: "Lesson %{display_order} : 未評価の提出課題が、%{outcome_num}件あります"
+      evaluator_outcome: "Lesson %{display_order} : 未評価の提出課題が%{outcome_num}件あります"
       learner_outcome: "Lesson %{display_order} : 未確認の課題評価があります"
+      lesson_note_update: "Lesson %{display_order} : レッスンノートの内容を更新しました"
       no_dashboard_cards: 現在、ダッシュボードに表示する情報はありません
 
   devices:

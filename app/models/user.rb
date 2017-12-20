@@ -281,7 +281,7 @@ class User < ApplicationRecord
   def archived_course_cards
     cards = []
     display_days = 14
-    courses = archived_courses.to_a.delete_if { |c| c.updated_at < (Time.now - display_days * 24 * 60 * 60) }
+    courses = archived_courses.to_a.delete_if { |c| c.updated_at < display_days.days.ago }
     courses.each do |course|
       cards.concat [{ title: course.title, list: [{ category: 'archived_course', controller: 'courses', action: 'ajax_index', nav_section: 'repository', nav_id: course.id }] }]
     end
@@ -297,11 +297,20 @@ class User < ApplicationRecord
     open_courses.each do |course|
       list = []
       course.lessons.each do |lesson|
+        # Outcome cards
         marked_outcome_num = lesson.marked_outcome_num id
-        next unless marked_outcome_num > 0
-        lesson_role = lesson.user_role(id)
-        if %w[learner evaluator].include? lesson_role
-          list.push(category: lesson_role + '_outcome', display_order: lesson.display_order, outcome_num: marked_outcome_num, controller: 'courses', action: 'ajax_show_page_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
+        if marked_outcome_num > 0
+          lesson_role = lesson.user_role(id)
+          if %w[learner evaluator].include? lesson_role
+            list.push(category: lesson_role + '_outcome', display_order: lesson.display_order, outcome_num: marked_outcome_num, controller: 'courses', action: 'ajax_show_page_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
+          end
+        end
+
+        # Lesson note cards
+        content = lesson.content
+        if !Sticky.where(manager_id: id, target_type: 'PageFile', course_id: course.id, content_id: content.id).where('updated_at >= ?', 7.days.ago).size.zero? ||
+          !Snippet.where(manager_id: id, source_type: 'page_file', source_id: content.page_files.pluck(:id)).where('updated_at >= ?', 7.days.ago).size.zero?
+          list.push(category: 'lesson_note_update', display_order: lesson.display_order, controller: 'courses', action: 'ajax_show_lesson_note_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id)
         end
       end
       cards.concat [{ title: course.title, list: list }] unless list.size.zero?

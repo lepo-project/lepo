@@ -91,6 +91,7 @@ en:
       archived_course: The course has moved to the repository because it was completed.
       evaluator_outcome: "Lesson %{display_order} : There are unevaluated %{outcome_num} outcome(s)."
       learner_outcome: "Lesson %{display_order} : There is unchecked evaluation."
+      lesson_note_update: "Lesson %{display_order} : Lesson note contents have been updated."
       no_dashboard_cards: Currently no information on the dashboard.
 
   devices:

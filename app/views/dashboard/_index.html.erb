@@ -14,6 +14,8 @@
           <li class="list-group-item">
             <% case li[:category] when 'learner_outcome', 'evaluator_outcome' %>
             <%= link_to(t(".#{li[:category]}", display_order: li[:display_order], outcome_num: li[:outcome_num]), {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id], lesson_id: li[:lesson_id], page_num: li[:page_num]}, {remote: true}) %>
+            <% when 'lesson_note_update' %>
+            <%= link_to(t(".#{li[:category]}", display_order: li[:display_order]), {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id], lesson_id: li[:lesson_id], page_num: li[:page_num]}, {remote: true}) %>
             <% when 'archived_course' %>
             <%= link_to(t(".#{li[:category]}"), {controller: li[:controller], action: li[:action], nav_section: li[:nav_section], nav_id: li[:nav_id]}, {remote: true}) %>
             <% end %>
