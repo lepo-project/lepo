@@ -88,14 +88,11 @@ ja:
 
   dashboard:
     index:
-      body_archived_course: 以下のコースは終了したため、保管庫に移動しました。
-      body_uneval_outcome: 以下のレッスンに、未評価の提出課題があります。
-      body_unread_evaluation: 以下のレッスンに、未読の課題評価があります。
-      header_archived_course: 保管庫に移動したコース
-      header_uneval_outcome: 未評価の提出課題
-      header_unread_evaluation: 未読の課題評価
+      archived_course: コースが終了したため、保管庫に移動しました
+      evaluator_outcome: "Lesson %{display_order} : 未評価の提出課題が%{outcome_num}件あります"
+      learner_outcome: "Lesson %{display_order} : 未確認の課題評価があります"
+      lesson_note_update: "Lesson %{display_order} : レッスンノートの内容を更新しました"
       no_dashboard_cards: 現在、ダッシュボードに表示する情報はありません
-      outcome_num: "%{num}件"
 
   devices:
     index:

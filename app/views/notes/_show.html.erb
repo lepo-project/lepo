@@ -40,6 +40,6 @@
 <% if @note.category == 'lesson' && @content%>
 <script>
 // offset: toolbar height + 4px margin
-$("#note-resource").animate({scrollTop:$('#item_<%= @note.content_header_id @content.id %>').offset().top - 36});
+$("#note-resource").animate({scrollTop:$('#item_<%= @note.content_header_id @content.id %>').offset().top - 36}, 200);
 </script>
 <% end %>

@@ -50,6 +50,18 @@ class CoursesController < ApplicationController
     end
   end
 
+  def ajax_show_lesson_note_from_others
+    set_nav_session params[:nav_section], 'courses', params[:nav_id].to_i
+    @course = Course.find_by(id: session[:nav_id])
+    @lesson = Lesson.find_by(id: params[:lesson_id].to_i)
+    @content = @lesson.content
+    set_page_session 0, @content
+    pg = get_page @lesson.id, @content
+    @note = @course.lesson_note(session[:id])
+    @note_items = @note.note_indices
+    render 'layouts/renders/all_with_pg', locals: { resource: '/notes/show', pg: pg }
+  end
+
   def ajax_show_page
     set_related_course_stickies_session
     @course = Course.find(session[:nav_id])

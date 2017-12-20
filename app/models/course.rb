@@ -58,14 +58,6 @@ class Course < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.archived_courses_in_days(user_id, days)
-    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
-    courses.map!(&:course)
-    courses.delete_if { |c| c.status != 'archived' }
-    limit_time = Time.now - days * 24 * 60 * 60
-    courses.delete_if { |c| c.updated_at < limit_time }
-  end
-
   def self.associated_by(user_id, role)
     courses = CourseMember.where(user_id: user_id, role: role).order(updated_at: :desc).to_a
     courses.map!(&:course)
