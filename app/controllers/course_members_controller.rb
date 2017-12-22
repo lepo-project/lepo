@@ -74,7 +74,7 @@ class CourseMembersController < ApplicationController
     if session[:nav_id]
       current_categories = []
       candidates.each do |cn|
-        current_relation = CourseMember.find_by_user_id_and_course_id(cn.id, session[:nav_id])
+        current_relation = CourseMember.find_by(user_id: cn.id, course_id: session[:nav_id])
         current_role = current_relation ? current_relation.role : ''
         current_categories.push current_role
       end
@@ -85,7 +85,7 @@ class CourseMembersController < ApplicationController
 
   def ajax_update_role
     if params[:update_to] == 'none'
-      course_member = CourseMember.find_by_user_id_and_course_id(params[:user_id], params[:course_id])
+      course_member = CourseMember.find_by(user_id: params[:user_id], course_id: params[:course_id])
       if course_member && course_member.deletable?
         course_member.destroy
       else
@@ -116,7 +116,7 @@ class CourseMembersController < ApplicationController
     user_id = params[:user_id]
     group_index = params[:group_index]
 
-    cm = CourseMember.find_by_user_id_and_course_id(user_id, course_id)
+    cm = CourseMember.find_by(user_id: user_id, course_id: course_id)
     cm.update_attributes(group_index: group_index)
     get_resources
     render 'layouts/renders/main_pane', locals: { resource: 'course_members/edit_group' }
@@ -176,7 +176,7 @@ class CourseMembersController < ApplicationController
   end
 
   def update_role(user_id, course_id, role)
-    course_member = CourseMember.find_by_user_id_and_course_id(user_id, course_id)
+    course_member = CourseMember.find_by(user_id: user_id, course_id: course_id)
     course = Course.find course_id
     if course_member
       if (course_member.role == 'manager') && (course.evaluator? user_id)

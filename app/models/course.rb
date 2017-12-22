@@ -65,7 +65,7 @@ class Course < ApplicationRecord
 
   def self.not_associated_by(user_id)
     courses = Course.where(status: 'open').order(created_at: :desc).limit(30).to_a
-    courses.delete_if { |c| CourseMember.find_by_course_id_and_user_id(c.id, user_id) }
+    courses.delete_if { |c| CourseMember.find_by(course_id: c.id, user_id: user_id) }
   end
 
   def self.work_sheet_distributable_by(user_id)
@@ -271,7 +271,7 @@ class Course < ApplicationRecord
 
   def user_role(user_id)
     return 'new' unless User.find_by(id: user_id)
-    association = CourseMember.find_by_user_id_and_course_id(user_id, id)
+    association = CourseMember.find_by(user_id: user_id, course_id: id)
     association ? association.role : 'pending'
   end
 

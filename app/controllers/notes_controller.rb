@@ -122,7 +122,7 @@ class NotesController < ApplicationController
     @note = Note.find_by(id: params[:id])
     if @note
       user_id = session[:id]
-      note_star = NoteStar.find_by_manager_id_and_note_id(user_id, @note.id)
+      note_star = NoteStar.find_by(manager_id: user_id, note_id: @note.id)
       star_increment = 1
 
       Note.transaction do

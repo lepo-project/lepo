@@ -131,7 +131,7 @@ class ContentsController < ApplicationController
     new_file = AttachmentFile.new(attachment_file_params)
     file_name = new_file.upload_file_name
 
-    attachment = AttachmentFile.find_by_content_id_and_upload_file_name(@content.id, file_name)
+    attachment = AttachmentFile.find_by(content_id: @content.id, upload_file_name: file_name)
     if attachment
       if attachment.update_attributes(upload: file[:upload])
         flash.now[:message] = t('controllers.contents.updated', name: t('activerecord.models.attachment_file') + ': ' + file_name)
@@ -236,7 +236,7 @@ class ContentsController < ApplicationController
       new_file_name = filename + '_p' + i.to_s + extname
       new_file_path = File.join(dirname, new_file_name)
       pdf.save new_file_path
-      page = PageFile.find_by_content_id_and_upload_file_name(org_file.content_id, new_file_name)
+      page = PageFile.find_by(content_id: org_file.content_id, upload_file_name: new_file_name)
       if page
         page[:upload_file_size] = File.size(new_file_path)
         page[:upload_updated_at] = File.mtime(new_file_path)

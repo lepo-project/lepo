@@ -52,7 +52,7 @@
           <% icon_info = content_icon_info(content.status) %>
           <div class="small-2x col"><%= link_to_resource("<i class='#{icon_info[:class]}'></i>", content.id, {title: icon_info[:text]}) %></div>
           <div class="small col">
-            <% role = ContentMember.find_by_user_id_and_content_id(session[:id], content.id).role %>
+            <% role = ContentMember.find_by(user_id: session[:id], content_id: content.id).role %>
             <%= link_to_resource(t("activerecord.others.content_member.role.#{role}"), content.id, {}) %>
           </div>
           <div class="large-4x col"><%= link_to_resource("#{content.title} (#{t('.pages', num: content.page_files.size)})", content.id, {}) %></div>

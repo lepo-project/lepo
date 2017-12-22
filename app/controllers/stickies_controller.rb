@@ -97,7 +97,7 @@ class StickiesController < ApplicationController
       sticky = Sticky.find_by(id: params[:id])
       if sticky
         user_id = session[:id]
-        sticky_star = StickyStar.find_by_manager_id_and_sticky_id(user_id, sticky.id)
+        sticky_star = StickyStar.find_by(manager_id: user_id, sticky_id: sticky.id)
         star_increment = 1
 
         Sticky.transaction do

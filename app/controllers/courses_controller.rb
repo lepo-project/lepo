@@ -35,7 +35,7 @@ class CoursesController < ApplicationController
     return unless (session[:content_id] > 0) && session[:page_num]
     @course = Course.find session[:nav_id]
     @content = Content.find session[:content_id]
-    @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
+    @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     pg = get_page(@lesson.id, @content)
     case params[:from]
     when 'content'
@@ -66,7 +66,7 @@ class CoursesController < ApplicationController
     set_related_course_stickies_session
     @course = Course.find session[:nav_id]
     @content = Content.find session[:content_id]
-    @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
+    @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     set_page_session params[:page_num].to_i, @content
     set_sticky_panel_session
     pg = get_page(@lesson.id, @content)
@@ -82,7 +82,7 @@ class CoursesController < ApplicationController
     @course = Course.find params[:course_id]
     nav_section = @course.status == 'open' ? 'open_courses' : 'repository'
     @content = Content.find params[:content_id]
-    @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
+    @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     page_num = page_file_to_num params[:target_id]
     set_nav_session nav_section, 'courses', params[:course_id]
     set_page_session page_num, @content
@@ -182,7 +182,7 @@ class CoursesController < ApplicationController
     end
     note.update_items(@course.open_lessons)
 
-    @lesson = Lesson.find_by_course_id_and_content_id(@course.id, @content.id)
+    @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     pg = get_page(@lesson.id, @content)
     @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
 
@@ -411,7 +411,7 @@ class CoursesController < ApplicationController
     lr['self_eval'] = []
     lr['non_self_eval'] = []
     lessons.each do |lesson|
-      outcome = Outcome.find_by_lesson_id_and_manager_id(lesson.id, session[:id])
+      outcome = Outcome.find_by(lesson_id: lesson.id, manager_id: session[:id])
       lr['score'] += outcome.score if outcome && outcome.score
 
       if outcome && outcome.self_evaluated?
@@ -486,7 +486,7 @@ class CoursesController < ApplicationController
 
   def objective_resource(course_id, objective)
     ob_re = {}
-    lesson = Lesson.find_by_course_id_and_content_id course_id, objective.content_id
+    lesson = Lesson.find_by(course_id: course_id, content_id: objective.content_id)
     ob_re['content_id'] = objective.content_id
     ob_re['lesson_display_order'] = lesson.display_order
     ob_re

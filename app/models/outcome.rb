@@ -43,7 +43,7 @@ class Outcome < ApplicationRecord
     when 'observer'
       outcomes = [Outcome.new_with_associations(manager_id, 0, 0, 'observer')]
     when 'learner'
-      outcome = Outcome.find_by_manager_id_and_lesson_id manager_id, lesson_id
+      outcome = Outcome.find_by(manager_id: manager_id, lesson_id: lesson_id)
       if !outcome
         outcomes = [Outcome.new_with_associations(manager_id, course_id, lesson_id, lesson_role)]
       else
@@ -64,7 +64,7 @@ class Outcome < ApplicationRecord
 
       course = Course.find(course_id)
       course.learners.each do |learner|
-        outcome = Outcome.find_by_manager_id_and_lesson_id(learner.id, lesson_id)
+        outcome = Outcome.find_by(manager_id: learner.id, lesson_id: lesson_id)
         if outcome
           case outcome.status
           when 'submit'
@@ -96,7 +96,7 @@ class Outcome < ApplicationRecord
   def self.report_displayable?(lesson_id, user_id, user_role)
     case user_role
     when 'learner'
-      outcome = Outcome.find_by_manager_id_and_lesson_id user_id, lesson_id
+      outcome = Outcome.find_by(manager_id: user_id, lesson_id: lesson_id)
       outcome && outcome.report_candidate?
     when 'manager', 'assistant'
       true

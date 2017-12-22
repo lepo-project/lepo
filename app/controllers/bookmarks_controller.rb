@@ -21,7 +21,7 @@ class BookmarksController < ApplicationController
     end
 
     # bookmark creation / update
-    bookmark = Bookmark.find_by_manager_id_and_target_id_and_target_type(session[:id], web_page.id, 'web')
+    bookmark = Bookmark.find_by(manager_id: session[:id], target_id: web_page.id, target_type: 'web')
     if bookmark
       if bookmark.update_attributes(display_title: params[:display_title])
         flash.now[:message] = t('controllers.bookmarks.updated')
