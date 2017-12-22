@@ -39,12 +39,6 @@
         <%= render(partial: 'notes/hot_notes', locals: {notes: hot_notes, course_id: @course.id})  %>
       </div>
 
-      <!-- Hot Web Sources -->
-      <!-- <div id="hot_sources">
-        <%# hot_sources = @course.hot_sources %>
-        <%#= render(partial: 'notes/hot_sources', locals: {sources: hot_sources, course_id: @course.id}) %>
-      </div> -->
-
       <!-- Course Lessons -->
       <%= render partial: 'lessons_card' %>
 
