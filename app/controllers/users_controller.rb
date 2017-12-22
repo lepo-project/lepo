@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     # Public Functions
     # ====================================================================
     def ajax_destroy_user_image
-      user = User.find(session[:id])
+      user = User.find session[:id]
       user.image.clear
       if user.save
         flash[:message] = '画像を削除しました。'
@@ -77,7 +77,7 @@ class UsersController < ApplicationController
       @search_word = params[:search_word] ? params[:search_word] : ''
       @role = params[:role] ? params[:role] : ''
       if User.system_staff? session[:id]
-        @selected_user = User.find(params[:id])
+        @selected_user = User.find params[:id]
         @candidates = User.search @search_word, @role
       else
         @selected_user = nil
@@ -89,7 +89,7 @@ class UsersController < ApplicationController
     def ajax_update_role
       existing_users_info
       if params[:update_to] == 'suspended'
-        user = User.find(params[:user_id])
+        user = User.find params[:user_id]
         if user && user.role != 'admin'
           user.update_attribute(:role, 'suspended')
         end

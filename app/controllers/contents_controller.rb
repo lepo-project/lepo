@@ -11,7 +11,7 @@ class ContentsController < ApplicationController
 
   def ajax_show
     set_star_sort_stickies_session
-    @content = Content.find(params[:id].to_i)
+    @content = Content.find params[:id]
     set_page_session 0, @content
 
     pg = get_page 0, @content
@@ -22,7 +22,7 @@ class ContentsController < ApplicationController
   end
 
   def ajax_show_page
-    @content = Content.find(session[:content_id])
+    @content = Content.find session[:content_id]
     set_page_session params[:page_num].to_i, @content
     set_sticky_panel_session
 
@@ -67,7 +67,7 @@ class ContentsController < ApplicationController
   end
 
   def ajax_edit
-    @content = Content.find(params[:id])
+    @content = Content.find params[:id]
     @content.fill_objectives
     get_content_resources
     render 'layouts/renders/main_pane', locals: { resource: 'edit' }
@@ -126,7 +126,7 @@ class ContentsController < ApplicationController
   end
 
   def ajax_upload_attachment_file
-    @content = Content.find(params[:id])
+    @content = Content.find params[:id]
     file = params[:attachment_file]
     new_file = AttachmentFile.new(attachment_file_params)
     file_name = new_file.upload_file_name
@@ -154,7 +154,7 @@ class ContentsController < ApplicationController
 
   def ajax_sort_page_files
     params[:page].each_with_index { |id, i| PageFile.update(id, display_order: i + 1) }
-    @content = Content.find(params[:id])
+    @content = Content.find params[:id]
     render 'layouts/renders/resource', locals: { resource: 'edit_pages' }
   end
 
@@ -200,7 +200,7 @@ class ContentsController < ApplicationController
 
   def destroy_file(file, category)
     file.destroy
-    @content = Content.find(params[:id])
+    @content = Content.find params[:id]
 
     # page display order update
     if category == 'page'
@@ -257,7 +257,7 @@ class ContentsController < ApplicationController
   end
 
   def upload_file(file, new_file)
-    @content = Content.find(params[:id])
+    @content = Content.find params[:id]
     file_name = new_file.upload_file_name
     page = PageFile.find_by(content_id: @content.id, upload_file_name: file_name)
     asset = AssetFile.find_by(content_id: @content.id, upload_file_name: file_name)

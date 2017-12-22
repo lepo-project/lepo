@@ -29,9 +29,9 @@ class StickiesController < ApplicationController
     end
 
     def ajax_update_sticky
-      sticky = Sticky.find(params[:id])
+      sticky = Sticky.find params[:id]
       sticky.update_attributes(sticky_params)
-      sticky = Sticky.find(params[:id])
+      sticky = Sticky.find params[:id]
       render 'stickies/renders/update', locals: { sticky: sticky, view_category: params[:view_category] }
     end
 
@@ -72,7 +72,7 @@ class StickiesController < ApplicationController
 
     def ajax_destroy_sticky
       @keyword = params[:keyword] if params[:keyword]
-      sticky = Sticky.find(params[:id])
+      sticky = Sticky.find params[:id]
       content_id = sticky.content_id
       course_id = sticky.course_id
       target_type = sticky.target_type
@@ -186,7 +186,7 @@ class StickiesController < ApplicationController
 
     def stickies_by_content_from_panel(target_id, content_id)
       if (session[:nav_section] == 'open_courses') || ((session[:nav_section] == 'repository') && (session[:nav_controller] == 'courses'))
-        content = Content.find(content_id)
+        content = Content.find content_id
         get_course_stickies_by_target session[:nav_id], 'PageFile', target_id, content.id
       else
         get_content_stickies content_id, target_id

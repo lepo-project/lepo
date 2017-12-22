@@ -12,7 +12,7 @@ class CourseMembersController < ApplicationController
   end
 
   def ajax_show(transition = false)
-    @selected_user = User.find(params[:id].to_i)
+    @selected_user = User.find params[:id]
     get_resources
     @stickies = course_stickies_by_user @selected_user.id, session[:nav_id]
     if transition
@@ -169,7 +169,7 @@ class CourseMembersController < ApplicationController
   private
 
   def get_resources
-    @course = Course.find(session[:nav_id])
+    @course = Course.find session[:nav_id]
     @managers = User.sort_by_signin_name @course.managers
     @assistants = User.sort_by_signin_name @course.assistants
     @learners = User.sort_by_signin_name @course.learners
@@ -177,7 +177,7 @@ class CourseMembersController < ApplicationController
 
   def update_role(user_id, course_id, role)
     course_member = CourseMember.find_by_user_id_and_course_id(user_id, course_id)
-    course = Course.find(course_id)
+    course = Course.find course_id
     if course_member
       if (course_member.role == 'manager') && (course.evaluator? user_id)
         flash.now[:message] = 'レッスンの評価担当者は、教師である必要があります'

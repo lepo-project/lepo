@@ -4,9 +4,9 @@ class OutcomesController < ApplicationController
   # Public Functions
   # ====================================================================
   def ajax_destroy_file
-    outcome_file = OutcomeFile.find(params[:file_id])
+    outcome_file = OutcomeFile.find params[:file_id]
     outcome_file.destroy
-    @outcome = Outcome.find(params[:id])
+    @outcome = Outcome.find params[:id]
 
     # Thic action is only executed by learner
     @lesson_role = 'learner'
@@ -66,7 +66,7 @@ class OutcomesController < ApplicationController
   end
 
   def ajax_previous_status
-    @outcome = Outcome.find(params[:id])
+    @outcome = Outcome.find params[:id]
     @outcome.update_attributes(status: params[:previous_status], checked: true)
     @lesson = @outcome.lesson
     @content = @lesson.content
@@ -116,7 +116,7 @@ class OutcomesController < ApplicationController
   end
 
   def upload_file(file, new_file)
-    @outcome = Outcome.find(params[:id])
+    @outcome = Outcome.find params[:id]
     @outcome.set_folder_name
     @outcome.save
 

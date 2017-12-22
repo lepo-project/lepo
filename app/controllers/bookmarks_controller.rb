@@ -46,7 +46,7 @@ class BookmarksController < ApplicationController
   end
 
   def ajax_destroy
-    bookmark = Bookmark.find(params[:id])
+    bookmark = Bookmark.find params[:id]
     bookmark.destroy if bookmark.deletable? current_user
 
     bookmarks = current_user.system_staff? ? Bookmark.by_system_staffs : Bookmark.by_user(session[:id])

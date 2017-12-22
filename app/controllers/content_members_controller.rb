@@ -17,14 +17,14 @@ class ContentMembersController < ApplicationController
     @search_word = ''
     @candidates_csv = params[:candidates_csv] ? params[:candidates_csv] : ''
 
-    @content = Content.find(params[:content_id].to_i)
+    @content = Content.find params[:content_id]
     manageable = @content.manager_changeable? session[:id]
     @candidates = csv_to_member_candidates @candidates_csv, manageable, 'content', @content.id
     render 'layouts/renders/resource', locals: { resource: 'edit' }
   end
 
   def ajax_search_candidates
-    @content = Content.find(params[:content_id].to_i)
+    @content = Content.find params[:content_id]
     @form_category = 'search'
     @member_role = params[:member_role] ? params[:member_role] : ''
     @search_word = params[:search_word] ? params[:search_word] : ''
@@ -87,7 +87,7 @@ class ContentMembersController < ApplicationController
   private
 
   def get_resources
-    @content = Content.find(params[:content_id])
+    @content = Content.find params[:content_id]
     @content.fill_objectives
     @manager = @content.manager
     @assistants = User.sort_by_signin_name @content.assistants

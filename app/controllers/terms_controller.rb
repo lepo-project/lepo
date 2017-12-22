@@ -17,7 +17,7 @@ class TermsController < ApplicationController
   end
 
   def ajax_update
-    term = Term.find(params[:term][:id].to_i)
+    term = Term.find params[:term][:id]
 
     if term.update_attributes(term_params)
       flash.now[:message] = '学期情報を更新しました'
