@@ -86,7 +86,7 @@ class Sticky < ApplicationRecord
 
   def related_to?(user_id)
     return true if manager_id == user_id
-    user_star = StickyStar.find_by_sticky_id_and_manager_id(id, user_id)
+    user_star = StickyStar.find_by(sticky_id: id, manager_id: user_id)
     return true if user_star && user_star.stared
     false
   end

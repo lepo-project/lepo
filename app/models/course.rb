@@ -17,7 +17,6 @@
 #  updated_at         :datetime         not null
 #
 
-require 'date'
 class Course < ApplicationRecord
   include RandomString
   before_validation :set_default_value
@@ -65,7 +64,7 @@ class Course < ApplicationRecord
 
   def self.not_associated_by(user_id)
     courses = Course.where(status: 'open').order(created_at: :desc).limit(30).to_a
-    courses.delete_if { |c| CourseMember.find_by_course_id_and_user_id(c.id, user_id) }
+    courses.delete_if { |c| CourseMember.find_by(course_id: c.id, user_id: user_id) }
   end
 
   def self.work_sheet_distributable_by(user_id)
@@ -137,51 +136,15 @@ class Course < ApplicationRecord
   def hot_stickies
     duration = 7
     max_size = 3
-    Sticky.where("category = 'course' and course_id = ? and created_at >= ? and stars_count > 1", id, Date.today - duration).order('stars_count DESC, created_at DESC').limit(max_size)
+    Sticky.where("category = 'course' and course_id = ? and created_at >= ? and stars_count > 1", id, duration.days.ago).order('stars_count DESC, created_at DESC').limit(max_size)
   end
 
   def hot_notes
     duration = 14
     max_size = 5
-    notes = Note.where("category = 'work' and course_id = ? and updated_at >= ? and stars_count > 1", id, Date.today - duration).order('stars_count DESC, created_at DESC').limit(max_size)
+    notes = Note.where("category = 'work' and course_id = ? and updated_at >= ? and stars_count > 1", id, duration.days.ago).order('stars_count DESC, created_at DESC').limit(max_size)
     notes.to_a.delete_if { |note| !note.open? }
   end
-
-  # def hot_sources
-  #   duration = 28
-  #   max_size = 5
-  #
-  #   notes_by_members = []
-  #   members.each do |member|
-  #     notes = Note.where("category = 'work' and course_id = ? and manager_id = ?", id, member.id)
-  #     notes.to_a.delete_if { |note| !note.open? }
-  #     note_ids = []
-  #     notes.each do |note|
-  #       note_ids.push note.id
-  #     end
-  #     notes_by_members.push [member.id, note_ids]
-  #   end
-  #
-  #   snippets = []
-  #   notes_by_members.each do |sbm|
-  #     snippets.push Snippet.where("source_type = 'web' and note_id in (?) and updated_at >= ?", sbm[1], Date.today - duration).select(:source_id).distinct
-  #   end
-  #   snippets.flatten!
-  #
-  #   snippets_with_count = []
-  #   snippets.each do |s|
-  #     count = snippets.select { |snppt| snppt['source_id'] == s['source_id'] }.size
-  #     snippets_with_count.push [s['source_id'], count]
-  #   end
-  #   snippets_with_count.uniq!
-  #   snippets_with_count.sort! { |p, q| q[1] <=> p[1] }
-  #
-  #   hot_sources = []
-  #   snippets_with_count[0, max_size].each do |swc|
-  #     hot_sources.push WebPage.find_by(id: swc[0]) if swc[1] > 1
-  #   end
-  #   hot_sources
-  # end
 
   def learner_work_sheets(user_id, course_staff)
     notes = []
@@ -271,7 +234,7 @@ class Course < ApplicationRecord
 
   def user_role(user_id)
     return 'new' unless User.find_by(id: user_id)
-    association = CourseMember.find_by_user_id_and_course_id(user_id, id)
+    association = CourseMember.find_by(user_id: user_id, course_id: id)
     association ? association.role : 'pending'
   end
 

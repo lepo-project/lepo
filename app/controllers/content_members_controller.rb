@@ -17,14 +17,14 @@ class ContentMembersController < ApplicationController
     @search_word = ''
     @candidates_csv = params[:candidates_csv] ? params[:candidates_csv] : ''
 
-    @content = Content.find(params[:content_id].to_i)
+    @content = Content.find params[:content_id]
     manageable = @content.manager_changeable? session[:id]
     @candidates = csv_to_member_candidates @candidates_csv, manageable, 'content', @content.id
     render 'layouts/renders/resource', locals: { resource: 'edit' }
   end
 
   def ajax_search_candidates
-    @content = Content.find(params[:content_id].to_i)
+    @content = Content.find params[:content_id]
     @form_category = 'search'
     @member_role = params[:member_role] ? params[:member_role] : ''
     @search_word = params[:search_word] ? params[:search_word] : ''
@@ -41,7 +41,7 @@ class ContentMembersController < ApplicationController
     end
     current_roles = []
     candidates.each do |cn|
-      current_relation = ContentMember.find_by_user_id_and_content_id(cn.id, @content.id)
+      current_relation = ContentMember.find_by(user_id: cn.id, content_id: @content.id)
       current_role = current_relation ? current_relation.role : ''
       current_roles.push current_role
     end
@@ -51,7 +51,7 @@ class ContentMembersController < ApplicationController
 
   def ajax_update_role
     if params[:update_to] == 'none'
-      content_member = ContentMember.find_by_user_id_and_content_id(params[:user_id], params[:content_id])
+      content_member = ContentMember.find_by(user_id: params[:user_id], content_id: params[:content_id])
       if content_member && content_member.deletable?
         content_member.destroy
         if session[:id] == params[:user_id].to_i
@@ -60,7 +60,7 @@ class ContentMembersController < ApplicationController
         end
       end
     else
-      manager_id = ContentMember.find_by_content_id_and_role(params[:content_id], 'manager').user_id
+      manager_id = ContentMember.find_by(content_id: params[:content_id], role: 'manager').user_id
       ContentMember.transaction do
         update_role manager_id, params[:content_id], 'assistant' if params[:update_to] == 'manager'
         update_role params[:user_id], params[:content_id], params[:update_to]
@@ -87,7 +87,7 @@ class ContentMembersController < ApplicationController
   private
 
   def get_resources
-    @content = Content.find(params[:content_id])
+    @content = Content.find params[:content_id]
     @content.fill_objectives
     @manager = @content.manager
     @assistants = User.sort_by_signin_name @content.assistants
@@ -95,7 +95,7 @@ class ContentMembersController < ApplicationController
   end
 
   def update_role(user_id, content_id, role)
-    content_member = ContentMember.find_by_user_id_and_content_id(user_id, content_id)
+    content_member = ContentMember.find_by(user_id: user_id, content_id: content_id)
     if content_member
       unless content_member.update_attributes!(role: role)
         flash.now[:message] = '教材の管理/利用許可者は、コース管理権限のあるユーザのみ登録できます'

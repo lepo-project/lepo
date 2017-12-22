@@ -589,13 +589,13 @@ module ApplicationHelper
     when 'private'
       (sticky.stars_count == 1)
     else
-      sticky_star = StickyStar.find_by_manager_id_and_sticky_id(user_id, sticky.id)
+      sticky_star = StickyStar.find_by(manager_id: user_id, sticky_id: sticky.id)
       sticky_star && sticky_star.stared
     end
   end
 
   def user_stared_note?(user_id, note)
-    note_star = NoteStar.find_by_manager_id_and_note_id(user_id, note.id)
+    note_star = NoteStar.find_by(manager_id: user_id, note_id: note.id)
     note_star && note_star.stared
   end
 

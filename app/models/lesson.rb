@@ -56,7 +56,7 @@ class Lesson < ApplicationRecord
       outcomes = Outcome.where(lesson_id: id, status: 'submit').order(updated_at: :asc) || []
       return outcomes.size
     when 'learner'
-      outcome = Outcome.find_by_manager_id_and_lesson_id user_id, id
+      outcome = Outcome.find_by(manager_id: user_id, lesson_id: id)
       return 1 if (outcome && outcome.status == 'return' && !outcome.checked) || (outcome && outcome.status == 'self_submit' && !outcome.checked)
     end
     0
@@ -65,7 +65,7 @@ class Lesson < ApplicationRecord
   def user_role(user_id)
     return 'observer' if new_record?
     return 'evaluator' if user_id == evaluator_id
-    course_member = CourseMember.find_by_user_id_and_course_id(user_id, course_id)
+    course_member = CourseMember.find_by(user_id: user_id, course_id: course_id)
     course_member ? course_member.role : 'observer'
   end
 end

@@ -21,7 +21,7 @@ class SnippetsController < ApplicationController
   end
 
   def ajax_destroy
-    snippet = Snippet.find(params[:id])
+    snippet = Snippet.find params[:id]
     return unless snippet.deletable? session[:id]
     @notes = current_user.open_notes
     note_id = params[:note_id].to_i if params[:note_id]
@@ -44,7 +44,7 @@ class SnippetsController < ApplicationController
   end
 
   def ajax_sort
-    @note = Note.find params[:note_id].to_i
+    @note = Note.find params[:note_id]
     params[:item].each_with_index do |id, i|
       ni = NoteIndex.find_by(id: id)
       ni.update_attributes(display_order: i + 1) if ni
@@ -94,7 +94,7 @@ class SnippetsController < ApplicationController
   end
 
   def ajax_update
-    snippet = Snippet.find(params[:id])
+    snippet = Snippet.find params[:id]
 
     if params[:snippet][:description] == ''
       if snippet.deletable? session[:id]
@@ -119,7 +119,7 @@ class SnippetsController < ApplicationController
   end
 
   def ajax_update_pdf
-    snippet = Snippet.find(params[:id])
+    snippet = Snippet.find params[:id]
 
     snippet.update_attributes(snippet_params)
     @notes = current_user.open_notes

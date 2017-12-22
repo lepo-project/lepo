@@ -128,7 +128,7 @@ class ApplicationController < ActionController::Base
   def get_outcome_resources(lesson, content)
     @lesson_role = lesson.user_role session[:id]
     if !@lesson.new_record? && @lesson_role != 'assistant'
-      @outcomes = Outcome.get_all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, session[:id]
+      @outcomes = Outcome.all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, session[:id]
     else
       @outcomes = [Outcome.new_with_associations(session[:id], 0, 0, 'observer')]
     end
@@ -138,7 +138,7 @@ class ApplicationController < ActionController::Base
     when 'learner', 'assistant', 'observer'
       outcome = @outcomes[0]
       content.objectives.each do |co|
-        outcome.outcomes_objectives.build(objective_id: co.id) unless OutcomesObjective.find_by_outcome_id_and_objective_id(outcome.id, co.id)
+        outcome.outcomes_objectives.build(objective_id: co.id) unless OutcomesObjective.find_by(outcome_id: outcome.id, objective_id: co.id)
       end
     end
   end
@@ -261,8 +261,8 @@ class ApplicationController < ActionController::Base
 
       user = User.find_by(signin_name: signin_name)
       if user
-        current_relation = ContentMember.find_by_content_id_and_user_id(resource_id, user.id) if category == 'content'
-        current_relation = CourseMember.find_by_course_id_and_user_id(resource_id, user.id) if category == 'course'
+        current_relation = ContentMember.find_by(content_id: resource_id, user_id: user.id) if category == 'content'
+        current_relation = CourseMember.find_by(course_id: resource_id, user_id: user.id) if category == 'course'
         current_role = current_relation ? current_relation.role : ''
 
         if current_role == 'manager'

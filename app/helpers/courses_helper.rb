@@ -27,7 +27,7 @@ module CoursesHelper
 
     case lesson_role
     when 'learner'
-      outcome = Outcome.find_by_manager_id_and_lesson_id session[:id], lesson_id
+      outcome = Outcome.find_by(manager_id: session[:id], lesson_id: lesson_id)
       if outcome && outcome.score && (outcome.status != 'draft')
         return { class: 'fa fa-check fa-lg', text: '評価済み[満点]' } if outcome.score == 10
         return { class: 'fa fa-check fa-lg icon-gray', text: '評価済み' }

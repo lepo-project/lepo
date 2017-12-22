@@ -4,13 +4,13 @@ class NoticesController < ApplicationController
     # Public Functions
     # ====================================================================
     def ajax_archive_notice
-      @notice = Notice.find(params[:notice_id])
+      @notice = Notice.find params[:notice_id]
       @notice.update_attributes(status: 'archived')
       render_notice
     end
 
     def ajax_archive_notice_from_course_top
-      notice = Notice.find(params[:notice_id])
+      notice = Notice.find params[:notice_id]
       notice.update_attributes(status: 'archived')
       @course = Course.find session[:nav_id]
       @goals = get_goal_resources @course
@@ -27,7 +27,7 @@ class NoticesController < ApplicationController
     end
 
     def ajax_destroy_notice
-      @notice = Notice.find(params[:notice_id])
+      @notice = Notice.find params[:notice_id]
       @notice.destroy
       render_notice
     end
@@ -41,18 +41,18 @@ class NoticesController < ApplicationController
     end
 
     def ajax_open_notice
-      @notice = Notice.find(params[:notice_id])
+      @notice = Notice.find params[:notice_id]
       @notice.update_attributes(status: 'open')
       render_notice
     end
 
     def ajax_reedit_notice
-      @editting_notice = Notice.find(params[:notice_id])
+      @editting_notice = Notice.find params[:notice_id]
       render_notice
     end
 
     def ajax_update_notice
-      @notice = Notice.find(params[:notice_id])
+      @notice = Notice.find params[:notice_id]
       @notice.update_attributes(notice_params)
       render_notice
     end

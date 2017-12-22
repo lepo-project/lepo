@@ -104,7 +104,7 @@ class NotesController < ApplicationController
 
   def ajax_update
     params[:note][:overview] = params[:note][:overview][0, NOTE_OVERVIEW_MAX_LENGTH]
-    @note = Note.find params[:id].to_i
+    @note = Note.find params[:id]
 
     if @note.status_updatable?(params[:note][:status], session[:id]) && @note.update_attributes(note_params)
       distribute_work_sheet @note if @note.status == 'distributed_draft'
@@ -122,7 +122,7 @@ class NotesController < ApplicationController
     @note = Note.find_by(id: params[:id])
     if @note
       user_id = session[:id]
-      note_star = NoteStar.find_by_manager_id_and_note_id(user_id, @note.id)
+      note_star = NoteStar.find_by(manager_id: user_id, note_id: @note.id)
       star_increment = 1
 
       Note.transaction do
@@ -170,7 +170,7 @@ class NotesController < ApplicationController
 
   def distribute_work_sheet(original_ws)
     copy_snippets = original_ws.direct_snippets
-    course = Course.find(original_ws.course_id)
+    course = Course.find original_ws.course_id
     course.learners.each do |l|
       notes = Note.where(manager_id: l.id, status: 'original_ws', original_ws_id: original_ws.id).to_a
       next unless notes.size.zero?
@@ -186,7 +186,7 @@ class NotesController < ApplicationController
   end
 
   def get_resources
-    @course = Course.find(session[:nav_id])
+    @course = Course.find session[:nav_id]
 
     @notes = @course.learner_work_sheets(session[:id], @course.staff?(session[:id]))
   end

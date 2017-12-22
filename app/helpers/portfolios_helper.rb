@@ -397,11 +397,11 @@ module PortfoliosHelper
   end
 
   def user_signin(user)
-    to_day = Date.today - 1.day
-    from_day = to_day - 6.days
+    to_day = 1.day.ago
+    from_day = 7.days.ago
     access_num_week1 = Signin.where(updated_at: from_day..to_day).or(Signin.where(user_id: user.id))
-    to_day = Date.today - 8.days
-    from_day = to_day - 6.days
+    to_day = 8.days.ago
+    from_day = 14.days.ago
     access_num_week2 = Signin.where(updated_at: from_day..to_day).or(Signin.where(user_id: user.id))
 
     signin_hash user.signin_name, user.full_name, user.last_signin_at, access_num_week1.size, access_num_week2.size
