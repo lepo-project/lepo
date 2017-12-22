@@ -193,7 +193,7 @@ class ContentsController < ApplicationController
   end
 
   def destroy_blank_objectives(objectives)
-    objectives.each_value do |objective|
+    objectives.each do |_key, objective|
       objective['_destroy'] = 'true' if objective[:title].blank?
     end
   end

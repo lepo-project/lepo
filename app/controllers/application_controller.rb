@@ -128,7 +128,7 @@ class ApplicationController < ActionController::Base
   def get_outcome_resources(lesson, content)
     @lesson_role = lesson.user_role session[:id]
     if !@lesson.new_record? && @lesson_role != 'assistant'
-      @outcomes = Outcome.get_all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, session[:id]
+      @outcomes = Outcome.all_by_lesson_id_and_lesson_role_and_manager_id @lesson.course_id, @lesson.id, @lesson_role, session[:id]
     else
       @outcomes = [Outcome.new_with_associations(session[:id], 0, 0, 'observer')]
     end

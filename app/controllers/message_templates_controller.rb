@@ -48,7 +48,7 @@ class MessageTemplatesController < ApplicationController
     lesson_id = params[:lesson_id]
     lesson = Lesson.find lesson_id
     evaluator_id = lesson.evaluator_id
-    outcomes = Outcome.get_all_by_lesson_id_and_lesson_role_and_manager_id session[:nav_id], lesson_id, 'evaluator', session[:id]
+    outcomes = Outcome.all_by_lesson_id_and_lesson_role_and_manager_id session[:nav_id], lesson_id, 'evaluator', session[:id]
     render 'layouts/renders/message_templates', locals: { lesson_id: lesson_id, evaluator_id: evaluator_id, outcomes: outcomes }
   end
 end

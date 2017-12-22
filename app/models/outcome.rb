@@ -38,7 +38,7 @@ class Outcome < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.get_all_by_lesson_id_and_lesson_role_and_manager_id(course_id, lesson_id, lesson_role, manager_id)
+  def self.all_by_lesson_id_and_lesson_role_and_manager_id(course_id, lesson_id, lesson_role, manager_id)
     case lesson_role
     when 'observer'
       outcomes = [Outcome.new_with_associations(manager_id, 0, 0, 'observer')]
