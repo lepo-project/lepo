@@ -163,19 +163,23 @@ function showHighlight(targetDocument, targetClass, highlightText) {
           // Change target node to lepo-highlight element
           node = targetDocument.createElement("lepo-highlight");
           range.surroundContents(node);
-          node.style.setProperty('background-color', '#fe0', 'important');
-
+          setStyle(node);
         } else if(node.nodeType != Node.COMMENT_NODE){
           var clone  = node.cloneNode(true);
           var newChild = targetDocument.createElement("lepo-highlight");
           for(var i=0;i<clone.childNodes.length;i++){
             newChild.appendChild(clone.childNodes[i]);
           }
-          newChild.style.setProperty('background-color', '#fe0', 'important');
+          setStyle(newChild);
           // newChild.appendChild(clone);
           while (node.firstChild) node.removeChild(node.firstChild);
           node.appendChild(newChild);
         }
+      }
+
+      function setStyle(target){
+        target.style.setProperty('background-color', '#fe0', 'important');
+        target.style.setProperty('display', 'inline-block', 'important');
       }
 
       function nextSibling(){
