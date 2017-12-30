@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/lepo-project/pdfjs_viewer-rails.git
-  revision: a12e44eb11ae41ed2bf8b0581fee8bfcfaaac197
+  revision: 97085b34b96126501c81f6df7fb870d1e352d843
   specs:
-    pdfjs_viewer-rails (0.2.7)
+    pdfjs_viewer-rails (0.2.8)
       json (> 1.8.4)
       rails (> 4.2.0)
       sass-rails (~> 5.0)
@@ -295,7 +295,7 @@ DEPENDENCIES
   mysql2 (~> 0.4.0)
   net-ldap (~> 0.16.0)
   paperclip (~> 5.1.0)
-  pdfjs_viewer-rails (~> 0.2.7)!
+  pdfjs_viewer-rails (~> 0.2.8)!
   rails (~> 5.0.4)
   rails-assets-tether (~> 1.1)
   rails_autolink
