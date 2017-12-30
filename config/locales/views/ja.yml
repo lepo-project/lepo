@@ -152,6 +152,8 @@ ja:
       shortcut_keys: :contents.index.shortcut_keys
     page_number:
       portfolio: :helpers.portfolio
+    required:
+      required_item: 設定必須項目
     search_members:
       search_word: 検索語句
     shortcut_keys:
@@ -345,6 +347,8 @@ ja:
     account_pref:
       impossible: :helpers.impossible
       possible: :helpers.possible
+    profile_pref:
+      open_within_courses: 登録コース内で公開
     search_users:
       search: :layouts.buttons.search.search
       search_word: :layouts.search_members.search_word

@@ -2,9 +2,8 @@
 <div id="device-resource" class="scroll-pane">
 	<div class="row">
 		<div class="col-md-12">
-			<h1>端末登録
-				<div class="header-explanation">登録コース内で公開 / 設定必須項目：<span class="required">*</span></div>
-			</h1>
+			<h1>端末登録</h1>
+			<%= render partial: 'layouts/required' %>
 			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 			<%= form_for @device, url: {action: :ajax_create, id: @device.id}, html: {id: 'user_form', name: 'user_form', multipart: true}, remote: true do |f| %>
 			<%#= f.error_messages %>

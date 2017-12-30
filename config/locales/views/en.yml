@@ -152,6 +152,8 @@ en:
       shortcut_keys: :contents.index.shortcut_keys
     page_number:
       portfolio: :helpers.portfolio
+    required:
+      required_item: required item
     search_members:
       search_word: search word
     shortcut_keys:
@@ -345,6 +347,8 @@ en:
     account_pref:
       impossible: :helpers.impossible
       possible: :helpers.possible
+    profile_pref:
+      open_within_courses: Open within registered courses
     search_users:
       search: :layouts.buttons.search.search
       search_word: :layouts.search_members.search_word
