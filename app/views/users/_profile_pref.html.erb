@@ -1,14 +1,14 @@
 <div id="user-resource" class="scroll-pane">
 	<div class="row">
 		<div class="col-md-12">
-			<h1>プロフィールの設定
-				<div class="header-explanation">登録コース内で公開 / 設定必須項目：<span class="required">*</span></div>
-			</h1>
+			<h1>プロフィールの設定</h1>
 			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 			<%= form_for current_user, url: {action: :ajax_update_profile}, html: {id: 'user_form', name: 'user_form', multipart: true}, remote: true do |f| %>
 			<%#= f.error_messages %>
 
 			<div class="bordered-block">
+				<p class="text-right small"><%= t('.open_within_courses') %></p>
+				<%= render partial: 'layouts/required' %>
 				<div class="form-group row">
 					<%= f.label :family_name, raw("<span class='required'>*</span>氏名（姓）"), class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">

@@ -4,6 +4,7 @@
 
 <div class="bordered-block">
   <h2>基本情報</h2>
+  <%= render partial: 'layouts/required' %>
   <div class="form-group row">
     <%= f.label :title, raw("<span class='required'>*</span>") + t('activerecord.attributes.content.title'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-7">
@@ -37,6 +38,7 @@
     <div class="header-explanation">教材の学習目標を、1〜<%= CONTENT_OBJECTIVE_MAX_SIZE %>個設定
     </div>
   </h2>
+  <%= render partial: 'layouts/required' %>
   <% editable = @content.editable_objectives? %>
   <% required = true %>
   <%= f.fields_for :objectives do |objective_form| %>
@@ -57,6 +59,7 @@
 </div>
 
 <div class="bordered-block">
+  <%= render partial: 'layouts/required' %>
   <h2>課題
     <div class="header-explanation">課題を必ず1つ設定</div>
   </h2>

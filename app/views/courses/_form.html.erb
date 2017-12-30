@@ -4,7 +4,7 @@
 
 <div class="bordered-block">
   <h2>基本情報</h2>
-
+  <%= render partial: 'layouts/required' %>
   <div class="form-group row">
     <%= f.label :title, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.title'), class: 'col-md-3 col-form-label text-sm-right' %>
     <span class="col-md-8">
@@ -91,6 +91,7 @@
   <h2><%= t('activerecord.models.goal') %>
     <div class="header-explanation">1〜<%= COURSE_GOAL_MAX_SIZE %>個設定</div>
   </h2>
+  <%= render partial: 'layouts/required' %>
   <% required = true %>
   <%= f.fields_for :goals do |goal_form| %>
   <%= render partial: 'courses/goal_form', locals: {required: required, goal_form: goal_form} %>
