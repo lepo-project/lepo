@@ -22,8 +22,7 @@ class Snippet < ApplicationRecord
   has_many :note_indices, as: :item, dependent: :destroy
   validates_presence_of :description, if: '%w[direct page_file].include? source_type'
   validates_presence_of :manager_id
-  # FIXME: Because of inconsistency between snippet and snippet_file, temporarily comment out
-  # validates_presence_of :source_id, if: '%w[page_file upload web].include? source_type'
+  validates_presence_of :source_id, if: '%w[page_file web].include? source_type'
   validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
   validates_inclusion_of :category, in: %w[text], if: "source_type == 'page_file'"
   validates_inclusion_of :category, in: %w[image], if: "source_type == 'upload'"

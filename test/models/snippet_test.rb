@@ -47,16 +47,13 @@ class SnippetTest < ActiveSupport::TestCase
     assert_invalid build(:snippet, manager_id: nil), :manager_id
   end
 
-  # FIXME: Because of inconsistency between snippet and snippet_file, temporarily comment out
-  # validates_presence_of :source_id, if: '%w[page_file upload web].include? source_type'
-  # test 'a snippet without source_id is invalid' do
-  #   assert_invalid build(:page_file_text_snippet, source_id: ''), :source_id
-  #   assert_invalid build(:page_file_text_snippet, source_id: nil), :source_id
-  #   assert_invalid build(:upload_image_snippet, source_id: ''), :source_id
-  #   assert_invalid build(:upload_image_snippet, source_id: nil), :source_id
-  #   assert_invalid build(:web_text_snippet, source_id: ''), :source_id
-  #   assert_invalid build(:web_text_snippet, source_id: nil), :source_id
-  # end
+  # test for validates_presence_of :source_id, if: '%w[page_file web].include? source_type'
+  test 'a snippet without source_id is invalid' do
+    assert_invalid build(:page_file_text_snippet, source_id: ''), :source_id
+    assert_invalid build(:page_file_text_snippet, source_id: nil), :source_id
+    assert_invalid build(:web_text_snippet, source_id: ''), :source_id
+    assert_invalid build(:web_text_snippet, source_id: nil), :source_id
+  end
 
   # test for validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
   test 'a snippet with category that is not included in[text header subheader] is invalid' do
