@@ -68,7 +68,7 @@ class NoticesController < ApplicationController
     end
 
     def get_notices
-      course_id = session[:nav_id].to_i
+      course_id = session[:nav_id]
       @course_id = course_id > 0 ? course_id : 0
       @open_notices = Notice.where(course_id: @course_id, status: 'open').order(updated_at: :desc)
       @archived_notices = Notice.where(course_id: @course_id, status: 'archived').order(updated_at: :desc).limit(100)

@@ -32,7 +32,7 @@ class CoursesController < ApplicationController
   end
 
   def ajax_toggle_lesson_note
-    return unless (session[:content_id] > 0) && session[:page_num]
+    return unless session[:nav_id] > 0 && session[:content_id] > 0 && session[:page_num]
     @course = Course.find session[:nav_id]
     @content = Content.find session[:content_id]
     @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
@@ -170,7 +170,7 @@ class CoursesController < ApplicationController
   end
 
   def ajax_create_snippet
-    return unless session[:page_num] > 0 && session[:page_num] < session[:max_page_num]
+    return unless session[:nav_id] > 0 && session[:page_num] > 0 && session[:page_num] < session[:max_page_num]
     @course = Course.find session[:nav_id]
     @content = Content.find session[:content_id]
     page_file_id = @content.page_file_id session[:page_num]

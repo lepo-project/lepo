@@ -94,7 +94,7 @@ class ApplicationController < ActionController::Base
   def set_nav_session(nav_section, nav_controller, nav_id = 0)
     session[:nav_section] = nav_section
     session[:nav_controller] = nav_controller
-    session[:nav_id] = nav_id
+    session[:nav_id] = nav_id.to_i
     set_page_session 0
   end
 
