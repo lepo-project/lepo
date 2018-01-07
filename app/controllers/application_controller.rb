@@ -222,11 +222,12 @@ class ApplicationController < ActionController::Base
   end
 
   def get_course_stickies_by_target(course_id, target_type, target_id, content_id = nil)
-    if content_id
-      stickies = Sticky.where(category: 'private', manager_id: session[:id], content_id: content_id, target_type: target_type, target_id: target_id).limit(100).to_a
+    case target_type
+    when 'PageFile'
+      stickies = Sticky.where(category: 'private', manager_id: session[:id], course_id: course_id, content_id: content_id, target_type: target_type, target_id: target_id).limit(100).to_a
       c_stickies = Sticky.where(category: 'course', course_id: course_id, content_id: content_id, target_type: target_type, target_id: target_id).limit(200).to_a
-    else
-      stickies = Sticky.where(category: 'private', manager_id: session[:id], target_type: target_type, target_id: target_id).limit(100).to_a
+    when 'Note'
+      stickies = Sticky.where(category: 'private', manager_id: session[:id], course_id: course_id, target_type: target_type, target_id: target_id).limit(100).to_a
       c_stickies = Sticky.where(category: 'course', course_id: course_id, target_type: target_type, target_id: target_id).limit(200).to_a
     end
     c_stickies.select! { |s| s.related_to? session[:id] } if session[:related_course_stickies]
