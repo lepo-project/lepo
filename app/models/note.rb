@@ -247,6 +247,7 @@ class Note < ApplicationRecord
     # prepare items for lesson note
     items = []
     display_order = 0
+    snippet_ids = NoteIndex.where(note_id: id, item_type: 'Snippet').pluck(:item_id)
     open_lessons.each do |lesson|
       display_order += 1
       content = lesson.content
@@ -264,8 +265,11 @@ class Note < ApplicationRecord
         end
         page_snippets = content_snippets.select { |snippet| snippet.source_id == pf_id }
         page_snippets.each do |psn|
-          display_order += 1
-          items.push note_id: id, item_id: psn.id, item_type: 'Snippet', display_order: display_order
+          # Snippets on the contents for the current course only
+          if snippet_ids.include? psn.id
+            display_order += 1
+            items.push note_id: id, item_id: psn.id, item_type: 'Snippet', display_order: display_order
+          end
         end
       end
     end

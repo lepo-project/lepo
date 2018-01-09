@@ -145,7 +145,6 @@ class SnippetsController < ApplicationController
       param_hash['snippet_id'] = @snippet.id
       snippet_file = SnippetFile.new(param_hash)
       snippet_file.save!
-      @snippet.update_attributes!(category: 'image', source_id: snippet_file.id, description: snippet_file.upload.url)
     end
     render_snippets note_id
   rescue StandardError

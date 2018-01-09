@@ -94,7 +94,7 @@ class ApplicationController < ActionController::Base
   def set_nav_session(nav_section, nav_controller, nav_id = 0)
     session[:nav_section] = nav_section
     session[:nav_controller] = nav_controller
-    session[:nav_id] = nav_id
+    session[:nav_id] = nav_id.to_i
     set_page_session 0
   end
 
@@ -222,11 +222,12 @@ class ApplicationController < ActionController::Base
   end
 
   def get_course_stickies_by_target(course_id, target_type, target_id, content_id = nil)
-    if content_id
-      stickies = Sticky.where(category: 'private', manager_id: session[:id], content_id: content_id, target_type: target_type, target_id: target_id).limit(100).to_a
+    case target_type
+    when 'PageFile'
+      stickies = Sticky.where(category: 'private', manager_id: session[:id], course_id: course_id, content_id: content_id, target_type: target_type, target_id: target_id).limit(100).to_a
       c_stickies = Sticky.where(category: 'course', course_id: course_id, content_id: content_id, target_type: target_type, target_id: target_id).limit(200).to_a
-    else
-      stickies = Sticky.where(category: 'private', manager_id: session[:id], target_type: target_type, target_id: target_id).limit(100).to_a
+    when 'Note'
+      stickies = Sticky.where(category: 'private', manager_id: session[:id], course_id: course_id, target_type: target_type, target_id: target_id).limit(100).to_a
       c_stickies = Sticky.where(category: 'course', course_id: course_id, target_type: target_type, target_id: target_id).limit(200).to_a
     end
     c_stickies.select! { |s| s.related_to? session[:id] } if session[:related_course_stickies]

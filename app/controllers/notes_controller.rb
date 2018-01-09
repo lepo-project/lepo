@@ -34,7 +34,7 @@ class NotesController < ApplicationController
       @notes = current_user.open_notes
       @note_items = @note.note_indices
     when 'open_courses', 'repository'
-      course_id = session[:nav_id].to_i
+      course_id = session[:nav_id]
       get_resources
       get_stickies course_id, note_id
       @note_items = @note.note_indices

@@ -23,7 +23,7 @@
       <!-- for private sticky creation -->
       <% categories.push ["#{t('.private_sticky')}", 'private'] %>
       <!-- for course sticky creation -->
-      <% if session[:nav_id].to_i > 0 %>
+      <% if session[:nav_id] > 0 %>
       <% categories.push ["#{t('.course_sticky')}", 'course'] %>
       <% end %>
       <%= f.select :category, categories, {}, {class: 'form-control', style: 'width: 9rem;'} %>
