@@ -297,7 +297,9 @@ class User < ApplicationRecord
     cards = []
     open_courses.each do |course|
       list = []
-      course.lessons.each do |lesson|
+      # snippet_ids is used to check recently updated snippets are existing in the specified course
+      snippet_ids = NoteIndex.where(note_id: course.lesson_note(id).id, item_type: 'Snippet').where('updated_at >= ?', 7.days.ago).pluck(:item_id)
+      course.open_lessons.each do |lesson|
         # Outcome cards
         marked_outcome_num = lesson.marked_outcome_num id
         if marked_outcome_num > 0
@@ -309,8 +311,7 @@ class User < ApplicationRecord
 
         # Lesson note cards
         content = lesson.content
-        if !Sticky.where(manager_id: id, target_type: 'PageFile', course_id: course.id, content_id: content.id).where('updated_at >= ?', 7.days.ago).size.zero? ||
-          !Snippet.where(manager_id: id, source_type: 'page_file', source_id: content.page_files.pluck(:id)).where('updated_at >= ?', 7.days.ago).size.zero?
+        if (Sticky.where(manager_id: id, target_type: 'PageFile', course_id: course.id, content_id: content.id).where('updated_at >= ?', 7.days.ago).size + Snippet.where(id: snippet_ids, source_id: content.page_files.pluck(:id)).size) > 0
           list.push(category: 'lesson_note_update', display_order: lesson.display_order, controller: 'courses', action: 'ajax_show_lesson_note_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id)
         end
       end
