@@ -8,11 +8,14 @@
 <script>
 document.getElementById('page-frame').onload = function(e){
 	this.style.opacity = 1;
+	var iframeWin = this.contentWindow
+	var iframeDoc = iframeWin.document
+
 	// Make keyBinder to work even when clicking the content in the iframe
-	keyBinder($(this.contentWindow));
+	keyBinder($(iframeWin));
 
 	<% if @course %>
-	addHighlight($(this.contentWindow), this.contentWindow, "<%= Rails.application.config.relative_url_root %>");
+	addHighlight($(iframeDoc), iframeDoc, "<%= Rails.application.config.relative_url_root %>");
 	<% case pg['file_type'] when 'pdf' %>
 	// Show highlight color even while text is selecting
 	$(this.contentDocument).find("head").append($('<style>#pdfjs_viewer-minimal *::selection {background-color: #fe0;} #pdfjs_viewer-minimal *::-moz-selection {background-color: #fe0;}</style>'))
