@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'autosize', '~> 2.4'
-gem 'bootstrap', '~> 4.0.0.beta'
+gem 'bootstrap', '~> 4.0.0'
 # gem "chartkick"
 gem 'coffee-rails', '~> 4.2.0'
 gem 'combine_pdf', '~> 1.0.7'
@@ -15,10 +15,10 @@ gem 'http_accept_language', '~> 2.1.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 gem 'jquery-hotkeys-rails', '~> 0.7.9'
-gem 'jquery-rails', '~> 4.2.0'
+gem 'jquery-rails', '~> 4.3.0'
 gem 'jquery-ui-rails', '~> 6.0.0'
 gem 'net-ldap', '~> 0.16.0'
-gem 'paperclip', '~> 5.1.0'
+gem 'paperclip', '~> 5.2.0'
 gem 'pdfjs_viewer-rails', '~> 0.2.8', github: 'lepo-project/pdfjs_viewer-rails'
 gem 'rails', '~> 5.0.4'
 gem 'rails-assets-tether', '~> 1.1'
@@ -55,7 +55,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '~> 2.16.0'
+  gem 'capybara', '~> 2.17.0'
   gem 'chromedriver-helper'
   gem 'database_cleaner', '~> 1.6.0'
   gem 'factory_bot_rails', '~> 4.8'
@@ -68,5 +68,5 @@ group :production do
   # Use Puma as the app server
   # gem 'puma', '~> 3.0'
   # Use Unicorn as the app server
-  gem 'unicorn', '~> 5.2.0'
+  gem 'unicorn', '~> 5.4.0'
 end
