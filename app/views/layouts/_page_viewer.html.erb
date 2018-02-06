@@ -15,18 +15,15 @@ document.getElementById('page-frame').onload = function(e){
 	keyBinder($(iframeWin));
 
 	<% if @course %>
-	addHighlight($(iframeDoc), iframeDoc, "<%= Rails.application.config.relative_url_root %>");
 	<% case pg['file_type'] when 'pdf' %>
-	// Show highlight color even while text is selecting
-	$(this.contentDocument).find("head").append($('<style>#pdfjs_viewer-minimal *::selection {background-color: #fe0;} #pdfjs_viewer-minimal *::-moz-selection {background-color: #fe0;}</style>'))
+	// Set color for text selection
+	$(this.contentDocument).find("head").append($('<style>#pdfjs_viewer-minimal .textLayer ::selection {background-color: #acf;} #pdfjs_viewer-minimal *::-moz-selection {background-color: #acf;}</style>'))
 	this.contentDocument.addEventListener('textlayerrendered', function (e) {
 		<% current_user.highlight_texts(@course.lesson_note(session[:id]).id, pg['file_id']).each do |text| %>
 		showHighlight(this, 'textLayer', "<%= text %>");
 		<% end %>
 	}, true);
 	<% when 'html' %>
-	// Show highlight color even while text is selecting
-	$(this.contentDocument).find("head").append($('<style>*::selection {background-color: #fe0;} *::-moz-selection {background-color: #fe0;}</style>'))
 	<% current_user.highlight_texts(@course.lesson_note(session[:id]).id, pg['file_id']).each do |text| %>
 	showHighlight(this.contentDocument, '', "<%= text %>");
 	<% end %>

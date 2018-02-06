@@ -1,12 +1,10 @@
-function addHighlight(mouseupTarget, selectionTarget, relativeUrl) {
-  // mouseupTarget: jQuery element to detect mouseup event
-  mouseupTarget.mouseup(function(evt) {
-    // selectionTarget: document element for text selection
-    var selectedText = selectionTarget.getSelection().getRangeAt(0).toString();
-    if (selectedText.length > 0) {
-      jQuery.ajax({type: "post", url: relativeUrl + "/courses/ajax_create_snippet/", data:{'description': selectedText}});
-    };
-  });
+function addHighlight(targetType, relativeUrl) {
+  target = (targetType == "iframe") ? document.getElementById('page-frame').contentWindow.document : document
+
+  if ((target.getSelection().anchorNode != null) && !target.getSelection().isCollapsed) {
+    var selectedText = target.getSelection().getRangeAt(0).toString();
+    jQuery.ajax({type: "post", url: relativeUrl + "/courses/ajax_create_snippet/", data:{'description': selectedText}});
+  }
 };
 
 

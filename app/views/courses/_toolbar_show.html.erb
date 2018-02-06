@@ -7,13 +7,26 @@
 <div id="toolbar-btns">
   <div class="btn-group">
     <% if @note %>
-    <%= link_to(raw("<i class='fa fa-book'></i> ") + t('activerecord.models.content'), {controller: 'courses', action: 'ajax_toggle_lesson_note', from: 'note' }, {class: 'toolbar-btn', remote: true}) %>
-    <div class="toolbar-btn">
-      <i class='fa fa-plus'></i> <%= t('activerecord.models.sticky') %> (<%= pg['stickies'].size %>)
+    <!-- For lesson note view -->
+    <%= link_to(raw("<i class='fa fa-book'></i> "), {controller: 'courses', action: 'ajax_toggle_lesson_note', from: 'note' }, {class: 'toolbar-btn', 'data-toggle': 'tooltip', 'data-placement': 'bottom', title: t('.show_content'), remote: true}) %>
+    <div class="toolbar-btn" data-toggle='tooltip' data-placement='bottom' title="<%= t('.highlight_text') %>">
+      <i class='fa fa-paint-brush'></i>
+    </div>
+    <div class="toolbar-btn" data-toggle='tooltip' data-placement='bottom' title="<%= t('.create_sticky') %>">
+      <i class='fa fa-sticky-note-o'></i> (<%= pg['stickies'].size %>)
     </div>
     <div class="toolbar-btn dropdown-toggle"><i class="fa fa-cog fa-2x"></i></div>
     <% else %>
-    <%= link_to(raw("<i class='fa fa-file-text'></i> ") + t('activerecord.models.note'), { controller: 'courses', action: 'ajax_toggle_lesson_note', from: 'content' }, class: 'toolbar-btn', remote: true) %>
+    <!-- For content page view -->
+    <%= link_to(raw("<i class='fa fa-file-text'></i> "), { controller: 'courses', action: 'ajax_toggle_lesson_note', from: 'content' }, {class: 'toolbar-btn', 'data-toggle': 'tooltip', 'data-placement': 'bottom', title: t('.show_note'), remote: true}) %>
+    <% if pg['file_path'] %>
+    <!-- FIXME: Currently, text highlights can only be abled on pages other than the cover nor assignment -->
+    <%= link_to(raw("<i class='fa fa-paint-brush'></i>"), "javascript:void(0);", onclick: "addHighlight('iframe', '#{Rails.application.config.relative_url_root}')", class: 'toolbar-btn', 'data-toggle': 'tooltip', 'data-placement': 'bottom', title: t('.highlight_text')) %>
+    <% else %>
+    <div class="toolbar-btn" data-toggle='tooltip' data-placement='bottom' title="<%= t('.highlight_text') %>">
+      <i class='fa fa-paint-brush'></i>
+    </div>
+    <% end %>
     <div id="sticky-toolbar">
       <% url_hash = {action: 'ajax_arrange_sticky_panel', content_id: @content.id, target_type: 'PageFile', target_id: pg['file_id'], sticky_panel: 'show'} %>
       <%= render partial: 'stickies/toolbar', locals: {stickies: pg['stickies'], url_hash: url_hash} %>
@@ -21,3 +34,12 @@
     <% end %>
   </div>
 </div>
+
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="tooltip"]').on('click', function () {
+    $(this).tooltip('hide')
+  })
+})
+</script>

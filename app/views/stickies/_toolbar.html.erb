@@ -1,12 +1,12 @@
 <% if session[:sticky_panel] == 'hide' %>
 <!-- Inactive button -->
-<div class="toolbar-btn">
-  <i class='fa fa-plus'></i> <%= t('activerecord.models.sticky') %> (<%= stickies.size %>)
+<div class="toolbar-btn" data-toggle='tooltip' data-placement='bottom' title="<%= t('.create_sticky') %>">
+  <i class='fa fa-sticky-note-o'></i> (<%= stickies.size %>)
 </div>
 <% else %>
 <!-- Active button -->
-<a id="create-sticky-btn" class="toolbar-btn" style="cursor:pointer;">
-  <i class='fa fa-plus'></i> <%= t('activerecord.models.sticky') %> (<%= stickies.size %>)
+<a id="create-sticky-btn" class="toolbar-btn" style="cursor:pointer;" data-toggle='tooltip' data-placement='bottom' title="<%= t('.create_sticky') %>">
+  <i class='fa fa-sticky-note-o'></i> (<%= stickies.size %>)
 </a>
 <% end %>
 
@@ -33,3 +33,9 @@
 <i class="<%= item_class %>"></i> <%= item_title %>
 <% end %>
 </div>
+
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+})
+</script>
