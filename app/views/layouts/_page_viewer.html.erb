@@ -4,6 +4,10 @@
 	<%= render(partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] }) %>
 </div>
 
+<div id="highlight-btns" class="btn-group" role="group" aria-label="highlight-ui" style="display: none; position: absolute; z-index: 100; box-shadow: 1px 1px 2px #666;">
+	<button id="highlight-submit-btn" type="button" class="btn btn-light" style="padding: 0 0.3rem 0 0.5rem;"><i class='fa fa-paint-brush fa-lg'></i></button>
+	<button id="highlight-cancel-btn" type="button" class="btn btn-light" style="padding: 0 0.3rem 0 0.6rem;"><i class='fa fa-times-circle fa-lg'></i></button>
+</div>
 
 <script>
 document.getElementById('page-frame').onload = function(e){
@@ -15,6 +19,7 @@ document.getElementById('page-frame').onload = function(e){
 	keyBinder($(iframeWin));
 
 	<% if @course %>
+	showHighlightBtns($(iframeDoc), iframeDoc, "<%= Rails.application.config.relative_url_root %>");
 	<% case pg['file_type'] when 'pdf' %>
 	// Set color for text selection
 	$(this.contentDocument).find("head").append($('<style>#pdfjs_viewer-minimal .textLayer ::selection {background-color: #acf;} #pdfjs_viewer-minimal *::-moz-selection {background-color: #acf;}</style>'))

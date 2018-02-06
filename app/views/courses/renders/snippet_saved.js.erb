@@ -5,13 +5,13 @@ setTimeout(function() {
 
 // Reload highlight texts in page
 <% current_user.highlight_texts(@course.lesson_note(session[:id]).id, pg['file_id']).each do |text| %>
-var iframe_document = document.getElementById('page-frame').contentDocument;
+var iframeDoc = document.getElementById('page-frame').contentDocument;
 <% case pg['file_type'] when 'pdf' %>
-showHighlight(iframe_document, 'textLayer', "<%= text %>");
+showHighlight(iframeDoc, 'textLayer', "<%= text %>");
 <% when 'html' %>
-showHighlight(iframe_document, '', "<%= text %>");
+showHighlight(iframeDoc, '', "<%= text %>");
 <% end %>
 <% end %>
 
 // Release text selection
-iframe_document.getSelection().removeAllRanges();
+hideHighlightBtns(iframeDoc);

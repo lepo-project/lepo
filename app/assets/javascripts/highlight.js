@@ -1,12 +1,29 @@
-function addHighlight(targetType, relativeUrl) {
-  target = (targetType == "iframe") ? document.getElementById('page-frame').contentWindow.document : document
-
-  if ((target.getSelection().anchorNode != null) && !target.getSelection().isCollapsed) {
-    var selectedText = target.getSelection().getRangeAt(0).toString();
-    jQuery.ajax({type: "post", url: relativeUrl + "/courses/ajax_create_snippet/", data:{'description': selectedText}});
-  }
+function showHighlightBtns(mouseupTarget, selectionTarget, relativeUrl) {
+  // mouseupTarget: jQuery element to detect mouseup event
+  mouseupTarget.mouseup(function(evt) {
+    // selectionTarget: document element for text selection
+    var selectedText = selectionTarget.getSelection().getRangeAt(0).toString();
+    if (selectedText.length > 0) {
+      var btns = document.getElementById('highlight-btns');
+      btns.style.display = "inline-flex";
+      btns.style.top = (evt.pageY - 16) + "px";
+      btns.style.left = (evt.pageX - 12) + "px";
+      document.getElementById('highlight-submit-btn').onclick =  function() {
+        jQuery.ajax({type: "post", url: relativeUrl + "/courses/ajax_create_snippet/", data:{'description': selectedText}});
+      };
+      document.getElementById('highlight-cancel-btn').onclick = function() {
+        hideHighlightBtns (selectionTarget);
+      };
+    } else {
+      hideHighlightBtns (selectionTarget);
+    };
+  });
 };
 
+function hideHighlightBtns (selectionTarget) {
+  document.getElementById('highlight-btns').style.display = "none";
+  selectionTarget.getSelection().removeAllRanges();
+}
 
 function showHighlight(targetDocument, targetClass, highlightText) {
   var documentText = "";   // Full text of target document
