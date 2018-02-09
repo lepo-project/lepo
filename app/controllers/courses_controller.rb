@@ -224,6 +224,12 @@ class CoursesController < ApplicationController
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
   end
 
+  def ajax_destroy_snippet
+    snippet = Snippet.find_by(id: params[:snippet_id])
+    snippet.destroy if snippet.deletable?(session[:id])
+    head :no_content
+  end
+
   def ajax_duplicate
     original_course = Course.find params[:original_id]
     return unless original_course

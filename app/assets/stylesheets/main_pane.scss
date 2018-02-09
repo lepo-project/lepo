@@ -6,6 +6,7 @@
 @import 'components/card';
 @import 'components/color';
 @import 'components/file_submit_btn';
+@import 'components/highlight';
 @import 'components/image';
 @import 'components/toolbar';
 @import 'components/versatile_cards';
@@ -201,6 +202,7 @@
 
   #resource {
     @include file-submit-btn;
+    @include highlight-btns;
     @include image-80px;
     @include report-card;
     @include resources-card;
