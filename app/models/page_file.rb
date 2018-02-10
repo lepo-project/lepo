@@ -5,6 +5,7 @@
 #  id                  :integer          not null, primary key
 #  content_id          :integer
 #  display_order       :integer
+#  category            :string           default("file")
 #  upload_file_name    :string
 #  upload_content_type :string
 #  upload_file_size    :integer
@@ -22,6 +23,7 @@ class PageFile < ApplicationRecord
   belongs_to :content, touch: true
   has_many :stickies, as: :target, dependent: :destroy
   validates_presence_of :content_id
-  validates_presence_of :upload_file_name
-  validates_uniqueness_of :upload_file_name, scope: [:content_id]
+  validates_presence_of :upload_file_name, if: "category == 'file'"
+  validates_inclusion_of :category, in: %w[file cover assignment]
+  validates_uniqueness_of :upload_file_name, scope: [:content_id], if: "category == 'file'"
 end
