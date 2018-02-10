@@ -1,17 +1,73 @@
-function addHighlight(mouseupTarget, selectionTarget, relativeUrl) {
+function showCreateHighlightBtns(mouseupTarget, selectionTarget) {
   // mouseupTarget: jQuery element to detect mouseup event
   mouseupTarget.mouseup(function(evt) {
     // selectionTarget: document element for text selection
     var selectedText = selectionTarget.getSelection().getRangeAt(0).toString();
     if (selectedText.length > 0) {
-      jQuery.ajax({type: "post", url: relativeUrl + "/courses/ajax_create_snippet/", data:{'description': selectedText}});
+      if (showHighlightBtns(evt, true)) {
+        document.getElementById('highlight-create-btn').onclick =  function() {
+          jQuery.ajax({type: 'post', url: '<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/', data:{'description': selectedText}});
+          hideHighlightBtns(selectionTarget);
+        };
+        document.getElementById('highlight-cancel-btn').onclick = function() {
+          hideHighlightBtns(selectionTarget);
+        };
+        return
+      };
     };
+    hideHighlightBtns (selectionTarget);
   });
 };
 
+function showDeleteHighlightBtns(evt, element) {
+  if (showHighlightBtns(evt, false)) {
+    var highlightId = element.getAttribute('data-lepo').slice('highlight-'.length);
+    document.getElementById('highlight-delete-btn').onclick =  function() {
+      jQuery.ajax({type: 'post', url: '<%= Rails.application.config.relative_url_root %>/courses/ajax_destroy_snippet/', data:{'snippet_id': highlightId}});
+      removeElement(document.getElementById('page-frame').contentWindow.document, highlightId)
+      hideHighlightBtns();
+    };
+    document.getElementById('highlight-cancel-btn').onclick = function() {
+      hideHighlightBtns();
+    };
+    setTimeout(function() {hideHighlightBtns();}, 2000)
+  };
 
-function showHighlight(targetDocument, targetClass, highlightText) {
-  var documentText = "";   // Full text of target document
+  function removeElement(targetDocument, highlightId) {
+    elements = targetDocument.querySelectorAll('lepo-highlight[data-lepo="highlight-' + highlightId + '"]');
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].firstChild == null) {
+        $(elements[i]).remove();
+      } else {
+        $(elements[i].firstChild).unwrap();
+      }
+    }
+  }
+}
+
+function showHighlightBtns(evt, createBtnDisplay) {
+  var btns = document.getElementById('highlight-btns');
+  if (btns.style.display == 'inline-flex') {
+    return false
+  } else {
+    document.getElementById('highlight-create-btn').style.display = createBtnDisplay ? 'block' : 'none';
+    document.getElementById('highlight-delete-btn').style.display = createBtnDisplay ? 'none' : 'block';
+    btns.style.top = (evt.pageY - 16) + 'px';
+    btns.style.left = (evt.pageX - 12) + 'px';
+    btns.style.display = 'inline-flex';
+    return true
+  };
+}
+
+function hideHighlightBtns (selectionTarget) {
+  document.getElementById('highlight-btns').style.display = 'none';
+  if (selectionTarget != null) {
+    selectionTarget.getSelection().removeAllRanges();
+  }
+}
+
+function showHighlight(targetDocument, targetClass, highlightId, highlightText) {
+  var documentText = '';   // Full text of target document
   var textNodes = [];  // Array to store text nodes
   var textAccumLengths = [];   // Array to store accumulate character lengths for text node
 
@@ -19,10 +75,10 @@ function showHighlight(targetDocument, targetClass, highlightText) {
   searchHighlightText(documentText, 0);
 
   function setDocumentText(){
-    documentText = "";
+    documentText = '';
     textNodes = [];
     textAccumLengths = [];
-    if (targetClass === "") {
+    if (targetClass === '') {
       // For HTML
       var walker = targetDocument.createTreeWalker(targetDocument.body, NodeFilter.SHOW_ALL, null, false);
     } else {
@@ -98,7 +154,6 @@ function showHighlight(targetDocument, targetClass, highlightText) {
       searchHighlightText(checkText.slice(index + highlightText.length), textIndex + highlightText.length);
     }
 
-
     function setHighlight(){
       // Create range object for highlight
       var range = targetDocument.createRange();
@@ -161,12 +216,12 @@ function showHighlight(targetDocument, targetClass, highlightText) {
           var range = targetDocument.createRange();
           range.selectNode(node);
           // Change target node to lepo-highlight element
-          node = targetDocument.createElement("lepo-highlight");
+          node = targetDocument.createElement('lepo-highlight');
           range.surroundContents(node);
           setStyle(node);
         } else if(node.nodeType != Node.COMMENT_NODE){
           var clone  = node.cloneNode(true);
-          var newChild = targetDocument.createElement("lepo-highlight");
+          var newChild = targetDocument.createElement('lepo-highlight');
           for(var i=0;i<clone.childNodes.length;i++){
             newChild.appendChild(clone.childNodes[i]);
           }
@@ -180,6 +235,8 @@ function showHighlight(targetDocument, targetClass, highlightText) {
       function setStyle(target){
         target.style.setProperty('background-color', '#fe0', 'important');
         target.style.setProperty('display', 'inline-block', 'important');
+        target.setAttribute('data-lepo', 'highlight-' + highlightId);
+        target.setAttribute('onmouseover', 'window.parent.showDeleteHighlightBtns(event, this)');
       }
 
       function nextSibling(){

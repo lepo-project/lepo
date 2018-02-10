@@ -73,6 +73,11 @@ ja:
     select_course:
       current_course: 現在のコース
       select_course: コースの選択
+    toolbar_show:
+      create_sticky: :stickies.toolbar.create_sticky
+      highlight_text: 文字をハイライト
+      show_content: 教材を表示
+      show_note: レッスンノートを表示
 
   course_members:
     edit_group:
@@ -337,6 +342,7 @@ ja:
     sticky_reports:
       search: :layouts.buttons.search.search
     toolbar:
+      create_sticky: ふせんを作成
       hide_sticky_panel: ふせんパネルを非表示
       reload_stickies: ふせんを再読み込み
       show_sticky_panel: ふせんパネルを表示

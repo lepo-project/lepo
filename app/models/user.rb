@@ -195,7 +195,7 @@ class User < ApplicationRecord
 
   def highlight_texts(lesson_note_id, page_file_id)
     ids = NoteIndex.where(note_id: lesson_note_id, item_type: 'Snippet').pluck(:item_id)
-    Snippet.where(id: ids, manager_id: id, category: 'text', source_type: 'page_file', source_id: page_file_id).pluck(:description)
+    Snippet.where(id: ids, manager_id: id, category: 'text', source_type: 'page_file', source_id: page_file_id).pluck(:id, :description)
   end
 
   def open_notes

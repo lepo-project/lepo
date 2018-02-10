@@ -73,6 +73,11 @@ en:
     select_course:
       current_course: Current Course
       select_course: Select Course
+    toolbar_show:
+      create_sticky: :stickies.toolbar.create_sticky
+      highlight_text: Highlight text
+      show_content: Show content
+      show_note: Show lesson note
 
   course_members:
     edit_group:
@@ -337,6 +342,7 @@ en:
     sticky_reports:
       search: :layouts.buttons.search.search
     toolbar:
+      create_sticky: Create sticky
       hide_sticky_panel: Hide sticky panel
       reload_stickies: Reload stickies
       show_sticky_panel: Show sticky panel
