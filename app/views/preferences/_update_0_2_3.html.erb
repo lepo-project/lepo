@@ -1,0 +1,26 @@
+<h3>Table: page_files</h3>
+<% contents = Content.all %>
+<% contents.each do |content| %>
+<% if content.page_files.where(category: 'cover').size == 0 %>
+<% unless PageFile.create(content_id: content.id, display_order: 0, category: 'cover') %>
+<%= render partial: 'layouts/system_message', locals: {message: "Error: cover page creation, " + content.id.to_s, message_category: 'error'} %>
+<% end %>
+<% end %>
+<% if content.page_files.where(category: 'assignment').size == 0 %>
+<% unless PageFile.create(content_id: content.id, display_order: file_size + 1, category: 'assignment') %>
+<%= render partial: 'layouts/system_message', locals: {message: 'Error: assignment page creation, ' + content.id.to_s, message_category: 'error'} %>
+<% end %>
+<% end %>
+<% end %>
+
+<h3>Table: stickies</h3>
+<% stickies = Sticky.all %>
+<% stickies.each do |sticky| %>
+<% if (sticky.target_type == 'PageFile') && ((sticky.target_id == 0) || (sticky.target_id == -1)) %>
+<% category = (sticky.target_id == 0) ? 'cover' : 'assignment' %>
+<% target_id = PageFile.find_by(content_id: sticky.content_id, category: category).id %>
+<% unless sticky.update_attributes(target_id: target_id) %>
+<%= render partial: 'layouts/system_message', locals: {message: 'Error: sticky target_idupdate, ' + sticky.id.to_s, message_category: 'error'} %>
+<% end %>
+<% end %>
+<% end %>

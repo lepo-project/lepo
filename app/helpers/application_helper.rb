@@ -151,6 +151,8 @@ module ApplicationHelper
         'fa-file-text'
       when 'ajax_user_account_pref'
         %w[fa-user fa-pencil]
+      when 'ajax_update_pref'
+        'fa-database'
       end
     when 'terms'
       'fa-building'

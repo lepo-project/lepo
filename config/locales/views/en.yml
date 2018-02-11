@@ -266,6 +266,8 @@ en:
       new_user: :helpers.new_user
       note: :helpers.note
       user_account: :helpers.user_account
+    update_pref:
+      version_header: 'Update from v%{from_ver} to v%{to_ver}'
 
   signin:
     setup:

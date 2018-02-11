@@ -31,6 +31,8 @@ module PreferencesHelper
         t('helpers.note') + ' : ' + t('helpers.note_summary')
       when 'ajax_user_account_pref'
         t('helpers.user_account') + ' : ' + t('helpers.user_account_summary')
+      when 'ajax_update_pref'
+        t('helpers.update') + ' : ' + t('helpers.update_summary')
       end
     when 'terms'
       t('helpers.term') + ' : ' + t('helpers.term_summary')

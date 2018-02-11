@@ -266,6 +266,8 @@ ja:
       new_user: :helpers.new_user
       note: :helpers.note
       user_account: :helpers.user_account
+    update_pref:
+      version_header: 'v%{from_ver} から v%{to_ver} に更新'
 
   signin:
     setup:
