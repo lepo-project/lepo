@@ -19,8 +19,7 @@ class PortfoliosController < ApplicationController
     if transition
       render 'layouts/renders/all', locals: { resource: 'show' }
     else
-      # page information clearance
-      set_page_session 0
+      reset_page_session
       render 'layouts/renders/main_pane', locals: { resource: 'show' }
     end
   end

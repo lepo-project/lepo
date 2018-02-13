@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: page_files
+# Table name: pages
 #
 #  id                  :integer          not null, primary key
 #  content_id          :integer
@@ -14,7 +14,7 @@
 #  updated_at          :datetime         not null
 #
 
-class PageFile < ApplicationRecord
+class Page < ApplicationRecord
   has_attached_file :upload,
   path: ':rails_root/public/system/contents/:content_folder_name/:filename',
   url: ':relative_url_root/system/contents/:content_folder_name/:filename'

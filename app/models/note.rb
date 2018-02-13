@@ -253,17 +253,17 @@ class Note < ApplicationRecord
       content = lesson.content
       items.push note_id: id, item_id: content.id, item_type: 'Content', display_order: display_order
 
-      page_file_ids = content.page_files.pluck(:id)
-      content_stickies = Sticky.where(manager_id: manager_id, course_id: course_id, target_type: 'PageFile', target_id: page_file_ids).order(:created_at)
-      content_snippets = Snippet.where(manager_id: manager_id, category: 'text', source_type: 'page_file', source_id: page_file_ids).order(:created_at)
+      page_ids = content.pages.pluck(:id)
+      content_stickies = Sticky.where(manager_id: manager_id, course_id: course_id, target_type: 'Page', target_id: page_ids).order(:created_at)
+      content_snippets = Snippet.where(manager_id: manager_id, category: 'text', source_type: 'page', source_id: page_ids).order(:created_at)
 
-      page_file_ids.each do |pf_id|
-        page_stickies = content_stickies.select { |sticky| sticky.target_id == pf_id }
+      page_ids.each do |pg_id|
+        page_stickies = content_stickies.select { |sticky| sticky.target_id == pg_id }
         page_stickies.each do |pst|
           display_order += 1
           items.push note_id: id, item_id: pst.id, item_type: 'Sticky', display_order: display_order
         end
-        page_snippets = content_snippets.select { |snippet| snippet.source_id == pf_id }
+        page_snippets = content_snippets.select { |snippet| snippet.source_id == pg_id }
         page_snippets.each do |psn|
           # Snippets on the contents for the current course only
           if snippet_ids.include? psn.id

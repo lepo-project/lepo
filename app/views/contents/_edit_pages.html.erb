@@ -7,14 +7,14 @@
       <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 
       <div class="bordered-block clearfix">
-        <h2><%= t('activerecord.models.page_file') %>
+        <h2><%= t('activerecord.models.page') %>
           <div class="header-explanation"><%= t('.page_file_explanation') %></div>
         </h2>
         <div class="form-side-area">
           <%= form_for :page_file, url: {action: :ajax_upload_page_file, id: @content.id}, html: {id: 'page-file-form', class: 'form-inline', multipart: true}, remote: true do |f| %>
           <%#= f.error_messages %>
           <%= f.hidden_field :content_id, value: @content.id %>
-          <%= f.hidden_field :display_order, value: @content.page_files.size+1 %>
+          <%= f.hidden_field :display_order, value: @content.file_pages.size + 1 %>
 
           <%= render partial: 'layouts/buttons/file_submit', locals: {f: f, file_category: 'page'} %>
           <% end %>
@@ -25,7 +25,7 @@
         </div>
         <div class="form-main-area">
           <div id="page-files" class="files" style="overflow: auto;">
-            <%= render partial: 'file', locals: {file_category: 'page'}, collection: @content.page_files %>
+            <%= render partial: 'file', locals: {file_category: 'page'}, collection: @content.file_pages %>
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@
 
 <script>
 $(function () {
-  sortPageFiles (<%= @content.id %>);
+  sortPages (<%= @content.id %>);
   fileSubmitStatus("page");
   fileSubmitStatus("asset");
   fileSubmitStatus("attachment");

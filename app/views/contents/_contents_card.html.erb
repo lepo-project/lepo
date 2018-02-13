@@ -45,7 +45,7 @@
       <div id="<%= selected_id(content == @content) %>" class="row <%= cycle('even-row', 'odd-row') %>">
         <div class="inner-row">
           <% case session[:nav_section] when 'home' %>
-          <div class="large-3x col"><%= link_to_resource("#{content.title} (#{t('.pages', num: content.page_files.size)})", content.id, {}) %></div>
+          <div class="large-3x col"><%= link_to_resource("#{content.title} (#{t('.pages', num: content.file_pages.size)})", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource(l(content.updated_at, format: :short), content.id, {}) %></div>
 
           <% when "repository" %>
@@ -55,7 +55,7 @@
             <% role = ContentMember.find_by(user_id: session[:id], content_id: content.id).role %>
             <%= link_to_resource(t("activerecord.others.content_member.role.#{role}"), content.id, {}) %>
           </div>
-          <div class="large-4x col"><%= link_to_resource("#{content.title} (#{t('.pages', num: content.page_files.size)})", content.id, {}) %></div>
+          <div class="large-4x col"><%= link_to_resource("#{content.title} (#{t('.pages', num: content.file_pages.size)})", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource("#{content.lessons.size.to_s}", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource(l(content.updated_at, format: :short), content.id, {}) %></div>
           <% end %>

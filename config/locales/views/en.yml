@@ -307,7 +307,7 @@ en:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error
     items:
-      footer_page_file:
+      footer_page:
         delete: :layouts.buttons.delete.delete
       footer_web:
         operations: Operations

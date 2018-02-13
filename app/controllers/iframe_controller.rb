@@ -4,14 +4,14 @@ class IframeController < ApplicationController
   # Public Functions
   # ====================================================================
   def image_page
-    @page_file = PageFile.find params[:id]
+    @file_page = Page.find params[:id]
   end
 
   def video_page
-    @page_file = PageFile.find params[:id]
+    @file_page = Page.find params[:id]
   end
 
   def object_page
-    @page_file = PageFile.find params[:id]
+    @file_page = Page.find params[:id]
   end
 end

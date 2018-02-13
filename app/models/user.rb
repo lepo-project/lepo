@@ -193,9 +193,9 @@ class User < ApplicationRecord
     phonetic_full_name == ' ' ? full_name : full_name + ' / ' + phonetic_full_name
   end
 
-  def highlight_texts(lesson_note_id, page_file_id)
+  def highlight_texts(lesson_note_id, page_id)
     ids = NoteIndex.where(note_id: lesson_note_id, item_type: 'Snippet').pluck(:item_id)
-    Snippet.where(id: ids, manager_id: id, category: 'text', source_type: 'page_file', source_id: page_file_id).pluck(:id, :description)
+    Snippet.where(id: ids, manager_id: id, category: 'text', source_type: 'page', source_id: page_id).pluck(:id, :description)
   end
 
   def open_notes
@@ -305,13 +305,14 @@ class User < ApplicationRecord
         if marked_outcome_num > 0
           lesson_role = lesson.user_role(id)
           if %w[learner evaluator].include? lesson_role
-            list.push(category: lesson_role + '_outcome', display_order: lesson.display_order, outcome_num: marked_outcome_num, controller: 'courses', action: 'ajax_show_page_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id, page_num: '-1')
+            assignment_page_num = lesson.content.assignment_page.display_order
+            list.push(category: lesson_role + '_outcome', display_order: lesson.display_order, outcome_num: marked_outcome_num, controller: 'courses', action: 'ajax_show_page_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id, page_num: assignment_page_num)
           end
         end
 
         # Lesson note cards
         content = lesson.content
-        if (Sticky.where(manager_id: id, target_type: 'PageFile', course_id: course.id, content_id: content.id).where('updated_at >= ?', 7.days.ago).size + Snippet.where(id: snippet_ids, source_type: 'page_file', source_id: content.page_files.pluck(:id)).size) > 0
+        if (Sticky.where(manager_id: id, target_type: 'Page', course_id: course.id, content_id: content.id).where('updated_at >= ?', 7.days.ago).size + Snippet.where(id: snippet_ids, source_type: 'page', source_id: content.pages.pluck(:id)).size) > 0
           list.push(category: 'lesson_note_update', display_order: lesson.display_order, controller: 'courses', action: 'ajax_show_lesson_note_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id)
         end
       end

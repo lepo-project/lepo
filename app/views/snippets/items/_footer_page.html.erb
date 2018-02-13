@@ -2,8 +2,8 @@
   <div class="card-footer">
     <div class="d-flex justify-content-between">
       <div>
-        <% page_file = PageFile.find_by(id: snippet.source_id) %>
-        <%= link_to_target_in_course_snippet snippet, page_file %>
+        <% page = Page.find_by(id: snippet.source_id) %>
+        <%= link_to_target_in_course_snippet snippet, page %>
       </div>
       <div>
         <%= l(snippet.created_at, format: :default) %>

@@ -97,29 +97,17 @@ module ApplicationHelper
     end
   end
 
-  def page_num_by_id_text(content, page_file_id)
-    page_num = page_num_by_id(content, page_file_id)
+  def page_num_text_by_id(content, page_id)
+    page_ids = content.pages.pluck(:id)
+    page_num = page_ids.index(page_id)
+    max_page_num = page_ids.size - 1
     case page_num
     when 0
       return t('helpers.cover_page')
-    when content.page_files.size + 1
+    when max_page_num
       return t('helpers.assignment_page')
     else
       return 'p.' + page_num.to_s
-    end
-  end
-
-  def page_num_by_id(content, page_file_id)
-    case page_file_id
-    when 0
-      0
-    when -1
-      content.page_files.size + 1
-    else
-      pages = content.page_files
-      pages.each_with_index do |page, i|
-        return (i + 1) if page.id == page_file_id
-      end
     end
   end
 
@@ -494,8 +482,8 @@ module ApplicationHelper
 
   def link_to_target_in_course(sticky, grouped_by_content)
     case sticky.target_type
-    when 'PageFile'
-      page_num_text = page_num_by_id_text sticky.content, sticky.target_id
+    when 'Page'
+      page_num_text = page_num_text_by_id sticky.content, sticky.target_id
       sticky_title = page_num_text
       sticky_title = sticky.content.title + ': ' + sticky_title unless grouped_by_content
       course_id_for_link = sticky.course_id_for_link
@@ -517,13 +505,13 @@ module ApplicationHelper
     end
   end
 
-  def link_to_target_in_course_snippet(snippet, page_file)
-    content = page_file.content
-    page_num_text = page_num_by_id_text content, page_file.id
+  def link_to_target_in_course_snippet(snippet, page)
+    content = page.content
+    page_num_text = page_num_text_by_id content, page.id
     title = content.title + ': ' + page_num_text
     course_id = snippet.notes[0].course_id
     if course_id > 0
-      link_to(title, { controller: 'courses', action: 'ajax_show_page_from_sticky', course_id: course_id, content_id: content.id, target_id: page_file.id }, style: 'font-weight: bold;', remote: true)
+      link_to(title, { controller: 'courses', action: 'ajax_show_page_from_sticky', course_id: course_id, content_id: content.id, target_id: page.id }, style: 'font-weight: bold;', remote: true)
     else
       sticky_title
     end

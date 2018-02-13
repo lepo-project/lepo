@@ -73,29 +73,29 @@ class ApplicationController < ActionController::Base
     when 'shift up'
       0
     when 'shift down'
-      -1
+      session[:max_page_num]
     end
   end
 
-  def set_page_session(page_num, content = nil)
-    if content
-      max_page_num = content.page_files.size + 1 # max page number is assignment page num
+  def set_page_session(page_num, content)
+    # max page number is assignment page num
+    max_page_num = content.pages.size - 1
+    session[:max_page_num] = max_page_num
+    session[:page_num] = [[0, page_num.to_i].max, max_page_num].min
+    session[:content_id] = content.id
+  end
 
-      session[:max_page_num] = max_page_num
-      session[:page_num] = get_page_num page_num, max_page_num
-      session[:content_id] = content.id
-    else
-      session[:max_page_num] = 0
-      session[:page_num] = 0
-      session[:content_id] = 0
-    end
+  def reset_page_session
+    session[:max_page_num] = 0
+    session[:page_num] = 0
+    session[:content_id] = 0
   end
 
   def set_nav_session(nav_section, nav_controller, nav_id = 0)
     session[:nav_section] = nav_section
     session[:nav_controller] = nav_controller
     session[:nav_id] = nav_id.to_i
-    set_page_session 0
+    reset_page_session
   end
 
   def set_sticky_panel_session
@@ -165,22 +165,22 @@ class ApplicationController < ActionController::Base
   def get_page(lesson_id, content)
     p = {}
     p['parent_id'] = lesson_id > 0 ? lesson_id : content.id # only open course contents are lesson_id > 0
-    p['file_id'] = content.page_file_id session[:page_num]
-    file_info = page_file_info(lesson_id, content, session[:page_num], session[:max_page_num])
+    p['file_id'] = content.page_id session[:page_num]
+    file_info = file_page_info(lesson_id, content, session[:page_num], session[:max_page_num])
     p['file_type'] = file_info[0]
     p['file_path'] = file_info[1]
 
     if (session[:nav_section] == 'open_courses') || ((session[:nav_section] == 'repository') && (session[:nav_controller] == 'courses'))
-      p['stickies'] = get_course_stickies_by_target session[:nav_id], 'PageFile', p['file_id'], content.id
+      p['stickies'] = get_course_stickies_by_target session[:nav_id], 'Page', p['file_id'], content.id
     else
       p['stickies'] = get_content_stickies content.id, p['file_id']
     end
     p
   end
 
-  def page_file_info(_lesson_id, content, page_num, max_page_num)
+  def file_page_info(_lesson_id, content, page_num, max_page_num)
     return [nil, nil] unless (page_num > 0) && (page_num < max_page_num)
-    file = content.page_files[page_num - 1]
+    file = content.pages[page_num]
     relative_url_prefix = ENV['RAILS_RELATIVE_URL_ROOT'] ? ENV['RAILS_RELATIVE_URL_ROOT'] + '/' : ''
     case file.upload_content_type[0, 1]
     when 't' then
@@ -198,17 +198,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def get_page_num(page_num, max_page_num)
-    page_num = page_num.to_i
-    return max_page_num if page_num == -1 # -1 page_num is for assignment page
-    [[0, page_num].max, max_page_num].min
-  end
-
-  def get_content_stickies(content_id, page_file_id = nil)
-    if page_file_id
-      stickies = Sticky.where(manager_id: session[:id], content_id: content_id, target_type: 'PageFile', target_id: page_file_id).limit(100)
+  def get_content_stickies(content_id, page_id = nil)
+    if page_id
+      stickies = Sticky.where(manager_id: session[:id], content_id: content_id, target_type: 'Page', target_id: page_id).limit(100)
     else
-      stickies = Sticky.where(manager_id: session[:id], content_id: content_id, target_type: 'PageFile').limit(1000)
+      stickies = Sticky.where(manager_id: session[:id], content_id: content_id, target_type: 'Page').limit(1000)
     end
     sort_sticky stickies
   end
@@ -223,7 +217,7 @@ class ApplicationController < ActionController::Base
 
   def get_course_stickies_by_target(course_id, target_type, target_id, content_id = nil)
     case target_type
-    when 'PageFile'
+    when 'Page'
       stickies = Sticky.where(category: 'private', manager_id: session[:id], course_id: course_id, content_id: content_id, target_type: target_type, target_id: target_id).limit(100).to_a
       c_stickies = Sticky.where(category: 'course', course_id: course_id, content_id: content_id, target_type: target_type, target_id: target_id).limit(200).to_a
     when 'Note'

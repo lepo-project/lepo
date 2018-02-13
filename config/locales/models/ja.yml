@@ -23,7 +23,7 @@ ja:
       outcome_message: メッセージ
       outcome_text: 成果物（テキスト）
       outcomes_objective: 成果と目的
-      page_file: ページファイル
+      page: ページファイル
       signin: サインイン
       snippet: スニペット
       snippet_file: スニペットファイル
@@ -70,7 +70,7 @@ ja:
         lessons: :activerecord.models.lesson
         objectives: 目標
         overview: 概要
-        page_files: :activerecord.models.page_file
+        page_files: :activerecord.models.page
         status: 状態
         stickies: ふせん
         title: タイトル
@@ -224,7 +224,7 @@ ja:
         outcome: :activerecord.models.outcome
         self_achievement: 自己評価
 
-      page_file:
+      page:
         content: :activerecord.models.content
         display_order: 表示順序
         stickies: ふせん
@@ -260,7 +260,7 @@ ja:
         manager: 管理者
         message: メッセージ
         note: :activerecord.models.note
-        page_file: :activerecord.models.page_file
+        page: :activerecord.models.page
         stared_users: スターをつけたユーザ
         sticky_stars: :activerecord.models.sticky_star
         target_type: ターゲットタイプ

@@ -16,18 +16,18 @@ class Snippet < ApplicationRecord
   belongs_to :manager, class_name: 'User'
   belongs_to :source, class_name: 'WebPage'
   # FIXME: Correct this to be appropriate 'belongs_to' according to the value of source_type
-  # belongs_to :source, class_name: 'PageFile'
+  # belongs_to :source, class_name: 'Page'
   has_one :snippet_file, dependent: :destroy
   has_many :notes, through: :note_indices
   has_many :note_indices, as: :item, dependent: :destroy
-  validates_presence_of :description, if: '%w[direct page_file].include? source_type'
+  validates_presence_of :description, if: '%w[direct page].include? source_type'
   validates_presence_of :manager_id
-  validates_presence_of :source_id, if: '%w[page_file web].include? source_type'
+  validates_presence_of :source_id, if: '%w[page web].include? source_type'
   validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
-  validates_inclusion_of :category, in: %w[text], if: "source_type == 'page_file'"
+  validates_inclusion_of :category, in: %w[text], if: "source_type == 'page'"
   validates_inclusion_of :category, in: %w[image], if: "source_type == 'upload'"
   validates_inclusion_of :category, in: %w[text image pdf scratch ted youtube], if: "source_type == 'web'"
-  validates_inclusion_of :source_type, in: %w[direct page_file upload web]
+  validates_inclusion_of :source_type, in: %w[direct page upload web]
   validates_format_of :description, with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension', if: "source_type == 'web' && category == 'image'"
   after_destroy :destroy_source
 

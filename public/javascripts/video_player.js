@@ -1,7 +1,7 @@
 // playback js for h264 encoded video file
 // this code is used both from page-file video and asset-file video
 
-if (typeof page_file == "undefined") {
+if (typeof file_page == "undefined") {
 	// playback style for asset-file video
 	path = document.location.pathname.substring(0, document.location.pathname.lastIndexOf("/")+1) + file
 	autoplay = "false";

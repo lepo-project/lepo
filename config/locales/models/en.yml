@@ -23,7 +23,7 @@ en:
       outcome_message: Outcome Message
       outcome_text: Outcome Text
       outcomes_objective: Outcomes Objective
-      page_file: Page file
+      page: Page file
       signin: Signin
       snippet: Snippet
       snippet_file: Snippet File
@@ -224,7 +224,7 @@ en:
         outcome: :activerecord.models.outcome
         self_achievement: Self Achievement
 
-      page_file:
+      page:
         content: :activerecord.models.content
         display_order: Display order
         stickies: Stickies
@@ -260,7 +260,7 @@ en:
         manager: :activerecord.models.manager
         message: Message
         note: :activerecord.models.note
-        page_file: :activerecord.models.page_file
+        page: :activerecord.models.page
         stared_users: Stared users
         sticky_stars: Sticky stars
         target_type: Target type
