@@ -49,16 +49,16 @@ class PageTest < ActiveSupport::TestCase
     assert_invalid build(:page, category: nil), :category
   end
 
-  # test for validates_uniqueness_of :content_id, if: "category == 'cover'"
+  # test for validates_uniqueness_of :category, scope: [:content_id], if: "category == 'cover'"
   test 'some cover pages with same content_id are invalid' do
     cover_page = create(:cover_page)
-    assert_invalid build(:cover_page, content_id: cover_page.content_id), :content_id
+    assert_invalid build(:cover_page, content_id: cover_page.content_id), :category
   end
 
-  # test for validates_uniqueness_of :content_id, if: "category == 'assignment'"
+  # test for validates_uniqueness_of :category, scope: [:content_id], if: "category == 'assignment'"
   test 'some assignment_pages with same content_id are invalid' do
     assignment_page = create(:assignment_page)
-    assert_invalid build(:assignment_page, content_id: assignment_page.content_id), :content_id
+    assert_invalid build(:assignment_page, content_id: assignment_page.content_id), :category
   end
 
   # test for validates_uniqueness_of :upload_file_name, scope: [:content_id], if: "category == 'file'"

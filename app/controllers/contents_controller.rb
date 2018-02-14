@@ -39,31 +39,25 @@ class ContentsController < ApplicationController
 
     @content = Content.new(category: params[:category])
     @content.fill_objectives
-    @content.objectives[0].title = '(目標未定)'
+    @content.objectives[0].title = t('controllers.contents.no_object')
     get_content_resources
     render 'layouts/renders/all_with_sub_toolbar', locals: { resource: 'new' }
   end
 
   def ajax_create
-    @content = Content.new(content_params)
-    if @content.status == 'destroy'
-      get_content_resources
-      render 'layouts/renders/all', locals: { resource: 'index' }
-    elsif @content.save
-      content_member = ContentMember.new(content_id: @content.id, user_id: session[:id], role: 'manager')
-      if content_member.save
-        get_content_resources
-        render 'layouts/renders/main_pane', locals: { resource: 'edit_pages' }
-      else
-        flash[:message] = '教材と学生の関連づけに失敗しました'
-        flash[:message_category] = 'error'
-        replace_page_with_fill_objectives 'new'
-      end
-    else
-      flash[:message] = '教材の作成に失敗しました'
-      flash[:message_category] = 'error'
-      replace_page_with_fill_objectives 'new'
+    Content.transaction do
+      @content = Content.new(content_params)
+      @content.save!
+      Page.create!(content_id: @content.id, display_order: 0, category: 'cover')
+      Page.create!(content_id: @content.id, display_order: 1, category: 'assignment')
+      ContentMember.create!(content_id: @content.id, user_id: session[:id], role: 'manager')
     end
+    get_content_resources
+    render 'layouts/renders/main_pane', locals: { resource: 'edit_pages' }
+  rescue StandardError
+    flash[:message] = t('controllers.contents.save_error')
+    flash[:message_category] = 'error'
+    replace_page_with_fill_objectives 'new'
   end
 
   def ajax_edit
@@ -78,7 +72,7 @@ class ContentsController < ApplicationController
     content_form = content_params
 
     if all_blank_title? content_form[:objectives_attributes]
-      flash[:message] = '到達目標を、1つ以上設定する必要があります'
+      flash[:message] = t('controllers.contents.no_object_error')
       flash[:message_category] = 'error'
       replace_page_with_fill_objectives 'edit'
       return
@@ -204,9 +198,8 @@ class ContentsController < ApplicationController
 
     # page display order update
     if category == 'page'
-      pages = @content.pages
-      pages.each_with_index do |page, i|
-        page.update_attributes(display_order: i)
+      @content.pages.where('display_order > ?', 0).each_with_index do |page, i|
+        page.update_attributes(display_order: i + 1)
       end
       @content.reload
     end
@@ -280,6 +273,7 @@ class ContentsController < ApplicationController
       end
     elsif new_file.save
       split_pdf_pages(new_file) if new_file.upload_content_type == 'application/pdf' && new_file.instance_of?(Page)
+      @content.assignment_page.update_attributes(display_order: @content.pages.size - 1) if new_file.instance_of? Page
     else
       flash.now[:message] = t('controllers.contents.upload_failed', name: file_name)
       flash[:message_category] = 'error'

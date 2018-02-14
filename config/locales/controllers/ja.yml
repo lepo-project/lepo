@@ -5,6 +5,9 @@ ja:
       creation_failed: ブックマークの登録に失敗しました
       updated: ブックマークを更新しました
     contents:
+      save_error: 教材の保存に失敗しました
+      no_object: (目標未定)
+      no_object_error: 到達目標を、1つ以上設定してください
       updated: " %{name} を更新しました"
       update_failed: " %{name} の更新に失敗しました"
       upload_failed: " %{name} のアップロードに失敗しました"
