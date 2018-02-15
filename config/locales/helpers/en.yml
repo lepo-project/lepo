@@ -51,6 +51,8 @@ en:
     term: Term
     term_summary: school terms for courses
     unspecified: Unspecified
+    update: System Update
+    update_summary: Correction of DB etc. after updating LePo
     user_account: Existing User
     user_account_summary: search and edit for existing user
     worksheet_note: Worksheet

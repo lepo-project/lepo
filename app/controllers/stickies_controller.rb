@@ -10,7 +10,7 @@ class StickiesController < ApplicationController
 
       set_star_sort_stickies_session
       case sticky.target_type
-      when 'PageFile'
+      when 'Page'
         update_lesson_note_items sticky.course_id if sticky.course_id
         stickies = stickies_by_content_from_panel sticky.target_id, sticky.content_id
         @sticky = Sticky.new(content_id: sticky.content_id, course_id: sticky.course_id, target_type: sticky.target_type, target_id: sticky.target_id)
@@ -47,7 +47,7 @@ class StickiesController < ApplicationController
 
     def ajax_arrange_sticky_panel
       case params[:target_type]
-      when 'PageFile'
+      when 'Page'
         set_star_sort_stickies_session params[:star_sort_stickies] if params[:star_sort_stickies]
         case session[:nav_section]
         when 'open_courses', 'repository'
@@ -79,7 +79,7 @@ class StickiesController < ApplicationController
       target_id = sticky.target_id
       if sticky.destroyable? session[:id]
         sticky.destroy
-        update_lesson_note_items(course_id) if course_id && target_type == 'PageFile'
+        update_lesson_note_items(course_id) if course_id && target_type == 'Page'
       end
 
       case params[:view_category]
@@ -132,7 +132,7 @@ class StickiesController < ApplicationController
       set_star_sort_stickies_session
       last_sticky_dates = []
       lessons.each_with_index do |l, i|
-        stickies = get_course_stickies session[:nav_id], 'PageFile', l.content_id
+        stickies = get_course_stickies session[:nav_id], 'Page', l.content_id
         last_sticky_dates[i] = stickies[0].updated_at unless stickies.empty?
       end
       last_sticky_dates
@@ -140,7 +140,7 @@ class StickiesController < ApplicationController
 
     def render_sticky_panel(course_id, target_type, target_id, content_id = nil)
       case target_type
-      when 'PageFile'
+      when 'Page'
         stickies = stickies_by_content_from_panel target_id, content_id
         @sticky = Sticky.new(content_id: content_id, course_id: course_id, target_id: target_id)
       when 'Note'
@@ -180,14 +180,14 @@ class StickiesController < ApplicationController
       when 'home'
         get_content_stickies content_id
       else
-        get_course_stickies session[:nav_id], 'PageFile', content_id
+        get_course_stickies session[:nav_id], 'Page', content_id
       end
     end
 
     def stickies_by_content_from_panel(target_id, content_id)
       if (session[:nav_section] == 'open_courses') || ((session[:nav_section] == 'repository') && (session[:nav_controller] == 'courses'))
         content = Content.find content_id
-        get_course_stickies_by_target session[:nav_id], 'PageFile', target_id, content.id
+        get_course_stickies_by_target session[:nav_id], 'Page', target_id, content.id
       else
         get_content_stickies content_id, target_id
       end
@@ -203,7 +203,7 @@ class StickiesController < ApplicationController
 
     def render_page_with_sticky_panel(stickies)
       case @sticky.target_type
-      when 'PageFile'
+      when 'Page'
         url_hash = { action: 'ajax_arrange_sticky_panel', content_id: @sticky.content_id, target_type: @sticky.target_type, target_id: @sticky.target_id, sticky_panel: 'show' }
       when 'Note'
         url_hash = { action: 'ajax_arrange_sticky_panel', target_type: @sticky.target_type, target_id: @sticky.target_id, sticky_panel: 'show' }

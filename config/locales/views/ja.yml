@@ -266,6 +266,8 @@ ja:
       new_user: :helpers.new_user
       note: :helpers.note
       user_account: :helpers.user_account
+    update_pref:
+      version_header: 'v%{from_ver} から v%{to_ver} に更新'
 
   signin:
     setup:
@@ -305,7 +307,7 @@ ja:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error
     items:
-      footer_page_file:
+      footer_page:
         delete: :layouts.buttons.delete.delete
       footer_web:
         operations: 操作

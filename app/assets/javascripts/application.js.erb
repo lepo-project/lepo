@@ -141,13 +141,13 @@ function sortNoteItems(note_id, disabled) {
   })
 }
 
-function sortPageFiles (content_id) {
+function sortPages (content_id) {
   $('#page-files').sortable({
     axis:'y',
     opacity: 0.8,
     update:function () {
       $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/contents/ajax_sort_page_files/' + content_id,
+        url:'<%= Rails.application.config.relative_url_root %>/contents/ajax_sort_pages/' + content_id,
         data:$(this).sortable('serialize')
       })
     }

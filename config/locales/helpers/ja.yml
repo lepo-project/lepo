@@ -51,6 +51,8 @@ ja:
     term: 学期
     term_summary: コースを開講する学期
     unspecified: 指定なし
+    update: システム更新
+    update_summary: LePo更新後のDB等の修正
     user_account: 既存ユーザ
     user_account_summary: 既存ユーザの検索と編集
     worksheet_note: ワークシート

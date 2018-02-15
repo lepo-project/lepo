@@ -16,7 +16,7 @@
       <%= f.hidden_field(:course_id, value: sticky.course_id) if sticky.course_id %>
       <%= f.hidden_field(:target_type, value: sticky.target_type) %>
       <%= f.hidden_field(:target_id, value: sticky.target_id) %>
-      <%= f.hidden_field(:content_id, value: sticky.content_id) if (sticky.target_type == 'PageFile') %>
+      <%= f.hidden_field(:content_id, value: sticky.content_id) if (sticky.target_type == 'Page') %>
     </div>
     <div class="form-inline" style="margin: 2px; display:flex; justify-content: space-between;">
       <% categories = [] %>

@@ -1,9 +1,15 @@
 // Reload highlight texts in page
 <% current_user.highlight_texts(@course.lesson_note(session[:id]).id, pg['file_id']).each do |highlight| %>
-var iframeDoc = document.getElementById('page-frame').contentDocument;
-<% case pg['file_type'] when 'pdf' %>
-showHighlight(iframeDoc, 'textLayer', <%= highlight[0] %>, "<%= highlight[1] %>");
-<% when 'html' %>
-showHighlight(iframeDoc, '', <%= highlight[0] %>, "<%= highlight[1] %>");
-<% end %>
+if (document.getElementById('page-frame') == null) {
+  // For cover and assignment page
+  showHighlight(document, '', <%= highlight[0] %>, "<%= highlight[1] %>");
+} else {
+  // For iframe page
+  var iframeDoc = document.getElementById('page-frame').contentDocument;
+  <% case pg['file_type'] when 'pdf' %>
+  showHighlight(iframeDoc, 'textLayer', <%= highlight[0] %>, "<%= highlight[1] %>");
+  <% when 'html' %>
+  showHighlight(iframeDoc, '', <%= highlight[0] %>, "<%= highlight[1] %>");
+  <% end %>
+}
 <% end %>

@@ -51,5 +51,16 @@
 </div>
 
 <div id="sticky-panel">
-<%= render partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] } %>
+  <%= render partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] } %>
 </div>
+
+<%= render partial: 'layouts/highlight_btns' %>
+
+<script>
+<% if @course %>
+showCreateHighlightBtns($('#simple-html-content'), document);
+<% current_user.highlight_texts(@course.lesson_note(session[:id]).id, pg['file_id']).each do |highlight| %>
+showHighlight(document, '', <%= highlight[0] %>, "<%= highlight[1] %>");
+<% end %>
+<% end %>
+</script>

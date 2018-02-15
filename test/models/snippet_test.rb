@@ -23,7 +23,7 @@ class SnippetTest < ActiveSupport::TestCase
     assert build(:snippet).valid?
     assert build(:header_snippet).valid?
     assert build(:subheader_snippet).valid?
-    assert build(:page_file_text_snippet).valid?
+    assert build(:page_text_snippet).valid?
     assert build(:upload_image_snippet).valid?
     assert build(:web_text_snippet).valid?
     assert build(:web_image_snippet).valid?
@@ -33,12 +33,12 @@ class SnippetTest < ActiveSupport::TestCase
     assert build(:web_youtube_snippet).valid?
   end
 
-  # test for validates_presence_of :description, if: '%w[direct page_file].include? source_type'
+  # test for validates_presence_of :description, if: '%w[direct page].include? source_type'
   test 'a snippet without description is invalid' do
     assert_invalid build(:snippet, description: ''), :description
     assert_invalid build(:snippet, description: nil), :description
-    assert_invalid build(:page_file_text_snippet, description: ''), :description
-    assert_invalid build(:page_file_text_snippet, description: nil), :description
+    assert_invalid build(:page_text_snippet, description: ''), :description
+    assert_invalid build(:page_text_snippet, description: nil), :description
   end
 
   # test for validates_presence_of :manager_id
@@ -47,40 +47,40 @@ class SnippetTest < ActiveSupport::TestCase
     assert_invalid build(:snippet, manager_id: nil), :manager_id
   end
 
-  # test for validates_presence_of :source_id, if: '%w[page_file web].include? source_type'
+  # test for validates_presence_of :source_id, if: '%w[page web].include? source_type'
   test 'a snippet without source_id is invalid' do
-    assert_invalid build(:page_file_text_snippet, source_id: ''), :source_id
-    assert_invalid build(:page_file_text_snippet, source_id: nil), :source_id
+    assert_invalid build(:page_text_snippet, source_id: ''), :source_id
+    assert_invalid build(:page_text_snippet, source_id: nil), :source_id
     assert_invalid build(:web_text_snippet, source_id: ''), :source_id
     assert_invalid build(:web_text_snippet, source_id: nil), :source_id
   end
 
   # test for validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
-  test 'a snippet with category that is not included in[text header subheader] is invalid' do
+  test 'a direct snippet with category that is not included in[text header subheader] is invalid' do
     assert_invalid build(:snippet, category: ''), :category
     assert_invalid build(:snippet, category: nil), :category
   end
 
-  # test for validates_inclusion_of :category, in: %w[text], if: "source_type == 'page_file'"
-  test 'a page_file_text_snippet with category that is not included in[text] is invalid' do
-    assert_invalid build(:page_file_text_snippet, category: ''), :category
-    assert_invalid build(:page_file_text_snippet, category: nil), :category
+  # test for validates_inclusion_of :category, in: %w[text], if: "source_type == 'page'"
+  test 'a page snippet with category that is not included in[text] is invalid' do
+    assert_invalid build(:page_text_snippet, category: ''), :category
+    assert_invalid build(:page_text_snippet, category: nil), :category
   end
 
   # test for validates_inclusion_of :category, in: %w[image pdf], if: "source_type == 'upload'"
-  test 'a snippet with category that is not included in[image pdf] is invalid' do
+  test 'an upload snippet with category that is not included in[image pdf] is invalid' do
     assert_invalid build(:upload_image_snippet, category: ''), :category
     assert_invalid build(:upload_image_snippet, category: nil), :category
   end
 
   # test for validates_inclusion_of :category, in: %w[text image pdf scratch ted youtube], if: "source_type == 'web'"
-  test 'a snippet with category that is not included in[text image pdf scratch ted youtube] is invalid' do
+  test 'a web snippet with category that is not included in[text image pdf scratch ted youtube] is invalid' do
     assert_invalid build(:web_text_snippet, category: ''), :category
     assert_invalid build(:web_text_snippet, category: nil), :category
   end
 
-  # test for validates_inclusion_of :source_type, in: %w[direct page_file upload web]
-  test 'a snippet with source_type that is not included in[direct page_file upload web] is invalid' do
+  # test for validates_inclusion_of :source_type, in: %w[direct page upload web]
+  test 'a snippet with source_type that is not included in[direct page upload web] is invalid' do
     assert_invalid build(:snippet, source_type: ''), :source_type
     assert_invalid build(:snippet, source_type: nil), :source_type
   end

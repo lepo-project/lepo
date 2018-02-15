@@ -83,7 +83,7 @@ class CoursesController < ApplicationController
     nav_section = @course.status == 'open' ? 'open_courses' : 'repository'
     @content = Content.find params[:content_id]
     @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
-    page_num = page_file_to_num params[:target_id]
+    page_num = Page.find_by(id: params[:target_id].to_i).display_order
     set_nav_session nav_section, 'courses', params[:course_id]
     set_page_session page_num, @content
 
@@ -170,14 +170,13 @@ class CoursesController < ApplicationController
   end
 
   def ajax_create_snippet
-    return unless session[:nav_id] > 0 && session[:page_num] > 0 && session[:page_num] < session[:max_page_num]
+    return unless session[:nav_id] > 0 && session[:page_num].between?(0, session[:max_page_num])
     @course = Course.find session[:nav_id]
     @content = Content.find session[:content_id]
-    page_file_id = @content.page_file_id session[:page_num]
     note = @course.lesson_note(session[:id])
     display_order = note.note_indices.size + 1
     Snippet.transaction do
-      snippet = Snippet.create!(manager_id: session[:id], category: 'text', description: params[:description], source_type: 'page_file', source_id: page_file_id)
+      snippet = Snippet.create!(manager_id: session[:id], category: 'text', description: params[:description], source_type: 'page', source_id: @content.page_id(session[:page_num]))
       NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
     end
     note.update_items(@course.open_lessons)
@@ -516,17 +515,6 @@ class CoursesController < ApplicationController
     next_evaluator_index = evaluators.index(lesson.evaluator_id) + 1
     next_evaluator_index = 0 if next_evaluator_index == evaluators.size
     evaluators[next_evaluator_index]
-  end
-
-  def page_file_to_num(page_file_id)
-    page_file_id = page_file_id.to_i
-    case page_file_id
-    when 0, -1
-      page_file_id
-    else
-      sticky_page = PageFile.find page_file_id
-      sticky_page.display_order
-    end
   end
 
   def destroy_blank_goals(attributes)

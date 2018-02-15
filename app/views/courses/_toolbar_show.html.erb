@@ -17,7 +17,7 @@
     <!-- For content page view -->
     <%= link_to(raw("<i class='fa fa-file-text'></i> "), { controller: 'courses', action: 'ajax_toggle_lesson_note', from: 'content' }, {class: 'toolbar-btn', 'data-toggle': 'tooltip', 'data-placement': 'bottom', title: t('.show_note'), remote: true}) %>
     <div id="sticky-toolbar">
-      <% url_hash = {action: 'ajax_arrange_sticky_panel', content_id: @content.id, target_type: 'PageFile', target_id: pg['file_id'], sticky_panel: 'show'} %>
+      <% url_hash = {action: 'ajax_arrange_sticky_panel', content_id: @content.id, target_type: 'Page', target_id: pg['file_id'], sticky_panel: 'show'} %>
       <%= render partial: 'stickies/toolbar', locals: {stickies: pg['stickies'], url_hash: url_hash} %>
     </div>
     <% end %>

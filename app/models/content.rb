@@ -18,6 +18,8 @@
 class Content < ApplicationRecord
   include RandomString
   before_validation :set_default_value
+  has_one :assignment_page, -> { where('pages.category = ?', 'assignment') }, class_name: 'Page'
+  has_one :cover_page, -> { where('pages.category = ?', 'cover') }, class_name: 'Page'
   has_one :manager, -> { where('content_members.role = ?', 'manager') }, through: :content_members, source: :user
   has_many :asset_files, -> { order(upload_file_name: :asc) }, dependent: :destroy
   has_many :attachment_files, -> { order(upload_file_name: :asc) }, dependent: :destroy
@@ -29,7 +31,8 @@ class Content < ApplicationRecord
   has_many :notes, through: :note_indices
   has_many :note_indices, as: :item, dependent: :destroy
   has_many :objectives, -> { order(id: :asc) }, dependent: :destroy
-  has_many :page_files, -> { order(display_order: :asc) }, dependent: :destroy
+  has_many :pages, -> { order(display_order: :asc) }, dependent: :destroy
+  has_many :file_pages, -> { where('pages.category = ?', 'file').order(display_order: :asc) }, class_name: 'Page'
   has_many :stickies, dependent: :destroy
   validates_presence_of :folder_name
   validates_presence_of :overview
@@ -38,8 +41,6 @@ class Content < ApplicationRecord
   validates_inclusion_of :as_category, in: %w[text file outside]
   validates_inclusion_of :category, in: %w[upload]
   validates_inclusion_of :status, in: %w[open archived]
-  #  validate :presence_of_objective  # doesn't work for update(2011-01-09)
-  #  validate_on_create :presence_of_objective
   accepts_nested_attributes_for :objectives, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: CONTENT_OBJECTIVE_MAX_SIZE
   after_save :adjust_allocation
 
@@ -118,21 +119,13 @@ class Content < ApplicationRecord
     true
   end
 
-  def page_file_id(page_num)
-    # content cover page
-    return 0 if page_num.zero?
-    pages = page_files.pluck(:id)
-    return pages[page_num - 1] if page_num.between?(1, pages.size)
-    # content assignment page
-    return -1 if [-1, pages.size + 1].include? page_num
+  def page_id(page_num)
+    page_ids = pages.pluck(:id)
+    return page_ids[page_num] if page_num.between?(0, page_ids.size - 1)
   end
 
   def staff?(user_id)
     (manager? user_id) || (assistant? user_id)
-  end
-
-  def presence_of_objective
-    errors.add(:objectives, 'を、1つ以上設定する必要があります') if objectives.empty?
   end
 
   def status_display_order
