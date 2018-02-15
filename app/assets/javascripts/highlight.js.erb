@@ -4,7 +4,7 @@ function showCreateHighlightBtns(mouseupTarget, selectionTarget) {
     // selectionTarget: document element for text selection
     var selectedText = selectionTarget.getSelection().getRangeAt(0).toString();
     if (selectedText.length > 0) {
-      if (showHighlightBtns(evt, true)) {
+      if (showHighlightBtns(evt, mouseupTarget, true)) {
         document.getElementById('highlight-create-btn').onclick =  function() {
           jQuery.ajax({type: 'post', url: '<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/', data:{'description': selectedText}});
           hideHighlightBtns(selectionTarget);
@@ -20,11 +20,14 @@ function showCreateHighlightBtns(mouseupTarget, selectionTarget) {
 };
 
 function showDeleteHighlightBtns(evt, element) {
-  if (showHighlightBtns(evt, false)) {
+  var iframeDocument = (document.getElementById('page-frame') != null)
+  var positionOrigin = iframeDocument ? $(document.getElementById('page-frame').contentDocument) : $('#simple-html-content');
+
+  if (showHighlightBtns(evt, positionOrigin, false)) {
     var highlightId = element.getAttribute('data-lepo').slice('highlight-'.length);
     document.getElementById('highlight-delete-btn').onclick =  function() {
       jQuery.ajax({type: 'post', url: '<%= Rails.application.config.relative_url_root %>/courses/ajax_destroy_snippet/', data:{'snippet_id': highlightId}});
-      removeElement(document.getElementById('page-frame').contentWindow.document, highlightId)
+      removeElement(highlightId)
       hideHighlightBtns();
     };
     document.getElementById('highlight-cancel-btn').onclick = function() {
@@ -33,7 +36,8 @@ function showDeleteHighlightBtns(evt, element) {
     setTimeout(function() {hideHighlightBtns();}, 2000)
   };
 
-  function removeElement(targetDocument, highlightId) {
+  function removeElement(highlightId) {
+    var targetDocument = iframeDocument ? document.getElementById('page-frame').contentWindow.document : document;
     elements = targetDocument.querySelectorAll('lepo-highlight[data-lepo="highlight-' + highlightId + '"]');
     for (var i = 0; i < elements.length; i++) {
       if (elements[i].firstChild == null) {
@@ -45,18 +49,33 @@ function showDeleteHighlightBtns(evt, element) {
   }
 }
 
-function showHighlightBtns(evt, createBtnDisplay) {
+function showHighlightBtns(evt, positionOrigin, createBtnDisplay) {
   var btns = document.getElementById('highlight-btns');
   if (btns.style.display == 'inline-flex') {
     return false
   } else {
     document.getElementById('highlight-create-btn').style.display = createBtnDisplay ? 'block' : 'none';
     document.getElementById('highlight-delete-btn').style.display = createBtnDisplay ? 'none' : 'block';
-    btns.style.top = (evt.pageY - 16) + 'px';
-    btns.style.left = (evt.pageX - 12) + 'px';
+    var btnsPosition = new Object();
+    setBtnsPosition()
+    btns.style.top = btnsPosition.y + 'px';
+    btns.style.left = btnsPosition.x + 'px';
     btns.style.display = 'inline-flex';
     return true
   };
+
+  function setBtnsPosition() {
+    // position shift -12 and -16: adjusting position empirically
+    btnsPosition.x = evt.pageX - 12;
+    btnsPosition.y = evt.pageY - 16;
+
+    // position shift with offset: adjusting position for cover and assignment page
+    var off = positionOrigin.offset();
+    if (off != null ) {
+      btnsPosition.x -= off.left;
+      btnsPosition.y -= off.top;
+    }
+  }
 }
 
 function hideHighlightBtns (selectionTarget) {

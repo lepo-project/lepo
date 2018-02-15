@@ -4,11 +4,7 @@
 	<%= render(partial: 'stickies/sticky_panel', locals: { stickies: pg['stickies'] }) %>
 </div>
 
-<div id="highlight-btns" class="btn-group" role="group" aria-label="highlight-btns">
-	<button id="highlight-create-btn" type="button" class="btn btn-light"><i class='fa fa-paint-brush fa-lg'></i></button>
-	<button id="highlight-delete-btn" type="button" class="btn btn-light"><i class='fa fa-trash-o fa-lg'></i></button>
-	<button id="highlight-cancel-btn" type="button" class="btn btn-light"><i class='fa fa-times-circle fa-lg'></i></button>
-</div>
+<%= render partial: 'layouts/highlight_btns' %>
 
 <script>
 document.getElementById('page-frame').onload = function(e){

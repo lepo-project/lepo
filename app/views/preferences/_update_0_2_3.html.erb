@@ -1,6 +1,5 @@
-<h3>Table update: pages</h3>
-<% contents = Content.all %>
-<% contents.each do |content| %>
+<h3>Update pages table</h3>
+<% Content.all.each do |content| %>
 <% if content.cover_page.nil? %>
 <% page = Page.create(content_id: content.id, display_order: 0, category: 'cover') %>
 <%= render(partial: 'layouts/system_message', locals: {message: 'Error: Failed to create cover page for content.id = ' + content.id.to_s, message_category: 'error'}) unless page.save %>
@@ -13,9 +12,14 @@
 <% end %>
 <% end %>
 
-<h3>Table update: stickies</h3>
-<% stickies = Sticky.all %>
-<% stickies.each do |sticky| %>
+<h3>Update stickies table</h3>
+<% Sticky.all.each do |sticky| %>
+<% if (sticky.target_type == 'PageFile') %>
+<% unless sticky.update_attributes(target_type: 'Page') %>
+<%= render partial: 'layouts/system_message', locals: {message: 'Error: sticky target_idupdate, ' + sticky.id.to_s, message_category: 'error'} %>
+<% end %>
+<% end %>
+
 <% if (sticky.target_type == 'Page') && ((sticky.target_id == 0) || (sticky.target_id == -1)) %>
 <% category = (sticky.target_id == 0) ? 'cover' : 'assignment' %>
 <% target_id = Page.find_by(content_id: sticky.content_id, category: category).id %>

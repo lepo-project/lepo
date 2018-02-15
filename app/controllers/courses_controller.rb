@@ -170,7 +170,7 @@ class CoursesController < ApplicationController
   end
 
   def ajax_create_snippet
-    return unless session[:nav_id] > 0 && session[:page_num] > 0 && session[:page_num] < session[:max_page_num]
+    return unless session[:nav_id] > 0 && session[:page_num].between?(0, session[:max_page_num])
     @course = Course.find session[:nav_id]
     @content = Content.find session[:content_id]
     note = @course.lesson_note(session[:id])

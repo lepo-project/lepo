@@ -41,8 +41,6 @@ class Content < ApplicationRecord
   validates_inclusion_of :as_category, in: %w[text file outside]
   validates_inclusion_of :category, in: %w[upload]
   validates_inclusion_of :status, in: %w[open archived]
-  #  validate :presence_of_objective  # doesn't work for update(2011-01-09)
-  #  validate_on_create :presence_of_objective
   accepts_nested_attributes_for :objectives, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: CONTENT_OBJECTIVE_MAX_SIZE
   after_save :adjust_allocation
 
@@ -128,10 +126,6 @@ class Content < ApplicationRecord
 
   def staff?(user_id)
     (manager? user_id) || (assistant? user_id)
-  end
-
-  def presence_of_objective
-    errors.add(:objectives, 'を、1つ以上設定する必要があります') if objectives.empty?
   end
 
   def status_display_order
