@@ -39,7 +39,7 @@
         <h2 class="card-header"><%= t('.system_version') %></h2>
         <div class="card-body">
           <p class="card-text">
-            0.2.2 (<%= t '.released_at' %> <%= l(Date.new(2018, 2, 10), format: :default) %>)
+            <%= Rails.configuration.version %> (<%= t '.released_at' %> <%= l(Rails.configuration.version_date, format: :default) %>)
           </p>
         </div>
       </div>
