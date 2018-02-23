@@ -15,6 +15,9 @@ ja:
       no_courses_with_criteria: 条件を満たすコースが見つかりません
     notes:
       creation_error: ノートの作成に失敗しました。入力した値を確認して下さい。
+    preferences:
+      update_success: "v%{version} へのアップデートに成功しました！"
+      update_failed: "v%{version} へのアップデートに失敗しました"
     signin:
       error1: アクセスを許可されていません
       error2: User ID または Password に間違いがあります

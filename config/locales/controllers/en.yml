@@ -15,6 +15,9 @@ en:
       no_courses_with_criteria: No courses with these criteria.
     notes:
       creation_error: Creating note failed. Please check the input values.
+    preferences:
+      update_success: "Update to v%{version} success!"
+      update_failed: "Update to v%{version} failed."
     signin:
       error1: You are not allowed to access.
       error2: There is a mistake in User ID or Password.

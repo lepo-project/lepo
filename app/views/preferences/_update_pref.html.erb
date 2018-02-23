@@ -3,8 +3,11 @@
 		<div class="col-md-12">
 			<div class="block">
 				<h1><%= t('helpers.update') %></h1>
-				<h2><%= t('.version_header', from_ver: '0.2.2', to_ver: '0.2.3') %></h2>
-				<%= render partial: 'update_0_2_3' %>
+				<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+
+				<%= link_to({action: 'ajax_update', version: '0.2.3'}, {class: 'btn btn-primary', remote: true}) do %>
+				<%= t('.version_header', from_ver: '0.2.2', to_ver: '0.2.3') %>
+				<% end %>
 			</div>
 		</div>
 	</div>
