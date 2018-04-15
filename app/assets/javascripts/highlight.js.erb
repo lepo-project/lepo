@@ -2,8 +2,8 @@ function showCreateHighlightBtns(mouseupTarget, selectionTarget) {
   // mouseupTarget: jQuery element to detect mouseup event
   mouseupTarget.mouseup(function(evt) {
     // selectionTarget: document element for text selection
-    var selectedText = selectionTarget.getSelection().getRangeAt(0).toString();
-    if (selectedText.length > 0) {
+    if (!selectionTarget.getSelection().isCollapsed) {
+      var selectedText = selectionTarget.getSelection().getRangeAt(0).toString();
       if (showHighlightBtns(evt, mouseupTarget, true)) {
         document.getElementById('highlight-create-btn').onclick =  function() {
           jQuery.ajax({type: 'post', url: '<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/', data:{'description': selectedText}});
@@ -80,7 +80,8 @@ function showHighlightBtns(evt, positionOrigin, createBtnDisplay) {
 
 function hideHighlightBtns (selectionTarget) {
   document.getElementById('highlight-btns').style.display = 'none';
-  if (selectionTarget != null) {
+
+  if ((selectionTarget != null) && !selectionTarget.getSelection().isCollapsed) {
     selectionTarget.getSelection().removeAllRanges();
   }
 }
