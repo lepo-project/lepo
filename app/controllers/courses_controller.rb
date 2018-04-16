@@ -5,6 +5,7 @@ class CoursesController < ApplicationController
   # Public Functions
   # ====================================================================
   def ajax_index
+    record_user_action('read', params[:nav_id])
     render_course_index(params[:nav_section], params[:nav_id])
   end
 
@@ -14,6 +15,7 @@ class CoursesController < ApplicationController
       ajax_index_no_course
       render 'layouts/renders/main_pane_candidates', locals: { resource: 'select_course' }
     else
+      record_user_action('read', params[:nav_id])
       render_course_index(course.status, course.id)
     end
   end
@@ -28,6 +30,7 @@ class CoursesController < ApplicationController
     set_sticky_panel_session
     pg = get_page(@lesson.id, @content)
     @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
+    record_user_action('read', @course.id, @lesson.id, @content.id, pg['file_id'])
     render 'layouts/renders/all_with_pg', locals: { resource: 'layouts/cover_page', pg: pg }
   end
 
@@ -73,6 +76,7 @@ class CoursesController < ApplicationController
     @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
     get_outcome_resources @lesson, @content
     @message_templates = get_message_templates(@course.manager?(session[:id])) if session[:page_num] == session[:max_page_num]
+    record_user_action('read', @course.id, @lesson.id, @content.id, pg['file_id'])
     render_content_page pg
   end
 
@@ -93,6 +97,7 @@ class CoursesController < ApplicationController
     get_outcome_resources @lesson, @content
     @message_templates = get_message_templates(@course.manager?(session[:id])) if session[:page_num] == session[:max_page_num]
 
+    record_user_action('read', @course.id, @lesson.id, @content.id, pg['file_id'])
     render_content_page pg, true
   end
 
@@ -115,6 +120,7 @@ class CoursesController < ApplicationController
     get_outcome_resources @lesson, @content
     @message_templates = get_message_templates(@course.manager?(session[:id])) if session[:page_num] == session[:max_page_num]
 
+    record_user_action('read', @course.id, @lesson.id, @content.id, pg['file_id'])
     render_content_page pg, true
   end
 
@@ -140,6 +146,7 @@ class CoursesController < ApplicationController
       if register_course_managers
         set_nav_session 'repository', 'courses', @course.id
         get_content_array # for new lesson creation
+        record_user_action('created', @course.id)
         render 'layouts/renders/all', locals: { resource: 'edit_lessons' }
       else
         flash[:message] = 'コースと教師の関連づけに失敗しました'
@@ -166,6 +173,7 @@ class CoursesController < ApplicationController
 
     @course = Course.find params[:id]
     get_content_array # for new lesson creation
+    record_user_action('created', @course.id, lesson.id)
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
   end
 
@@ -173,15 +181,16 @@ class CoursesController < ApplicationController
     return unless session[:nav_id] > 0 && session[:page_num].between?(0, session[:max_page_num])
     @course = Course.find session[:nav_id]
     @content = Content.find session[:content_id]
+    @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     note = @course.lesson_note(session[:id])
     display_order = note.note_indices.size + 1
     Snippet.transaction do
       snippet = Snippet.create!(manager_id: session[:id], category: 'text', description: params[:description], source_type: 'page', source_id: @content.page_id(session[:page_num]))
       NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
+      record_user_action('created', @course.id, @lesson.id, @content.id, snippet.source_id, nil, nil, snippet.id, nil, nil)
     end
     note.update_items(@course.open_lessons)
 
-    @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     pg = get_page(@lesson.id, @content)
     @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
 
@@ -201,6 +210,7 @@ class CoursesController < ApplicationController
   def ajax_destroy
     @course = Course.find params[:id]
     @course.destroy if @course.deletable? session[:id]
+    record_user_action('deleted', @course.id)
     redirect_to controller: 'contents', action: 'ajax_index', nav_section: 'home', nav_id: 0
   end
 
@@ -209,6 +219,7 @@ class CoursesController < ApplicationController
     lesson = Lesson.find params[:lesson_id]
 
     if lesson.deletable? session[:id]
+      record_user_action('deleted', @course.id, lesson.id)
       lesson.destroy
       @course.lessons.each_with_index do |lsn, i|
         lsn.update_attributes(display_order: i + 1)
@@ -225,7 +236,13 @@ class CoursesController < ApplicationController
 
   def ajax_destroy_snippet
     snippet = Snippet.find_by(id: params[:snippet_id])
-    snippet.destroy if snippet.deletable?(session[:id])
+    if snippet.deletable?(session[:id])
+      lesson = Lesson.find_by(course_id: session[:nav_id], content_id: session[:content_id])
+      if lesson && (snippet.source_type == 'page')
+        record_user_action('deleted', session[:nav_id], lesson.id, session[:content_id], snippet.source_id, nil, nil, snippet.id, nil, nil)
+      end
+      snippet.destroy
+    end
     head :no_content
   end
 
@@ -236,6 +253,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
     @course.overview = original_course.overview
     if @course.save
+      record_user_action('created', @course.id)
       course_member = CourseMember.new(course_id: @course.id, user_id: session[:id], role: 'manager')
       if course_member.save
         original_course.duplicate_goals_to @course.id
@@ -284,6 +302,7 @@ class CoursesController < ApplicationController
       destroy_blank_goals(course_form[:goals_attributes])
 
       if @course.update_attributes course_form
+        record_user_action('updated', @course.id)
         # update lesson note
         @course.update_lesson_notes
         check_course_groups course_form[:groups_count]

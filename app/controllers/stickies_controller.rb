@@ -11,6 +11,8 @@ class StickiesController < ApplicationController
       set_star_sort_stickies_session
       case sticky.target_type
       when 'Page'
+        lesson = Lesson.find_by(course_id: sticky.course_id, content_id: sticky.content_id)
+        record_user_action('created', sticky.course_id, lesson.id, sticky.content_id, sticky.target_id, sticky.id, nil, nil, nil, nil) if lesson
         update_lesson_note_items sticky.course_id if sticky.course_id
         stickies = stickies_by_content_from_panel sticky.target_id, sticky.content_id
         @sticky = Sticky.new(content_id: sticky.content_id, course_id: sticky.course_id, target_type: sticky.target_type, target_id: sticky.target_id)
@@ -30,7 +32,12 @@ class StickiesController < ApplicationController
 
     def ajax_update_sticky
       sticky = Sticky.find params[:id]
-      sticky.update_attributes(sticky_params)
+      if sticky.update_attributes(sticky_params)
+        if sticky.target_type == "Page"
+          lesson = Lesson.find_by(course_id: sticky.course_id, content_id: sticky.content_id)
+          record_user_action('updated', sticky.course_id, lesson.id, sticky.content_id, sticky.target_id, sticky.id, nil, nil, nil, nil) if lesson
+        end
+      end
       sticky = Sticky.find params[:id]
       render 'stickies/renders/update', locals: { sticky: sticky, view_category: params[:view_category] }
     end
@@ -79,7 +86,11 @@ class StickiesController < ApplicationController
       target_id = sticky.target_id
       if sticky.destroyable? session[:id]
         sticky.destroy
-        update_lesson_note_items(course_id) if course_id && target_type == 'Page'
+        if course_id && target_type == 'Page'
+          lesson = Lesson.find_by(course_id: course_id, content_id: content_id)
+          record_user_action('deleted', course_id, lesson.id, content_id, target_id, params[:id], nil, nil, nil, nil) if lesson
+          update_lesson_note_items(course_id)
+        end
       end
 
       case params[:view_category]
