@@ -25,6 +25,10 @@ class SnippetsController < ApplicationController
     return unless snippet.deletable? session[:id]
     @notes = current_user.open_notes
     note_id = params[:note_id].to_i if params[:note_id]
+    if (snippet.source_type == 'page') && (session[:nav_id] > 0) && (session[:content_id] > 0)
+      lesson = Lesson.find_by(course_id: session[:nav_id], content_id: session[:content_id])
+      record_user_action('deleted', session[:nav_id], lesson.id, session[:content_id], snippet.source_id, nil, nil, snippet.id, nil, nil) if lesson
+    end
     snippet.destroy
 
     if note_id

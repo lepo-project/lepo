@@ -21,8 +21,10 @@ class SigninController < ApplicationController
       else
         # update last_signin_at without updating updated_at
         user.update_column(:last_signin_at, Time.now.utc)
-        Signin.create(user_id: user.id, src_ip: src_ip)
         session[:id] = user.id
+        Signin.create(user_id: session[:id], src_ip: src_ip)
+        record_user_action('signined')
+        # UserAction.create(user_id: session[:id], src_ip: src_ip, category: 'signined')
         set_nav_session 'home', 'dashboard', 0
         render 'layouts/renders/all_for_signin'
       end
@@ -56,6 +58,7 @@ class SigninController < ApplicationController
   end
 
   def signout
+    record_user_action('signouted')
     session.each do |key, _value|
       session[key] = nil
     end
@@ -69,10 +72,6 @@ class SigninController < ApplicationController
   private
 
   def authorize
-  end
-
-  def src_ip
-    request.env['HTTP_X_FORWARDED_FOR'] || request.remote_ip
   end
 
   def inside_ip?(ips)

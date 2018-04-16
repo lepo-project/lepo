@@ -56,6 +56,7 @@ class User < ApplicationRecord
   has_many :snippets, foreign_key: :manager_id
   has_many :stickies, foreign_key: :manager_id
   has_many :sticky_stars, foreign_key: :manager_id
+  has_many :user_actions
   validates_presence_of :family_name
   validates_presence_of :folder_name
   validates_presence_of :hashed_password, if: "authentication == 'local'"

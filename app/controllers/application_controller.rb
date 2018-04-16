@@ -85,6 +85,14 @@ class ApplicationController < ActionController::Base
     session[:content_id] = content.id
   end
 
+  def src_ip
+    request.env['HTTP_X_FORWARDED_FOR'] || request.remote_ip
+  end
+
+  def record_user_action(category, course_id = nil, lesson_id = nil, content_id = nil, page_id = nil, sticky_id = nil, sticky_star_id = nil, snippet_id = nil, outcome_id = nil, outcome_message_id = nil)
+    UserAction.create(user_id: session[:id], src_ip: src_ip, category: category, course_id: course_id, lesson_id: lesson_id, content_id: content_id, page_id: page_id, sticky_id: sticky_id, sticky_star_id: sticky_star_id, snippet_id: snippet_id, outcome_id: outcome_id, outcome_message_id: outcome_message_id)
+  end
+
   def reset_page_session
     session[:max_page_num] = 0
     session[:page_num] = 0
