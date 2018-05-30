@@ -6,7 +6,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'autosize', '~> 2.4'
-gem 'bootstrap', '~> 4.0.0'
+gem 'bootstrap', '~> 4.1.0'
 # gem "chartkick"
 gem 'coffee-rails', '~> 4.2.0'
 gem 'combine_pdf', '~> 1.0.7'

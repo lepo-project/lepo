@@ -33,7 +33,7 @@
     <%= f.label t("activerecord.others.note.status.#{@note.original_ws.status}"), class: 'col-form-label' %>
     <%= f.hidden_field(:status, value: 'original_ws') %>
     <% else %>
-    <div class="btn-group" data-toggle="buttons">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
       <% note_status_candidates(@note).each do |item| %>
       <label class="btn btn-light <%= 'active' if item[0] == @note.status %> <%= 'disabled' if item[2] %>" value="<%= item[0] %>">
         <%= f.radio_button :status, item[0], disabled: item[2] %><%= item[1] %>

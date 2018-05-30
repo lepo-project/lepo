@@ -24,7 +24,10 @@ ja:
       setup_error1: 最高管理者アカウントの作成に失敗しました。入力した文字列を確認し、再度、作成してみましょう
       setup_error2: 既に最高管理者アカウントが登録されているため、再度、登録することはできません
     snippets:
-      transfer_error: ノートの移動に失敗しました
+      character_numbers_error: "文字数（%{current}）が上限（%{limit}）を超えています"
       creation_error: テキストの保存に失敗しました
+      inside_lepo_error: LePo内の情報は、+Noteできません
       pdf_creation: "PDF: URLのみ保存しました（選択文字は未保存）"
+      re_register_button_error: +Noteボタンを再登録してください
+      transfer_error: ノートの移動に失敗しました
       upload_error: ファイルの保存に失敗しました

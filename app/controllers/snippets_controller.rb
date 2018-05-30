@@ -167,15 +167,15 @@ class SnippetsController < ApplicationController
 
     user = User.find_by(token: token) if token
     if !token || !user
-      @warning_message = '「+Note」ボタンを更新してください'
+      @warning_message = t('controllers.snippets.re_register_button_error')
       render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 5000)
     elsif lepo_url? url
-      @warning_message = 'LePo内の情報は、+Noteできません'
+      @warning_message = t('controllers.snippets.inside_lepo_error')
       render_warning
-    elsif description.size > 255
+    elsif description.size > WEB_SNIPPET_MAX_LENGTH
       # This doesn't work for WEBrick, but works for NGINX
-      # Upper limit of description is introduced by varchar(255) of MySQL and copyrigt point of view
-      @warning_message = '選択した文字が多すぎるため、+Noteできません'
+      # Upper limit of description is introduced by copyrigt point of view
+      @warning_message = t('controllers.snippets.character_numbers_error', current: description.size, limit: WEB_SNIPPET_MAX_LENGTH)
       render_warning
     elsif WebPage.pdf_url? url
       # Firefox: text snippet from PDF works for url, title and description
