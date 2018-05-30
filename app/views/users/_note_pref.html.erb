@@ -7,20 +7,20 @@
           <p class="card-text">
             ノート機能により、Webページ上のさまざまな情報をLePoに保存できます。保存した情報は、ノート内で自分の記載した文章やアップロードした画像ファイルと共に、表示順を指定することができます。
           </p>
-          【情報を収集する操作】
+          【情報を記録する操作】
           <ol class="card-text">
-            <li>以下の「+ Note」ボタンを、ブラウザのブックマークバー（お気に入りバー）にドラッグ＆ドロップ<br/>
-              <a href="<%= lepo_bookmarklet_script %>" class="btn btn-info btn-sm">+ Note</a>
+            <li>以下の「+Note」ボタンを、ブラウザのブックマークバー（お気に入りバー）にドラッグ＆ドロップ<br/>
+              <a href="<%= lepo_bookmarklet_script %>" class="btn btn-info btn-sm">+Note</a>
             </li>
-            <li>任意のWebページから情報を収集（LePoシステムやPDFファイルの情報は、収集できません）
+            <li>任意のWebページから情報を記録（LePoシステム内やPDFファイルの情報は、記録できません）
               <ul>
-                <li>文字：Webページの文字を範囲選択し、ブックマークバーのボタンをクリック！（1回の操作で255文字まで収集可能）</li>
+                <li>文字：Webページの文字を範囲選択し、ブックマークバーのボタンをクリック！（1回の操作で<%= WEB_SNIPPET_MAX_LENGTH %>文字まで記録可能）</li>
                 <li>画像：何も選択せずボタンをクリック。表示された画像一覧から、任意の画像をクリック！</li>
                 <li>YouTube：特定の動画が表示されたページで、何も選択せずボタンをクリック！</li>
                 <li>TED / Scratch：YouTubeと同様にクリック！</li>
               </ul>
             </li>
-            <li>LePoの「ノート管理」から、収集した情報をノートにドラッグ＆ドロップして整理</li>
+            <li>LePoの「ノート管理」から、記録した情報をノートにドラッグ＆ドロップして整理</li>
           </ol>
         </div>
       </div>
@@ -40,7 +40,7 @@
         <h2 class="card-header">標準ノートの設定</h2>
         <div class="card-body" style="line-height: 150%;">
           <p class="card-text">
-            +Noteボタンで収集したWeb情報は、以下で指定する標準ノートに直接保存されます。
+            +Noteボタンで記録したWeb情報は、以下で指定する標準ノートに直接保存されます。
           </p>
           <% notes = current_user.notes.map {|note| [note.title, note.id]} %>
           <% notes.unshift ['設定なし', 0] %>

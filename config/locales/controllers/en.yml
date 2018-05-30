@@ -24,7 +24,10 @@ en:
       setup_error1: Creating admin account failed. Please check the input character string and try to create it again.
       setup_error2: As the admin account has already been registered, you can not register again.
     snippets:
-      transfer_error: Transferring note failed
+      character_numbers_error: "Character numbers (%{current}) exceed the limit (%{limit})"
       creation_error: Failed to save text
+      inside_lepo_error: +Note is invalid inside LePo
       pdf_creation: "PDF: Only the URL was saved (Not the selected characters)"
+      re_register_button_error: Please re-register +Note button
+      transfer_error: Transferring note failed
       upload_error: Failed to save file

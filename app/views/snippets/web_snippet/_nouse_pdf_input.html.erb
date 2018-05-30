@@ -2,10 +2,10 @@
 <div id="lepo_bookmarklet_content" style="color:#fff;font-weight:normal;font-style:normal;font-size:12pt;font-family:'游ゴシック体','Yu Gothic','ヒラギノ角ゴ Pro','Hiragino Kaku Gothic Pro','メイリオ','Meiryo',sans-serif;line-height: 100%;text-align:center;position:fixed;top:10px;left:20px;z-index:2147483647;padding:0;">
   <%= form_tag("#{system_url}/snippets/create_web_snippet", method: 'get', remote: true) do %>
   <div>
-    <label>PDFファイル内の収集したい文字を貼り付けて送信</label>
+    <label>PDFファイル内の記録したい文字を貼り付けて送信</label>
   </div>
   <label style="width: 200px;">ページタイトル</label> <input type="text" cols="60" name="t" id="t_value" value="" /><br/>
-  <label style="width: 200px;">収集するテキスト</label> <textarea name="d" rows="3" cols="60"></textarea>
+  <label style="width: 200px;">記録するテキスト</label> <textarea name="d" rows="3" cols="60"></textarea>
   <input type="hidden" name="u" id="u_value" value="" />
   <input type="hidden" name="c" id="c_value" value="t" />
   <input type="hidden" name="v" id="v_value" value="1" />

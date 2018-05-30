@@ -215,7 +215,7 @@ ja:
       not_for_peer_review_message: あなたは以下のワークシートを評価しなくて構いません。
     index_home:
       no_note_resources: 現在、管理しているノートはありません
-      no_snippets: 現在、ノートに未保存のWebから収集した情報はありません
+      no_snippets: 現在、ノートに未保存のWebから記録した情報はありません
       snippet_transfer: 引用した情報はドラッグ＆ドロップ、またはメニュー「操作」からノートに移動して下さい
     subtitle:
       private: :activerecord.others.note.category.private
