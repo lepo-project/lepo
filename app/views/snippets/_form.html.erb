@@ -28,9 +28,9 @@
 <script>
 $(function(){
   $('#<%= form_id %> textarea').bind('keydown keyup change',function () {
-    charCount("<%= form_id %>", $(this).val().length, <%= USER_TEXT_LENGTH %>);
+    charCount("<%= form_id %>", $(this).val().length, <%= SNIPPET_MAX_LENGTH %>);
   });
-  charCount("<%= form_id %>", $('#<%= form_id %> textarea').val().length, <%= USER_TEXT_LENGTH %>);
+  charCount("<%= form_id %>", $('#<%= form_id %> textarea').val().length, <%= SNIPPET_MAX_LENGTH %>);
 });
 </script>
 <% end %>

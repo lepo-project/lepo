@@ -66,6 +66,9 @@ OUTCOME_MAX_FILE_SIZE = 10
 # max number for assignment outcome file per assignment
 OUTCOME_MAX_SIZE = 9
 
+# max character length for snippet
+SNIPPET_MAX_LENGTH = 800
+
 # min and max character length for user password
 USER_PASSWORD_MIN_LENGTH = 6
 USER_PASSWORD_MAX_LENGTH = 14
@@ -76,13 +79,10 @@ USER_PHONETIC_NAME_FLAG = true
 # max number of user search results for system administrator
 USER_SEARCH_MAX_SIZE = 50
 
-# max character length for user text form
-USER_TEXT_LENGTH = 800
-
 # character length for user token
 USER_TOKEN_LENGTH = 20
 
-# max character length for web snippet
+# max character length for web snippet (less or equal to SNIPPET_MAX_LENGTH)
 WEB_SNIPPET_MAX_LENGTH = 300
 
 # FIXME: PushNotification

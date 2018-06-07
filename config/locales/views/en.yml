@@ -234,7 +234,7 @@ en:
         group: :course_members.index.group
       home:
         export: Export to text
-        reload: Reload note
+        reload: Reload
 
   outcomes:
     evaluator:
@@ -302,7 +302,7 @@ en:
     create_snippet_btns:
       header: Header
       subheader: Subheader
-      text: Text
+      text: Paragraph
     form:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error

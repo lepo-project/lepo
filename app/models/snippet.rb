@@ -30,6 +30,7 @@ class Snippet < ApplicationRecord
   validates_inclusion_of :source_type, in: %w[direct page upload web]
   validates_format_of :description, with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension', if: "source_type == 'web' && category == 'image'"
   after_destroy :destroy_source
+  before_save :limit_description_length
 
   # ====================================================================
   # Public Functions
@@ -91,5 +92,11 @@ class Snippet < ApplicationRecord
     when 'web'
       source.destroy if source.deletable?
     end
+  end
+
+  def limit_description_length
+    # max character length for snippet is SNIPPET_MAX_LENGTH
+    # description is image url for source_type == web and category == image
+    self.description = description[0, SNIPPET_MAX_LENGTH] unless category == "image"
   end
 end

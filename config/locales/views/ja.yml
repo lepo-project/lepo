@@ -233,8 +233,8 @@ ja:
       courses:
         group: :course_members.index.group
       home:
-        export: 文章を出力
-        reload: ノートを再読み込み
+        export: テキスト出力
+        reload: 再読み込み
 
   outcomes:
     evaluator:
@@ -302,7 +302,7 @@ ja:
     create_snippet_btns:
       header: 見出し
       subheader: 小見出し
-      text: 文章
+      text: 段落
     form:
       cancel: :layouts.buttons.cancel.cancel
       char_num_error: :notes.form.char_num_error
