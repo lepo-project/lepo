@@ -107,8 +107,6 @@ class SnippetsController < ApplicationController
         render_snippets params[:note_id].to_i
       end
     else
-      # max character length for user text form is USER_TEXT_LENGTH
-      params[:snippet][:description] = params[:snippet][:description][0, USER_TEXT_LENGTH]
       snippet.update_attributes(snippet_params)
 
       if %w[header subheader].include? snippet.category

@@ -184,6 +184,7 @@ class CoursesController < ApplicationController
     @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     note = @course.lesson_note(session[:id])
     display_order = note.note_indices.size + 1
+
     Snippet.transaction do
       snippet = Snippet.create!(manager_id: session[:id], category: 'text', description: params[:description], source_type: 'page', source_id: @content.page_id(session[:page_num]))
       NoteIndex.create!(note_id: note.id, item_id: snippet.id, item_type: 'Snippet', display_order: display_order)
