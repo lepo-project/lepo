@@ -4,7 +4,8 @@
       <% if snippet.description.empty? %>
       <%= t('.input_pdf_text') %>
       <% else %>
-      <% add_br_body = add_br snippet.description %>
+      <% display_body = (session[:nav_section] == 'home') ? snippet.description : get_short_string(snippet.description, WEB_OPEN_SNIPPET_MAX_LENGTH)%>
+      <% add_br_body = add_br display_body %>
       <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
       <% end %>
     </div>

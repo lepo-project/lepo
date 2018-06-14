@@ -28,7 +28,7 @@ module ApplicationHelper
 
   def get_short_string(original_string, max_length)
     original_string_array = original_string.split(//u)
-    return original_string_array[0..(max_length - 2)].join + '..' if original_string_array.size > max_length
+    return original_string_array[0..(max_length - 2)].join + '...' if original_string_array.size > max_length
     original_string
   end
 

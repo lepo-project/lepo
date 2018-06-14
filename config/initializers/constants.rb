@@ -85,5 +85,8 @@ USER_TOKEN_LENGTH = 20
 # max character length for web snippet (less or equal to SNIPPET_MAX_LENGTH)
 WEB_SNIPPET_MAX_LENGTH = 300
 
+# max character length for web open snippet (less or equal to WEB_SNIPPET_MAX_LENGTH)
+WEB_OPEN_SNIPPET_MAX_LENGTH = 50
+
 # FIXME: PushNotification
 # FCM_AUTHORIZATION_KEY = ''
