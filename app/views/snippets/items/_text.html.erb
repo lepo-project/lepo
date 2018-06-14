@@ -24,8 +24,9 @@
 <div class="snippet-card card">
   <div class="main-area">
     <div class="body">
-      <% add_br_body = add_br snippet.description %>
-      <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
+      <% display_body = (session[:nav_section] == 'home') ? snippet.description : get_short_string(snippet.description, WEB_OPEN_SNIPPET_MAX_LENGTH)%>
+      <% add_br_body = add_br display_body %>
+      <%= auto_link(sanitize(add_br_body), html: { class: 'bright-link', target: '_blank' }) %>
     </div>
     <%= render(partial: 'snippets/items/footer_web', locals: {snippet: snippet}) %>
   </div>
