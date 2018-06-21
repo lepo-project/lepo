@@ -96,28 +96,29 @@ class Note < ApplicationRecord
   end
 
   def export_html
-    export_html = '<h1>' + title + '</h1>'
-    export_html += '<p>' + overview + '</p>'
+    export_html = '<span class="header">' + title + '</span><br/>'
+    export_html += '<span>' + overview + '</span><br/>'
     note_indices.each do |ni|
       case ni.item_type
       when 'Snippet'
         case ni.item.category
         when 'text'
-          export_html += '<p>' + ni.item.description + '</p>' if ni.item.source_type == 'direct'
+          export_html += '<span>' + ni.item.description + '</span><br/>' if ni.item.source_type == 'direct'
         when 'header'
-          export_html += '<h2>' + ni.header_title(note_indices) + '</h2>'
+          export_html += '<br/><span class="header">' + ni.header_title(note_indices) + '</span><br/>'
         when 'subheader'
-          export_html += '<h3>' + ni.subheader_title(note_indices) + '</h3>'
+          export_html += '<span class="header">' + ni.subheader_title(note_indices) + '</span><br/>'
         end
       when 'Content'
-        export_html += '<h2>' + ni.header_title(note_indices) + '</h2>'
+        export_html += '<span class="header">' + ni.header_title(note_indices) + '</span><br/>'
       end
     end
 
     unless references.size.zero?
-      export_html += '<h2>' + ApplicationController.helpers.t('notes.show.references') + '</h2>'
+      export_html += '<br/><span class="header">' + ApplicationController.helpers.t('notes.show.references') + '</span><br/>'
       references.each_with_index do |ref, i|
-        export_html += '<p>' + (i + 1).to_s + '. &quot;' + ApplicationController.helpers.display_title(ref) + '&quot;, ' + ref.url + ' (' + ref.created_at.strftime('%Y年%-m月%-d日') + '閲覧)</p>'
+        access_date = ApplicationController.helpers.l(ref.created_at, format: :short)
+        export_html += '<span>' + (i + 1).to_s + '. &quot;' + ApplicationController.helpers.display_title(ref) + '&quot;, ' + ref.url + ' (' + ApplicationController.helpers.t('notes.show.accessed', date: access_date) + ')</span><br/>'
       end
     end
     export_html
