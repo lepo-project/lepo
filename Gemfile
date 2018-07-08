@@ -18,12 +18,12 @@ gem 'jquery-hotkeys-rails', '~> 0.7.9'
 gem 'jquery-rails', '~> 4.3.0'
 gem 'jquery-ui-rails', '~> 6.0.0'
 gem 'net-ldap', '~> 0.16.0'
-gem 'paperclip', '~> 5.2.0'
+gem 'paperclip', '~> 6.0.0'
 gem 'pdfjs_viewer-rails', '~> 0.2.8', github: 'lepo-project/pdfjs_viewer-rails'
 gem 'rails', '~> 5.0.4'
 gem 'rails-assets-tether', '~> 1.1'
 gem 'rails_autolink'
-gem 'remotipart', '~> 1.3.1'
+gem 'remotipart', '~> 1.4.2'
 # FIXME: PushNotification
 gem 'rest-client', '~> 2.0.0'
 # Use SCSS for stylesheets
@@ -31,7 +31,7 @@ gem 'sass-rails', '~> 5.0.6'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '~> 3.2.0'
+gem 'uglifier', '~> 4.1.14'
 
 group :development, :test do
   gem 'sqlite3', '~> 1.3.0'
@@ -41,17 +41,17 @@ group :development do
   gem 'annotate', '~> 2.7.0'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
-  gem 'i18n_generators', '~> 2.1'
+  gem 'i18n_generators', '~> 2.2.0'
   gem 'listen', '~> 3.1.0'
   # meta_request is necessary for rails_panel chrome extension
   # gem 'meta_request'
   gem 'rubocop', require: false
-  gem 'scss_lint', '~> 0.55', require: false
+  gem 'scss_lint', '~> 0.57.0', require: false
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console', '>= 3.5.0'
+  gem 'web-console', '>= 3.6.0'
 end
 
 group :test do
