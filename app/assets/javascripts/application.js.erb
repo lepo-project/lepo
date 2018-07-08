@@ -187,6 +187,7 @@ function toggleUpdateSticky(sticky_id) {
   $("#sticky_" + sticky_id).toggle();
   $("#update_sticky_" + sticky_id).toggle();
   $("#update_sticky_" + sticky_id + ' #sticky_message').focus();
+  autosize.update($("#update_sticky_" + sticky_id + ' .elastic_textarea'));
 }
 
 function toggleCreateSnippet(display_order, category) {
