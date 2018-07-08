@@ -247,7 +247,7 @@ class Note < ApplicationRecord
       content = lesson.content
       items.push note_id: id, item_id: content.id, item_type: 'Content', display_order: display_order
 
-      page_ids = content.pages.pluck(:id)
+      page_ids = content.page_ids
       content_stickies = Sticky.where(manager_id: manager_id, course_id: course_id, target_type: 'Page', target_id: page_ids).order(:created_at)
       content_snippets = Snippet.where(manager_id: manager_id, category: 'text', source_type: 'page', source_id: page_ids).order(:created_at)
 

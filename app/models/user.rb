@@ -200,7 +200,6 @@ class User < ApplicationRecord
   end
 
   def open_notes
-    open_course_ids = open_courses.pluck(:id)
     notes = Note.where(manager_id: id, category: 'work', course_id: open_course_ids).order(updated_at: :desc).to_a
     notes.delete_if(&:archived?)
     notes += Note.where(manager_id: id, category: 'lesson', course_id: open_course_ids).order(updated_at: :desc)

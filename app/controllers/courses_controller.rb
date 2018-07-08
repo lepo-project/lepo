@@ -569,7 +569,7 @@ class CoursesController < ApplicationController
   end
 
   def register_course_managers
-    current_ids = @course.managers.pluck(:id)
+    current_ids = @course.manager_ids
     ids = params[:managers].nil? ? [] : ids_from_user_hash_l(params[:managers].values)
     if ids.empty?
       ids = current_ids.empty? ? [session[:id]] : current_ids.dup
