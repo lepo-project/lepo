@@ -1,11 +1,13 @@
-/*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- *= require_self
- *= require_tree .
- *= require font-awesome
- *= require jquery-ui
-*/
-
+// Gem Stylesheets
 @import 'bootstrap';
+@import 'font-awesome';
+@import 'jquery-ui';
+
+// Application Stylesheets
+@import 'general';
+@import 'lepo_learning_content';
+@import 'main_pane';
+@import 'simple_sidebar';
+@import 'sub_pane';
+@import 'components/*';
+@import 'resources/*';

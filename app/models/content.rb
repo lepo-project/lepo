@@ -120,7 +120,6 @@ class Content < ApplicationRecord
   end
 
   def page_id(page_num)
-    page_ids = pages.pluck(:id)
     return page_ids[page_num] if page_num.between?(0, page_ids.size - 1)
   end
 

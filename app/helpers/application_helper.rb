@@ -98,7 +98,7 @@ module ApplicationHelper
   end
 
   def page_num_text_by_id(content, page_id)
-    page_ids = content.pages.pluck(:id)
+    page_ids = content.page_ids
     page_num = page_ids.index(page_id)
     max_page_num = page_ids.size - 1
     case page_num

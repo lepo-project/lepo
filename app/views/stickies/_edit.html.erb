@@ -46,7 +46,6 @@
     function submitSticky() {
       $('#<%= form_id %> #sticky_form').submit();
     }
-
     autosize($('.elastic_textarea'));
     $("#cancel_<%= form_id %>").click(cancelSticky);
     $("#<%= form_id %> #sticky_message").on('keydown', null, 'shift+return', submitSticky);
