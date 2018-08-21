@@ -1,7 +1,13 @@
-<% img_px = (size == 'l') ? '80' : '40' %>
+<% img_px = '40' unless img_px && %w[40 80 160].include?(img_px) %>
 <div class="image-<%= img_px %>px">
-  <% if obj && obj.image? %>
-  <%= image_tag obj.image.url('px'+img_px), class: 'rounded' %>
+  <% if obj && obj.image %>
+  <% if obj.cached_image_data %>
+  <!-- Show cached image for form -->
+  <% img_size = "#{img_px}x#{img_px}" %>
+  <%= image_tag obj.image_url, {class: 'rounded', size: img_size} %>
+  <% else %>
+  <%= image_tag obj.image_rails_url(img_px), {class: 'rounded'} %>
+  <% end %>
   <% else %>
   <i class="fa <%= fa_class %>"></i>
   <% end %>

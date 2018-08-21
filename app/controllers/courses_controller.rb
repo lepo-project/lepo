@@ -198,16 +198,6 @@ class CoursesController < ApplicationController
     render 'courses/renders/snippet_saved', locals: { pg: pg }
   end
 
-  def ajax_delete_image
-    course = Course.find params[:id]
-    if course.staff? session[:id]
-      course.image.clear
-      flash[:message] = '画像を削除しました。' if course.save
-      flash[:message_category] = 'info'
-    end
-    ajax_edit
-  end
-
   def ajax_destroy
     @course = Course.find params[:id]
     @course.destroy if @course.deletable? session[:id]
@@ -377,6 +367,15 @@ class CoursesController < ApplicationController
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
   end
 
+  def show_image
+    @course = Course.find(params[:id])
+    if %w[px40 px80 px160].include? params[:version]
+      url = @course.image_url(params[:version].to_sym).to_s
+      filepath = Rails.root.join('storage', url[1, url.length-1])
+      send_file filepath, disposition: "inline"
+    end
+  end
+
   # ====================================================================
   # Private Functions
   # ====================================================================
@@ -390,7 +389,7 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:image, :title, :term_id, :overview, :status, :groups_count, goals_attributes: %i[title id])
+    params.require(:course).permit(:image, :remove_image, :title, :term_id, :overview, :status, :groups_count, goals_attributes: %i[title id])
   end
 
   def lesson_params

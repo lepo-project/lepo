@@ -1,18 +1,17 @@
 class UsersController < ApplicationController
+  def show_image
+    @user = User.find(params[:id])
+    if %w[px40 px80 px160].include? params[:version]
+      url = @user.image_url(params[:version].to_sym).to_s
+      filepath = Rails.root.join('storage', url[1, url.length-1])
+      send_file filepath, disposition: "inline"
+    end
+  end
+
   module AllActions
     # ====================================================================
     # Public Functions
     # ====================================================================
-    def ajax_destroy_user_image
-      user = User.find session[:id]
-      user.image.clear
-      if user.save
-        flash[:message] = '画像を削除しました。'
-        flash[:message_category] = 'info'
-      end
-      ajax_profile_pref
-    end
-
     def ajax_account_pref
       render_main_pane 'account_pref'
     end
@@ -123,15 +122,15 @@ class UsersController < ApplicationController
     end
 
     def ajax_update_account
-      update_user 'account_pref'
+      update_user '/users/account_pref'
     end
 
     def ajax_update_profile
-      update_user 'profile_pref'
+      update_user '/users/profile_pref'
     end
 
     def ajax_update_default_note
-      update_user 'note_pref'
+      update_user '/users/note_pref'
     end
 
     # ====================================================================
@@ -198,7 +197,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:signin_name, :password, :password_confirmation, :role, :family_name, :phonetic_family_name, :given_name, :phonetic_given_name, :image, :web_url, :description, :default_note_id)
+      params.require(:user).permit(:signin_name, :password, :password_confirmation, :role, :family_name, :phonetic_family_name, :given_name, :phonetic_given_name, :image, :remove_image, :web_url, :description, :default_note_id)
     end
 
     def render_main_pane(render_resource)

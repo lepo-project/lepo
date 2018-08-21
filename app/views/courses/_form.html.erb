@@ -32,16 +32,18 @@
   </div>
 
   <div class="form-group row">
-    <%= f.label :image, 'イメージ画像', class: 'col-md-3 col-form-label text-sm-right' %>
+    <%= f.label :image, '画像ファイル', class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
+      <%= f.hidden_field :image, value: @course.cached_image_data %>
       <%= f.file_field :image, class: 'form-control-file', style: 'color: #fff;' %>
       <div style="margin-top:0.5rem; display:flex; align-items:center;">
         <div style="background-color: #fff; width: 80px;">
-          <%= render partial: 'layouts/image', locals: {obj: @course, fa_class: 'fa-flag', size: 'l'}%>
+          <%= render partial: 'layouts/image', locals: {obj: @course, fa_class: 'fa-flag', img_px: '80'}%>
         </div>
-        <% if @course.image? %>
-        <div style="padding-left:5rem;">
-          <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_delete_image', id: @course.id}, id_attr: ''} %>
+        <% if @course.image %>
+        <div style="padding-left:1rem;">
+          <%= f.label :remove_image, t('.remove_image') %>
+          <%= f.check_box :remove_image %>
         </div>
         <% end %>
       </div>

@@ -17,6 +17,9 @@
 /log
 /tmp
 
+# Ignore uploaded files
+/storage/*
+
 # From GitHub initial .ignore file
 *.rbc
 capybara-*.html
@@ -37,10 +40,6 @@ config/initializers/secret_token.rb
 # dotenv
 # TODO Comment out this rule if environment variables can be committed
 .env
-
-## Environment normalization:
-/.bundle
-/vendor/bundle
 
 # these should all be checked in to normalize the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset

@@ -3,8 +3,10 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
   root 'signin#index'
+
+  get '/courses/:id/image', to: 'courses#show_image'
+  get '/users/:id/image', to: 'users#show_image'
   match ':controller(/:action(/:id(.:format)))', via: %i[get post put patch]
 
   mount PdfjsViewer::Rails::Engine => '/pdfjs', as: 'pdfjs'

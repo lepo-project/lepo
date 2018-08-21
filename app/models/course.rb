@@ -15,18 +15,13 @@
 #  groups_count       :integer          default(1)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  image_data         :string
 #
 
 class Course < ApplicationRecord
+  include ImageUploader::Attachment.new(:image)
   include RandomString
   before_validation :set_default_value
-  has_attached_file :image,
-  path: ':rails_root/public/system/:class/:folder_name/:style/:filename',
-  url: ':relative_url_root/system/:class/:folder_name/:style/:filename',
-  default_url: '/assets/:class/:style/missing.png',
-  styles: { px40: '40x40>', px80: '80x80>', original: '160x160>' }
-  validates_attachment_content_type :image, content_type: ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png']
-  validates_attachment_size :image, less_than: IMAGE_MAX_FILE_SIZE.megabytes # original file is resized, so this is not important
   belongs_to :term
   has_many :assistants, -> { where('course_members.role = ?', 'assistant') }, through: :course_members, source: :user
   has_many :contents, -> { order('lessons.display_order asc') }, through: :lessons
@@ -144,6 +139,10 @@ class Course < ApplicationRecord
     max_size = 5
     notes = Note.where("category = 'work' and course_id = ? and updated_at >= ? and stars_count > 1", id, duration.days.ago).order('stars_count DESC, created_at DESC').limit(max_size)
     notes.to_a.delete_if { |note| !note.open? }
+  end
+
+  def image_rails_url(version)
+    "/courses/#{id}/image?version=px#{version}" if image && (%w[40 80 160].include? version)
   end
 
   def learner_work_sheets(user_id, course_staff)

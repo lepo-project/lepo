@@ -38,19 +38,18 @@
 				</div>
 				<% end %>
 				<div class="form-group row">
-					<%= f.label :image, 'ユーザイメージ', class: 'col-md-3 col-form-label text-sm-right' %>
+					<%= f.label :image, '画像ファイル', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">
-						<%= f.file_field :image, {class: 'form-control-file', style: 'color: #aaa;'} %>
-						<div class="form-text" style="margin: 0.5rem 0;">
-							「完了」ボタンを押すと、イメージを更新
-						</div>
+						<%= f.hidden_field :image, value: current_user.cached_image_data %>
+			      <%= f.file_field :image, class: 'form-control-file', style: 'color: #fff;' %>
 						<div style="margin-top:0.5rem; display:flex; align-items:center;">
 							<div style="background-color:#fff; width:80px;">
-								<%= render partial: 'layouts/image', locals: {obj: current_user, fa_class: 'fa-user', size: 'l'} %>
+								<%= render partial: 'layouts/image', locals: {obj: current_user, fa_class: 'fa-user', img_px: '80'} %>
 							</div>
-							<% if !current_user.new_record? && current_user.image? %>
-							<div style="padding-left:5rem;">
-								<%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy_user_image'}} %>
+							<% if !current_user.new_record? && current_user.image %>
+							<div style="padding-left:1rem;">
+								<%= f.label :remove_image, t('.remove_image') %>
+			          <%= f.check_box :remove_image %>
 							</div>
 							<% end %>
 						</div>
@@ -59,7 +58,7 @@
 				<div class="form-group row">
 					<%= f.label :description, '自己紹介', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-8">
-						<%= f.text_area :description, class: 'form-control', rows: 8 %>
+						<%= f.text_area :description, class: 'form-control', rows: 6 %>
 						<div class="form-text">絵文字や一部の記号は使用できません。「完了」ボタンを押しても保存できない場合は、記号を取り除いてください</div>
 					</div>
 				</div>

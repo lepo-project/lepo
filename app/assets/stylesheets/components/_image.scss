@@ -33,3 +33,19 @@
     }
   }
 }
+
+@mixin image-160px {
+  .image-160px {
+    height: 160px;
+    text-align: center;
+    width: 160px;
+    i {
+      color: #aaa;
+      display: block;
+      font-size: 110pt;
+      height: 100%;
+      line-height: 100%;
+      width: 100%;
+    }
+  }
+}

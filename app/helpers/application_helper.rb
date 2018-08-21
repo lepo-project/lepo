@@ -208,8 +208,8 @@ module ApplicationHelper
 
   def course_card_hash(course)
     card = {}
-    if course.image?
-      card['image'] = course.image.url(:px80)
+    if course.image
+      card['image'] = course.image_rails_url('80')
     else
       card['icon'] = 'fa fa-flag'
     end
@@ -250,8 +250,8 @@ module ApplicationHelper
 
   def notice_card_hash(notice, border_category, course = Course.new)
     card = {}
-    if notice.manager.image?
-      card['image'] = notice.manager.image.url(:px80)
+    if notice.manager.image
+      card['image'] = notice.manager.image_rails_url('80')
     else
       card['icon'] = 'fa fa-user'
     end
@@ -319,8 +319,8 @@ module ApplicationHelper
 
   def user_card_l_hash(user)
     card = {}
-    if user.image?
-      card['image'] = user.image.url(:px80)
+    if user.image
+      card['image'] = user.image_rails_url('80')
     else
       card['icon'] = 'fa fa-user'
     end

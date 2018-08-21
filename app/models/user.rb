@@ -24,21 +24,16 @@
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  image_data           :string
 #
 
 require 'net/ldap'
 require 'digest/sha1'
 require 'csv'
 class User < ApplicationRecord
+  include ImageUploader::Attachment.new(:image)
   include RandomString
   before_validation :set_default_value
-  has_attached_file :image,
-  path: ':rails_root/public/system/:class/:folder_name/:style/:filename',
-  url: ':relative_url_root/system/:class/:folder_name/:style/:filename',
-  default_url: '/assets/:class/:style/missing.png',
-  styles: { px40: '40x40>', px80: '80x80>', original: '160x160>' }
-  validates_attachment_content_type :image, content_type: ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png']
-  validates_attachment_size :image, less_than: IMAGE_MAX_FILE_SIZE.megabytes # original file is resized, so this is not important
   has_many :archived_courses, -> { where('courses.status = ?', 'archived') }, through: :course_members, source: :course
   has_many :attendances
   has_many :content_members
@@ -197,6 +192,10 @@ class User < ApplicationRecord
   def highlight_texts(lesson_note_id, page_id)
     ids = NoteIndex.where(note_id: lesson_note_id, item_type: 'Snippet').pluck(:item_id)
     Snippet.where(id: ids, manager_id: id, category: 'text', source_type: 'page', source_id: page_id).pluck(:id, :description)
+  end
+
+  def image_rails_url(version)
+    "/users/#{id}/image?version=px#{version}" if image && (%w[40 80 160].include? version)
   end
 
   def open_notes
