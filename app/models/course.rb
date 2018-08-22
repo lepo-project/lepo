@@ -20,6 +20,10 @@
 
 class Course < ApplicationRecord
   include ImageUploader::Attachment.new(:image)
+  # FIXME: Paperclip2shrine
+  has_attached_file :image
+  include PaperclipShrineSynchronization
+
   include RandomString
   before_validation :set_default_value
   belongs_to :term

@@ -20,6 +20,8 @@ class PreferencesController < ApplicationController
     case params[:version]
     when '0.2.3'
       flash[:message_category] = 'error' unless update_0_2_3
+    when '0.2.4'
+      flash[:message_category] = 'error' unless update_0_2_4
     else
       flash[:message] = t('controllers.preferences.update_failed', version: params[:version])
       flash[:message_category] = 'error'
@@ -32,6 +34,26 @@ class PreferencesController < ApplicationController
   # ====================================================================
 
   private
+
+  def update_0_2_4
+    Course.record_timestamps = false
+    Course.find_each do |course|
+      Paperclip::AttachmentRegistry.each_definition do |klass, name, options|
+        course.write_shrine_data(name) if klass == Course && course.image_data.nil?
+      end
+      course.save!
+    end
+    Course.record_timestamps = true
+
+    User.record_timestamps = false
+    User.find_each do |user|
+      Paperclip::AttachmentRegistry.each_definition do |klass, name, options|
+        user.write_shrine_data(name) if klass == User && user.image_data.nil?
+      end
+      user.save!
+    end
+    User.record_timestamps = true
+  end
 
   def update_0_2_3
     # Update pages table
