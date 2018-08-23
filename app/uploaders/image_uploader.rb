@@ -19,19 +19,31 @@ class ImageUploader < Shrine
     original = io.download
     pipeline = ImageProcessing::MiniMagick.source(original)
 
-    px160_img = pipeline.resize_to_limit!(160, 160)
-    px80_img = pipeline.resize_to_limit!(80, 80)
-    px40_img = pipeline.resize_to_limit!(40, 40)
-
-    original.close!
-
-    { px160: px160_img, px80: px80_img, px40: px40_img }
+    case context[:record].class.name.downcase
+    when 'user', 'course'
+      px160_img = pipeline.resize_to_limit!(160, 160)
+      px80_img = pipeline.resize_to_limit!(80, 80)
+      px40_img = pipeline.resize_to_limit!(40, 40)
+      original.close!
+      { px160: px160_img, px80: px80_img, px40: px40_img }
+    when 'snippet'
+      px1280_img = pipeline.resize_to_limit!(1280, 1280)
+      original.close!
+      { px1280: px1280_img }
+    end
   end
 
   def generate_location(io, context)
     class_name = context[:record].class.name.pluralize.downcase if context[:record]
-    folder_name = context[:record].id
-    file_name  = super # the default unique identifier
+    case class_name
+    when 'courses', 'users'
+      folder_name = context[:record].id
+      file_name  = super # the default unique identifier
+    when 'snippets'
+      class_name = 'users'
+      folder_name = context[:record].manager_id
+      file_name  = super # the default unique identifier
+    end
 
     [class_name, folder_name, file_name].compact.join("/")
   end

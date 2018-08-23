@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root 'signin#index'
 
   get '/courses/:id/image', to: 'courses#show_image'
+  get '/snippets/:id/image', to: 'snippets#show_image'
   get '/users/:id/image', to: 'users#show_image'
   match ':controller(/:action(/:id(.:format)))', via: %i[get post put patch]
 

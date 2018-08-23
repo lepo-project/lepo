@@ -22,34 +22,33 @@ module PaperclipShrineSynchronization
 
   def attachment_to_shrine_data(class_name, instance_id, attachment)
     {
-    px160: {
-      id: class_name + '/' + instance_id + '/original/' + attachment.original_filename,
-      storage: :store,
-      metadata: {
-        filename: attachment.original_filename,
-        size: attachment.size,
-        mime_type: attachment.content_type,
+      px160: {
+        id: class_name + '/' + instance_id + '/original/' + attachment.original_filename,
+        storage: :store,
+        metadata: {
+          filename: attachment.original_filename,
+          size: attachment.size,
+          mime_type: attachment.content_type,
+        }
+      },
+      px80: {
+        id: class_name + '/' + instance_id + '/px80/' + attachment.original_filename,
+        storage: :store,
+        metadata: {
+          filename: attachment.original_filename,
+          size: attachment.size,
+          mime_type: attachment.content_type,
+        }
+      },
+      px40: {
+        id: class_name + '/' + instance_id + '/px40/' + attachment.original_filename,
+        storage: :store,
+        metadata: {
+          filename: attachment.original_filename,
+          size: attachment.size,
+          mime_type: attachment.content_type,
+        }
       }
-    },
-    px80: {
-      id: class_name + '/' + instance_id + '/px80/' + attachment.original_filename,
-      storage: :store,
-      metadata: {
-        filename: attachment.original_filename,
-        size: attachment.size,
-        mime_type: attachment.content_type,
-      }
-    },
-    px40: {
-      id: class_name + '/' + instance_id + '/px40/' + attachment.original_filename,
-      storage: :store,
-      metadata: {
-        filename: attachment.original_filename,
-        size: attachment.size,
-        mime_type: attachment.content_type,
-      }
-    }
     }
   end
-
 end

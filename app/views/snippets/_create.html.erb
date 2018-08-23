@@ -1,6 +1,8 @@
 <% form_id = "create-#{category}-form-" + display_order.to_s %>
 <div id="<%= form_id %>" class="to-be-hidden">
-  <%= form_for Snippet.new, url: {controller: :snippets, action: :ajax_create, display_order: display_order, note_id: note_id, category: category}, html: {id: 'snippet-form', name: 'snippet-form', multipart: true}, remote: true do |f| %>
+  <%= form_for Snippet.new, url: {controller: :snippets, action: :ajax_create, display_order: display_order, note_id: note_id}, html: {id: 'snippet-form', name: 'snippet-form', multipart: true}, remote: true do |f| %>
+  <%= f.hidden_field :category, value: category %>
+  <%= f.hidden_field :source_type, value: 'direct' %>
   <%= render partial: 'snippets/form', locals: {f: f, form_id: form_id, category: category} %>
   <% end %>
 </div>

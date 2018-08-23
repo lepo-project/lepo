@@ -36,6 +36,8 @@ class PreferencesController < ApplicationController
   private
 
   def update_0_2_4
+
+    # fix for course.image data
     Course.record_timestamps = false
     Course.find_each do |course|
       Paperclip::AttachmentRegistry.each_definition do |klass, name, options|
@@ -45,6 +47,7 @@ class PreferencesController < ApplicationController
     end
     Course.record_timestamps = true
 
+    # fix for user.image data
     User.record_timestamps = false
     User.find_each do |user|
       Paperclip::AttachmentRegistry.each_definition do |klass, name, options|
@@ -53,6 +56,29 @@ class PreferencesController < ApplicationController
       user.save!
     end
     User.record_timestamps = true
+
+    # fix for snippet.image data
+    Snippet.record_timestamps = false
+    Snippet.find_each do |snippet|
+      if (snippet.category == 'image') && (snippet.source_type == 'upload')
+        snippet_file = snippet.snippet_file
+        data =
+        {
+          px1280: {
+            id: 'users/' + snippet.manager_id.to_s + '/upload_snippets/' + snippet.id.to_s + '/' + snippet_file.upload_file_name,
+            storage: :store,
+            metadata: {
+              filename: snippet_file.upload_file_name,
+              size: snippet_file.upload_file_size,
+              mime_type: snippet_file.upload_content_type,
+            }
+          }
+        }
+        snippet.write_attribute(:image_data, data.to_json)
+        snippet.save!
+      end
+    end
+    Snippet.record_timestamps = true
   end
 
   def update_0_2_3

@@ -10,9 +10,11 @@
 #  source_id   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  image_data  :string
 #
 
 class Snippet < ApplicationRecord
+  include ImageUploader::Attachment.new(:image)
   belongs_to :manager, class_name: 'User'
   belongs_to :source, class_name: 'WebPage'
   # FIXME: Correct this to be appropriate 'belongs_to' according to the value of source_type
@@ -48,6 +50,10 @@ class Snippet < ApplicationRecord
     return nil unless note_id
     note_index = NoteIndex.find_by(item_id: id, item_type: 'Snippet', note_id: note_id)
     note_index ? note_index.display_order : nil
+  end
+
+  def image_rails_url
+    "/snippets/#{id}/image" if image
   end
 
   def reference_num(note_id)

@@ -1,7 +1,7 @@
 <% case snippet.source_type when 'upload' %>
 <div class="snippet-direct">
   <div class="body" style="max-width: 640px; margin: 0.5rem auto; text-align: center;">
-    <img src="<%= snippet.snippet_file.upload.url %>" style="max-width: inherit;">
+    <%= image_tag snippet.image_rails_url, { class: 'rounded', style: 'max-width: inherit;'} %>
   </div>
   <%= render(partial: 'snippets/items/operations_upload', locals: {snippet: snippet})  if editable_snippet %>
 </div>
