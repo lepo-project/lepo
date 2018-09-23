@@ -3,16 +3,6 @@ class OutcomesController < ApplicationController
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def ajax_destroy_file
-    outcome_file = OutcomeFile.find params[:file_id]
-    outcome_file.destroy
-    @outcome = Outcome.find params[:id]
-
-    # Thic action is only executed by learner
-    @lesson_role = 'learner'
-    render 'layouts/renders/file_outcome'
-  end
-
   def ajax_update
     @outcome = Outcome.find params[:id]
     @lesson = @outcome.lesson
@@ -46,10 +36,6 @@ class OutcomesController < ApplicationController
     @message_templates = get_message_templates(@course.manager?(session[:id]))
 
     render 'layouts/renders/main_nav_resource_with_pg', locals: { resource: 'layouts/assignment_page', pg: pg }
-  end
-
-  def ajax_upload_file
-    upload_file(params[:outcome_file], OutcomeFile.new(outcome_file_params))
   end
 
   def get_score(outcome_form)
@@ -95,6 +81,7 @@ class OutcomesController < ApplicationController
     outcome = outcome.nil? ? Outcome.new : outcome
     render 'outcomes/renders/messages', locals: { current_outcome_id: params[:current_outcome_id].to_i, outcome: outcome }
   end
+
   # ====================================================================
   # Private Functions
   # ====================================================================
@@ -109,45 +96,6 @@ class OutcomesController < ApplicationController
 
   def outcome_params
     params.require(:outcome).permit(:course_id, :manager_id, :lesson_id, :status, :score, :checked, :attendance, outcome_messages_attributes: %i[manager_id message id], outcome_text_attributes: %i[entry id], outcomes_objectives_attributes: %i[outcome_id objective_id eval_achievement self_achievement id])
-  end
-
-  def outcome_file_params
-    params.require(:outcome_file).permit(:outcome_id, :upload)
-  end
-
-  def upload_file(file, new_file)
-    @outcome = Outcome.find params[:id]
-    @outcome.set_folder_name
-    @outcome.save
-
-    filename = new_file.upload_file_name
-    outcome_file = OutcomeFile.find_by_outcome_id_and_upload_file_name(@outcome.id, filename)
-    if outcome_file
-      if outcome_file.update_attributes(upload: file[:upload])
-        flash.now[:message] = '提出ファイル「' + filename + '」を更新しました'
-        flash[:message_category] = 'info'
-      else
-        flash.now[:message] = '提出ファイル「' + filename + '」の更新に失敗しました'
-        flash[:message_category] = 'error'
-      end
-    else
-      flash.now[:message] = '「' + filename + '」のアップロードに失敗しました' unless new_file.save
-      flash[:message_category] = 'error'
-    end
-
-    # Thic action is only executed by learner
-    @lesson_role = 'learner'
-    render 'layouts/renders/file_outcome'
-  end
-
-  def render_resource
-    @lesson = @outcome.lesson
-    @content = @lesson.content
-    pg = get_page(@lesson.id, @content)
-    get_values
-    @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
-
-    render 'layouts/renders/resource_with_pg', locals: { resource: 'layouts/assignment_page', pg: pg }
   end
 
   def param_check_show_messages?
