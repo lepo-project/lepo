@@ -10,7 +10,7 @@
 #  upload_updated_at   :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  upload_data         :string
+#  upload_data         :text
 #
 
 FactoryBot.define do

@@ -15,7 +15,7 @@
 #  groups_count       :integer          default(1)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  image_data         :string
+#  image_data         :text
 #
 
 FactoryBot.define do

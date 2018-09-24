@@ -10,7 +10,7 @@
 #  source_id   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  image_data  :string
+#  image_data  :text
 #
 
 class Snippet < ApplicationRecord

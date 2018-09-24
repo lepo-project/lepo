@@ -10,14 +10,14 @@
 #  upload_updated_at   :datetime
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  upload_data         :string
+#  upload_data         :text
 #
 
 require 'json'
 class OutcomeFile < ApplicationRecord
   include OutcomeUploader::Attachment.new(:upload)
   # FIXME: Paperclip2shrine
-  has_attached_file :upload
+  # has_attached_file :upload
 
   belongs_to :outcome, touch: true
   validates_presence_of :outcome_id

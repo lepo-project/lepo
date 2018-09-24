@@ -24,7 +24,7 @@
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  image_data           :string
+#  image_data           :text
 #
 
 FactoryBot.define do
