@@ -199,7 +199,7 @@ class User < ApplicationRecord
   end
 
   def image_rails_url(version)
-    "/users/#{id}/image?version=px#{version}" if image && (%w[40 80 160].include? version)
+    "#{Rails.application.config.relative_url_root}/users/#{id}/image?version=px#{version}" if image && (%w[40 80 160].include? version)
   end
 
   def open_notes

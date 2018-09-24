@@ -53,7 +53,7 @@ class Snippet < ApplicationRecord
   end
 
   def image_rails_url
-    "/snippets/#{id}/image" if image
+    "#{Rails.application.config.relative_url_root}/snippets/#{id}/image" if image
   end
 
   def reference_num(note_id)

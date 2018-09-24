@@ -146,7 +146,7 @@ class Course < ApplicationRecord
   end
 
   def image_rails_url(version)
-    "/courses/#{id}/image?version=px#{version}" if image && (%w[40 80 160].include? version)
+    "#{Rails.application.config.relative_url_root}/courses/#{id}/image?version=px#{version}" if image && (%w[40 80 160].include? version)
   end
 
   def learner_work_sheets(user_id, course_staff)

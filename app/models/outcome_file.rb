@@ -35,6 +35,6 @@ class OutcomeFile < ApplicationRecord
   end
 
   def upload_rails_url
-    "/outcome_files/#{id}/upload" if upload
+    "#{Rails.application.config.relative_url_root}/outcome_files/#{id}/upload" if upload
   end
 end
