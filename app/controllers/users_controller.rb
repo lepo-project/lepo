@@ -205,6 +205,9 @@ class UsersController < ApplicationController
     end
 
     def update_user(render_resource)
+      # Remedy for both new file upload and delete_image are selected
+      params.require(:user).delete(:remove_image) if user_params[:image] && user_params[:image].size.nonzero?
+
       if current_user.update_attributes(user_params)
         @stickies = Sticky.size_by_user session[:id]
         render 'layouts/renders/main_pane', locals: { resource: 'index' }

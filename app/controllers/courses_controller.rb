@@ -278,6 +278,8 @@ class CoursesController < ApplicationController
     @course = Course.find params[:id]
     course_form = course_params
     course_form[:status] = @course.status if @course.status != 'draft' && course_form[:status] == 'draft'
+    # Remedy for both new file upload and delete_image are selected
+    course_form.delete(:remove_image) if course_form[:image] && course_form[:image].size.nonzero?
 
     if all_blank_title? course_form[:goals_attributes]
       flash[:message] = '到達目標を、1つ以上設定する必要があります'
