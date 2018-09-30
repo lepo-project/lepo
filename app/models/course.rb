@@ -2,28 +2,20 @@
 #
 # Table name: courses
 #
-#  id                 :integer          not null, primary key
-#  term_id            :integer
-#  folder_name        :string
-#  image_file_name    :string
-#  image_content_type :string
-#  image_file_size    :integer
-#  image_updated_at   :datetime
-#  title              :string
-#  overview           :text
-#  status             :string           default("draft")
-#  groups_count       :integer          default(1)
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  image_data         :text
+#  id           :integer          not null, primary key
+#  term_id      :integer
+#  folder_name  :string
+#  title        :string
+#  overview     :text
+#  status       :string           default("draft")
+#  groups_count :integer          default(1)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  image_data   :text
 #
 
 class Course < ApplicationRecord
   include ImageUploader::Attachment.new(:image)
-  # FIXME: Paperclip2shrine
-  # has_attached_file :image
-  # include PaperclipShrineSynchronization
-
   include RandomString
   before_validation :set_default_value
   belongs_to :term

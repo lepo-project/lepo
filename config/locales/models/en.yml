@@ -85,10 +85,7 @@ en:
         course_members: Course Members
         goals: Goals
         groups_count: Groups Count
-        image_content_type: Image content type
-        image_file_name: Image file name
-        image_file_size: Image file size
-        image_updated_at: Image updated at
+        image_data: Image data
         learners: Learners
         lessons: Lessons
         managers: Managers

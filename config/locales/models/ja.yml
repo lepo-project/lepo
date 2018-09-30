@@ -85,10 +85,7 @@ ja:
         course_members: コースのユーザ
         goals: :activerecord.models.goal
         groups_count: 班の数
-        image_content_type: 画像コンテンツタイプ
-        image_file_name: 画像ファイル名
-        image_file_size: 画像ファイルのサイズ
-        image_updated_at: 画像ファイルの更新日時
+        image_data: 画像データ
         learners: 学習者
         lessons: :activerecord.models.lesson
         managers: 教師
