@@ -202,10 +202,6 @@ class SnippetsController < ApplicationController
     params.require(:snippet).permit(:category, :description, :source_type, :image)
   end
 
-  def snippet_file_params
-    params.require(:snippet_file).permit(:upload)
-  end
-
   def embed_url?(url)
     (WebPage.scratch_url? url) || (WebPage.ted_url? url) || (WebPage.youtube_url? url)
   end

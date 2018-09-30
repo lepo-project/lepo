@@ -19,7 +19,6 @@ class Snippet < ApplicationRecord
   belongs_to :source, class_name: 'WebPage'
   # FIXME: Correct this to be appropriate 'belongs_to' according to the value of source_type
   # belongs_to :source, class_name: 'Page'
-  has_one :snippet_file, dependent: :destroy
   has_many :notes, through: :note_indices
   has_many :note_indices, as: :item, dependent: :destroy
   validates_presence_of :description, if: '%w[direct page].include? source_type'

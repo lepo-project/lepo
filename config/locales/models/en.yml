@@ -26,7 +26,6 @@ en:
       page: Page file
       signin: Signin
       snippet: Snippet
-      snippet_file: Snippet File
       sticky: Sticky
       sticky_star: Sticky Star
       term: Term
@@ -243,16 +242,8 @@ en:
         display_order: Display order
         manager: :activerecord.models.manager
         note: :activerecord.models.note
-        snippet_file: :activerecord.models.snippet_file
         source: :activerecord.models.source
         source_type: Source type
-
-      snippet_file:
-        snippet: :activerecord.models.snippet
-        upload_content_type: Upload content type
-        upload_file_name: Upload file name
-        upload_file_size: Upload file size
-        upload_updated_at: Upload updated at
 
       sticky:
         category: Category
