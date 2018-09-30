@@ -278,10 +278,7 @@ ja:
         given_name: 名
         phonetic_given_name: 名よみ
         hashed_password: ハッシュ化したパスワード
-        image_content_type: 画像コンテンツタイプ
-        image_file_name: 画像ファイル名
-        image_file_size: 画像ファイルのサイズ
-        image_updated_at: 画像ファイルの更新日時
+        image_data: 画像データ
         last_signin_at: 最終サインイン日時
         lessons: :activerecord.models.lesson
         notes: :activerecord.models.note
