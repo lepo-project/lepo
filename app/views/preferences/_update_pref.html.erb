@@ -4,13 +4,9 @@
 			<div class="block">
 				<h1><%= t('helpers.update') %></h1>
 				<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
-
-				<%= link_to({action: 'ajax_update', version: '0.2.3'}, {class: 'btn btn-primary btn-block', remote: true}) do %>
-				<%= t('.version_header', from_ver: '0.2.2', to_ver: '0.2.3') %>
-				<% end %>
-				<%= link_to({action: 'ajax_update', version: '0.2.4'}, {class: 'btn btn-primary btn-block', remote: true}) do %>
-				<%= t('.version_header', from_ver: '0.2.3', to_ver: '0.2.4') %>
-				<% end %>
+				<%#= link_to({action: 'ajax_update', version: '0.2.4'}, {class: 'btn btn-primary btn-block', remote: true}) do %>
+				<%#= t('.version_header', from_ver: '0.2.3', to_ver: '0.2.4') %>
+				<%# end %>
 			</div>
 		</div>
 	</div>
