@@ -199,10 +199,7 @@ ja:
 
       outcome_file:
         outcome: :activerecord.models.outcome
-        upload_content_type: アップロードコンテントタイプ
-        upload_file_name: アップロードファイル名
-        upload_file_size: アップロードファイルサイズ
-        upload_updated_at: 更新日：
+        upload_data: アップロードデータ
 
       outcome_message:
         manager: 管理者

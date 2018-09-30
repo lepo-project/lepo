@@ -2,15 +2,11 @@
 #
 # Table name: outcome_files
 #
-#  id                  :integer          not null, primary key
-#  outcome_id          :integer
-#  upload_file_name    :string
-#  upload_content_type :string
-#  upload_file_size    :integer
-#  upload_updated_at   :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  upload_data         :text
+#  id          :integer          not null, primary key
+#  outcome_id  :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  upload_data :text
 #
 
 require 'test_helper'
@@ -30,15 +26,9 @@ class OutcomeFileTest < ActiveSupport::TestCase
     assert_invalid build(:outcome_file, outcome_id: nil), :outcome_id
   end
 
-  # test for validates_presence_of :upload_file_name
-  test 'a outcome_file without upload_file_name is invalid' do
-    assert_invalid build(:outcome_file, upload_file_name: ''), :upload_file_name
-    assert_invalid build(:outcome_file, upload_file_name: nil), :upload_file_name
-  end
-
-  # test for validates_uniqueness_of :upload_file_name, scope: [:outcome_id]
-  test 'some outcome_files with same upload_file_name and outcome_id are invalid' do
-    outcome_file = create(:outcome_file)
-    assert_invalid build(:outcome_file, upload_file_name: outcome_file.upload_file_name, outcome_id: outcome_file.outcome_id), :upload_file_name
+  # test for validates_presence_of :upload_data
+  test 'a outcome_file without upload_data is invalid' do
+    assert_invalid build(:outcome_file, upload_data: ''), :upload_data
+    assert_invalid build(:outcome_file, upload_data: nil), :upload_data
   end
 end

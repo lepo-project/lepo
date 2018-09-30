@@ -2,25 +2,19 @@
 #
 # Table name: outcome_files
 #
-#  id                  :integer          not null, primary key
-#  outcome_id          :integer
-#  upload_file_name    :string
-#  upload_content_type :string
-#  upload_file_size    :integer
-#  upload_updated_at   :datetime
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  upload_data         :text
+#  id          :integer          not null, primary key
+#  outcome_id  :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  upload_data :text
 #
 
 require 'json'
 class OutcomeFile < ApplicationRecord
   include OutcomeUploader::Attachment.new(:upload)
-  # FIXME: Paperclip2shrine
-  # has_attached_file :upload
-
   belongs_to :outcome, touch: true
   validates_presence_of :outcome_id
+  validates_presence_of :upload_data
 
   def file_name
     JSON.parse(self.upload_data)['metadata']['filename'] if self.upload_data

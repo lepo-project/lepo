@@ -199,10 +199,7 @@ en:
 
       outcome_file:
         outcome: :activerecord.models.outcome
-        upload_content_type: Upload content type
-        upload_file_name: Upload file name
-        upload_file_size: Upload file size
-        upload_updated_at: Upload updated at
+        upload_data: Upload data
 
       outcome_message:
         manager: :activerecord.models.manager
