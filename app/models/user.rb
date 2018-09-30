@@ -13,7 +13,6 @@
 #  given_name           :string
 #  phonetic_family_name :string
 #  phonetic_given_name  :string
-#  folder_name          :string
 #  web_url              :string
 #  description          :text
 #  default_note_id      :integer          default(0)
@@ -49,12 +48,10 @@ class User < ApplicationRecord
   has_many :sticky_stars, foreign_key: :manager_id
   has_many :user_actions
   validates_presence_of :family_name
-  validates_presence_of :folder_name
   validates_presence_of :hashed_password, if: "authentication == 'local'"
   validates_presence_of :salt, if: "authentication == 'local'"
   validates_presence_of :signin_name
   validates_presence_of :token
-  validates_uniqueness_of :folder_name
   validates_uniqueness_of :signin_name
   validates_uniqueness_of :token
   validates_inclusion_of :authentication, in: %w[local ldap]
@@ -332,6 +329,5 @@ class User < ApplicationRecord
 
   def set_default_value
     self.token = random_string(USER_TOKEN_LENGTH) unless token
-    self.folder_name = ym_random_string(FOLDER_NAME_LENGTH) unless folder_name
   end
 end

@@ -10,14 +10,6 @@ Paperclip.interpolates :outcome_folder_name do |attachment, style|
   attachment.instance.outcome.folder_name
 end
 
-Paperclip.interpolates :outcome_manager_folder_name do |attachment, style|
-  attachment.instance.outcome.manager.folder_name
-end
-
-Paperclip.interpolates :snippet_manager_folder_name do |attachment, style|
-  attachment.instance.snippet.manager.folder_name
-end
-
 Paperclip.interpolates :snippet_id do |attachment, style|
   attachment.instance.snippet.id
 end

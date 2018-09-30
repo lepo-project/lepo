@@ -8,11 +8,11 @@ class OutcomeUploader < Shrine
 
   def generate_location(io, context)
     class_name = 'users'
-    folder_name1 = context[:record].outcome.manager_id
-    folder_name2 = context[:record].outcome.folder_name
+    directory_name1 = context[:record].outcome.manager_id
+    directory_name2 = context[:record].outcome.folder_name
     # Use original filename instead of UUID
     file_name  = context[:metadata]['filename']
 
-    [class_name, folder_name1, folder_name2, file_name].compact.join("/")
+    [class_name, directory_name1, directory_name2, file_name].compact.join("/")
   end
 end

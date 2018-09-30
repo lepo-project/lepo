@@ -4,7 +4,6 @@
 #
 #  id           :integer          not null, primary key
 #  term_id      :integer
-#  folder_name  :string
 #  title        :string
 #  overview     :text
 #  status       :string           default("draft")
@@ -16,8 +15,6 @@
 
 class Course < ApplicationRecord
   include ImageUploader::Attachment.new(:image)
-  include RandomString
-  before_validation :set_default_value
   belongs_to :term
   has_many :assistants, -> { where('course_members.role = ?', 'assistant') }, through: :course_members, source: :user
   has_many :contents, -> { order('lessons.display_order asc') }, through: :lessons
@@ -35,11 +32,9 @@ class Course < ApplicationRecord
   has_many :open_lessons, -> { where('lessons.status = ?', 'open').order(display_order: :asc) }, class_name: 'Lesson'
   has_many :outcomes, dependent: :destroy
   has_many :notes
-  validates_presence_of :folder_name
   validates_presence_of :overview
   validates_presence_of :term_id
   validates_presence_of :title
-  validates_uniqueness_of :folder_name
   # FIXME: Group work
   validates_inclusion_of :groups_count, in: (1..COURSE_GROUP_MAX_SIZE).to_a
   validates_inclusion_of :status, in: %w[draft open archived]
@@ -252,8 +247,4 @@ class Course < ApplicationRecord
   # ====================================================================
 
   private
-
-  def set_default_value
-    self.folder_name = ym_random_string(FOLDER_NAME_LENGTH) unless folder_name
-  end
 end

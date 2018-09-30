@@ -37,14 +37,14 @@ class ImageUploader < Shrine
     class_name = context[:record].class.name.pluralize.downcase if context[:record]
     case class_name
     when 'courses', 'users'
-      folder_name = context[:record].id
+      directory_name = context[:record].id
       file_name  = super # the default unique identifier
     when 'snippets'
       class_name = 'users'
-      folder_name = context[:record].manager_id
+      directory_name = context[:record].manager_id
       file_name  = super # the default unique identifier
     end
 
-    [class_name, folder_name, file_name].compact.join("/")
+    [class_name, directory_name, file_name].compact.join("/")
   end
 end

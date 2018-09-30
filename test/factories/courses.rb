@@ -4,7 +4,6 @@
 #
 #  id           :integer          not null, primary key
 #  term_id      :integer
-#  folder_name  :string
 #  title        :string
 #  overview     :text
 #  status       :string           default("draft")

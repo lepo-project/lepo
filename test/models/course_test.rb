@@ -4,7 +4,6 @@
 #
 #  id           :integer          not null, primary key
 #  term_id      :integer
-#  folder_name  :string
 #  title        :string
 #  overview     :text
 #  status       :string           default("draft")
@@ -27,9 +26,6 @@ class CourseTest < ActiveSupport::TestCase
     assert build(:archived_course).valid?
   end
 
-  # test for validates_presence_of :folder_name
-  # this test is no need because of before_validation callback
-
   # test for validates_presence_of :overview
   test 'a course without overview is invalid' do
     assert_invalid build(:course, overview: ''), :overview
@@ -46,12 +42,6 @@ class CourseTest < ActiveSupport::TestCase
   test 'a course without title is invalid' do
     assert_invalid build(:course, title: ''), :title
     assert_invalid build(:course, title: nil), :title
-  end
-
-  # test for validates_uniqueness_of :folder_name
-  test 'some courses with same folder_name are invalid' do
-    course = create(:course)
-    assert_invalid build(:course, folder_name: course.folder_name), :folder_name
   end
 
   # test for validates_inclusion_of :groups_count, in: (1..COURSE_GROUP_MAX_SIZE).to_a

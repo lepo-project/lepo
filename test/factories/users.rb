@@ -13,7 +13,6 @@
 #  given_name           :string
 #  phonetic_family_name :string
 #  phonetic_given_name  :string
-#  folder_name          :string
 #  web_url              :string
 #  description          :text
 #  default_note_id      :integer          default(0)
