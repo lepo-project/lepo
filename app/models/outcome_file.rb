@@ -28,7 +28,11 @@ class OutcomeFile < ApplicationRecord
     nil
   end
 
+  def upload_id
+    outcome.folder_name
+  end
+
   def upload_rails_url
-    "#{Rails.application.config.relative_url_root}/outcome_files/#{id}/upload" if upload
+    "#{Rails.application.config.relative_url_root}/outcome_files/#{id}/upload?folder_id=#{upload_id}" if upload
   end
 end

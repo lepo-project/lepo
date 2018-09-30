@@ -372,6 +372,8 @@ class CoursesController < ApplicationController
   def show_image
     @course = Course.find(params[:id])
     if %w[px40 px80 px160].include? params[:version]
+      image_id = @course.image_id(params[:version])
+      return nil unless params[:file_id] == image_id
       url = @course.image_url(params[:version].to_sym).to_s
       filepath = Rails.root.join('storage', url[1, url.length-1])
       send_file filepath, disposition: "inline"

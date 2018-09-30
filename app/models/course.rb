@@ -132,8 +132,13 @@ class Course < ApplicationRecord
     notes.to_a.delete_if { |note| !note.open? }
   end
 
-  def image_rails_url(version)
-    "#{Rails.application.config.relative_url_root}/courses/#{id}/image?version=px#{version}" if image && (%w[40 80 160].include? version)
+  def image_id(version)
+    image[version.to_sym].id.split("/").last.split(".").first
+  end
+
+  def image_rails_url(version_num)
+    file_id = image_id('px' + version_num)
+    "#{Rails.application.config.relative_url_root}/courses/#{id}/image?file_id=#{file_id}&version=px#{version_num}" if image && (%w[40 80 160].include? version_num)
   end
 
   def learner_work_sheets(user_id, course_staff)

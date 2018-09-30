@@ -39,6 +39,7 @@ class OutcomeFilesController < ApplicationController
 
   def show_upload
     file = OutcomeFile.find params[:id]
+    return nil unless params[:folder_id] == file.outcome.folder_name
     url = file.upload_url
     filepath = Rails.root.join('storage', url[1, url.length-1])
     send_file filepath, disposition: "inline"

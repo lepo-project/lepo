@@ -172,6 +172,7 @@ class SnippetsController < ApplicationController
 
   def show_image
     @snippet = Snippet.find(params[:id])
+    return nil unless params[:file_id] == @snippet.image_id
     url = @snippet.image_url(:px1280).to_s
     filepath = Rails.root.join('storage', url[1, url.length-1])
     send_file filepath, disposition: "inline"

@@ -51,8 +51,12 @@ class Snippet < ApplicationRecord
     note_index ? note_index.display_order : nil
   end
 
+  def image_id
+    image[:px1280].id.split("/").last.split(".").first
+  end
+
   def image_rails_url
-    "#{Rails.application.config.relative_url_root}/snippets/#{id}/image" if image
+    "#{Rails.application.config.relative_url_root}/snippets/#{id}/image?file_id=#{image_id}" if image
   end
 
   def reference_num(note_id)
