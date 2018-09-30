@@ -10,14 +10,15 @@
 #  source_id   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  image_data  :text
 #
 
 class Snippet < ApplicationRecord
+  include ImageUploader::Attachment.new(:image)
   belongs_to :manager, class_name: 'User'
   belongs_to :source, class_name: 'WebPage'
   # FIXME: Correct this to be appropriate 'belongs_to' according to the value of source_type
   # belongs_to :source, class_name: 'Page'
-  has_one :snippet_file, dependent: :destroy
   has_many :notes, through: :note_indices
   has_many :note_indices, as: :item, dependent: :destroy
   validates_presence_of :description, if: '%w[direct page].include? source_type'
@@ -48,6 +49,14 @@ class Snippet < ApplicationRecord
     return nil unless note_id
     note_index = NoteIndex.find_by(item_id: id, item_type: 'Snippet', note_id: note_id)
     note_index ? note_index.display_order : nil
+  end
+
+  def image_id
+    image[:px1280].id.split("/").last.split(".").first
+  end
+
+  def image_rails_url
+    "#{Rails.application.config.relative_url_root}/snippets/#{id}/image?file_id=#{image_id}" if image
   end
 
   def reference_num(note_id)

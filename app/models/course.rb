@@ -2,31 +2,19 @@
 #
 # Table name: courses
 #
-#  id                 :integer          not null, primary key
-#  term_id            :integer
-#  folder_name        :string
-#  image_file_name    :string
-#  image_content_type :string
-#  image_file_size    :integer
-#  image_updated_at   :datetime
-#  title              :string
-#  overview           :text
-#  status             :string           default("draft")
-#  groups_count       :integer          default(1)
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
+#  id           :integer          not null, primary key
+#  term_id      :integer
+#  title        :string
+#  overview     :text
+#  status       :string           default("draft")
+#  groups_count :integer          default(1)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  image_data   :text
 #
 
 class Course < ApplicationRecord
-  include RandomString
-  before_validation :set_default_value
-  has_attached_file :image,
-  path: ':rails_root/public/system/:class/:folder_name/:style/:filename',
-  url: ':relative_url_root/system/:class/:folder_name/:style/:filename',
-  default_url: '/assets/:class/:style/missing.png',
-  styles: { px40: '40x40>', px80: '80x80>', original: '160x160>' }
-  validates_attachment_content_type :image, content_type: ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png']
-  validates_attachment_size :image, less_than: IMAGE_MAX_FILE_SIZE.megabytes # original file is resized, so this is not important
+  include ImageUploader::Attachment.new(:image)
   belongs_to :term
   has_many :assistants, -> { where('course_members.role = ?', 'assistant') }, through: :course_members, source: :user
   has_many :contents, -> { order('lessons.display_order asc') }, through: :lessons
@@ -44,11 +32,9 @@ class Course < ApplicationRecord
   has_many :open_lessons, -> { where('lessons.status = ?', 'open').order(display_order: :asc) }, class_name: 'Lesson'
   has_many :outcomes, dependent: :destroy
   has_many :notes
-  validates_presence_of :folder_name
   validates_presence_of :overview
   validates_presence_of :term_id
   validates_presence_of :title
-  validates_uniqueness_of :folder_name
   # FIXME: Group work
   validates_inclusion_of :groups_count, in: (1..COURSE_GROUP_MAX_SIZE).to_a
   validates_inclusion_of :status, in: %w[draft open archived]
@@ -144,6 +130,15 @@ class Course < ApplicationRecord
     max_size = 5
     notes = Note.where("category = 'work' and course_id = ? and updated_at >= ? and stars_count > 1", id, duration.days.ago).order('stars_count DESC, created_at DESC').limit(max_size)
     notes.to_a.delete_if { |note| !note.open? }
+  end
+
+  def image_id(version)
+    image[version.to_sym].id.split("/").last.split(".").first
+  end
+
+  def image_rails_url(version_num)
+    file_id = image_id('px' + version_num)
+    "#{Rails.application.config.relative_url_root}/courses/#{id}/image?file_id=#{file_id}&version=px#{version_num}" if image && (%w[40 80 160].include? version_num)
   end
 
   def learner_work_sheets(user_id, course_staff)
@@ -257,8 +252,4 @@ class Course < ApplicationRecord
   # ====================================================================
 
   private
-
-  def set_default_value
-    self.folder_name = ym_random_string(FOLDER_NAME_LENGTH) unless folder_name
-  end
 end

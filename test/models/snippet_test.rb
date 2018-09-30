@@ -10,6 +10,7 @@
 #  source_id   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  image_data  :text
 #
 
 require 'test_helper'

@@ -12,6 +12,7 @@ gem 'coffee-rails', '~> 4.2.0'
 gem 'combine_pdf', '~> 1.0.7'
 gem 'font-awesome-rails', '~> 4.7'
 gem 'http_accept_language', '~> 2.1.0'
+gem 'image_processing', '~> 1.6.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 gem 'jquery-hotkeys-rails', '~> 0.7.9'
@@ -28,6 +29,7 @@ gem 'remotipart', '~> 1.4.2'
 gem 'rest-client', '~> 2.0.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.6'
+gem 'shrine', '~> 2.11.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 # Use Uglifier as compressor for JavaScript assets

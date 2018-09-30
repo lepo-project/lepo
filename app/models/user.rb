@@ -13,32 +13,22 @@
 #  given_name           :string
 #  phonetic_family_name :string
 #  phonetic_given_name  :string
-#  folder_name          :string
-#  image_file_name      :string
-#  image_content_type   :string
-#  image_file_size      :integer
-#  image_updated_at     :datetime
 #  web_url              :string
 #  description          :text
 #  default_note_id      :integer          default(0)
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  image_data           :text
 #
 
 require 'net/ldap'
 require 'digest/sha1'
 require 'csv'
 class User < ApplicationRecord
+  include ImageUploader::Attachment.new(:image)
   include RandomString
   before_validation :set_default_value
-  has_attached_file :image,
-  path: ':rails_root/public/system/:class/:folder_name/:style/:filename',
-  url: ':relative_url_root/system/:class/:folder_name/:style/:filename',
-  default_url: '/assets/:class/:style/missing.png',
-  styles: { px40: '40x40>', px80: '80x80>', original: '160x160>' }
-  validates_attachment_content_type :image, content_type: ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png']
-  validates_attachment_size :image, less_than: IMAGE_MAX_FILE_SIZE.megabytes # original file is resized, so this is not important
   has_many :archived_courses, -> { where('courses.status = ?', 'archived') }, through: :course_members, source: :course
   has_many :attendances
   has_many :content_members
@@ -58,12 +48,10 @@ class User < ApplicationRecord
   has_many :sticky_stars, foreign_key: :manager_id
   has_many :user_actions
   validates_presence_of :family_name
-  validates_presence_of :folder_name
   validates_presence_of :hashed_password, if: "authentication == 'local'"
   validates_presence_of :salt, if: "authentication == 'local'"
   validates_presence_of :signin_name
   validates_presence_of :token
-  validates_uniqueness_of :folder_name
   validates_uniqueness_of :signin_name
   validates_uniqueness_of :token
   validates_inclusion_of :authentication, in: %w[local ldap]
@@ -197,6 +185,15 @@ class User < ApplicationRecord
   def highlight_texts(lesson_note_id, page_id)
     ids = NoteIndex.where(note_id: lesson_note_id, item_type: 'Snippet').pluck(:item_id)
     Snippet.where(id: ids, manager_id: id, category: 'text', source_type: 'page', source_id: page_id).pluck(:id, :description)
+  end
+
+  def image_id(version)
+    image[version.to_sym].id.split("/").last.split(".").first
+  end
+
+  def image_rails_url(version_num)
+    file_id = image_id('px' + version_num)
+    "#{Rails.application.config.relative_url_root}/users/#{id}/image?file_id=#{file_id}&version=px#{version_num}" if image && (%w[40 80 160].include? version_num)
   end
 
   def open_notes
@@ -337,6 +334,5 @@ class User < ApplicationRecord
 
   def set_default_value
     self.token = random_string(USER_TOKEN_LENGTH) unless token
-    self.folder_name = ym_random_string(FOLDER_NAME_LENGTH) unless folder_name
   end
 end

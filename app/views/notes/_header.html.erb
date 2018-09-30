@@ -13,7 +13,7 @@
     <div class="side-area">
       <% case @note.category when 'work' %>
       <% obj = (@course && @course.learner?(session[:id]) && @note.anonymous?(session[:id])) ? nil : @note.manager %>
-      <%= render partial: 'layouts/image', locals: {obj: obj, fa_class: 'fa-user', size: 'l'} %>
+      <%= render partial: 'layouts/image', locals: {obj: obj, fa_class: 'fa-user', img_px: '80'} %>
       <div class="caption">
         <% if obj.nil? %>
         ---
@@ -22,7 +22,7 @@
         <% end %>
       </div>
       <% else %>
-      <%= render partial: 'layouts/image', locals: {obj: nil, fa_class: 'fa-file-text', size: 'l'} %>
+      <%= render partial: 'layouts/image', locals: {obj: nil, fa_class: 'fa-file-text', img_px: '80'} %>
       <% end %>
     </div>
     <div class="main-area">

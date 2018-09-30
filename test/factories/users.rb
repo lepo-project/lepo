@@ -13,19 +13,14 @@
 #  given_name           :string
 #  phonetic_family_name :string
 #  phonetic_given_name  :string
-#  folder_name          :string
-#  image_file_name      :string
-#  image_content_type   :string
-#  image_file_size      :integer
-#  image_updated_at     :datetime
 #  web_url              :string
 #  description          :text
 #  default_note_id      :integer          default(0)
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  image_data           :text
 #
-
 
 FactoryBot.define do
   factory :user, class: User do

@@ -26,7 +26,6 @@ ja:
       page: ページファイル
       signin: サインイン
       snippet: スニペット
-      snippet_file: スニペットファイル
       sticky: ふせん
       sticky_star: ふせんのスター
       term: 学期
@@ -86,10 +85,7 @@ ja:
         course_members: コースのユーザ
         goals: :activerecord.models.goal
         groups_count: 班の数
-        image_content_type: 画像コンテンツタイプ
-        image_file_name: 画像ファイル名
-        image_file_size: 画像ファイルのサイズ
-        image_updated_at: 画像ファイルの更新日時
+        image_data: 画像データ
         learners: 学習者
         lessons: :activerecord.models.lesson
         managers: 教師
@@ -203,10 +199,7 @@ ja:
 
       outcome_file:
         outcome: :activerecord.models.outcome
-        upload_content_type: アップロードコンテントタイプ
-        upload_file_name: アップロードファイル名
-        upload_file_size: アップロードファイルサイズ
-        upload_updated_at: 更新日：
+        upload_data: アップロードデータ
 
       outcome_message:
         manager: 管理者
@@ -243,16 +236,8 @@ ja:
         display_order: 表示順序
         manager: 管理者
         note: :activerecord.models.note
-        snippet_file: :activerecord.models.snippet_file
         source: :activerecord.models.source
         source_type: ソースの種類
-
-      snippet_file:
-        snippet: :activerecord.models.snippet
-        upload_content_type: アップロードコンテントタイプ
-        upload_file_name: アップロードファイル名
-        upload_file_size: アップロードファイルサイズ
-        upload_updated_at: 更新日時：
 
       sticky:
         category: カテゴリー
@@ -290,10 +275,7 @@ ja:
         given_name: 名
         phonetic_given_name: 名よみ
         hashed_password: ハッシュ化したパスワード
-        image_content_type: 画像コンテンツタイプ
-        image_file_name: 画像ファイル名
-        image_file_size: 画像ファイルのサイズ
-        image_updated_at: 画像ファイルの更新日時
+        image_data: 画像データ
         last_signin_at: 最終サインイン日時
         lessons: :activerecord.models.lesson
         notes: :activerecord.models.note

@@ -51,6 +51,7 @@ en:
       auto_register_of_course_manager: If not specified, the course creater becomes manager.
       disabled_to_be_draft: Draft status can not select from open / archived status.
       no_course_manager_form: For open / archive status, managers can be edit at the course member page
+      remove_image: Remove image
     goal_card:
       assigned_objectives: Assigned Lesson Objectives
       goals: Course Goals
@@ -357,6 +358,7 @@ en:
       possible: :helpers.possible
     profile_pref:
       open_within_courses: Open within registered courses
+      remove_image: :courses.form.remove_image
     search_users:
       search: :layouts.buttons.search.search
       search_word: :layouts.search_members.search_word

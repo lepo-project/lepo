@@ -13,19 +13,14 @@
 #  given_name           :string
 #  phonetic_family_name :string
 #  phonetic_given_name  :string
-#  folder_name          :string
-#  image_file_name      :string
-#  image_content_type   :string
-#  image_file_size      :integer
-#  image_updated_at     :datetime
 #  web_url              :string
 #  description          :text
 #  default_note_id      :integer          default(0)
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  image_data           :text
 #
-
 
 require 'test_helper'
 
@@ -48,9 +43,6 @@ class UserTest < ActiveSupport::TestCase
     assert_invalid build(:user, family_name: nil), :family_name
   end
 
-  # test for validates_presence_of :folder_name
-  # this test is no need because of before_validation callback
-
   # test for validates_presence_of :hashed_password, if: "authentication == 'local'"
   test 'a user without hashed_password is invalid' do
     assert_invalid build(:user, hashed_password: ''), :hashed_password
@@ -71,12 +63,6 @@ class UserTest < ActiveSupport::TestCase
 
   # test for validates_presence_of :token
   # this test is no need because of before_validation callback
-
-  # test for validates_uniqueness_of :folder_name
-  test 'some users with same folder_name are invalid' do
-    user = create(:user)
-    assert_invalid build(:user, folder_name: user.folder_name), :folder_name
-  end
 
   # test for validates_uniqueness_of :signin_name
   test 'some users with same signin_name are invalid' do

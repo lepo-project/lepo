@@ -8,7 +8,8 @@ class SnippetsController < ApplicationController
     @notes = current_user.open_notes
     note_id = params[:note_id].to_i
 
-    @snippet = Snippet.new(manager_id: session[:id], category: params[:category], description: params[:snippet][:description], source_type: 'direct')
+    @snippet = Snippet.new(snippet_params)
+    @snippet.manager_id = session[:id]
     Snippet.transaction do
       @snippet.save!
       NoteIndex.create!(note_id: note_id, item_id: @snippet.id, item_type: 'Snippet', display_order: params[:display_order].to_i)
@@ -135,26 +136,6 @@ class SnippetsController < ApplicationController
     end
   end
 
-  def ajax_upload
-    @notes = current_user.open_notes
-    note_id = params[:note_id].to_i
-
-    @snippet = Snippet.new(manager_id: session[:id], category: 'image', source_type: 'upload')
-    Snippet.transaction do
-      @snippet.save!
-      NoteIndex.create!(note_id: note_id, item_id: @snippet.id, item_type: 'Snippet', display_order: params[:display_order].to_i)
-      param_hash = snippet_file_params
-      param_hash['snippet_id'] = @snippet.id
-      snippet_file = SnippetFile.new(param_hash)
-      snippet_file.save!
-    end
-    render_snippets note_id
-  rescue StandardError
-    flash[:message] = t('controllers.snippets.upload_error')
-    flash[:message_category] = 'error'
-    render_snippets note_id
-  end
-
   def create_web_snippet
     url = params[:u]
     title = params[:t]
@@ -189,6 +170,14 @@ class SnippetsController < ApplicationController
     end
   end
 
+  def show_image
+    @snippet = Snippet.find(params[:id])
+    return nil unless params[:file_id] == @snippet.image_id
+    url = @snippet.image_url(:px1280).to_s
+    filepath = Rails.root.join('storage', url[1, url.length-1])
+    send_file filepath, disposition: "inline"
+  end
+
   # ====================================================================
   # Private Functions
   # ====================================================================
@@ -211,11 +200,7 @@ class SnippetsController < ApplicationController
   end
 
   def snippet_params
-    params.require(:snippet).permit(:category, :description)
-  end
-
-  def snippet_file_params
-    params.require(:snippet_file).permit(:upload)
+    params.require(:snippet).permit(:category, :description, :source_type, :image)
   end
 
   def embed_url?(url)

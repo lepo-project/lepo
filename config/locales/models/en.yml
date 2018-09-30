@@ -26,7 +26,6 @@ en:
       page: Page file
       signin: Signin
       snippet: Snippet
-      snippet_file: Snippet File
       sticky: Sticky
       sticky_star: Sticky Star
       term: Term
@@ -86,10 +85,7 @@ en:
         course_members: Course Members
         goals: Goals
         groups_count: Groups Count
-        image_content_type: Image content type
-        image_file_name: Image file name
-        image_file_size: Image file size
-        image_updated_at: Image updated at
+        image_data: Image data
         learners: Learners
         lessons: Lessons
         managers: Managers
@@ -203,10 +199,7 @@ en:
 
       outcome_file:
         outcome: :activerecord.models.outcome
-        upload_content_type: Upload content type
-        upload_file_name: Upload file name
-        upload_file_size: Upload file size
-        upload_updated_at: Upload updated at
+        upload_data: Upload data
 
       outcome_message:
         manager: :activerecord.models.manager
@@ -243,16 +236,8 @@ en:
         display_order: Display order
         manager: :activerecord.models.manager
         note: :activerecord.models.note
-        snippet_file: :activerecord.models.snippet_file
         source: :activerecord.models.source
         source_type: Source type
-
-      snippet_file:
-        snippet: :activerecord.models.snippet
-        upload_content_type: Upload content type
-        upload_file_name: Upload file name
-        upload_file_size: Upload file size
-        upload_updated_at: Upload updated at
 
       sticky:
         category: Category
@@ -290,10 +275,7 @@ en:
         given_name: Given name
         phonetic_given_name: Phonetic given name
         hashed_password: Hashed password
-        image_content_type: Image content type
-        image_file_name: Image file name
-        image_file_size: Image file size
-        image_updated_at: Image updated at
+        image_data: Image data
         last_signin_at: Last signin at
         lessons: Lessons
         notes: Notes

@@ -8,7 +8,7 @@
       <% users.each do |user| %>
       <tr>
         <td class="image-td">
-          <%= render partial: 'layouts/image', locals: {obj: user[0], fa_class: 'fa-user', size: 'm'} %>
+          <%= render partial: 'layouts/image', locals: {obj: user[0], fa_class: 'fa-user', img_px: '40'} %>
         </td>
         <td class="name-td">
           <%= user[0].full_name_all %>

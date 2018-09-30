@@ -198,16 +198,6 @@ class CoursesController < ApplicationController
     render 'courses/renders/snippet_saved', locals: { pg: pg }
   end
 
-  def ajax_delete_image
-    course = Course.find params[:id]
-    if course.staff? session[:id]
-      course.image.clear
-      flash[:message] = '画像を削除しました。' if course.save
-      flash[:message_category] = 'info'
-    end
-    ajax_edit
-  end
-
   def ajax_destroy
     @course = Course.find params[:id]
     @course.destroy if @course.deletable? session[:id]
@@ -288,6 +278,8 @@ class CoursesController < ApplicationController
     @course = Course.find params[:id]
     course_form = course_params
     course_form[:status] = @course.status if @course.status != 'draft' && course_form[:status] == 'draft'
+    # Remedy for both new file upload and delete_image are selected
+    course_form.delete(:remove_image) if course_form[:image] && course_form[:image].size.nonzero?
 
     if all_blank_title? course_form[:goals_attributes]
       flash[:message] = '到達目標を、1つ以上設定する必要があります'
@@ -377,6 +369,17 @@ class CoursesController < ApplicationController
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
   end
 
+  def show_image
+    @course = Course.find(params[:id])
+    if %w[px40 px80 px160].include? params[:version]
+      image_id = @course.image_id(params[:version])
+      return nil unless params[:file_id] == image_id
+      url = @course.image_url(params[:version].to_sym).to_s
+      filepath = Rails.root.join('storage', url[1, url.length-1])
+      send_file filepath, disposition: "inline"
+    end
+  end
+
   # ====================================================================
   # Private Functions
   # ====================================================================
@@ -390,7 +393,7 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:image, :title, :term_id, :overview, :status, :groups_count, goals_attributes: %i[title id])
+    params.require(:course).permit(:image, :remove_image, :title, :term_id, :overview, :status, :groups_count, goals_attributes: %i[title id])
   end
 
   def lesson_params

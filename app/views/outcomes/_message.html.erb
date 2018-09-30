@@ -2,7 +2,7 @@
 <div class="dialogue-card <%= side %>">
   <div class="side-area" title="<%= message.manager.full_name %>">
     <div class="image">
-      <%= render partial: 'layouts/image', locals: {obj: message.manager, fa_class: 'fa-user', size: 'm'} %>
+      <%= render partial: 'layouts/image', locals: {obj: message.manager, fa_class: 'fa-user', img_px: '40'} %>
     </div>
     <div class="side-caption"><%= message.manager.short_name %></div>
   </div>

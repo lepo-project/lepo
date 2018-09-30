@@ -51,6 +51,7 @@ ja:
       auto_register_of_course_manager: 指定しない場合は、コース作成ユーザを教師に自動登録
       disabled_to_be_draft: 公開中/アーカイブの状態から、準備中には戻せません
       no_course_manager_form: 公開中またはアーカイブのコースでは、コースメンバーページから編集可能
+      remove_image: 画像を削除
     goal_card:
       assigned_objectives: 対応するレッスン目標
       goals: コース目標
@@ -357,6 +358,7 @@ ja:
       possible: :helpers.possible
     profile_pref:
       open_within_courses: 登録コース内で公開
+      remove_image: :courses.form.remove_image
     search_users:
       search: :layouts.buttons.search.search
       search_word: :layouts.search_members.search_word
