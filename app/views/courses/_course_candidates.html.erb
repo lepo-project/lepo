@@ -8,7 +8,7 @@
           <%= render partial: 'layouts/image', locals: {obj: course, fa_class: 'fa-flag', img_px: '40'} %>
         </td>
         <td class="name-td">
-          <%= course.term.title %>
+          <%= term_display_title course.term.title %>
         </td>
         <% managers = course_managers_display_list(course) %>
         <td class="name-td">

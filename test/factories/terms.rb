@@ -8,6 +8,7 @@
 #  end_at     :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  guid       :string
 #
 
 FactoryBot.define do

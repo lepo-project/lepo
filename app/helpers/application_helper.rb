@@ -217,7 +217,7 @@ module ApplicationHelper
     card['header'] = course.title
     card['body'] = course.overview
     card['summary'] = true
-    card['footnotes'] = [t('activerecord.models.term') + ' : ' + course.term.title]
+    card['footnotes'] = [term_display_title(course.term.title)]
     card
   end
 

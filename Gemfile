@@ -34,6 +34,7 @@ gem 'shrine', '~> 2.11.0'
 # gem 'therubyracer', platforms: :ruby
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '~> 4.1.14'
+gem 'whenever', require: false
 
 group :development, :test do
   gem 'sqlite3', '~> 1.3.0'

@@ -8,33 +8,23 @@
 #  end_at     :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  guid       :string
 #
 
-require 'date'
 class Term < ApplicationRecord
   has_many :courses
   validates_presence_of :end_at
   validates_presence_of :start_at
   validates_presence_of :title
   validates_uniqueness_of :title
+  validates_uniqueness_of :guid
 
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.selectables(category)
-    terms = Term.all.order(start_at: :desc)
-    selectables = []
-    day = Date.today
-    terms.each do |term|
-      case category
-      when 'hereafter'
-        # new course can be created from 10 months prior to term.start_at
-        selectables.push([term.title, term.id]) if ((term.start_at - 10.months)..term.end_at).cover? day
-      when 'all'
-        selectables.push([term.title, term.id])
-      end
-    end
-    selectables
+  def self.create_from_roster(roster_term)
+    return unless where(guid: roster_term['sourcedId']).count.zero?
+    Term.create(guid: roster_term['sourcedId'], title: roster_term['title'], start_at: roster_term['startDate'], end_at: roster_term['endDate'])
   end
 
   def deletable?(user_id)
