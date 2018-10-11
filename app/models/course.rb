@@ -11,6 +11,9 @@
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  image_data   :text
+#  guid         :string
+#  weekday      :integer          default(9)
+#  period       :integer          default(0)
 #
 
 class Course < ApplicationRecord
@@ -38,6 +41,10 @@ class Course < ApplicationRecord
   # FIXME: Group work
   validates_inclusion_of :groups_count, in: (1..COURSE_GROUP_MAX_SIZE).to_a
   validates_inclusion_of :status, in: %w[draft open archived]
+  validates_inclusion_of :period, in: (0..COURSE_PERIOD_MAX_SIZE).to_a
+  # 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat, 7: Sun, 9: Not weekly course
+  validates_inclusion_of :weekday, in: [1, 2, 3, 4, 5, 6, 7, 9]
+  validates_uniqueness_of :guid, allow_nil: true
   accepts_nested_attributes_for :goals, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: COURSE_GOAL_MAX_SIZE
 
   # ====================================================================
@@ -60,11 +67,14 @@ class Course < ApplicationRecord
 
   def self.open_with(user_id)
     user = User.find(user_id)
-    return Course.where(status: 'open').order(updated_at: :desc).limit(100) if user.system_staff?
+    return Course.where(status: 'open').order(:weekday, :period).limit(100) if user.system_staff?
 
-    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
+    courses = CourseMember.where(user_id: user_id).to_a
     courses.map!(&:course)
     courses.delete_if { |c| c.status != 'open' }
+    courses.sort! do |a, b|
+      (a[:weekday] <=> b[:weekday]).nonzero? || (a[:period] <=> b[:period])
+    end
   end
 
   def self.not_open_with(user_id)

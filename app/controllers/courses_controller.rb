@@ -393,7 +393,7 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(:image, :remove_image, :title, :term_id, :overview, :status, :groups_count, goals_attributes: %i[title id])
+    params.require(:course).permit(:image, :remove_image, :title, :term_id, :overview, :weekday, :period, :status, :groups_count, goals_attributes: %i[title id])
   end
 
   def lesson_params

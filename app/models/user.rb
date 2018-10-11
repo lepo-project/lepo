@@ -313,7 +313,7 @@ class User < ApplicationRecord
           list.push(category: 'lesson_note_update', display_order: lesson.display_order, controller: 'courses', action: 'ajax_show_lesson_note_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id)
         end
       end
-      cards.concat [{ title: course.title, list: list }] unless list.size.zero?
+      cards.concat [{ title: ApplicationController.helpers.course_combined_title(course), list: list }] unless list.size.zero?
     end
     cards
   end

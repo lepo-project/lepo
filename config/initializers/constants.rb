@@ -54,6 +54,9 @@ COURSE_LESSON_MAX_SIZE = 99
 # max length of course manager display
 COURSE_MANAGER_DISPLAY_MAX_LENGTH = 16
 
+# max period number for course
+COURSE_PERIOD_MAX_SIZE = 7
+
 # max number of course search results for system administrator
 COURSE_SEARCH_MAX_SIZE = 50
 

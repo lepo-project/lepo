@@ -13,6 +13,14 @@
   </div>
 
   <div class="form-group row">
+    <%= f.label :overview, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.overview'), class: 'col-md-3 col-form-label text-sm-right' %>
+    <div class="col-md-8">
+      <%= f.text_area :overview, {class: 'form-control', rows: '5', placeholder: t('activerecord.attributes.course.overview')} %>
+      <div class="form-text">改行を続けて挿入した位置で、文章を折りたたんで表示</div>
+    </div>
+  </div>
+
+  <div class="form-group row">
     <%= f.label :term_id, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.term_id'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
       <% if @course.new_record? %>
@@ -24,15 +32,31 @@
   </div>
 
   <div class="form-group row">
-    <%= f.label :overview, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.overview'), class: 'col-md-3 col-form-label text-sm-right' %>
+    <%= f.label :weekday, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.weekday'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
-      <%= f.text_area :overview, {class: 'form-control', rows: '8', placeholder: t('activerecord.attributes.course.overview')} %>
-      <div class="form-text">改行を続けて挿入した位置で、文章を折りたたんで表示</div>
+      <%= f.select :weekday, weekdays, {}, {class: 'form-control'} %>
     </div>
   </div>
 
   <div class="form-group row">
-    <%= f.label :image, '画像ファイル', class: 'col-md-3 col-form-label text-sm-right' %>
+    <%= f.label :period, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.period'), class: 'col-md-3 col-form-label text-sm-right' %>
+    <div class="col-md-8">
+      <%= f.select :period, periods,  {}, {class: 'form-control'} %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= f.label :status, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.status'), class: 'col-md-3 col-form-label text-sm-right' %>
+    <div class="col-md-8">
+      <%= f.select :status, course_status_array, course_disabled_status_hash(@course.status), {class: 'form-control'} %>
+      <ul class="form-list">
+        <li><%= t('.disabled_to_be_draft') %></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= f.label :image, t('activerecord.attributes.course.image_data'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
       <%= f.hidden_field :image, value: @course.cached_image_data %>
       <%= f.file_field :image, class: 'form-control-file', style: 'color: #fff;' %>
@@ -51,22 +75,12 @@
   </div>
 
   <div class="form-group row">
-    <%= f.label :groups_count, 'グループ数', class: 'col-md-3 col-form-label text-sm-right' %>
+    <%= f.label :groups_count, t('activerecord.attributes.course.groups_count'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
       <%= f.select :groups_count, (1..COURSE_GROUP_MAX_SIZE).to_a, {}, {class: 'form-control'} %>
       <ul class="form-list">
-        <li>グループで分類して、公開ノートを表示可能</li>
-        <li>グループに分類しない場合は1を設定</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :status, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.status'), class: 'col-md-3 col-form-label text-sm-right' %>
-    <div class="col-md-8">
-      <%= f.select :status, course_status_array, course_disabled_status_hash(@course.status), {class: 'form-control'} %>
-      <ul class="form-list">
-        <li><%= t('.disabled_to_be_draft') %></li>
+        <li><%= t('.group_explanation') %></li>
+        <li><%= t('.group_default') %></li>
       </ul>
     </div>
   </div>

@@ -9,6 +9,9 @@ ja:
     candidate: 候補
     char_count: 文字数
     contents_manage: 教材管理
+    course_not_periodically: 定時開講ではない
+    course_not_weekly: 毎週開講ではない
+    course_period: "%{period}時限"
     cover_page: 表紙
     current_lesson: 現在のレッスン
     dashboard: ダッシュボード

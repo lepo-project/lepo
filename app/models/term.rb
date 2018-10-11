@@ -16,8 +16,8 @@ class Term < ApplicationRecord
   validates_presence_of :end_at
   validates_presence_of :start_at
   validates_presence_of :title
+  validates_uniqueness_of :guid, allow_nil: true
   validates_uniqueness_of :title
-  validates_uniqueness_of :guid
 
   # ====================================================================
   # Public Functions

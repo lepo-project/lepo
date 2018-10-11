@@ -50,6 +50,8 @@ en:
     form:
       auto_register_of_course_manager: If not specified, the course creater becomes manager.
       disabled_to_be_draft: Draft status can not select from open / archived status.
+      group_default: Set 1 when not using group
+      group_explanation: Classify learners into groups for browsing and peer-reviewing the worksheets
       no_course_manager_form: For open / archive status, managers can be edit at the course member page
       remove_image: Remove image
     goal_card:

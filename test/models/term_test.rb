@@ -40,6 +40,12 @@ class TermTest < ActiveSupport::TestCase
     assert_invalid build(:term, title: nil), :title
   end
 
+  # test for validates_uniqueness_of :guid, allow_nil: true
+  test 'some terms with same guid are invalid' do
+    term = create(:term)
+    assert_invalid build(:term, guid: term.guid), :guid
+  end
+
   # test for validates_uniqueness_of :title
   test 'some terms with same title are invalid' do
     term = create(:term)
