@@ -309,7 +309,7 @@ class ApplicationController < ActionController::Base
   # def send_push_notification(registration_id)
   #   fcm_url = 'https://fcm.googleapis.com/fcm/send'
   #   payload = "{\"registration_ids\":[\"" + registration_id + "\"],\"delay_while_idle\":true,\"collapse_key\":\"lepo\"}"
-  #   headers = { content_type: :json, accept: :json, Authorization: 'key=' + FCM_AUTHORIZATION_KEY }
+  #   headers = { content_type: :json, accept: :json, Authorization: 'key=' + Rails.application.secrets.fcm_authorization_key }
   #   RestClient.post fcm_url, payload, headers
   # end
 

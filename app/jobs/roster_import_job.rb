@@ -45,12 +45,12 @@ class RosterImportJob < ApplicationJob
   end
 
   def get_request(endpoint)
-    url = SYSTEM_ROSTER_URL_PREFIX + endpoint
+    url = Rails.application.secrets.roster_url_prefix + endpoint
     # FIXME: verify_ssl should be true!
     response = RestClient::Request.execute(
       :url => url,
       :method => :get,
-      :headers => {Authorization: 'Bearer ' + SYSTEM_ROSTER_TOKEN},
+      :headers => {Authorization: 'Bearer ' + Rails.application.secrets.roster_token},
       :verify_ssl => false
     )
     JSON.parse(response.body)
