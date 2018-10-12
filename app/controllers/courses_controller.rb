@@ -270,7 +270,7 @@ class CoursesController < ApplicationController
     set_nav_session 'repository', 'courses', 0
     @course = Course.new
     @course.fill_goals
-    @course.goals[0].title = '(目標未定)'
+    @course.goals[0].title = '...'
     render 'layouts/renders/all_with_sub_toolbar', locals: { resource: 'new' }
   end
 

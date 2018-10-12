@@ -22,9 +22,21 @@ class Term < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.create_from_roster(roster_term)
-    return unless where(guid: roster_term['sourcedId']).count.zero?
-    Term.create(guid: roster_term['sourcedId'], title: roster_term['title'], start_at: roster_term['startDate'], end_at: roster_term['endDate'])
+  def self.sync_roster(rterms)
+    # Create and Update with OneRoster data
+
+    # Synchronous term condition
+    # FIXME: this condition should be treated at OneRoster API Server
+    now = Time.zone.now
+    rterms.select!{|rt| ((Time.zone.parse(rt['startDate']) - 1.month)...Time.zone.parse(rt['endDate'])).cover? now}
+    ids = []
+    rterms.each do |rt|
+      term = Term.find_or_initialize_by(guid: rt['sourcedId'])
+      if term.update_attributes(title: rt['title'], start_at: rt['startDate'], end_at: rt['endDate'])
+        ids.push({id: term.id, guid: term.guid})
+      end
+    end
+    ids
   end
 
   def deletable?(user_id)

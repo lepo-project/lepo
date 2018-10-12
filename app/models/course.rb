@@ -103,6 +103,24 @@ class Course < ApplicationRecord
     @candidates.limit(COURSE_SEARCH_MAX_SIZE)
   end
 
+  def self.sync_roster(term_id, rcourses)
+    # Create and Update with OneRoster data
+
+    ids = []
+    rcourses.each do |rc|
+      # REQUIREMENT: period vaule in OneRoster is [weekday number]-[time period number] format
+      weekday = rc['periods'].split(',')[0].split('-')[0]
+      period = rc['periods'].split(',')[0].split('-')[1]
+      course = Course.find_or_initialize_by(guid: rc['sourcedId'])
+      overview = course.overview.blank? ? '...' : course.overview
+      if course.update_attributes(term_id: term_id, title: rc['title'], overview: overview, weekday: weekday, period: period)
+        ids.push({id: course.id, guid: course.guid})
+        Goal.create(course_id: course.id, title: '...') if Goal.where(course_id: course.id).count.zero?
+      end
+    end
+    ids
+  end
+
   # FIXME: Group work
   def group_index_for(user_id)
     CourseMember.where(course_id: id, user_id: user_id).first.group_index

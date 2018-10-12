@@ -6,7 +6,7 @@ en:
       updated: Bookmark updated
     contents:
       save_error: Content save failed
-      no_object: (no object)
+      no_object: (object unset)
       no_object_error: Please set at least one object
       updated: "%{name} updated."
       update_failed: " %{name} update failed."
