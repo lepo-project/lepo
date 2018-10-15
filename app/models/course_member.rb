@@ -24,6 +24,15 @@ class CourseMember < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
+  def self.sync_roster(course_id, user_ids, role)
+    # Create and Update with OneRoster data
+
+    user_ids.each do |user_id|
+      member = CourseMember.find_or_initialize_by(course_id: course_id, user_id: user_id)
+      member.update_attributes(role: role)
+    end
+  end
+
   def self.update_managers(course_id, current_ids, ids)
     transaction do
       # unregister

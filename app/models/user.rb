@@ -100,6 +100,19 @@ class User < ApplicationRecord
     Digest::SHA1.hexdigest(string_to_hash)
   end
 
+  def self.sync_roster(rusers)
+    # Create and Update with OneRoster data
+
+    ids = []
+    rusers.each do |ru|
+      user = User.find_or_initialize_by(signin_name: ru['username'])
+      if user.update_attributes(authentication: 'ldap', family_name: ru['familyName'], given_name: ru['givenName'])
+        ids.push user.id
+      end
+    end
+    ids
+  end
+
   def self.system_staff?(id)
     user = find(id)
     (user.role == 'admin') || (user.role == 'manager')
