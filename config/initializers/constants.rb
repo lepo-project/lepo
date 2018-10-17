@@ -10,6 +10,9 @@ SYSTEM_SSL_FLAG = false
 # IP addresses that system staffs can singnin
 SYSTEM_STAFF_SIGNIN_IP = ['127.0.0.1'].freeze
 
+# Log file when using IMS OneRoster API
+SYSTEM_ROSTER_LOG_FILE = 'log/roster.log'
+
 # ===== Versatile constatns =====
 # time delay for autocomplete
 AUTOCOMPLETE_DELAY = 100

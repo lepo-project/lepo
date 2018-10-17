@@ -115,7 +115,7 @@ class Course < ApplicationRecord
       overview = course.overview.blank? ? '...' : course.overview
       if course.update_attributes(term_id: term_id, title: rc['title'], overview: overview, weekday: weekday, period: period)
         ids.push({id: course.id, guid: course.guid})
-        Goal.create(course_id: course.id, title: '...') if Goal.where(course_id: course.id).count.zero?
+        Goal.create(course_id: course.id, title: '...') unless Goal.where(course_id: course.id).present?
       end
     end
     ids
