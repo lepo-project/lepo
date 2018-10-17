@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RosterImportJobTest < ActiveJob::TestCase
+class RosterJobTest < ActiveJob::TestCase
   # test "the truth" do
   #   assert true
   # end

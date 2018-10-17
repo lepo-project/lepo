@@ -22,6 +22,6 @@
 set :output, "#{path}/log/cron_log.log"
 set :environment, :production
 
-every 2.hours do
-  runner 'RosterImportJob.perform_now'
+every 1.day, at: ['6:00 am'] do
+  runner 'RosterJob.perform_now'
 end
