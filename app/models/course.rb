@@ -61,7 +61,7 @@ class Course < ApplicationRecord
   end
 
   def self.work_sheet_distributable_by(user_id)
-    courses = associated_by(user_id, %w[manager staff])
+    courses = associated_by(user_id, %w[manager assistant])
     courses.delete_if { |c| %w[draft open].exclude? c.status }
   end
 
