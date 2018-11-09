@@ -12,7 +12,7 @@ class NoticesController < ApplicationController
     def ajax_archive_notice_from_course_top
       notice = Notice.find params[:notice_id]
       notice.update_attributes(status: 'archived')
-      @course = Course.find session[:nav_id]
+      @course = Course.find_enabled_by session[:nav_id]
       @goals = get_goal_resources @course
       @marked_lessons = marked_lessons @course.id
       render 'layouts/renders/resource', locals: { resource: 'index' }

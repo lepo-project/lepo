@@ -337,7 +337,7 @@ module ApplicationHelper
 
   def user_card_l_border(user)
     return 'course' if session[:nav_controller] != 'course_members'
-    course = Course.find(session[:nav_id])
+    course = Course.find_enabled_by session[:nav_id]
     return 'staff' if course.staff? user.id
     'learner'
   end

@@ -62,7 +62,7 @@ class Outcome < ApplicationRecord
       outcomes_submit = []
       outcomes_draft = []
 
-      course = Course.find(course_id)
+      course = Course.find_enabled_by course_id
       course.learners.each do |learner|
         outcome = Outcome.find_by(manager_id: learner.id, lesson_id: lesson_id)
         if outcome

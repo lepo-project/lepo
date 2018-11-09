@@ -65,7 +65,7 @@ class Note < ApplicationRecord
   def archived?
     case category
     when 'lesson'
-      course = Course.find_by(id: course_id)
+      course = Course.find_enabled_by course_id
       (course.status == 'archived')
     when 'private'
       (status == 'archived')
@@ -221,7 +221,7 @@ class Note < ApplicationRecord
         return !new_record?
       end
     when 'work'
-      course = Course.find_by(id: course_id)
+      course = Course.find_enabled_by course_id
       return false if !course || !course.staff?(user_id)
       case update_status
       when 'draft'

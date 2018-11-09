@@ -56,7 +56,7 @@
             <%= link_to_resource(t("activerecord.others.content_member.role.#{role}"), content.id, {}) %>
           </div>
           <div class="large-4x col"><%= link_to_resource("#{content.title} (#{t('.pages', num: content.file_pages.size)})", content.id, {}) %></div>
-          <div class="medium col"><%= link_to_resource("#{content.lessons.size.to_s}", content.id, {}) %></div>
+          <div class="medium col"><%= link_to_resource("#{content.courses.size.to_s}", content.id, {}) %></div>
           <div class="medium col"><%= link_to_resource(l(content.updated_at, format: :short), content.id, {}) %></div>
           <% end %>
         </div>

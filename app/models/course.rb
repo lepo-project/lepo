@@ -14,6 +14,7 @@
 #  guid         :string
 #  weekday      :integer          default(9)
 #  period       :integer          default(0)
+#  enabled      :boolean          default(TRUE)
 #
 
 class Course < ApplicationRecord
@@ -41,6 +42,7 @@ class Course < ApplicationRecord
   # FIXME: Group work
   validates_inclusion_of :groups_count, in: (1..COURSE_GROUP_MAX_SIZE).to_a
   validates_inclusion_of :status, in: %w[draft open archived]
+  validates :enabled, inclusion: { in: [true, false] }
   validates_inclusion_of :period, in: (0..COURSE_PERIOD_MAX_SIZE).to_a
   # 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat, 7: Sun, 9: Not weekly course
   validates_inclusion_of :weekday, in: [1, 2, 3, 4, 5, 6, 7, 9]
@@ -53,24 +55,26 @@ class Course < ApplicationRecord
   def self.associated_by(user_id, role)
     courses = CourseMember.where(user_id: user_id, role: role).order(updated_at: :desc).to_a
     courses.map!(&:course)
+    courses.delete_if { |c| !c.enabled }
   end
 
-  def self.not_associated_by(user_id)
-    courses = Course.where(status: 'open').order(created_at: :desc).limit(30).to_a
-    courses.delete_if { |c| CourseMember.find_by(course_id: c.id, user_id: user_id) }
+  def self.find_enabled_by course_id
+    find_by(id: course_id, enabled: true)
   end
 
   def self.work_sheet_distributable_by(user_id)
     courses = associated_by(user_id, %w[manager assistant])
+    courses.delete_if { |c| !c.enabled }
     courses.delete_if { |c| %w[draft open].exclude? c.status }
   end
 
   def self.open_with(user_id)
     user = User.find(user_id)
-    return Course.where(status: 'open').order(:weekday, :period).limit(100) if user.system_staff?
+    return Course.where(status: 'open', enabled: true).order(:weekday, :period).limit(100) if user.system_staff?
 
     courses = CourseMember.where(user_id: user_id).to_a
     courses.map!(&:course)
+    courses.delete_if { |c| !c.enabled }
     courses.delete_if { |c| c.status != 'open' }
     courses.sort! do |a, b|
       (a[:weekday] <=> b[:weekday]).nonzero? || (a[:period] <=> b[:period])
@@ -80,11 +84,12 @@ class Course < ApplicationRecord
   def self.not_open_with(user_id)
     courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
     courses.map!(&:course)
+    courses.delete_if { |c| !c.enabled }
     courses.delete_if { |c| (c.status == 'open') || ((c.status == 'draft') && (c.learner? user_id)) }
   end
 
   def self.search(term_id, status, title_parts, manager_parts)
-    @candidates = Course.all
+    @candidates = Course.where(enabled: true)
     @candidates = @candidates.where(term_id: term_id) unless term_id.empty?
     @candidates = @candidates.where(status: status) unless status.empty?
     @candidates = @candidates.where('title like ?', '%' + title_parts + '%') if title_parts.present?
@@ -113,12 +118,21 @@ class Course < ApplicationRecord
       period = rc['periods'].split(',')[0].split('-')[1]
       course = Course.find_or_initialize_by(guid: rc['sourcedId'])
       overview = course.overview.blank? ? '...' : course.overview
-      if course.update_attributes(term_id: term_id, title: rc['title'], overview: overview, weekday: weekday, period: period)
+      if course.update_attributes(enabled: true, term_id: term_id, title: rc['title'], overview: overview, weekday: weekday, period: period)
         ids.push({id: course.id, guid: course.guid})
         Goal.create(course_id: course.id, title: '...') unless Goal.where(course_id: course.id).present?
       end
     end
     ids
+  end
+
+  def self.logical_delete_unused(term_id, course_ids)
+    api_ids = course_ids.map{|ci| ci[:id]}
+    courses = where(term_id: term_id).where.not(id: api_ids)
+    courses.each do |course|
+      course.update_atributes(enabled: false)
+    end
+    courses.empty? ? [] : courses.pluck(:id)
   end
 
   # FIXME: Group work

@@ -14,6 +14,7 @@
 #  guid         :string
 #  weekday      :integer          default(9)
 #  period       :integer          default(0)
+#  enabled      :boolean          default(TRUE)
 #
 
 FactoryBot.define do

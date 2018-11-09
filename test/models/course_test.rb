@@ -14,6 +14,7 @@
 #  guid         :string
 #  weekday      :integer          default(9)
 #  period       :integer          default(0)
+#  enabled      :boolean          default(TRUE)
 #
 
 require 'test_helper'
@@ -61,6 +62,10 @@ class CourseTest < ActiveSupport::TestCase
     assert_invalid build(:course, status: nil), :status
   end
 
+  # test for validates :enabled, inclusion: { in: [true, false] }
+  test 'a course with enabled that is not included in [true, false] is invalid' do
+    assert_invalid build(:course, enabled: nil), :enabled
+  end
 
   # test for validates_inclusion_of :period, in: (0..COURSE_PERIOD_MAX_SIZE).to_a
   test 'a course with period that is not included in 0..COURSE_PERIOD_MAX_SIZE is invalid' do

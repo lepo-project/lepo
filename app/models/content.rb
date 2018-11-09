@@ -23,7 +23,7 @@ class Content < ApplicationRecord
   has_one :manager, -> { where('content_members.role = ?', 'manager') }, through: :content_members, source: :user
   has_many :asset_files, -> { order(upload_file_name: :asc) }, dependent: :destroy
   has_many :attachment_files, -> { order(upload_file_name: :asc) }, dependent: :destroy
-  has_many :courses, through: :lessons
+  has_many :courses, -> { where('courses.enabled = ?', true) }, through: :lessons
   has_many :content_members, dependent: :destroy
   has_many :assistants, -> { where('content_members.role = ?', 'assistant') }, through: :content_members, source: :user
   has_many :users, -> { where('content_members.role = ?', 'user') }, through: :content_members, source: :user

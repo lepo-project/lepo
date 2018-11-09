@@ -29,17 +29,17 @@ class User < ApplicationRecord
   include ImageUploader::Attachment.new(:image)
   include RandomString
   before_validation :set_default_value
-  has_many :archived_courses, -> { where('courses.status = ?', 'archived') }, through: :course_members, source: :course
+  has_many :archived_courses, -> { where('courses.status = ? and courses.enabled = ?', 'archived', true) }, through: :course_members, source: :course
   has_many :attendances
   has_many :content_members
   has_many :contents, through: :content_members
   has_many :course_members
-  has_many :courses, through: :course_members
+  has_many :courses, -> { where('courses.enabled = ?', true) }, through: :course_members
   # FIXME: PushNotification
   has_many :devices, foreign_key: :manager_id, dependent: :destroy
   has_many :lessons, foreign_key: :evaluator_id
   has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
-  has_many :open_courses, -> { where('courses.status = ?', 'open') }, through: :course_members, source: :course
+  has_many :open_courses, -> { where('courses.status = ? and courses.enabled = ?', 'open', true) }, through: :course_members, source: :course
   has_many :outcomes, foreign_key: :manager_id
   has_many :outcome_messages, foreign_key: :manager_id
   has_many :signins

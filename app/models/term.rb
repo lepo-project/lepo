@@ -12,7 +12,7 @@
 #
 
 class Term < ApplicationRecord
-  has_many :courses
+  has_many :courses, -> { where('courses.enabled = ?', true) }
   validates_presence_of :end_at
   validates_presence_of :start_at
   validates_presence_of :title
@@ -26,7 +26,6 @@ class Term < ApplicationRecord
     # Create and Update with OneRoster data
 
     # Synchronous term condition
-    # FIXME: this condition should be treated at OneRoster API Server
     now = Time.zone.now
     rterms.select!{|rt| ((Time.zone.parse(rt['startDate']) - 1.month)...Time.zone.parse(rt['endDate'])).cover? now}
     ids = []

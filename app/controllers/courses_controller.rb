@@ -10,7 +10,7 @@ class CoursesController < ApplicationController
   end
 
   def ajax_index_by_system_staff
-    course = Course.find_by(id: params[:id])
+    course = Course.find_enabled_by params[:id]
     if course.nil? || (!User.system_staff? session[:id])
       ajax_index_no_course
       render 'layouts/renders/main_pane_candidates', locals: { resource: 'select_course' }
@@ -23,7 +23,7 @@ class CoursesController < ApplicationController
   def ajax_show
     set_star_sort_stickies_session
     set_related_course_stickies_session
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     @lesson = Lesson.find params[:lesson_id]
     @content = @lesson.content
     set_page_session 0, @content
@@ -36,7 +36,7 @@ class CoursesController < ApplicationController
 
   def ajax_toggle_lesson_note
     return unless session[:nav_id] > 0 && session[:content_id] > 0 && session[:page_num]
-    @course = Course.find session[:nav_id]
+    @course = Course.find_enabled_by session[:nav_id]
     @content = Content.find session[:content_id]
     @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     pg = get_page(@lesson.id, @content)
@@ -55,7 +55,7 @@ class CoursesController < ApplicationController
 
   def ajax_show_lesson_note_from_others
     set_nav_session params[:nav_section], 'courses', params[:nav_id].to_i
-    @course = Course.find_by(id: session[:nav_id])
+    @course = Course.find_enabled_by session[:nav_id]
     @lesson = Lesson.find_by(id: params[:lesson_id])
     @content = @lesson.content
     set_page_session 0, @content
@@ -67,7 +67,7 @@ class CoursesController < ApplicationController
 
   def ajax_show_page
     set_related_course_stickies_session
-    @course = Course.find session[:nav_id]
+    @course = Course.find_enabled_by session[:nav_id]
     @content = Content.find session[:content_id]
     @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     set_page_session params[:page_num].to_i, @content
@@ -83,7 +83,7 @@ class CoursesController < ApplicationController
   def ajax_show_page_from_sticky
     set_star_sort_stickies_session
     set_related_course_stickies_session
-    @course = Course.find params[:course_id]
+    @course = Course.find_enabled_by params[:course_id]
     nav_section = @course.status == 'open' ? 'open_courses' : 'repository'
     @content = Content.find params[:content_id]
     @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
@@ -107,7 +107,7 @@ class CoursesController < ApplicationController
     session[:nav_controller] = 'courses'
     session[:nav_id] = params[:nav_id].to_i
 
-    @course = Course.find params[:nav_id]
+    @course = Course.find_enabled_by params[:nav_id]
     @lesson = Lesson.find params[:lesson_id]
     @content = @lesson.content
     set_page_session params[:page_num].to_i, @content if params[:page_num]
@@ -171,7 +171,7 @@ class CoursesController < ApplicationController
 
     lesson.content.objectives.each { |o| GoalsObjective.create(lesson_id: lesson.id, objective_id: o.id, goal_id: 0) }
 
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     get_content_array # for new lesson creation
     record_user_action('created', @course.id, lesson.id)
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
@@ -179,7 +179,7 @@ class CoursesController < ApplicationController
 
   def ajax_create_snippet
     return unless session[:nav_id] > 0 && session[:page_num].between?(0, session[:max_page_num])
-    @course = Course.find session[:nav_id]
+    @course = Course.find_enabled_by session[:nav_id]
     @content = Content.find session[:content_id]
     @lesson = Lesson.find_by(course_id: @course.id, content_id: @content.id)
     note = @course.lesson_note(session[:id])
@@ -199,14 +199,14 @@ class CoursesController < ApplicationController
   end
 
   def ajax_destroy
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     @course.destroy if @course.deletable? session[:id]
     record_user_action('deleted', @course.id)
     redirect_to controller: 'contents', action: 'ajax_index', nav_section: 'home', nav_id: 0
   end
 
   def ajax_destroy_lesson
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     lesson = Lesson.find params[:lesson_id]
 
     if lesson.deletable? session[:id]
@@ -238,7 +238,7 @@ class CoursesController < ApplicationController
   end
 
   def ajax_duplicate
-    original_course = Course.find params[:original_id]
+    original_course = Course.find_enabled_by params[:original_id]
     return unless original_course
 
     @course = Course.new(course_params)
@@ -261,7 +261,7 @@ class CoursesController < ApplicationController
   end
 
   def ajax_edit
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     @course.fill_goals
     render 'layouts/renders/main_pane', locals: { resource: 'courses/edit' }
   end
@@ -275,7 +275,7 @@ class CoursesController < ApplicationController
   end
 
   def ajax_update
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     course_form = course_params
     course_form[:status] = @course.status if @course.status != 'draft' && course_form[:status] == 'draft'
     # Remedy for both new file upload and delete_image are selected
@@ -316,7 +316,7 @@ class CoursesController < ApplicationController
 
   def ajax_update_association
     # update goal - objective association
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     get_content_array
     if params[:association_id]
       association = GoalsObjective.find params[:association_id]
@@ -332,7 +332,7 @@ class CoursesController < ApplicationController
   end
 
   def ajax_update_evaluator_from
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     set_lesson_evaluator @course.managers, params[:lesson_id]
     get_content_array
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
@@ -342,7 +342,7 @@ class CoursesController < ApplicationController
     set_lesson_status params[:lesson_id], params[:status]
     case params[:page]
     when 'index'
-      @course = Course.find params[:id]
+      @course = Course.find_enabled_by params[:id]
       @goals = get_goal_resources @course
       @marked_lessons = marked_lessons @course.id
       @lesson_resources = get_lesson_resources @course.lessons
@@ -364,13 +364,13 @@ class CoursesController < ApplicationController
 
   def ajax_sort_lessons
     params[:lesson].each_with_index { |id, i| Lesson.update(id, display_order: i + 1) }
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     get_content_array
     render 'layouts/renders/resource', locals: { resource: 'courses/edit_lessons' }
   end
 
   def show_image
-    @course = Course.find(params[:id])
+    @course = Course.find_enabled_by params[:id]
     if %w[px40 px80 px160].include? params[:version]
       image_id = @course.image_id(params[:version])
       return nil unless params[:file_id] == image_id
@@ -471,7 +471,7 @@ class CoursesController < ApplicationController
 
   def marked_lessons(course_id)
     lessons = {}
-    course = Course.find course_id
+    course = Course.find_enabled_by course_id
     user_id = session[:id]
     user_role = course.user_role user_id
     return lessons unless %w[manager learner].include? user_role
@@ -560,13 +560,13 @@ class CoursesController < ApplicationController
   def set_lesson_status(lesson_id, status)
     @lesson = Lesson.find lesson_id
     @lesson.update_attributes(status: status)
-    @course = Course.find params[:id]
+    @course = Course.find_enabled_by params[:id]
     @marked_lessons = marked_lessons @course.id
   end
 
   def render_duplicate_error(message, course_id)
     flash[:message] = message
-    @course = Course.find course_id
+    @course = Course.find_enabled_by course_id
     @course.fill_goals
     render 'layouts/renders/resource', locals: { resource: 'courses/edit' }
   end
@@ -590,7 +590,7 @@ class CoursesController < ApplicationController
 
   def render_course_index(nav_section, course_id)
     set_nav_session nav_section, 'courses', course_id
-    @course = Course.find course_id
+    @course = Course.find_enabled_by course_id
     @goals = get_goal_resources @course
     @marked_lessons = marked_lessons @course.id
     @lesson_resources = get_lesson_resources @course.lessons

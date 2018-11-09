@@ -174,7 +174,7 @@ class StickiesController < ApplicationController
         stickies = stickies.select { |s| s.category == view_category }
         render 'stickies/renders/stickies', locals: { stickies: stickies, view_category: view_category, content_id: content_id }
       when 'hot'
-        course = Course.find session[:nav_id]
+        course = Course.find_enabled_by session[:nav_id]
         stickies = course.hot_stickies
         render 'stickies/renders/hot_stickies', locals: { stickies: stickies, view_category: view_category, content_id: content_id }
       when 'user'
@@ -237,7 +237,7 @@ class StickiesController < ApplicationController
     end
 
     def update_lesson_note_items(course_id)
-      course = Course.find_by(id: course_id)
+      course = Course.find_enabled_by(course_id)
       course.lesson_note(session[:id]).update_items(course.open_lessons) if course.member? session[:id]
     end
   end
