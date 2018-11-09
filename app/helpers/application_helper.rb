@@ -213,11 +213,11 @@ module ApplicationHelper
     else
       card['icon'] = 'fa fa-flag'
     end
-    # card['caption'] = ''
     card['header'] = course.title
     card['body'] = course.overview
     card['summary'] = true
-    card['footnotes'] = [t('activerecord.models.term') + ' : ' + course.term.title]
+    period_footnote = course_period(course, false).empty? ? '' : course_period(course, false) + ' / '
+    card['footnotes'] = [period_footnote + term_display_title(course.term.title)]
     card
   end
 
@@ -337,7 +337,7 @@ module ApplicationHelper
 
   def user_card_l_border(user)
     return 'course' if session[:nav_controller] != 'course_members'
-    course = Course.find(session[:nav_id])
+    course = Course.find_enabled_by session[:nav_id]
     return 'staff' if course.staff? user.id
     'learner'
   end
@@ -410,7 +410,7 @@ module ApplicationHelper
       items.push(nav_section: 'home', nav_controller: 'preferences', title: t('helpers.preferences'), class: 'fa fa-cog fa-lg')
     when 'open_courses'
       subsections.each do |course|
-        items.push(nav_section: 'open_courses', nav_controller: 'courses', nav_id: course.id, title: course.title, class: 'fa fa-flag fa-lg')
+        items.push(nav_section: 'open_courses', nav_controller: 'courses', nav_id: course.id, title: course_combined_title(course), class: 'fa fa-flag fa-lg')
         items.push(nav_section: 'open_courses', nav_controller: 'portfolios', nav_id: course.id, title: t('helpers.portfolio'), class: 'no-icon')
         # items.push(nav_section: 'open_courses', nav_controller: 'stickies', nav_id: course.id, title: t('activerecord.models.sticky'), class: 'no-icon')
         items.push(nav_section: 'open_courses', nav_controller: 'notes', nav_id: course.id, title: t('helpers.worksheet_note'), class: 'no-icon')
@@ -419,7 +419,7 @@ module ApplicationHelper
     when 'repository'
       items.push(nav_section: 'repository', nav_controller: 'contents', title: t('activerecord.models.content'), class: 'fa fa-book fa-lg')
       subsections.each do |course|
-        items.push(nav_section: 'repository', nav_controller: 'courses', nav_id: course.id, title: course.title, class: 'fa fa-flag fa-lg')
+        items.push(nav_section: 'repository', nav_controller: 'courses', nav_id: course.id, title: course_combined_title(course), class: 'fa fa-flag fa-lg')
         items.push(nav_section: 'repository', nav_controller: 'portfolios', nav_id: course.id, title: t('helpers.portfolio'), class: 'no-icon')
         items.push(nav_section: 'repository', nav_controller: 'notes', nav_id: course.id, title: t('helpers.worksheet_note'), class: 'no-icon')
         items.push(nav_section: 'repository', nav_controller: 'course_members', nav_id: course.id, title: t('activerecord.models.course_member'), class: 'no-icon')

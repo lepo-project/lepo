@@ -169,7 +169,7 @@ class CourseMembersController < ApplicationController
   private
 
   def get_resources
-    @course = Course.find session[:nav_id]
+    @course = Course.find_enabled_by session[:nav_id]
     @managers = User.sort_by_signin_name @course.managers
     @assistants = User.sort_by_signin_name @course.assistants
     @learners = User.sort_by_signin_name @course.learners
@@ -177,7 +177,7 @@ class CourseMembersController < ApplicationController
 
   def update_role(user_id, course_id, role)
     course_member = CourseMember.find_by(user_id: user_id, course_id: course_id)
-    course = Course.find course_id
+    course = Course.find_enabled_by course_id
     if course_member
       if (course_member.role == 'manager') && (course.evaluator? user_id)
         flash.now[:message] = 'レッスンの評価担当者は、教師である必要があります'
@@ -204,7 +204,7 @@ class CourseMembersController < ApplicationController
   def exclude_members(tmp_managers, course_id)
     excludes = tmp_managers.nil? ? [] : tmp_managers.map(&:to_i)
     # Considering that the value of course_id is -1 (new course), use find_by instead of find
-    course = Course.find_by(id: course_id)
+    course = Course.find_enabled_by course_id
     return excludes if course.nil?
     learners = course.learners
     learners.each do |l|

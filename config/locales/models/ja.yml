@@ -84,8 +84,8 @@ ja:
         contents: :activerecord.models.content
         course_members: コースのユーザ
         goals: :activerecord.models.goal
-        groups_count: 班の数
-        image_data: 画像データ
+        groups_count: グループ数
+        image_data: 画像ファイル
         learners: 学習者
         lessons: :activerecord.models.lesson
         managers: 教師
@@ -93,14 +93,17 @@ ja:
         original_open_work_sheets: ワークシート（公開）
         original_review_work_sheets: ワークシート（レビュー）
         members: メンバー
+        notes: ノート
         notices: :activerecord.models.notice
         open_lessons: レッスン（公開中）
         outcomes: :activerecord.models.outcome
         overview: 概要
+        period: 時限
         status: 状態
         notes: :activerecord.models.note
         term_id: :activerecord.models.term
         title: タイトル
+        weekday: 曜日
 
       course_member:
         course: :activerecord.models.course

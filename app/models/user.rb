@@ -29,17 +29,17 @@ class User < ApplicationRecord
   include ImageUploader::Attachment.new(:image)
   include RandomString
   before_validation :set_default_value
-  has_many :archived_courses, -> { where('courses.status = ?', 'archived') }, through: :course_members, source: :course
+  has_many :archived_courses, -> { where('courses.status = ? and courses.enabled = ?', 'archived', true) }, through: :course_members, source: :course
   has_many :attendances
   has_many :content_members
   has_many :contents, through: :content_members
   has_many :course_members
-  has_many :courses, through: :course_members
+  has_many :courses, -> { where('courses.enabled = ?', true) }, through: :course_members
   # FIXME: PushNotification
   has_many :devices, foreign_key: :manager_id, dependent: :destroy
   has_many :lessons, foreign_key: :evaluator_id
   has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
-  has_many :open_courses, -> { where('courses.status = ?', 'open') }, through: :course_members, source: :course
+  has_many :open_courses, -> { where('courses.status = ? and courses.enabled = ?', 'open', true) }, through: :course_members, source: :course
   has_many :outcomes, foreign_key: :manager_id
   has_many :outcome_messages, foreign_key: :manager_id
   has_many :signins
@@ -98,6 +98,19 @@ class User < ApplicationRecord
   def self.encrypted_password(password, salt)
     string_to_hash = password + 'lepo' + salt
     Digest::SHA1.hexdigest(string_to_hash)
+  end
+
+  def self.sync_roster(rusers)
+    # Create and Update with OneRoster data
+
+    ids = []
+    rusers.each do |ru|
+      user = User.find_or_initialize_by(signin_name: ru['username'])
+      if user.update_attributes(authentication: 'ldap', family_name: ru['familyName'], given_name: ru['givenName'])
+        ids.push user.id
+      end
+    end
+    ids
   end
 
   def self.system_staff?(id)
@@ -229,7 +242,7 @@ class User < ApplicationRecord
   def work_sheet_manageable?
     return true if %w[admin manager].include? role
     distributable_courses = Course.work_sheet_distributable_by id
-    return true unless distributable_courses.size.zero?
+    return true unless distributable_courses.empty?
     false
   end
 
@@ -313,7 +326,7 @@ class User < ApplicationRecord
           list.push(category: 'lesson_note_update', display_order: lesson.display_order, controller: 'courses', action: 'ajax_show_lesson_note_from_others', nav_section: 'open_courses', nav_id: course.id, lesson_id: lesson.id)
         end
       end
-      cards.concat [{ title: course.title, list: list }] unless list.size.zero?
+      cards.concat [{ title: ApplicationController.helpers.course_combined_title(course), list: list }] unless list.size.zero?
     end
     cards
   end

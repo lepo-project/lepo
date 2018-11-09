@@ -84,8 +84,8 @@ en:
         contents: Contents
         course_members: Course Members
         goals: Goals
-        groups_count: Groups Count
-        image_data: Image data
+        groups_count: Number of Groups
+        image_data: Image File
         learners: Learners
         lessons: Lessons
         managers: Managers
@@ -98,9 +98,11 @@ en:
         open_lessons: Open lessons
         outcomes: Outcomes
         overview: Overview
+        period: Time Period
         status: Status
         term_id: :activerecord.models.term
         title: Title
+        weekday: Weekday
 
       course_member:
         course: :activerecord.models.course

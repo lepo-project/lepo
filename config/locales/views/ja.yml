@@ -50,6 +50,8 @@ ja:
     form:
       auto_register_of_course_manager: 指定しない場合は、コース作成ユーザを教師に自動登録
       disabled_to_be_draft: 公開中/アーカイブの状態から、準備中には戻せません
+      group_default: グループを利用しない場合は1を設定
+      group_explanation: 学生をグループに分類して、ワークシートを閲覧/相互評価可能
       no_course_manager_form: 公開中またはアーカイブのコースでは、コースメンバーページから編集可能
       remove_image: 画像を削除
     goal_card:

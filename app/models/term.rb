@@ -8,33 +8,34 @@
 #  end_at     :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  guid       :string
 #
 
-require 'date'
 class Term < ApplicationRecord
-  has_many :courses
+  has_many :courses, -> { where('courses.enabled = ?', true) }
   validates_presence_of :end_at
   validates_presence_of :start_at
   validates_presence_of :title
+  validates_uniqueness_of :guid, allow_nil: true
   validates_uniqueness_of :title
 
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.selectables(category)
-    terms = Term.all.order(start_at: :desc)
-    selectables = []
-    day = Date.today
-    terms.each do |term|
-      case category
-      when 'hereafter'
-        # new course can be created from 10 months prior to term.start_at
-        selectables.push([term.title, term.id]) if ((term.start_at - 10.months)..term.end_at).cover? day
-      when 'all'
-        selectables.push([term.title, term.id])
+  def self.sync_roster(rterms)
+    # Create and Update with OneRoster data
+
+    # Synchronous term condition
+    now = Time.zone.now
+    rterms.select!{|rt| ((Time.zone.parse(rt['startDate']) - 1.month)...Time.zone.parse(rt['endDate'])).cover? now}
+    ids = []
+    rterms.each do |rt|
+      term = Term.find_or_initialize_by(guid: rt['sourcedId'])
+      if term.update_attributes(title: rt['title'], start_at: rt['startDate'], end_at: rt['endDate'])
+        ids.push({id: term.id, guid: term.guid})
       end
     end
-    selectables
+    ids
   end
 
   def deletable?(user_id)

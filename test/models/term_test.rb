@@ -8,6 +8,7 @@
 #  end_at     :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  guid       :string
 #
 
 require 'test_helper'
@@ -37,6 +38,12 @@ class TermTest < ActiveSupport::TestCase
   test 'a term without title is invalid' do
     assert_invalid build(:term, title: ''), :title
     assert_invalid build(:term, title: nil), :title
+  end
+
+  # test for validates_uniqueness_of :guid, allow_nil: true
+  test 'some terms with same guid are invalid' do
+    term = create(:term)
+    assert_invalid build(:term, guid: term.guid), :guid
   end
 
   # test for validates_uniqueness_of :title

@@ -24,6 +24,24 @@ class CourseMember < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
+  def self.sync_roster(course_id, user_ids, role)
+    # Create and Update with OneRoster data
+
+    user_ids.each do |user_id|
+      member = CourseMember.find_or_initialize_by(course_id: course_id, user_id: user_id)
+      member.update_attributes(role: role)
+    end
+  end
+
+  def self.destroy_unused(course_id, user_ids)
+    members = where(course_id: course_id).where.not(user_id: user_ids)
+    deleted_members = []
+    unless members.empty?
+      deleted_members = members.destroy_all
+      deleted_members.map{|m| m.user_id}
+    end
+  end
+
   def self.update_managers(course_id, current_ids, ids)
     transaction do
       # unregister
@@ -52,7 +70,7 @@ class CourseMember < ApplicationRecord
     stickies = Sticky.where(course_id: course_id, manager_id: user_id)
     case role
     when 'manager'
-      course = Course.find(course_id)
+      course = Course.find_enabled_by course_id
       return false if course.evaluator? user_id
 
       manager_num = CourseMember.where(course_id: course_id, role: 'manager').size

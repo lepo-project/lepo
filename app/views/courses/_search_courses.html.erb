@@ -7,7 +7,7 @@
 	<div class="form-group form-row" style="width: 100%;">
 		<%# --- term --- %>
 		<%= label :term_id, t('activerecord.models.term'), class: 'col-md-2 col-form-label text-sm-right' %>
-		<%= select_tag :term_id, options_for_select(select_options_unspecified(Term.selectables("all"))), class: 'col-md-3 form-control input-lg' %>
+		<%= select_tag :term_id, options_for_select(select_options_unspecified(selectable_terms('all'))), class: 'col-md-3 form-control input-lg' %>
 		<%# --- title --- %>
 		<%= label :title, t('activerecord.attributes.course.title'), class: 'col-md-2 col-form-label text-sm-right' %>
 		<%= text_field_tag :title, @search_word, class: 'col-md-4 form-control input-lg', placeholder: t('.placeholder_title') %>

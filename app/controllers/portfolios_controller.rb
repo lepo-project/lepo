@@ -37,7 +37,7 @@ class PortfoliosController < ApplicationController
   private
 
   def get_resources
-    @course = Course.find session[:nav_id]
+    @course = Course.find_enabled_by session[:nav_id]
     @course_role = @course.user_role session[:id]
     @lessons = @course.lessons
     @last_sticky_dates = last_sticky_dates @lessons

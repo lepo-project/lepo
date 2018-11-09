@@ -10,7 +10,7 @@ class OutcomeUploader < Shrine
     class_name = 'users'
     directory_name1 = context[:record].outcome.manager_id
     directory_name2 = context[:record].outcome.folder_name
-    # Use original filename instead of UUID
+    # Use original filename instead of GUID
     file_name  = context[:metadata]['filename']
 
     [class_name, directory_name1, directory_name2, file_name].compact.join("/")

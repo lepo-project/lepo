@@ -150,7 +150,7 @@ class NotesController < ApplicationController
       # when
       render 'layouts/renders/resource', locals: { resource: params[:resource] }
     when 'course_index'
-      course = Course.find(session[:nav_id]) if session[:nav_id]
+      course = Course.find_enabled_by(session[:nav_id]) if session[:nav_id]
       if course
         render 'notes/renders/hot_notes', locals: { notes: course.hot_notes, course_id: course.id }
       end
@@ -170,7 +170,7 @@ class NotesController < ApplicationController
 
   def distribute_work_sheet(original_ws)
     copy_snippets = original_ws.direct_snippets
-    course = Course.find original_ws.course_id
+    course = Course.find_enabled_by original_ws.course_id
     course.learners.each do |l|
       notes = Note.where(manager_id: l.id, status: 'original_ws', original_ws_id: original_ws.id).to_a
       next unless notes.size.zero?
@@ -186,7 +186,7 @@ class NotesController < ApplicationController
   end
 
   def get_resources
-    @course = Course.find session[:nav_id]
+    @course = Course.find_enabled_by session[:nav_id]
 
     @notes = @course.learner_work_sheets(session[:id], @course.staff?(session[:id]))
   end

@@ -18,6 +18,9 @@ LePo is a Web-based LMS (Learning Management System) that is developing with the
 
 1. rails db:migrate
 
+1. set "SECRET_KEY_BASE_DEVELOPMENT" and "SECRET_KEY_BASE_TEST" values as environment variable
+  (the values can be obtained by "rails secret" command)
+
 1. rails s  -b 127.0.0.1
 
 1. access the top page ( localhost:3000 ) with web browser and follow the shown instruction.
@@ -26,7 +29,7 @@ LePo is a Web-based LMS (Learning Management System) that is developing with the
 
 # For Production Environment
 
-* set "SECRET_KEY_BASE" value as environment variable
+* set "SECRET_KEY_BASE_PRODUCTION" value as environment variable
 
 * recommended environments: Nginx, Unicorn and MariaDB (MySQL)
 

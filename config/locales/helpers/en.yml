@@ -9,6 +9,9 @@ en:
     candidate: Candidate
     char_count: character count
     contents_manage: Contents Manage
+    course_not_periodically: Not Periodically
+    course_not_weekly: Not Weekly
+    course_period: " - Period %{period}"
     cover_page: Cover
     current_lesson: Current Lesson
     dashboard: Dashboard
@@ -49,7 +52,13 @@ en:
     system_notice_summary: system notices shown in signin page
     teacher_evaluation: Teacher Eval.
     term: Term
+    term_category_first: First Term
+    term_category_full: Fullyear Term
+    term_category_intensive: Intensive Term
+    term_category_second: Second Term
+    term_category_years: Two Years Term
     term_summary: school terms for courses
+    term_year: "%{year} - "
     unspecified: Unspecified
     update: System Update
     update_summary: Correction of DB etc. after updating LePo

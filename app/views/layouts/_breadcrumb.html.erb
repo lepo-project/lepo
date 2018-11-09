@@ -2,7 +2,7 @@
   <% crumbs.each_with_index do |c, i| %>
   <% title = (i == 0) ? t('.top') : c[0] %>
   <% if c.size == 1 %>
-  <li class="active"><%= title %></li>
+  <li class="active"><%= raw title %></li>
   <% else %>
   <li>
     <%= link_to(title, c[1], {remote: true}) %>

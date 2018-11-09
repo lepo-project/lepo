@@ -10,6 +10,9 @@ SYSTEM_SSL_FLAG = false
 # IP addresses that system staffs can singnin
 SYSTEM_STAFF_SIGNIN_IP = ['127.0.0.1'].freeze
 
+# Log file when using IMS OneRoster API
+SYSTEM_ROSTER_LOG_FILE = 'log/roster.log'
+
 # ===== Versatile constatns =====
 # time delay for autocomplete
 AUTOCOMPLETE_DELAY = 100
@@ -47,6 +50,9 @@ COURSE_LESSON_MAX_SIZE = 99
 
 # max length of course manager display
 COURSE_MANAGER_DISPLAY_MAX_LENGTH = 16
+
+# max period number for course
+COURSE_PERIOD_MAX_SIZE = 7
 
 # max number of course search results for system administrator
 COURSE_SEARCH_MAX_SIZE = 50
@@ -87,6 +93,3 @@ WEB_SNIPPET_MAX_LENGTH = 300
 
 # max character length for web open snippet (less or equal to WEB_SNIPPET_MAX_LENGTH)
 WEB_OPEN_SNIPPET_MAX_LENGTH = 50
-
-# FIXME: PushNotification
-# FCM_AUTHORIZATION_KEY = ''

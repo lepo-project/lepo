@@ -9,6 +9,9 @@ ja:
     candidate: 候補
     char_count: 文字数
     contents_manage: 教材管理
+    course_not_periodically: 定時開講ではない
+    course_not_weekly: 毎週開講ではない
+    course_period: "%{period}時限"
     cover_page: 表紙
     current_lesson: 現在のレッスン
     dashboard: ダッシュボード
@@ -49,7 +52,13 @@ ja:
     system_notice_summary: サインイン画面に表示するお知らせ
     teacher_evaluation: 教師評価
     term: 学期
+    term_category_first: 前期
+    term_category_full: 通年
+    term_category_intensive: 集中
+    term_category_second: 後期
+    term_category_years: 年度跨ぎ
     term_summary: コースを開講する学期
+    term_year: "%{year}年度"
     unspecified: 指定なし
     update: システム更新
     update_summary: LePo更新後のDB等の修正
