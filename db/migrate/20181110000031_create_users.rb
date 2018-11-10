@@ -11,11 +11,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :given_name
       t.string :phonetic_family_name
       t.string :phonetic_given_name
-      t.string :folder_name
-      t.string :image_file_name
-      t.string :image_content_type
-      t.integer :image_file_size
-      t.datetime :image_updated_at
+      t.text :image_data
       t.string :web_url
       t.text :description
       t.integer :default_note_id, default: 0
@@ -26,6 +22,5 @@ class CreateUsers < ActiveRecord::Migration[5.0]
     add_index :users, :signin_name, unique: true
     add_index :users, :token, unique: true
     add_index :users, :role
-    add_index :users, :folder_name, unique: true
   end
 end

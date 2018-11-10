@@ -5,7 +5,7 @@ class CreateStickies < ActiveRecord::Migration[5.0]
       t.integer :content_id
       t.integer :course_id
       t.integer :target_id
-      t.string :target_type, default: 'page'
+      t.string :target_type, default: 'Page'
       t.integer :stars_count, default: 0
       t.string :category, default: 'private'
       t.text :message

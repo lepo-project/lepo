@@ -6,7 +6,7 @@ class CreateSnippets < ActiveRecord::Migration[5.0]
       t.text :description
       t.string :source_type, default: 'direct'
       t.integer :source_id
-
+      t.text :image_data
       t.timestamps
     end
     add_index :snippets, :manager_id
