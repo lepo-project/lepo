@@ -3,12 +3,12 @@
 # Table name: terms
 #
 #  id         :integer          not null, primary key
+#  sourced_id :string
 #  title      :string
 #  start_at   :date
 #  end_at     :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  guid       :string
 #
 
 require 'test_helper'
@@ -40,10 +40,10 @@ class TermTest < ActiveSupport::TestCase
     assert_invalid build(:term, title: nil), :title
   end
 
-  # test for validates_uniqueness_of :guid, allow_nil: true
-  test 'some terms with same guid are invalid' do
+  # test for validates_uniqueness_of :sourced_id, allow_nil: true
+  test 'some terms with same sourced_id are invalid' do
     term = create(:term)
-    assert_invalid build(:term, guid: term.guid), :guid
+    assert_invalid build(:term, sourced_id: term.sourced_id), :sourced_id
   end
 
   # test for validates_uniqueness_of :title

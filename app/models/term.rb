@@ -3,12 +3,12 @@
 # Table name: terms
 #
 #  id         :integer          not null, primary key
+#  sourced_id :string
 #  title      :string
 #  start_at   :date
 #  end_at     :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  guid       :string
 #
 
 class Term < ApplicationRecord
@@ -16,7 +16,7 @@ class Term < ApplicationRecord
   validates_presence_of :end_at
   validates_presence_of :start_at
   validates_presence_of :title
-  validates_uniqueness_of :guid, allow_nil: true
+  validates_uniqueness_of :sourced_id, allow_nil: true
   validates_uniqueness_of :title
 
   # ====================================================================
@@ -30,9 +30,9 @@ class Term < ApplicationRecord
     rterms.select!{|rt| ((Time.zone.parse(rt['startDate']) - 1.month)...Time.zone.parse(rt['endDate'])).cover? now}
     ids = []
     rterms.each do |rt|
-      term = Term.find_or_initialize_by(guid: rt['sourcedId'])
+      term = Term.find_or_initialize_by(sourced_id: rt['sourcedId'])
       if term.update_attributes(title: rt['title'], start_at: rt['startDate'], end_at: rt['endDate'])
-        ids.push({id: term.id, guid: term.guid})
+        ids.push({id: term.id, sourced_id: term.sourced_id})
       end
     end
     ids

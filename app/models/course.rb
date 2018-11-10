@@ -3,18 +3,18 @@
 # Table name: courses
 #
 #  id           :integer          not null, primary key
+#  enabled      :boolean          default(TRUE)
+#  sourced_id   :string
 #  term_id      :integer
+#  image_data   :text
 #  title        :string
 #  overview     :text
+#  weekday      :integer          default(9)
+#  period       :integer          default(0)
 #  status       :string           default("draft")
 #  groups_count :integer          default(1)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  image_data   :text
-#  guid         :string
-#  weekday      :integer          default(9)
-#  period       :integer          default(0)
-#  enabled      :boolean          default(TRUE)
 #
 
 class Course < ApplicationRecord
@@ -46,7 +46,7 @@ class Course < ApplicationRecord
   validates_inclusion_of :period, in: (0..COURSE_PERIOD_MAX_SIZE).to_a
   # 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat, 7: Sun, 9: Not weekly course
   validates_inclusion_of :weekday, in: [1, 2, 3, 4, 5, 6, 7, 9]
-  validates_uniqueness_of :guid, allow_nil: true
+  validates_uniqueness_of :sourced_id, allow_nil: true
   accepts_nested_attributes_for :goals, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: COURSE_GOAL_MAX_SIZE
 
   # ====================================================================
@@ -116,10 +116,10 @@ class Course < ApplicationRecord
       # REQUIREMENT: period vaule in OneRoster is [weekday number]-[time period number] format
       weekday = rc['periods'].split(',')[0].split('-')[0]
       period = rc['periods'].split(',')[0].split('-')[1]
-      course = Course.find_or_initialize_by(guid: rc['sourcedId'])
+      course = Course.find_or_initialize_by(sourced_id: rc['sourcedId'])
       overview = course.overview.blank? ? '...' : course.overview
       if course.update_attributes(enabled: true, term_id: term_id, title: rc['title'], overview: overview, weekday: weekday, period: period)
-        ids.push({id: course.id, guid: course.guid})
+        ids.push({id: course.id, sourced_id: course.sourced_id})
         Goal.create(course_id: course.id, title: '...') unless Goal.where(course_id: course.id).present?
       end
     end

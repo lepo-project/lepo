@@ -4,9 +4,9 @@
 #
 #  id          :integer          not null, primary key
 #  outcome_id  :integer
+#  upload_data :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  upload_data :text
 #
 
 require 'test_helper'

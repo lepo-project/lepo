@@ -13,13 +13,13 @@
 #  given_name           :string
 #  phonetic_family_name :string
 #  phonetic_given_name  :string
+#  image_data           :text
 #  web_url              :string
 #  description          :text
 #  default_note_id      :integer          default(0)
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  image_data           :text
 #
 
 FactoryBot.define do

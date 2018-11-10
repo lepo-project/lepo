@@ -6,10 +6,10 @@
 #  manager_id    :integer
 #  display_order :integer
 #  display_title :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
 #  target_id     :integer
 #  target_type   :string           default("web")
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 
 require 'test_helper'

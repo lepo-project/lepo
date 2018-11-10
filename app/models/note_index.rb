@@ -5,10 +5,10 @@
 #  id            :integer          not null, primary key
 #  note_id       :integer
 #  item_id       :integer
+#  item_type     :string           default("Snippet")
 #  display_order :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  item_type     :string           default("Snippet")
 #
 
 class NoteIndex < ApplicationRecord

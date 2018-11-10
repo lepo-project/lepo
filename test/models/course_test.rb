@@ -3,18 +3,18 @@
 # Table name: courses
 #
 #  id           :integer          not null, primary key
+#  enabled      :boolean          default(TRUE)
+#  sourced_id   :string
 #  term_id      :integer
+#  image_data   :text
 #  title        :string
 #  overview     :text
+#  weekday      :integer          default(9)
+#  period       :integer          default(0)
 #  status       :string           default("draft")
 #  groups_count :integer          default(1)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  image_data   :text
-#  guid         :string
-#  weekday      :integer          default(9)
-#  period       :integer          default(0)
-#  enabled      :boolean          default(TRUE)
 #
 
 require 'test_helper'
@@ -80,9 +80,9 @@ class CourseTest < ActiveSupport::TestCase
     assert_invalid build(:course, weekday: nil), :weekday
   end
 
-  # test for validates_uniqueness_of :guid, allow_nil: true
-  test 'some courses with same guid are invalid' do
+  # test for validates_uniqueness_of :sourced_id, allow_nil: true
+  test 'some courses with same sourced_id are invalid' do
     course = create(:course)
-    assert_invalid build(:course, guid: course.guid), :guid
+    assert_invalid build(:course, sourced_id: course.sourced_id), :sourced_id
   end
 end
