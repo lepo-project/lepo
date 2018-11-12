@@ -21,5 +21,13 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/production.sqlite
+  adapter: mysql2
+  pool: 5
+  reconnect: false
+  encoding: utf8mb4
+  charset: utf8mb4
+  collation: utf8mb4_unicode_ci
+  host: localhost
+  database:
+  username:
+  password:
