@@ -108,7 +108,7 @@ class Course < ApplicationRecord
     @candidates.limit(COURSE_SEARCH_MAX_SIZE)
   end
 
-  def self.sync_roster(term_id, rcourses)
+  def self.sync_roster(term_id, term_status, rcourses)
     # Create and Update with OneRoster data
 
     ids = []
@@ -118,7 +118,7 @@ class Course < ApplicationRecord
       period = rc['periods'].split(',')[0].split('-')[1]
       course = Course.find_or_initialize_by(sourced_id: rc['sourcedId'])
       overview = course.overview.blank? ? '...' : course.overview
-      if course.update_attributes(enabled: true, term_id: term_id, title: rc['title'], overview: overview, weekday: weekday, period: period)
+      if course.update_attributes(enabled: true, term_id: term_id, title: rc['title'], overview: overview, weekday: weekday, period: period, status: term_status)
         ids.push({id: course.id, sourced_id: course.sourced_id})
         Goal.create(course_id: course.id, title: '...') unless Goal.where(course_id: course.id).present?
       end

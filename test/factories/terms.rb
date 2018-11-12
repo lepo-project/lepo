@@ -5,8 +5,8 @@
 #  id         :integer          not null, primary key
 #  sourced_id :string
 #  title      :string
-#  start_at   :date
-#  end_at     :date
+#  start_at   :datetime
+#  end_at     :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
