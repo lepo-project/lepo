@@ -16,10 +16,6 @@ module CoursesHelper
     [c1, c2]
   end
 
-  def course_disabled_status_hash(current_status)
-    current_status == 'draft' ? {} : { disabled: 'draft' }
-  end
-
   def course_period(course, abbr = true)
     return '' if (course.weekday == 9) || (course.period == 0)
     if abbr

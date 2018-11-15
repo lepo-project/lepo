@@ -142,6 +142,7 @@ class CoursesController < ApplicationController
       render 'layouts/renders/resource', locals: { resource: 'new' }
       return
     end
+    @course.status = @course.term.status
     if @course.save
       if register_course_managers
         set_nav_session 'repository', 'courses', @course.id
@@ -277,7 +278,6 @@ class CoursesController < ApplicationController
   def ajax_update
     @course = Course.find_enabled_by params[:id]
     course_form = course_params
-    course_form[:status] = @course.status if @course.status != 'draft' && course_form[:status] == 'draft'
     # Remedy for both new file upload and delete_image are selected
     course_form.delete(:remove_image) if course_form[:image] && course_form[:image].size.nonzero?
 
@@ -293,8 +293,8 @@ class CoursesController < ApplicationController
       render 'layouts/renders/resource', locals: { resource: 'edit' }
     else
       destroy_blank_goals(course_form[:goals_attributes])
-
-      if @course.update_attributes course_form
+      course_status = Term.find_by(id: course_form['term_id']).status
+      if @course.update_attributes course_form.merge(status: course_status)
         record_user_action('updated', @course.id)
         # update lesson note
         @course.update_lesson_notes

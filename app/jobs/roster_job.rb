@@ -8,18 +8,25 @@ class RosterJob < ApplicationJob
   # ====================================================================
 
   def perform(*args)
-    @logger = ActiveSupport::Logger.new(Rails.root.join(SYSTEM_ROSTER_LOG_FILE), 'monthly')
+    @logger = ActiveSupport::Logger.new(Rails.root.join(SYSTEM_JOB_LOG_FILE), 'monthly')
     @logger.formatter = ActiveSupport::Logger::Formatter.new
-    @logger.info 'Started RosterJob'
 
-    rterms = get_roster '/terms'
-    ActiveRecord::Base.transaction do
-      term_ids = Term.sync_roster rterms['academicSessions']
-      @logger.info "Synchronized #{term_ids.size} term(s)" if term_ids.present?
-      term_ids.each do |tid|
-        sync_with_term tid
+    case SYSTEM_ROSTER_SYNC
+    when 'on'
+      @logger.info 'Started RosterJob'
+      rterms = get_roster '/terms'
+      ActiveRecord::Base.transaction do
+        term_ids = Term.sync_roster rterms['academicSessions']
+        @logger.info "Synchronized #{term_ids.size} term(s)" if term_ids.present?
+        term_ids.each do |tid|
+          sync_with_term tid
+        end
+        @logger.info 'Completed RosterJob'
       end
-      @logger.info 'Completed RosterJob'
+    when 'off', 'suspended'
+      @logger.info "Nothing has done with RosterJob because SYSTEM_ROSTER_SYNC is #{SYSTEM_ROSTER_SYNC}"
+    else
+      @logger.warn "Incorrect value (#{SYSTEM_ROSTER_SYNC}) is set to constant SYSTEM_ROSTER_SYNC"
     end
   end
 

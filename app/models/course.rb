@@ -135,6 +135,14 @@ class Course < ApplicationRecord
     courses.empty? ? [] : courses.pluck(:id)
   end
 
+  def self.update_status(term_id, status)
+    courses = where(term_id: term_id).where.not(status: status)
+    courses.each do |course|
+      course.update_attributes(status: status)
+    end
+    courses.empty? ? [] : courses.pluck(:id)
+  end
+
   # FIXME: Group work
   def group_index_for(user_id)
     CourseMember.where(course_id: id, user_id: user_id).first.group_index

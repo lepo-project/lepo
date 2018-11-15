@@ -49,8 +49,7 @@ class Term < ApplicationRecord
     now = Time.zone.now
     if now < start_at
       'draft'
-    elsif (end_at - 1.day) <= now
-      # To propery update course status, start date of the status must be less than term.end_at
+    elsif end_at <= now
       'archived'
     else
       'open'
