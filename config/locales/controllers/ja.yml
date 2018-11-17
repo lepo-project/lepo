@@ -31,3 +31,10 @@ ja:
       re_register_button_error: +Noteボタンを再登録してください
       transfer_error: ノートの移動に失敗しました
       upload_error: ファイルの保存に失敗しました
+    terms:
+      created: 学期を登録しました
+      creation_failed: 学期の登録に失敗しました
+      updated: 学期を更新しました
+      update_failed: 学期の更新に失敗しました
+      deleted: 学期を削除しました
+      delete_failed: 学期の削除に失敗しました

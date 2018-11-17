@@ -13,9 +13,9 @@ SYSTEM_STAFF_SIGNIN_IP = ['127.0.0.1'].freeze
 # Log file for ActiveJob
 SYSTEM_JOB_LOG_FILE = 'log/active_job.log'
 
-# Synchronization mode with IMS OneRoster API: on / suspended / off
+# Synchronization mode with IMS OneRoster API: select one from [:on, :suspended, :off]
 # Check schedule.rb and run "bundle exec whenever -i" when SYSTEM_ROSTER_SYNC changes
-SYSTEM_ROSTER_SYNC = 'on'.freeze
+SYSTEM_ROSTER_SYNC = :on.freeze
 
 # ===== Versatile constatns =====
 # time delay for autocomplete

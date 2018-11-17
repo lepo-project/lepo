@@ -55,4 +55,14 @@ class Term < ApplicationRecord
       'open'
     end
   end
+
+  def to_roster_hash
+    hash = {
+      title: self.title,
+      type: 'term',
+      startDate: self.start_at,
+      endDate: self.end_at,
+      schoolYear: self.end_at.year
+    }
+  end
 end

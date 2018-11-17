@@ -13,7 +13,6 @@
 					<%= f.label :title, '学期名', class: 'col-md-3 col-form-label text-sm-right' %>
 					<div class="col-md-7">
 						<%= f.text_field :title, {class: 'form-control', placeholder: 'タイトル', style: 'margin-right:16px;'} %>
-						<div class="form-text">コーストップページに表示</div>
 					</div>
 				</div>
 				<div class="form-group row">
@@ -39,8 +38,7 @@
 					<div class="header-explanation">学期開始日の1ヶ月前から、コースを学期に登録可能</div>
 				</h2>
 				<% @terms.each do |term| %>
-				<%= form_for(term, url: {action: 'ajax_update'}, html: {style: 'margin-bottom:30px;', remote: true}) do |f| %>
-				<%= f.hidden_field :id, value: term.id %>
+				<%= form_for(term, url: {action: 'ajax_update', id: term.id}, html: {style: 'margin-bottom:30px;', remote: true}) do |f| %>
 				<%= f.text_field :title, {class: 'form-control', placeholder: 'タイトル', style: 'margin-right:2px;'} %>
 				<%= f.date_select :start_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %> <div style="float:left;margin:0 10px;">-</div><%= f.date_select :end_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %>
 				<div style="clear: both;width:100%;text-align:right;">（ 登録しているコースの数： <%= term.courses.length %> ）</div>

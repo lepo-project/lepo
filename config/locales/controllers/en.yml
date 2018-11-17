@@ -31,3 +31,10 @@ en:
       re_register_button_error: Please re-register +Note button
       transfer_error: Transferring note failed
       upload_error: Failed to save file
+    terms:
+      created: Term created
+      creation_failed: Term creation failed
+      updated: Term updated
+      update_failed: Term update failed
+      deleted: Term deleted
+      delete_failed: Term delete failed

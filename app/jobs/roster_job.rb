@@ -12,7 +12,7 @@ class RosterJob < ApplicationJob
     @logger.formatter = ActiveSupport::Logger::Formatter.new
 
     case SYSTEM_ROSTER_SYNC
-    when 'on'
+    when :on
       @logger.info 'Started RosterJob'
       rterms = get_roster '/terms'
       ActiveRecord::Base.transaction do
@@ -23,7 +23,7 @@ class RosterJob < ApplicationJob
         end
         @logger.info 'Completed RosterJob'
       end
-    when 'off', 'suspended'
+    when :off, :suspended
       @logger.info "Nothing has done with RosterJob because SYSTEM_ROSTER_SYNC is #{SYSTEM_ROSTER_SYNC}"
     else
       @logger.warn "Incorrect value (#{SYSTEM_ROSTER_SYNC}) is set to constant SYSTEM_ROSTER_SYNC"
