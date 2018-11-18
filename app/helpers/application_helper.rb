@@ -217,7 +217,7 @@ module ApplicationHelper
     card['body'] = course.overview
     card['summary'] = true
     period_footnote = course_period(course, false).empty? ? '' : course_period(course, false) + ' / '
-    card['footnotes'] = [period_footnote + term_display_title(course.term.title)]
+    card['footnotes'] = [period_footnote + course.term.title]
     card
   end
 
