@@ -51,4 +51,10 @@ class TermTest < ActiveSupport::TestCase
     term = create(:term)
     assert_invalid build(:term, title: term.title), :title
   end
+
+  # test for validate :end_at_is_after_start_at
+  test 'a term with end_at that is same or before start_at is invalid' do
+    assert_invalid build(:term, start_at: Date.today, end_at: Date.today), :end_at
+    assert_invalid build(:term, end_at: Date.today - 1.day), :end_at
+  end
 end

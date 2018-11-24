@@ -6,12 +6,12 @@ class TermsController < ApplicationController
   def ajax_create
     @term = Term.new(term_params)
     begin
-      # this action is not permitted when SYSTEM_ROSTER_SYNC is :suspended
-      raise unless %i[on off].include? SYSTEM_ROSTER_SYNC
+      raise unless term.creatable? session[:id]
       Term.transaction do
         @term.save!
         if SYSTEM_ROSTER_SYNC == :on
-          response = request_roster_api('/academicSessions/', :post, {academicSession: @term.to_roster_hash})
+          payload = {academicSession: @term.to_roster_hash}
+          response = request_roster_api('/academicSessions/', :post, payload)
           @term.update_attributes!(sourced_id: response['academicSession']['sourcedId'])
         end
       end
@@ -19,8 +19,7 @@ class TermsController < ApplicationController
       flash.now[:message_category] = 'info'
       @term = Term.new
     rescue => error
-      flash.now[:message] = t('controllers.terms.creation_failed')
-      flash.now[:message_category] = 'error'
+      notify_error error, t('controllers.terms.creation_failed')
     end
     render_term
   end
@@ -28,20 +27,16 @@ class TermsController < ApplicationController
   def ajax_update
     term = Term.find params[:id]
     begin
-      # this action is not permitted when SYSTEM_ROSTER_SYNC is :suspended
-      raise unless %i[on off].include? SYSTEM_ROSTER_SYNC
+      raise unless term.updatable? session[:id]
       Term.transaction do
         term.update_attributes!(term_params)
-        if SYSTEM_ROSTER_SYNC == :on
-          raise if term.sourced_id.blank?
-          request_roster_api("/academicSessions/#{term.sourced_id}", :put, {academicSession: term.to_roster_hash})
-        end
+        payload = {academicSession: term.to_roster_hash}
+        request_roster_api("/academicSessions/#{term.sourced_id}", :put, payload) if SYSTEM_ROSTER_SYNC == :on
       end
       flash.now[:message] = t('controllers.terms.updated')
       flash.now[:message_category] = 'info'
     rescue => error
-      flash.now[:message] = t('controllers.terms.update_failed')
-      flash.now[:message_category] = 'error'
+      notify_error error, t('controllers.terms.update_failed')
     end
     render_term
   end
@@ -53,21 +48,15 @@ class TermsController < ApplicationController
   def ajax_destroy
     term = Term.find params[:id]
     begin
-      # this action is not permitted when SYSTEM_ROSTER_SYNC is :suspended
-      raise unless %i[on off].include? SYSTEM_ROSTER_SYNC
+      raise unless term.deletable? session[:id]
       Term.transaction do
-        raise unless term.deletable? session[:id]
         term.destroy!
-        if SYSTEM_ROSTER_SYNC == :on
-          raise if term.sourced_id.blank?
-          request_roster_api("/academicSessions/#{term.sourced_id}", :delete)
-        end
+        request_roster_api("/academicSessions/#{term.sourced_id}", :delete) if SYSTEM_ROSTER_SYNC == :on
       end
       flash.now[:message] = t('controllers.terms.deleted')
       flash.now[:message_category] = 'info'
     rescue => error
-      flash.now[:message] = t('controllers.terms.delete_failed')
-      flash.now[:message_category] = 'error'
+      notify_error error, t('controllers.terms.delete_failed')
     end
     render_term
   end

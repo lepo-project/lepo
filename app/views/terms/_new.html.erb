@@ -4,6 +4,7 @@
 			<h1>学期の設定</h1>
 			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 
+			<% if @term.creatable? session[:id] %>
 			<div class="bordered-block">
 				<h2>
 					新しい学期の登録
@@ -32,6 +33,7 @@
 				</div>
 				<% end %>
 			</div>
+			<% end %>
 
 			<div class="bordered-block">
 				<h2>登録済みの学期
@@ -41,9 +43,11 @@
 				<%= form_for(term, url: {action: 'ajax_update', id: term.id}, html: {style: 'margin-bottom:30px;', remote: true}) do |f| %>
 				<%= f.text_field :title, {class: 'form-control', placeholder: 'タイトル', style: 'margin-right:2px;'} %>
 				<%= f.date_select :start_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %> <div style="float:left;margin:0 10px;">-</div><%= f.date_select :end_at, {}, {class: 'form-control', style: 'width:80px; margin-right:2px;float: left;'} %>
-				<div style="clear: both;width:100%;text-align:right;">（ 登録しているコースの数： <%= term.courses.length %> ）</div>
-				<%= render partial: 'layouts/buttons/update' %>
-				<% if term.courses.length.zero? %>
+				<div style="clear: both;width:100%;text-align:right;">
+					( <%= t('.courses_num', num: term.courses.length) %><%= ' / ' + t('.oneroster_api') if term.sourced_id.present? %>)
+				</div>
+				<%= render(partial: 'layouts/buttons/update') if term.updatable? session[:id] %>
+				<% if term.deletable? session[:id] %>
 				<span style="margin-left:3rem;">
 					<%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: term.id}, id_attr: ''} %>
 				</span>

@@ -353,6 +353,11 @@ en:
       stickies_by_date: Stickies by date
       stickies_by_stars: Stickies by stars
 
+  terms:
+    new:
+      courses_num: 'Number of courses: %{num}'
+      oneroster_api: 'Sync to OneRoster API'
+
   users:
     account_pref:
       impossible: :helpers.impossible

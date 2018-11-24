@@ -353,6 +353,11 @@ ja:
       stickies_by_date: ふせんを作成順で表示
       stickies_by_stars: ふせんをスター順で表示
 
+  terms:
+    new:
+      courses_num: 'コース数: %{num}'
+      oneroster_api: 'OneRoster APIと同期'
+
   users:
     account_pref:
       impossible: :helpers.impossible

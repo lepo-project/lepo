@@ -77,6 +77,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def notify_error error, message
+    logger.fatal error
+    flash.now[:message] = message
+    if error.to_s.present?
+      flash.now[:message] += ' (' + error.to_s + ')'
+    end
+    flash.now[:message_category] = 'error'
+  end
+
   def set_page_session(page_num, content)
     # max page number is assignment page num
     max_page_num = content.pages.size - 1
