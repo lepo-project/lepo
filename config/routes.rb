@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get '/snippets/:id/image', to: 'snippets#show_image'
   get '/users/:id/image', to: 'users#show_image'
   get '/outcome_files/:id/upload', to: 'outcome_files#show_upload'
+  resources :terms, only: %i[create update new destroy]
   match ':controller(/:action(/:id(.:format)))', via: %i[get post put patch]
 
   mount PdfjsViewer::Rails::Engine => '/pdfjs', as: 'pdfjs'

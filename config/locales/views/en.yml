@@ -130,6 +130,8 @@ en:
         uploading: Uploading
       ok:
         ok: OK
+      rest_delete:
+        delete: Delete
       save_and_next:
         save_and_next: Save & Next
       search:

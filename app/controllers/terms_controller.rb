@@ -3,10 +3,10 @@ class TermsController < ApplicationController
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def ajax_create
+  def create
     @term = Term.new(term_params)
     begin
-      raise unless term.creatable? session[:id]
+      raise unless @term.creatable? session[:id]
       Term.transaction do
         @term.save!
         if SYSTEM_ROSTER_SYNC == :on
@@ -24,7 +24,7 @@ class TermsController < ApplicationController
     render_term
   end
 
-  def ajax_update
+  def update
     term = Term.find params[:id]
     begin
       raise unless term.updatable? session[:id]
@@ -41,11 +41,11 @@ class TermsController < ApplicationController
     render_term
   end
 
-  def ajax_new
+  def new
     render_term
   end
 
-  def ajax_destroy
+  def destroy
     term = Term.find params[:id]
     begin
       raise unless term.deletable? session[:id]

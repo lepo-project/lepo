@@ -130,6 +130,8 @@ ja:
         uploading: アップロード中
       ok:
         ok: 完了
+      rest_delete:
+        delete: 削除
       save_and_next:
         save_and_next: 保存して次へ
       search:
