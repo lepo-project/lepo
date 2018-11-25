@@ -9,6 +9,8 @@ module TermsHelper
     selectables = []
     day = Date.today
     terms.each do |term|
+      next if SYSTEM_ROSTER_SYNC == :on && term.sourced_id.blank?
+      next if SYSTEM_ROSTER_SYNC == :off && term.sourced_id.present?
       case category
       when 'hereafter'
         # new course can be created from 10 months prior to term.start_at

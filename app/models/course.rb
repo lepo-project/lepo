@@ -47,6 +47,7 @@ class Course < ApplicationRecord
   # 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat, 7: Sun, 9: Not weekly course
   validates_inclusion_of :weekday, in: [1, 2, 3, 4, 5, 6, 7, 9]
   validates_uniqueness_of :sourced_id, allow_nil: true
+  validate :term_and_sync_consistency
   accepts_nested_attributes_for :goals, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: COURSE_GOAL_MAX_SIZE
 
   # ====================================================================
@@ -225,9 +226,28 @@ class Course < ApplicationRecord
     end
   end
 
-  def deletable?(user_id)
+  def creatable?(user_id)
+    # Not permitted when SYSTEM_ROSTER_SYNC is :suspended
+    return false if %i[on off].exclude? SYSTEM_ROSTER_SYNC
+    user = User.find user_id
+    user && user.system_staff?
+  end
+
+  def destroyable?(user_id)
     return false if new_record?
-    lessons.size.zero? && (staff? user_id)
+    return false unless lessons.size.zero?
+    return false unless staff? user_id
+    updatable? user_id
+  end
+
+  def updatable?(user_id)
+    # Not permitted when SYSTEM_ROSTER_SYNC is :suspended
+    return false if %i[on off].exclude? SYSTEM_ROSTER_SYNC
+    return false if SYSTEM_ROSTER_SYNC == :on && sourced_id.blank?
+    return false if SYSTEM_ROSTER_SYNC == :off && sourced_id.present?
+    return true if staff? user_id
+    user = User.find user_id
+    user && user.system_staff?
   end
 
   def fill_goals
@@ -297,9 +317,26 @@ class Course < ApplicationRecord
     end
   end
 
+  def to_roster_hash
+    raise if term.sourced_id.nil?
+    periods = weekday.to_s + '-' + period.to_s
+    hash = {
+      title: title,
+      classType: 'scheduled',
+      schoolSourcedId: Rails.application.secrets.roster_school_sourced_id,
+      termSourcedIds: term.sourced_id,
+      periods: "#{weekday}-#{period}"
+    }
+  end
+
   # ====================================================================
   # Private Functions
   # ====================================================================
 
   private
+
+  def term_and_sync_consistency
+    errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :on && term.sourced_id.blank?
+    errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :off && term.sourced_id.present?
+  end
 end

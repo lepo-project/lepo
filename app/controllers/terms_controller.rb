@@ -48,7 +48,7 @@ class TermsController < ApplicationController
   def destroy
     term = Term.find params[:id]
     begin
-      raise unless term.deletable? session[:id]
+      raise unless term.destroyable? session[:id]
       Term.transaction do
         term.destroy!
         request_roster_api("/academicSessions/#{term.sourced_id}", :delete) if SYSTEM_ROSTER_SYNC == :on

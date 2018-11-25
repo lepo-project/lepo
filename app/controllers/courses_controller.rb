@@ -1,9 +1,95 @@
 class CoursesController < ApplicationController
+  include RosterApi
   include ::NoticesController::AllActions
   include ::StickiesController::AllActions
   # ====================================================================
   # Public Functions
   # ====================================================================
+  def new
+    set_nav_session 'repository', 'courses', 0
+    @course = Course.new
+    @course.fill_goals
+    @course.goals[0].title = '...'
+    render 'layouts/renders/all_with_sub_toolbar', locals: { resource: 'new' }
+  end
+
+  def create
+    @course = Course.new(course_params)
+    begin
+      raise unless @course.creatable? session[:id]
+      @course.status = @course.term.status
+      Course.transaction do
+        @course.save!
+        raise t('controllers.courses.manager_creation_failed') unless register_course_managers
+        if SYSTEM_ROSTER_SYNC == :on
+          payload = {class: @course.to_roster_hash}
+          response = request_roster_api('/classes/', :post, payload)
+          @course.update_attributes!(sourced_id: response['class']['sourcedId'])
+          # FIXME: update course manager
+        end
+      end
+      set_nav_session 'repository', 'courses', @course.id
+      record_user_action('created', @course.id)
+      render_edit_lessons
+    rescue => error
+      notify_error error, t('controllers.courses.creation_failed')
+      @course.fill_goals
+      render 'layouts/renders/resource', locals: { resource: 'new' }
+    end
+  end
+
+  def edit
+    @course = Course.find_enabled_by params[:id]
+    @course.fill_goals
+    render 'layouts/renders/main_pane', locals: { resource: 'courses/edit' }
+  end
+
+  def update
+    @course = Course.find_enabled_by params[:id]
+    course_form = course_params
+    # Remedy for both new file upload and delete_image are selected
+    course_form.delete(:remove_image) if course_form[:image] && course_form[:image].size.nonzero?
+    begin
+      raise unless @course.updatable? session[:id]
+      raise t('controllers.courses.all_blank_title') if all_blank_title? course_form[:goals_attributes]
+      term = Term.find course_form['term_id']
+      Course.transaction do
+        destroy_blank_goals(course_form[:goals_attributes])
+        update_course_groups course_form[:groups_count]
+        raise unless @course.update_attributes course_form.merge(status: term.status)
+        raise t('controllers.courses.manager_creation_failed') unless register_course_managers
+        @course.update_lesson_notes
+        if SYSTEM_ROSTER_SYNC == :on
+          payload = {class: @course.to_roster_hash}
+          response = request_roster_api("/classes/#{@course.sourced_id}", :put, payload)
+          # FIXME: update course manager
+        end
+      end
+      record_user_action('updated', @course.id)
+      (@course.status == 'archived') ? render_course_index('repository', @course.id) : render_edit_lessons
+    rescue => error
+      notify_error error, t('controllers.courses.update_failed')
+      @course.fill_goals
+      render 'layouts/renders/resource', locals: { resource: 'edit' }
+    end
+  end
+
+  def destroy
+    @course = Course.find_enabled_by params[:id]
+    begin
+      raise unless @course.destroyable? session[:id]
+      Course.transaction do
+        @course.destroy!
+        request_roster_api("/classes/#{@course.sourced_id}", :delete) if SYSTEM_ROSTER_SYNC == :on
+      end
+      record_user_action('deleted', @course.id)
+      @course = nil
+    rescue => error
+      notify_error error, t('controllers.courses.delete_failed')
+    end
+    render 'layouts/renders/all', locals: { resource: 'courses/edit' }
+  end
+
   def ajax_index
     record_user_action('read', params[:nav_id])
     render_course_index(params[:nav_section], params[:nav_id])
@@ -133,36 +219,6 @@ class CoursesController < ApplicationController
     end
   end
 
-  def ajax_create
-    @course = Course.new(course_params)
-    unless @course.term_id
-      flash[:message] = 'コースを登録できる学期がありません。システム管理者に相談して下さい。'
-      flash[:message_category] = 'error'
-      @course.fill_goals
-      render 'layouts/renders/resource', locals: { resource: 'new' }
-      return
-    end
-    @course.status = @course.term.status
-    if @course.save
-      if register_course_managers
-        set_nav_session 'repository', 'courses', @course.id
-        get_content_array # for new lesson creation
-        record_user_action('created', @course.id)
-        render 'layouts/renders/all', locals: { resource: 'edit_lessons' }
-      else
-        flash[:message] = 'コースと教師の関連づけに失敗しました'
-        flash[:message_category] = 'error'
-        @course.fill_goals
-        render 'layouts/renders/resource', locals: { resource: 'new' }
-      end
-    else
-      flash[:message] = 'コースの作成に失敗しました'
-      flash[:message_category] = 'error'
-      @course.fill_goals
-      render 'layouts/renders/resource', locals: { resource: 'new' }
-    end
-  end
-
   def ajax_create_lesson
     lesson = Lesson.new(lesson_params)
 
@@ -197,13 +253,6 @@ class CoursesController < ApplicationController
     @sticky = Sticky.new(content_id: @content.id, course_id: @course.id, target_id: pg['file_id'])
 
     render 'courses/renders/snippet_saved', locals: { pg: pg }
-  end
-
-  def ajax_destroy
-    @course = Course.find_enabled_by params[:id]
-    @course.destroy if @course.deletable? session[:id]
-    record_user_action('deleted', @course.id)
-    redirect_to controller: 'contents', action: 'ajax_index', nav_section: 'home', nav_id: 0
   end
 
   def ajax_destroy_lesson
@@ -258,59 +307,6 @@ class CoursesController < ApplicationController
       end
     else
       render_duplicate_error('コースの複製に失敗しました', params[:original_id].to_i)
-    end
-  end
-
-  def ajax_edit
-    @course = Course.find_enabled_by params[:id]
-    @course.fill_goals
-    render 'layouts/renders/main_pane', locals: { resource: 'courses/edit' }
-  end
-
-  def ajax_new
-    set_nav_session 'repository', 'courses', 0
-    @course = Course.new
-    @course.fill_goals
-    @course.goals[0].title = '...'
-    render 'layouts/renders/all_with_sub_toolbar', locals: { resource: 'new' }
-  end
-
-  def ajax_update
-    @course = Course.find_enabled_by params[:id]
-    course_form = course_params
-    # Remedy for both new file upload and delete_image are selected
-    course_form.delete(:remove_image) if course_form[:image] && course_form[:image].size.nonzero?
-
-    if all_blank_title? course_form[:goals_attributes]
-      flash[:message] = '到達目標を、1つ以上設定する必要があります'
-      flash[:message_category] = 'error'
-      @course.fill_goals
-      render 'layouts/renders/resource', locals: { resource: 'edit' }
-    elsif !register_course_managers
-      flash[:message] = 'コースと教師の関連づけに失敗しました'
-      flash[:message_category] = 'error'
-      @course.fill_goals
-      render 'layouts/renders/resource', locals: { resource: 'edit' }
-    else
-      destroy_blank_goals(course_form[:goals_attributes])
-      course_status = Term.find_by(id: course_form['term_id']).status
-      if @course.update_attributes course_form.merge(status: course_status)
-        record_user_action('updated', @course.id)
-        # update lesson note
-        @course.update_lesson_notes
-        check_course_groups course_form[:groups_count]
-        case @course.status
-        when 'archived'
-          render_course_index('repository', @course.id)
-        else
-          get_content_array # for new lesson creation
-          flash.discard
-          render 'layouts/renders/all', locals: { resource: 'edit_lessons' }
-        end
-      else
-        @course.fill_goals
-        render 'layouts/renders/resource', locals: { resource: 'edit' }
-      end
     end
   end
 
@@ -400,7 +396,7 @@ class CoursesController < ApplicationController
     params.require(:lesson).permit(:evaluator_id, :content_id, :course_id, :display_order, :status)
   end
 
-  def check_course_groups(groups_count)
+  def update_course_groups(groups_count)
     deleted_group_learners = @course.course_members.where('course_members.role = ? and course_members.group_index >= ?', 'learner', groups_count)
     deleted_group_learners.each do |dgl|
       dgl.update_attributes(group_index: groups_count.to_i - 1)
@@ -597,5 +593,11 @@ class CoursesController < ApplicationController
     # update items in lesson note
     @course.lesson_note(session[:id]).update_items(@course.open_lessons) if @course.member? session[:id]
     render 'layouts/renders/all', locals: { resource: 'index' }
+  end
+
+  def render_edit_lessons
+    get_content_array # for new lesson creation
+    flash.discard
+    render 'layouts/renders/all', locals: { resource: 'edit_lessons' }
   end
 end

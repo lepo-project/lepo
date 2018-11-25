@@ -5,34 +5,28 @@
   <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
   <% end %>
 </nav>
-<% case action_name when 'ajax_index', 'ajax_destroy', 'ajax_index_by_system_staff' %>
+<% case action_name when 'ajax_index', 'ajax_index_by_system_staff' %>
 <% if (@course.staff? session[:id]) || (User.system_staff? session[:id]) %>
-<div id="toolbar-btns">
-  <div class="btn-group">
-    <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i></a>
-    <div class="dropdown-menu">
-      <%= link_to({action: 'ajax_edit_notice'}, {class: 'dropdown-item', remote: true}) do %>
-      <i class="fa fa-bullhorn"></i> <%= t('activerecord.models.notice') %>
-      <% end %>
-      <%= render partial: 'layouts/buttons/edit', locals: {action_hash: {action: 'ajax_edit', id: @course.id}, id_attr: 'toolbar-edit-btn'} %>
-    </div>
-  </div>
-</div>
+<%= render partial: 'toolbar_dropdown_btn' %>
 <% end %>
 
-<% when 'ajax_edit', 'ajax_new' %>
-<%= render(partial: 'courses/toolbar_edit') %>
+<% when 'edit', 'new' %>
+<%= render partial: 'courses/toolbar_edit' %>
 
 <% when 'ajax_edit_notice', 'ajax_create_notice', 'ajax_destroy_notice', 'ajax_reedit_notice', 'ajax_archive_notice', 'ajax_open_notice', 'ajax_update_notice' %>
 <div id="toolbar-btns">
   <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: session[:nav_id]}, id_attr: 'toolbar-ok-btn', class_attr: 'toolbar-btn'} %>
 </div>
 
-<% when 'ajax_create', 'ajax_update' %>
-<%= render(partial: 'courses/toolbar_edit_lesson') if @course.status != 'archived' %>
+<% when 'create', 'update' %>
+<% if @course.status != 'archived' %>
+<%= render partial: 'courses/toolbar_edit_lesson' %>
+<% else %>
+<%= render partial: 'toolbar_dropdown_btn' %>
+<% end %>
 
 <% when 'ajax_course_pref' %>
 <div id="toolbar-btns">
-<%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: 'home'}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
+  <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {controller: 'preferences', action: 'ajax_index', nav_section: 'home'}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
 </div>
 <% end %>

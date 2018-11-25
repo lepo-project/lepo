@@ -52,6 +52,7 @@ en:
       group_default: Set 1 when not using group
       group_explanation: Classify learners into groups for browsing and peer-reviewing the worksheets
       no_course_manager_form: For open / archive status, managers can be edit at the course member page
+      no_selectable_terms: Course can NOT be saved because of no selectable terms
       remove_image: Remove image
     goal_card:
       assigned_objectives: Assigned Lesson Objectives
@@ -65,6 +66,9 @@ en:
       to_draft: to draft
       to_open: to open
     option_form:
+      can_not_be_undone: This operation can not be undone.
+      course_with_lessons: Course with lesson can not be deleted.
+      delete_course: Delete course
       duplication_settings: Duplication course settings.
     search_courses:
       search_course: Search Course
@@ -130,8 +134,12 @@ en:
         uploading: Uploading
       ok:
         ok: OK
+      rest_back:
+        back: Back
       rest_delete:
         delete: Delete
+      rest_edit:
+        edit: Edit
       save_and_next:
         save_and_next: Save & Next
       search:

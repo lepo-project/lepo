@@ -54,7 +54,8 @@
         </div>
       </div>
 
-      <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_edit', id: @course.id}} %>
+      <%= render partial: 'layouts/buttons/rest_back', locals: {path: edit_course_path(@course.id)} %>
+
       <span style="margin-left: 1rem;">
         <%= render partial: 'layouts/buttons/ok', locals: {action_hash: get_url_hash(@course.id, @course.status)} %>
       </span>

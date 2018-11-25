@@ -47,7 +47,7 @@
 					( <%= t('.courses_num', num: term.courses.length) %><%= ' / ' + t('.oneroster_api') if term.sourced_id.present? %>)
 				</div>
 				<%= render(partial: 'layouts/buttons/update') if term.updatable? session[:id] %>
-				<% if term.deletable? session[:id] %>
+				<% if term.destroyable? session[:id] %>
 				<span style="margin-left:3rem;">
 					<%= render partial: 'layouts/buttons/rest_delete', locals: {path: term_path(term.id), id_attr: ''} %>
 				</span>

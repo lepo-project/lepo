@@ -115,7 +115,7 @@ module ApplicationHelper
     case controller_name
     when 'courses'
       case action_name
-      when 'ajax_new'
+      when 'new'
         %w[fa-flag fa-plus-circle]
       when 'ajax_course_pref'
         %w[fa-flag fa-pencil]

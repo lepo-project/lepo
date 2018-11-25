@@ -47,7 +47,7 @@ class Term < ApplicationRecord
     user && user.system_staff?
   end
 
-  def deletable?(user_id)
+  def destroyable?(user_id)
     return false if new_record?
     return false unless courses.size.zero?
     updatable? user_id

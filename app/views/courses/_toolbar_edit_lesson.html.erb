@@ -1,4 +1,4 @@
 <div id="toolbar-btns">
-  <%= render partial: 'layouts/buttons/back', locals: {action_hash: {action: 'ajax_edit', id: @course.id}, id_attr: 'toolbar-back-btn', class_attr: 'toolbar-btn'} %>
+  <%= render partial: 'layouts/buttons/rest_back', locals: {path: edit_course_path(@course.id), id_attr: 'toolbar-back-btn', class_attr: 'toolbar-btn'} %>
   <%= render partial: 'layouts/buttons/ok', locals: {action_hash: get_url_hash(@course.id, @course.status), id_attr: 'toolbar-ok-btn', class_attr: 'toolbar-btn'} %>
 </div>

@@ -52,6 +52,7 @@ ja:
       group_default: グループを利用しない場合は1を設定
       group_explanation: 学生をグループに分類して、ワークシートを閲覧/相互評価可能
       no_course_manager_form: 公開中またはアーカイブのコースでは、コースメンバーページから編集可能
+      no_selectable_terms: 選択可能な学期がないため、コースを登録できません
       remove_image: 画像を削除
     goal_card:
       assigned_objectives: 対応するレッスン目標
@@ -65,6 +66,9 @@ ja:
       to_draft: 非公開に変更
       to_open: 公開に変更
     option_form:
+      can_not_be_undone: この操作は取り消すことができません
+      course_with_lessons: レッスンが登録されているコースは、削除できません
+      delete_course: コースの削除
       duplication_settings: 複製先コースの設定
     search_courses:
       search_course: コースの検索
@@ -130,8 +134,12 @@ ja:
         uploading: アップロード中
       ok:
         ok: 完了
+      rest_back:
+        back: 戻る
       rest_delete:
         delete: 削除
+      rest_edit:
+        edit: 編集
       save_and_next:
         save_and_next: 保存して次へ
       search:

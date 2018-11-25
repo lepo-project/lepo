@@ -1,4 +1,4 @@
-<%= form_for @course, url: {action: submit_action, id: @course.id}, html: {id: 'course-form', name: 'course-form', multipart: true, remote: true} do |f| %>
+<%= form_for @course, html: {id: 'course-form', name: 'course-form', multipart: true, remote: true} do |f| %>
 <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 <%#= f.error_messages %>
 
@@ -25,11 +25,15 @@
     </div>
   </div>
 
-  <div class="form-group row">
+  <div class="form-group row align-items-center">
     <%= f.label :term_id, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.term_id'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
       <% if @course.new_record? %>
+      <% if selectable_terms('hereafter').present? %>
       <%= f.select :term_id, selectable_terms('hereafter'), {}, {class: 'form-control'} %>
+      <% else %>
+      <%= render partial: 'layouts/system_message', locals: {message: t('.no_selectable_terms'), message_category: 'error'} %>
+      <% end %>
       <% else %>
       <%= f.select :term_id, selectable_terms('all'), {}, {class: 'form-control'} %>
       <% end %>
