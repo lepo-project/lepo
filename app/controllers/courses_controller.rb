@@ -25,7 +25,10 @@ class CoursesController < ApplicationController
           payload = {class: @course.to_roster_hash}
           response = request_roster_api('/classes/', :post, payload)
           @course.update_attributes!(sourced_id: response['class']['sourcedId'])
-          # FIXME: update course manager
+          @course.managers.each do |manager|
+            payload = {enrollment: CourseMember.to_roster_hash(@course.sourced_id, manager, 'manager')}
+            request_roster_api('/enrollments/', :post, payload)
+          end
         end
       end
       set_nav_session 'repository', 'courses', @course.id
@@ -62,7 +65,6 @@ class CoursesController < ApplicationController
         if SYSTEM_ROSTER_SYNC == :on
           payload = {class: @course.to_roster_hash}
           response = request_roster_api("/classes/#{@course.sourced_id}", :put, payload)
-          # FIXME: update course manager
         end
       end
       record_user_action('updated', @course.id)

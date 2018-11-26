@@ -20,6 +20,7 @@
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  sourced_id           :string
 #
 
 require 'net/ldap'
@@ -53,6 +54,7 @@ class User < ApplicationRecord
   validates_presence_of :signin_name
   validates_presence_of :token
   validates_uniqueness_of :signin_name
+  validates_uniqueness_of :sourced_id, allow_nil: true
   validates_uniqueness_of :token
   validates_inclusion_of :authentication, in: %w[local ldap]
   validates_inclusion_of :role, in: %w[admin manager user suspended]
@@ -105,8 +107,9 @@ class User < ApplicationRecord
 
     ids = []
     rusers.each do |ru|
+      # Query by signin_name in consideration of the case there are users without sourcedId created before using RosterAPI
       user = User.find_or_initialize_by(signin_name: ru['username'])
-      if user.update_attributes(authentication: 'ldap', family_name: ru['familyName'], given_name: ru['givenName'])
+      if user.update_attributes(sourced_id: ru['sourcedId'], authentication: 'ldap', family_name: ru['familyName'], given_name: ru['givenName'])
         ids.push user.id
       end
     end

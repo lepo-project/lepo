@@ -66,6 +66,29 @@ class CourseMember < ApplicationRecord
     return false
   end
 
+  def self.to_roster_hash course_sourced_id, user, role
+    raise if user.sourced_id.nil?
+    hash = {
+      classSourcedId: course_sourced_id,
+      schoolSourcedId: Rails.application.secrets.roster_school_sourced_id,
+      userSourcedId: user.sourced_id,
+      role: self.to_roster_role(role)
+    }
+  end
+
+  def self.to_roster_role role
+    case role
+    when 'manager'
+      'teacher'
+    when 'assistant'
+      'aide'
+    when 'learner'
+      'student'
+    else
+      raise
+    end
+  end
+
   def deletable?
     stickies = Sticky.where(course_id: course_id, manager_id: user_id)
     case role
