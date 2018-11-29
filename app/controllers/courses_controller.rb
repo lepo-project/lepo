@@ -49,6 +49,7 @@ class CoursesController < ApplicationController
 
   def update
     @course = Course.find_enabled_by params[:id]
+    initial_hash = @course.to_roster_hash
     course_form = course_params
     # Remedy for both new file upload and delete_image are selected
     course_form.delete(:remove_image) if course_form[:image] && course_form[:image].size.nonzero?
@@ -62,7 +63,7 @@ class CoursesController < ApplicationController
         raise unless @course.update_attributes course_form.merge(status: term.status)
         raise t('controllers.courses.manager_creation_failed') unless register_course_managers
         @course.update_lesson_notes
-        if SYSTEM_ROSTER_SYNC == :on
+        if (SYSTEM_ROSTER_SYNC == :on) && !initial_hash.eql?(@course.to_roster_hash)
           payload = {class: @course.to_roster_hash}
           response = request_roster_api("/classes/#{@course.sourced_id}", :put, payload)
         end
