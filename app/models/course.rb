@@ -336,7 +336,9 @@ class Course < ApplicationRecord
   private
 
   def term_and_sync_consistency
-    # errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :on && term.sourced_id.blank?
-    # errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :off && term.sourced_id.present?
+    # The following if statement is a prescription to pass course_test
+    return if term_id.blank?
+    errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :on && term.sourced_id.blank?
+    errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :off && term.sourced_id.present?
   end
 end

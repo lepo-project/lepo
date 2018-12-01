@@ -85,7 +85,7 @@ class CourseTest < ActiveSupport::TestCase
     course = create(:course)
     assert_invalid build(:course, sourced_id: course.sourced_id), :sourced_id
   end
-  
+
   # test for validate :term_and_sync_consistency
   # FIXME
 end

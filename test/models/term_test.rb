@@ -42,6 +42,7 @@ class TermTest < ActiveSupport::TestCase
 
   # test for validates_uniqueness_of :sourced_id, allow_nil: true
   test 'some terms with same sourced_id are invalid' do
+    return unless SYSTEM_ROSTER_SYNC == :on
     term = create(:term)
     assert_invalid build(:term, sourced_id: term.sourced_id), :sourced_id
   end

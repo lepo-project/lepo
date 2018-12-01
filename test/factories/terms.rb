@@ -13,7 +13,7 @@
 
 FactoryBot.define do
   factory :term do
-    sequence(:sourced_id) { |i| "dummy-term-sourced_id-#{i}" }
+    sequence(:sourced_id) { |i| "dummy-term-sourced_id-#{i}" } if SYSTEM_ROSTER_SYNC == :on
     sequence(:title) { |i| "Term #{i} Title" }
     start_at Date.today
     end_at Date.today + 6.months
