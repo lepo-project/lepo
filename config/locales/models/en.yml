@@ -8,7 +8,7 @@ en:
       content: Content
       content_member: Member
       course: Course
-      course_member: Member
+      enrollment: Member
       device: Device
       goal: Goal
       goals_objective: Goals and Objective
@@ -82,7 +82,7 @@ en:
       course:
         assistants: Assistants
         contents: Contents
-        course_members: Course Members
+        enrollments: Course Members
         goals: Goals
         groups_count: Number of Groups
         image_data: Image File
@@ -104,7 +104,7 @@ en:
         title: Title
         weekday: Weekday
 
-      course_member:
+      enrollment:
         course: :activerecord.models.course
         group: Group
         role: Role
@@ -269,7 +269,7 @@ en:
         contents: Contents
         content_members: Content Member
         courses: Courses
-        course_members: Courses Members
+        enrollments: Courses Members
         description: Description
         devices: Devices
         family_name: Family name

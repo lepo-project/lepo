@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: course_members
+# Table name: enrollments
 #
 #  id          :integer          not null, primary key
 #  course_id   :integer
@@ -12,7 +12,7 @@
 #
 
 FactoryBot.define do
-  factory :course_manager, class: CourseMember do
+  factory :course_manager, class: Enrollment do
     association :course
     association :user
     role 'manager'

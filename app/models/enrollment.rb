@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: course_members
+# Table name: enrollments
 #
 #  id          :integer          not null, primary key
 #  course_id   :integer
@@ -11,7 +11,7 @@
 #  updated_at  :datetime         not null
 #
 
-class CourseMember < ApplicationRecord
+class Enrollment < ApplicationRecord
   belongs_to :course
   belongs_to :user
   validates_presence_of :course_id
@@ -28,7 +28,7 @@ class CourseMember < ApplicationRecord
     # Create and Update with OneRoster data
 
     user_ids.each do |user_id|
-      member = CourseMember.find_or_initialize_by(course_id: course_id, user_id: user_id)
+      member = Enrollment.find_or_initialize_by(course_id: course_id, user_id: user_id)
       member.update_attributes(role: role)
     end
   end
@@ -50,14 +50,14 @@ class CourseMember < ApplicationRecord
           # neednot add or delete
           ids.delete c_id
         else
-          course_member = CourseMember.find_by(course_id: course_id, user_id: c_id, role: 'manager')
-          course_member.destroy! if course_member.deletable?
+          enrollment = Enrollment.find_by(course_id: course_id, user_id: c_id, role: 'manager')
+          enrollment.destroy! if enrollment.deletable?
         end
       end
       # register
       ids.each do |id|
-        course_member = CourseMember.new(course_id: course_id, user_id: id, role: 'manager')
-        course_member.save!
+        enrollment = Enrollment.new(course_id: course_id, user_id: id, role: 'manager')
+        enrollment.save!
       end
     end
     return true
@@ -96,7 +96,7 @@ class CourseMember < ApplicationRecord
       course = Course.find_enabled_by course_id
       return false if course.evaluator? user_id
 
-      manager_num = CourseMember.where(course_id: course_id, role: 'manager').size
+      manager_num = Enrollment.where(course_id: course_id, role: 'manager').size
       return (stickies.size.zero? && (manager_num > 1))
     when 'assistant'
       return stickies.size.zero?

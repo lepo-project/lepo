@@ -12,7 +12,7 @@
 # SupportedStyles: keyword, variable, start_of_line
 Lint/EndAlignment:
   Exclude:
-    - 'app/controllers/course_members_controller.rb'
+    - 'app/controllers/enrollments_controller.rb'
 
 # Offense count: 1
 Lint/IneffectiveAccessModifier:
@@ -122,7 +122,7 @@ Style/AccessorMethodName:
     - 'app/controllers/application_controller.rb'
     - 'app/controllers/contents_controller.rb'
     - 'app/controllers/courses_controller.rb'
-    - 'app/controllers/course_members_controller.rb'
+    - 'app/controllers/enrollments_controller.rb'
     - 'app/controllers/notices_controller.rb'
     - 'app/controllers/outcomes_controller.rb'
     - 'app/controllers/portfolios_controller.rb'

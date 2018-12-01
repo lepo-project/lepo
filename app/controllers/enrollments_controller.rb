@@ -1,12 +1,12 @@
 require 'csv'
-class CourseMembersController < ApplicationController
+class EnrollmentsController < ApplicationController
   include ::UsersController::AllActions
   include ::StickiesController::AllActions
   # ====================================================================
   # Public Functions
   # ====================================================================
   def ajax_index
-    set_nav_session params[:nav_section], 'course_members', params[:nav_id].to_i
+    set_nav_session params[:nav_section], 'enrollments', params[:nav_id].to_i
     get_resources
     render 'layouts/renders/all', locals: { resource: 'index' }
   end
@@ -24,7 +24,7 @@ class CourseMembersController < ApplicationController
 
   def ajax_show_with_transition
     # ajax show with in-course transition
-    set_nav_session session[:nav_section], 'course_members', session[:nav_id]
+    set_nav_session session[:nav_section], 'enrollments', session[:nav_id]
     ajax_show true
   end
 
@@ -32,12 +32,12 @@ class CourseMembersController < ApplicationController
     get_resources
     @form_category = ''
     @member_role = 'learner'
-    render 'layouts/renders/main_pane', locals: { resource: 'course_members/edit' }
+    render 'layouts/renders/main_pane', locals: { resource: 'enrollments/edit' }
   end
 
   def ajax_edit_group
     get_resources
-    render 'layouts/renders/main_pane', locals: { resource: 'course_members/edit_group' }
+    render 'layouts/renders/main_pane', locals: { resource: 'enrollments/edit_group' }
   end
 
   def ajax_csv_candidates
@@ -49,7 +49,7 @@ class CourseMembersController < ApplicationController
     get_resources
     manageable = @course.manager_changeable? session[:id]
     @candidates = csv_to_member_candidates @candidates_csv, manageable, 'course', @course.id
-    render 'layouts/renders/resource', locals: { resource: 'course_members/edit' }
+    render 'layouts/renders/resource', locals: { resource: 'enrollments/edit' }
   end
 
   def ajax_search_candidates
@@ -74,22 +74,22 @@ class CourseMembersController < ApplicationController
     if session[:nav_id]
       current_categories = []
       candidates.each do |cn|
-        current_relation = CourseMember.find_by(user_id: cn.id, course_id: session[:nav_id])
+        current_relation = Enrollment.find_by(user_id: cn.id, course_id: session[:nav_id])
         current_role = current_relation ? current_relation.role : ''
         current_categories.push current_role
       end
       @candidates = candidates.zip current_categories, Array.new(candidates.size, @member_role)
     end
-    render 'layouts/renders/resource', locals: { resource: 'course_members/edit' }
+    render 'layouts/renders/resource', locals: { resource: 'enrollments/edit' }
   end
 
   def ajax_update_role
     if params[:update_to] == 'none'
-      course_member = CourseMember.find_by(user_id: params[:user_id], course_id: params[:course_id])
-      if course_member && course_member.deletable?
-        course_member.destroy
+      enrollment = Enrollment.find_by(user_id: params[:user_id], course_id: params[:course_id])
+      if enrollment && enrollment.deletable?
+        enrollment.destroy
       else
-        if course_member.role == 'manager'
+        if enrollment.role == 'manager'
           flash.now[:message] = 'レッスンの評価担当者、またはコース内でふせんを記載している場合は削除できません。'
         else
           flash.now[:message] = 'コース内でふせんを記載しているユーザ、または課題を提出済みの学生ユーザは削除できません'
@@ -116,17 +116,17 @@ class CourseMembersController < ApplicationController
     user_id = params[:user_id]
     group_index = params[:group_index]
 
-    cm = CourseMember.find_by(user_id: user_id, course_id: course_id)
-    cm.update_attributes(group_index: group_index)
+    enrollment = Enrollment.find_by(user_id: user_id, course_id: course_id)
+    enrollment.update_attributes(group_index: group_index)
     get_resources
-    render 'layouts/renders/main_pane', locals: { resource: 'course_members/edit_group' }
+    render 'layouts/renders/main_pane', locals: { resource: 'enrollments/edit_group' }
   end
 
   def ajax_get_managers
     manager_ids = params[:manager_ids].nil? ? [] : params[:manager_ids]
     case params[:category]
     when 'release' then
-      course_user = CourseMember.find_by(course_id: params[:course_id], user_id: params[:manager_id])
+      course_user = Enrollment.find_by(course_id: params[:course_id], user_id: params[:manager_id])
       if course_user.nil? || course_user.deletable?
         manager_ids.delete(params[:manager_id])
       else
@@ -176,20 +176,20 @@ class CourseMembersController < ApplicationController
   end
 
   def update_role(user_id, course_id, role)
-    course_member = CourseMember.find_by(user_id: user_id, course_id: course_id)
+    enrollment = Enrollment.find_by(user_id: user_id, course_id: course_id)
     course = Course.find_enabled_by course_id
-    if course_member
-      if (course_member.role == 'manager') && (course.evaluator? user_id)
+    if enrollment
+      if (enrollment.role == 'manager') && (course.evaluator? user_id)
         flash.now[:message] = 'レッスンの評価担当者は、教師である必要があります'
         flash[:message_category] = 'error'
       else
-        unless course_member.update_attributes(role: role)
+        unless enrollment.update_attributes(role: role)
           flash.now[:message] = 'コース管理者は、コース管理権限のあるユーザのみ登録できます'
           flash[:message_category] = 'error'
         end
       end
     else
-      new_coourse_user = CourseMember.new(user_id: user_id, course_id: course_id, role: role)
+      new_coourse_user = Enrollment.new(user_id: user_id, course_id: course_id, role: role)
       unless new_coourse_user.save
         flash.now[:message] = 'コース管理者は、コース管理権限のあるユーザのみ登録できます'
         flash[:message_category] = 'error'

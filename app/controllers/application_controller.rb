@@ -274,7 +274,7 @@ class ApplicationController < ActionController::Base
       user = User.find_by(signin_name: signin_name)
       if user
         current_relation = ContentMember.find_by(content_id: resource_id, user_id: user.id) if category == 'content'
-        current_relation = CourseMember.find_by(course_id: resource_id, user_id: user.id) if category == 'course'
+        current_relation = Enrollment.find_by(course_id: resource_id, user_id: user.id) if category == 'course'
         current_role = current_relation ? current_relation.role : ''
 
         if current_role == 'manager'

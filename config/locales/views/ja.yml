@@ -85,9 +85,9 @@ ja:
       show_content: 教材を表示
       show_note: レッスンノートを表示
 
-  course_members:
+  enrollments:
     edit_group:
-      group: :course_members.index.group
+      group: :enrollments.index.group
     index:
       group: "%{index}班"
     members:
@@ -204,8 +204,8 @@ ja:
       status_message3: 学生に配布できるワークシートは、コースで最大1つのみ
       review_message: 評価開始後に評価対象数を変更すると、学習者が評価するワークシートも変更
     group:
-      group: :course_members.index.group
-      users: :course_members.members.users
+      group: :enrollments.index.group
+      users: :enrollments.members.users
     header:
       characters: 字
       media_count: 画像等の数
@@ -243,7 +243,7 @@ ja:
       references: 参考資料
     toolbars:
       courses:
-        group: :course_members.index.group
+        group: :enrollments.index.group
       home:
         export: テキスト出力
         reload: 再読み込み
@@ -259,13 +259,13 @@ ja:
   portfolios:
     achievement_reports:
       learning_progress: 学習の進捗
-      show_learners_details: :course_members.signin_reports.show_learners_details
+      show_learners_details: :enrollments.signin_reports.show_learners_details
     goal_reports:
       goal_achievement_rate: コース目標の達成率
     lessons_card:
       no_lessons: :courses.lesson_card.no_lessons
     star_reports:
-      show_learners_details: :course_members.signin_reports.show_learners_details
+      show_learners_details: :enrollments.signin_reports.show_learners_details
       star_acquisition_status: スターの獲得状況
     toolbar:
       portfolio: :helpers.portfolio

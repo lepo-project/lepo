@@ -65,7 +65,7 @@ class Lesson < ApplicationRecord
   def user_role(user_id)
     return 'observer' if new_record?
     return 'evaluator' if user_id == evaluator_id
-    course_member = CourseMember.find_by(user_id: user_id, course_id: course_id)
-    course_member ? course_member.role : 'observer'
+    enrollment = Enrollment.find_by(user_id: user_id, course_id: course_id)
+    enrollment ? enrollment.role : 'observer'
   end
 end

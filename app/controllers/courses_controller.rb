@@ -26,7 +26,7 @@ class CoursesController < ApplicationController
           response = request_roster_api('/classes/', :post, payload)
           @course.update_attributes!(sourced_id: response['class']['sourcedId'])
           @course.managers.each do |manager|
-            payload = {enrollment: CourseMember.to_roster_hash(@course.sourced_id, manager, 'manager')}
+            payload = {enrollment: Enrollment.to_roster_hash(@course.sourced_id, manager, 'manager')}
             request_roster_api('/enrollments/', :post, payload)
           end
         end
@@ -298,8 +298,8 @@ class CoursesController < ApplicationController
     @course.overview = original_course.overview
     if @course.save
       record_user_action('created', @course.id)
-      course_member = CourseMember.new(course_id: @course.id, user_id: session[:id], role: 'manager')
-      if course_member.save
+      enrollment = Enrollment.new(course_id: @course.id, user_id: session[:id], role: 'manager')
+      if enrollment.save
         original_course.duplicate_goals_to @course.id
         original_course.duplicate_lessons_to @course.id, session[:id]
         set_nav_session 'repository', 'courses', @course.id
@@ -400,7 +400,7 @@ class CoursesController < ApplicationController
   end
 
   def update_course_groups(groups_count)
-    deleted_group_learners = @course.course_members.where('course_members.role = ? and course_members.group_index >= ?', 'learner', groups_count)
+    deleted_group_learners = @course.enrollments.where('enrollments.role = ? and enrollments.group_index >= ?', 'learner', groups_count)
     deleted_group_learners.each do |dgl|
       dgl.update_attributes(group_index: groups_count.to_i - 1)
     end
@@ -576,7 +576,7 @@ class CoursesController < ApplicationController
     if ids.empty?
       ids = current_ids.empty? ? [session[:id]] : current_ids.dup
     end
-    CourseMember.update_managers @course.id, current_ids, ids
+    Enrollment.update_managers @course.id, current_ids, ids
   end
 
   def ids_from_user_hash_l(values)

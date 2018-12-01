@@ -85,7 +85,7 @@ en:
       show_content: Show content
       show_note: Show lesson note
 
-  course_members:
+  enrollments:
     edit_group:
       group: "#%{index}"
     index:
@@ -204,8 +204,8 @@ en:
       status_message3: Only one work sheet can be distributed to learners in the course
       review_message: Changing the number of reviews after starting the review makes also changing the work sheets to review by learners
     group:
-      group: :course_members.index.group
-      users: :course_members.members.users
+      group: :enrollments.index.group
+      users: :enrollments.members.users
     header:
       characters: characters
       media_count: media count
@@ -243,7 +243,7 @@ en:
       references: References
     toolbars:
       courses:
-        group: :course_members.index.group
+        group: :enrollments.index.group
       home:
         export: Export to text
         reload: Reload
@@ -259,13 +259,13 @@ en:
   portfolios:
     achievement_reports:
       learning_progress: Learning Progress
-      show_learners_details: :course_members.signin_reports.show_learners_details
+      show_learners_details: :enrollments.signin_reports.show_learners_details
     goal_reports:
       goal_achievement_rate: Goal Achievement Rate
     lessons_card:
       no_lessons: :courses.lesson_card.no_lessons
     star_reports:
-      show_learners_details: :course_members.signin_reports.show_learners_details
+      show_learners_details: :enrollments.signin_reports.show_learners_details
       star_acquisition_status: Star Acquisition Status
     toolbar:
       portfolio: :helpers.portfolio

@@ -20,18 +20,18 @@
 class Course < ApplicationRecord
   include ImageUploader::Attachment.new(:image)
   belongs_to :term
-  has_many :assistants, -> { where('course_members.role = ?', 'assistant') }, through: :course_members, source: :user
+  has_many :assistants, -> { where('enrollments.role = ?', 'assistant') }, through: :enrollments, source: :user
   has_many :contents, -> { order('lessons.display_order asc') }, through: :lessons
-  has_many :course_members, dependent: :destroy
+  has_many :enrollments, dependent: :destroy
   has_many :goals, -> { order(id: :asc) }, dependent: :destroy
-  has_many :learners, -> { where('course_members.role = ?', 'learner').order(signin_name: :asc) }, through: :course_members, source: :user
+  has_many :learners, -> { where('enrollments.role = ?', 'learner').order(signin_name: :asc) }, through: :enrollments, source: :user
   has_many :lessons, -> { order(display_order: :asc) }
-  has_many :managers, -> { where('course_members.role = ?', 'manager') }, through: :course_members, source: :user
+  has_many :managers, -> { where('enrollments.role = ?', 'manager') }, through: :enrollments, source: :user
   has_many :original_draft_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'distributed_draft').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_open_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'open').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_review_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'review').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_work_sheets, -> { where('notes.category = ? and notes.status in (?)', 'work', %w[distributed_draft open review]).order(updated_at: :desc) }, class_name: 'Note'
-  has_many :members, through: :course_members, source: :user
+  has_many :members, through: :enrollments, source: :user
   has_many :notices, dependent: :destroy
   has_many :open_lessons, -> { where('lessons.status = ?', 'open').order(display_order: :asc) }, class_name: 'Lesson'
   has_many :outcomes, dependent: :destroy
@@ -54,7 +54,7 @@ class Course < ApplicationRecord
   # Public Functions
   # ====================================================================
   def self.associated_by(user_id, role)
-    courses = CourseMember.where(user_id: user_id, role: role).order(updated_at: :desc).to_a
+    courses = Enrollment.where(user_id: user_id, role: role).order(updated_at: :desc).to_a
     courses.map!(&:course)
     courses.delete_if { |c| !c.enabled }
   end
@@ -73,7 +73,7 @@ class Course < ApplicationRecord
     user = User.find(user_id)
     return Course.where(status: 'open', enabled: true).order(:weekday, :period).limit(100) if user.system_staff?
 
-    courses = CourseMember.where(user_id: user_id).to_a
+    courses = Enrollment.where(user_id: user_id).to_a
     courses.map!(&:course)
     courses.delete_if { |c| !c.enabled }
     courses.delete_if { |c| c.status != 'open' }
@@ -83,7 +83,7 @@ class Course < ApplicationRecord
   end
 
   def self.not_open_with(user_id)
-    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
+    courses = Enrollment.where(user_id: user_id).order(updated_at: :desc).to_a
     courses.map!(&:course)
     courses.delete_if { |c| !c.enabled }
     courses.delete_if { |c| (c.status == 'open') || ((c.status == 'draft') && (c.learner? user_id)) }
@@ -103,7 +103,7 @@ class Course < ApplicationRecord
       else
         manager_ids = User.search(manager_parts, '', User.count).pluck(:id)
       end
-      course_ids = CourseMember.where(role: 'manager').where('user_id IN (?)', manager_ids).pluck(:course_id).uniq
+      course_ids = Enrollment.where(role: 'manager').where('user_id IN (?)', manager_ids).pluck(:course_id).uniq
       @candidates = @candidates.where('id IN(?)', course_ids)
     end
     @candidates.limit(COURSE_SEARCH_MAX_SIZE)
@@ -146,12 +146,12 @@ class Course < ApplicationRecord
 
   # FIXME: Group work
   def group_index_for(user_id)
-    CourseMember.where(course_id: id, user_id: user_id).first.group_index
+    Enrollment.where(course_id: id, user_id: user_id).first.group_index
   end
 
   # FIXME: Group work
   def learners_in_group(index)
-    user_ids = course_members.where('course_members.role = ? and course_members.group_index = ?', 'learner', index).order(user_id: :asc).pluck(:user_id)
+    user_ids = enrollments.where('enrollments.role = ? and enrollments.group_index = ?', 'learner', index).order(user_id: :asc).pluck(:user_id)
     User.where(id: user_ids).order(signin_name: :asc)
   end
 
@@ -299,7 +299,7 @@ class Course < ApplicationRecord
 
   def user_role(user_id)
     return 'new' unless User.find_by(id: user_id)
-    association = CourseMember.find_by(user_id: user_id, course_id: id)
+    association = Enrollment.find_by(user_id: user_id, course_id: id)
     association ? association.role : 'pending'
   end
 
@@ -336,7 +336,7 @@ class Course < ApplicationRecord
   private
 
   def term_and_sync_consistency
-    errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :on && term.sourced_id.blank?
-    errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :off && term.sourced_id.present?
+    # errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :on && term.sourced_id.blank?
+    # errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :off && term.sourced_id.present?
   end
 end

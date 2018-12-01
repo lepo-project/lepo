@@ -6,7 +6,7 @@
       </div>
 
       <div class="block">
-        <% if session[:nav_controller] != 'course_members' %>
+        <% if session[:nav_controller] != 'enrollments' %>
         <div class="card-l course-border">
           <%= render partial: 'layouts/card_l', locals: {card: sticky_activity_card_hash(@selected_user, @stickies)} %>
         </div>
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <% if session[:nav_controller] == 'course_members' %>
+      <% if session[:nav_controller] == 'enrollments' %>
       <%# if @stickies.size > 0 %>
       <div id="user-stickies">
         <%#= render partial: 'stickies/stickies', locals: {stickies: @stickies, view_category: 'user'} %>

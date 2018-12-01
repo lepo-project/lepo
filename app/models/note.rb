@@ -126,7 +126,7 @@ class Note < ApplicationRecord
 
   def group_index
     return nil unless course_id > 0
-    CourseMember.where(course_id: course_id, user_id: manager_id).first.group_index
+    Enrollment.where(course_id: course_id, user_id: manager_id).first.group_index
   end
 
   def manager?(user_id)

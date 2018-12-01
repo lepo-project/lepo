@@ -42,7 +42,7 @@ $(function() {
     source: function (request, response) {
       $.ajax({
         type: "POST",
-        url: "/course_members/autocomplete_manager",
+        url: "/enrollments/autocomplete_manager",
         data: {
           search_word: request.term,
           tmp_managers: <%= raw manager_ids.to_json %>,

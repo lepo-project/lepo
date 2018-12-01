@@ -51,12 +51,12 @@ class RosterJob < ApplicationJob
   def sync_with_course cid
     rmanagers = get_roster "/classes/#{cid[:sourced_id]}/teachers"
     manager_ids = User.sync_roster rmanagers['users']
-    CourseMember.sync_roster cid[:id], manager_ids, 'manager'
+    Enrollment.sync_roster cid[:id], manager_ids, 'manager'
     rlearners = get_roster "/classes/#{cid[:sourced_id]}/students"
     learner_ids = User.sync_roster rlearners['users']
-    CourseMember.sync_roster cid[:id], learner_ids, 'learner'
-    destroyed_ids = CourseMember.destroy_unused cid[:id], manager_ids.concat(learner_ids)
-    @logger.info("Deleted from course_members for course_id: #{cid[:id]} => user_id: #{destroyed_ids.join(', ')}") if destroyed_ids.present?
+    Enrollment.sync_roster cid[:id], learner_ids, 'learner'
+    destroyed_ids = Enrollment.destroy_unused cid[:id], manager_ids.concat(learner_ids)
+    @logger.info("Deleted from enrollments for course_id: #{cid[:id]} => user_id: #{destroyed_ids.join(', ')}") if destroyed_ids.present?
   end
 
   def sync_with_term tid
@@ -68,6 +68,6 @@ class RosterJob < ApplicationJob
     course_ids.each do |cid|
       sync_with_course cid
     end
-    @logger.info "Synchronized course members for term_id #{tid[:id]}" if course_ids.present?
+    @logger.info "Synchronized enrollments for term_id #{tid[:id]}" if course_ids.present?
   end
 end
