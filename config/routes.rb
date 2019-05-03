@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/users/:id/image', to: 'users#show_image'
   get '/outcome_files/:id/upload', to: 'outcome_files#show_upload'
   resources :courses, only: %i[create new edit update destroy]
+  resources :enrollments, only: %i[create new edit update destroy]
   resources :terms, only: %i[create new update destroy]
   match ':controller(/:action(/:id(.:format)))', via: %i[get post put patch]
 

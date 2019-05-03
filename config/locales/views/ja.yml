@@ -92,6 +92,12 @@ ja:
       group: "%{index}班"
     members:
       users:  "%{num}名"
+    role_info:
+      edit_course: コース編集
+      edit_course_member: コースメンバー編集
+      evaluate_assignment: 課題評価
+      submit_assignment: 課題提出
+      view_content: 教材閲覧
     signin_reports:
       show_learners_details: 学生の情報を表示 / 非表示
     toolbar:

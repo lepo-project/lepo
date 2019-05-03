@@ -9,6 +9,7 @@
 #  group_index :integer          default(0)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  sourced_id  :string
 #
 
 require 'test_helper'

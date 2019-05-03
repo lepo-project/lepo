@@ -40,11 +40,11 @@ class Term < ApplicationRecord
     ids
   end
 
-  def creatable?(user_id)
+  def self.creatable?(user_id)
     # Not permitted when SYSTEM_ROSTER_SYNC is :suspended
     return false if %i[on off].exclude? SYSTEM_ROSTER_SYNC
     user = User.find user_id
-    user && user.system_staff?
+    user.system_staff?
   end
 
   def destroyable?(user_id)
@@ -56,7 +56,7 @@ class Term < ApplicationRecord
   def updatable?(user_id)
     return false if SYSTEM_ROSTER_SYNC == :on && sourced_id.blank?
     return false if SYSTEM_ROSTER_SYNC == :off && sourced_id.present?
-    creatable? user_id
+    Term.creatable? user_id
   end
 
   def status

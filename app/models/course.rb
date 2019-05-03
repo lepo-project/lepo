@@ -114,6 +114,7 @@ class Course < ApplicationRecord
 
     ids = []
     rcourses.each do |rc|
+      next if (rc['schoolSourcedId'] != Rails.application.secrets.roster_school_sourced_id)
       # REQUIREMENT: period vaule in OneRoster is [weekday number]-[time period number] format
       weekday = rc['periods'].split(',')[0].split('-')[0]
       period = rc['periods'].split(',')[0].split('-')[1]
@@ -226,11 +227,11 @@ class Course < ApplicationRecord
     end
   end
 
-  def creatable?(user_id)
+  def self.creatable?(user_id)
     # Not permitted when SYSTEM_ROSTER_SYNC is :suspended
     return false if %i[on off].exclude? SYSTEM_ROSTER_SYNC
     user = User.find user_id
-    user && user.system_staff?
+    user.system_staff?
   end
 
   def destroyable?(user_id)
@@ -247,7 +248,7 @@ class Course < ApplicationRecord
     return false if SYSTEM_ROSTER_SYNC == :off && sourced_id.present?
     return true if staff? user_id
     user = User.find user_id
-    user && user.system_staff?
+    user.system_staff?
   end
 
   def fill_goals

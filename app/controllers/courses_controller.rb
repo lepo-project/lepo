@@ -16,7 +16,7 @@ class CoursesController < ApplicationController
   def create
     @course = Course.new(course_params)
     begin
-      raise unless @course.creatable? session[:id]
+      raise unless Course.creatable? session[:id]
       @course.status = @course.term.status
       Course.transaction do
         @course.save!
@@ -26,7 +26,7 @@ class CoursesController < ApplicationController
           response = request_roster_api('/classes/', :post, payload)
           @course.update_attributes!(sourced_id: response['class']['sourcedId'])
           @course.managers.each do |manager|
-            payload = {enrollment: Enrollment.to_roster_hash(@course.sourced_id, manager, 'manager')}
+            payload = {enrollment: Enrollment.new(course_id: @course.id, user_id: manager.id, role: 'manager').to_roster_hash}
             request_roster_api('/enrollments/', :post, payload)
           end
         end

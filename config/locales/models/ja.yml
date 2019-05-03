@@ -100,7 +100,6 @@ ja:
         overview: 概要
         period: 時限
         status: 状態
-        notes: :activerecord.models.note
         term_id: :activerecord.models.term
         title: タイトル
         weekday: 曜日

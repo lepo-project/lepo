@@ -1,10 +1,95 @@
 require 'csv'
 class EnrollmentsController < ApplicationController
+  include RosterApi
   include ::UsersController::AllActions
   include ::StickiesController::AllActions
   # ====================================================================
   # Public Functions
   # ====================================================================
+  def new
+    get_resources
+    @form_category = ''
+    @member_role = 'learner'
+    render 'layouts/renders/main_pane', locals: { resource: 'enrollments/new' }
+  end
+
+  def create
+    enrollment = Enrollment.find_or_initialize_by(course_id: params[:enrollment][:course_id], user_id: params[:enrollment][:user_id])
+    role = params[:enrollment][:role]
+    begin
+      raise unless enrollment.new_record?
+      raise unless Enrollment.creatable? enrollment.course_id, session[:id], role
+      Enrollment.transaction do
+        enrollment.role = role
+        enrollment.save!
+        if SYSTEM_ROSTER_SYNC == :on
+          payload = {enrollment: enrollment.to_roster_hash}
+          response = request_roster_api('/enrollments/', :post, payload)
+          enrollment.update_attributes!(sourced_id: response['enrollment']['sourcedId'])
+        end
+      end
+    rescue => error
+      notify_error error, t('controllers.enrollments.creation_failed')
+    end
+
+    case params[:form_category]
+    when 'search'
+      ajax_search_candidates
+    when 'csv'
+      ajax_csv_candidates
+    else
+      new
+    end
+  end
+
+  def edit
+    @enrollment = Enrollment.find params[:id]
+    @course = Course.find_enabled_by @enrollment.course_id
+    @user = @enrollment.user
+    render 'layouts/renders/main_pane', locals: { resource: 'enrollments/edit' }
+  end
+
+  def update
+    @enrollment = Enrollment.find params[:id]
+    @course = Course.find_enabled_by @enrollment.course_id
+    @user = @enrollment.user
+    from_role = @enrollment.role
+    to_role = params[:enrollment][:role]
+    begin
+      raise unless @enrollment.updatable? session[:id]
+      raise t('controllers.enrollments.evaluator_must_be_manager') if (to_role != 'manager') && (@course.evaluator? @user.id)
+      Enrollment.transaction do
+        @enrollment.update_attributes!(enrollment_params)
+        if (SYSTEM_ROSTER_SYNC == :on) && (to_role != from_role)
+          payload = {enrollment: @enrollment.to_roster_hash}
+          response = request_roster_api("/enrollments/#{@enrollment.sourced_id}", :put, payload)
+        end
+      end
+      render_index
+    rescue => error
+      notify_error error, t('controllers.enrollments.update_failed')
+      render 'layouts/renders/main_pane', locals: { resource: 'enrollments/edit' }
+    end
+  end
+
+  def destroy
+    @enrollment = Enrollment.find params[:id]
+    @course = Course.find_enabled_by @enrollment.course_id
+    @user = @enrollment.user
+    begin
+      raise t('controllers.enrollments.evaluator_must_be_manager') if (@course.evaluator? @user.id)
+      raise unless @enrollment.destroyable? session[:id]
+      Enrollment.transaction do
+        @enrollment.destroy!
+        response = request_roster_api("/enrollments/#{@enrollment.sourced_id}", :delete) if (SYSTEM_ROSTER_SYNC == :on)
+      end
+      render_index
+    rescue => error
+      notify_error error, t('controllers.enrollments.delete_failed')
+      render 'layouts/renders/main_pane', locals: { resource: 'enrollments/edit' }
+    end
+  end
+
   def ajax_index
     set_nav_session params[:nav_section], 'enrollments', params[:nav_id].to_i
     get_resources
@@ -28,13 +113,6 @@ class EnrollmentsController < ApplicationController
     ajax_show true
   end
 
-  def ajax_edit
-    get_resources
-    @form_category = ''
-    @member_role = 'learner'
-    render 'layouts/renders/main_pane', locals: { resource: 'enrollments/edit' }
-  end
-
   def ajax_edit_group
     get_resources
     render 'layouts/renders/main_pane', locals: { resource: 'enrollments/edit_group' }
@@ -49,7 +127,7 @@ class EnrollmentsController < ApplicationController
     get_resources
     manageable = @course.manager_changeable? session[:id]
     @candidates = csv_to_member_candidates @candidates_csv, manageable, 'course', @course.id
-    render 'layouts/renders/resource', locals: { resource: 'enrollments/edit' }
+    render 'layouts/renders/resource', locals: { resource: 'enrollments/new' }
   end
 
   def ajax_search_candidates
@@ -80,35 +158,7 @@ class EnrollmentsController < ApplicationController
       end
       @candidates = candidates.zip current_categories, Array.new(candidates.size, @member_role)
     end
-    render 'layouts/renders/resource', locals: { resource: 'enrollments/edit' }
-  end
-
-  def ajax_update_role
-    if params[:update_to] == 'none'
-      enrollment = Enrollment.find_by(user_id: params[:user_id], course_id: params[:course_id])
-      if enrollment && enrollment.deletable?
-        enrollment.destroy
-      else
-        if enrollment.role == 'manager'
-          flash.now[:message] = 'レッスンの評価担当者、またはコース内でふせんを記載している場合は削除できません。'
-        else
-          flash.now[:message] = 'コース内でふせんを記載しているユーザ、または課題を提出済みの学生ユーザは削除できません'
-        end
-        flash[:message_category] = 'error'
-      end
-    else
-      update_role params[:user_id], params[:course_id], params[:update_to]
-    end
-
-    # replace page process
-    case params[:form_category]
-    when 'search'
-      ajax_search_candidates
-    when 'csv'
-      ajax_csv_candidates
-    else
-      ajax_edit
-    end
+    render 'layouts/renders/resource', locals: { resource: 'enrollments/new' }
   end
 
   def ajax_update_group
@@ -168,6 +218,10 @@ class EnrollmentsController < ApplicationController
 
   private
 
+  def enrollment_params
+    params.require(:enrollment).permit(:role)
+  end
+
   def get_resources
     @course = Course.find_enabled_by session[:nav_id]
     @managers = User.sort_by_signin_name @course.managers
@@ -175,26 +229,11 @@ class EnrollmentsController < ApplicationController
     @learners = User.sort_by_signin_name @course.learners
   end
 
-  def update_role(user_id, course_id, role)
-    enrollment = Enrollment.find_by(user_id: user_id, course_id: course_id)
-    course = Course.find_enabled_by course_id
-    if enrollment
-      if (enrollment.role == 'manager') && (course.evaluator? user_id)
-        flash.now[:message] = 'レッスンの評価担当者は、教師である必要があります'
-        flash[:message_category] = 'error'
-      else
-        unless enrollment.update_attributes(role: role)
-          flash.now[:message] = 'コース管理者は、コース管理権限のあるユーザのみ登録できます'
-          flash[:message_category] = 'error'
-        end
-      end
-    else
-      new_coourse_user = Enrollment.new(user_id: user_id, course_id: course_id, role: role)
-      unless new_coourse_user.save
-        flash.now[:message] = 'コース管理者は、コース管理権限のあるユーザのみ登録できます'
-        flash[:message_category] = 'error'
-      end
-    end
+  def render_index
+    @managers = User.sort_by_signin_name @course.managers
+    @assistants = User.sort_by_signin_name @course.assistants
+    @learners = User.sort_by_signin_name @course.learners
+    render 'layouts/renders/main_pane', locals: { resource: 'index' }
   end
 
   def invalid_autocomplete_request?(param)

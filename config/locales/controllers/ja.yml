@@ -19,6 +19,11 @@ ja:
       manager_creation_failed: 教師の登録に失敗しました
       no_courses_with_criteria: 条件を満たすコースが見つかりません
       update_failed: コースの更新に失敗しました
+    enrollments:
+      creation_failed: メンバーの登録に失敗しました
+      delete_failed: メンバーの削除に失敗しました
+      evaluator_must_be_manager: 課題の評価担当者は、教師である必要があります
+      update_failed: メンバーの更新に失敗しました
     notes:
       creation_error: ノートの作成に失敗しました。入力した値を確認して下さい。
     preferences:

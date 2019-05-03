@@ -347,7 +347,7 @@ module ApplicationHelper
     when 'content'
       { action: 'ajax_update_role', user_id: user.id, content_id: resource_id, update_to: update_to, form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
     when 'course'
-      { action: 'ajax_update_role', user_id: user.id, course_id: resource_id, update_to: update_to, form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
+      { action: 'create', form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
     when 'system'
       if update_to == 'suspended'
         { action: 'ajax_update_role', user_id: user.id, update_to: 'suspended', form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
@@ -524,13 +524,13 @@ module ApplicationHelper
   def member_role_options(update_model)
     case update_model
     when 'content_member'
-      options = [[t('activerecord.others.content_member.role.manager') + t('helpers.candidate'), 'manager']]
-      options.push [t('activerecord.others.content_member.role.assistant') + t('helpers.candidate'), 'assistant']
-      options.push [t('activerecord.others.content_member.role.user') + t('helpers.candidate'), 'user']
+      options = [[t('activerecord.others.content_member.role.manager'), 'manager']]
+      options.push [t('activerecord.others.content_member.role.assistant'), 'assistant']
+      options.push [t('activerecord.others.content_member.role.user'), 'user']
     when 'enrollment'
-      options = [[t('activerecord.attributes.course.managers') + t('helpers.candidate'), 'manager']]
-      options.push [t('activerecord.attributes.course.assistants') + t('helpers.candidate'), 'assistant']
-      options.push [t('activerecord.attributes.course.learners') + t('helpers.candidate'), 'learner']
+      options = [[t('activerecord.attributes.course.managers'), 'manager']]
+      options.push [t('activerecord.attributes.course.assistants'), 'assistant']
+      options.push [t('activerecord.attributes.course.learners'), 'learner']
     when 'system'
       options = [[t('activerecord.others.user.role.admin'), 'admin']]
       options.push [t('activerecord.others.user.role.manager'), 'manager']

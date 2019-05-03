@@ -9,6 +9,7 @@
 #  group_index :integer          default(0)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  sourced_id  :string
 #
 
 class Enrollment < ApplicationRecord
@@ -24,22 +25,28 @@ class Enrollment < ApplicationRecord
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def self.sync_roster(course_id, user_ids, role)
+  def self.sync_roster(course_id, user_ids, renrollments)
     # Create and Update with OneRoster data
-
-    user_ids.each do |user_id|
-      member = Enrollment.find_or_initialize_by(course_id: course_id, user_id: user_id)
-      member.update_attributes(role: role)
+    ids = []
+    renrollments.each do |re|
+      enrollment = find_or_initialize_by(sourced_id: re['sourcedId'])
+      user_id = user_ids.find{|u| u[:sourced_id] == re['userSourcedId']}[:id]
+      role = to_lepo_role re['role']
+      if enrollment.update_attributes(course_id: course_id, user_id: user_id, role: role)
+        ids.push enrollment.id
+      end
     end
+    ids
   end
 
-  def self.destroy_unused(course_id, user_ids)
-    members = where(course_id: course_id).where.not(user_id: user_ids)
-    deleted_members = []
-    unless members.empty?
-      deleted_members = members.destroy_all
-      deleted_members.map{|m| m.user_id}
+  def self.destroy_unused(course_id, enrollment_ids)
+    enrollments = where(course_id: course_id).where.not(id: enrollment_ids)
+    ids = []
+    unless enrollments.empty?
+      ids = enrollments.destroy_all
+      ids.map{|e| e.user_id}
     end
+    ids
   end
 
   def self.update_managers(course_id, current_ids, ids)
@@ -51,7 +58,7 @@ class Enrollment < ApplicationRecord
           ids.delete c_id
         else
           enrollment = Enrollment.find_by(course_id: course_id, user_id: c_id, role: 'manager')
-          enrollment.destroy! if enrollment.deletable?
+          enrollment.destroy! if enrollment.destroyable?
         end
       end
       # register
@@ -66,14 +73,27 @@ class Enrollment < ApplicationRecord
     return false
   end
 
-  def self.to_roster_hash course_sourced_id, user, role
+  def to_roster_hash
     raise if user.sourced_id.nil?
     hash = {
-      classSourcedId: course_sourced_id,
+      classSourcedId: course.sourced_id,
       schoolSourcedId: Rails.application.secrets.roster_school_sourced_id,
       userSourcedId: user.sourced_id,
-      role: self.to_roster_role(role)
+      role: Enrollment.to_roster_role(role)
     }
+  end
+
+  def self.to_lepo_role role
+    case role
+    when 'teacher'
+      'manager'
+    when 'aide'
+      'assistant'
+    when 'student'
+      'learner'
+    else
+      raise
+    end
   end
 
   def self.to_roster_role role
@@ -89,24 +109,31 @@ class Enrollment < ApplicationRecord
     end
   end
 
-  def deletable?
-    stickies = Sticky.where(course_id: course_id, manager_id: user_id)
-    case role
-    when 'manager'
+  def self.creatable?(course_id, operator_id, role = nil)
+    # Not permitted when SYSTEM_ROSTER_SYNC is :suspended
+    return false if %i[on off].exclude? SYSTEM_ROSTER_SYNC
+    course = Course.find course_id
+    return false if course.status == 'archived'
+    raise 'ERROR: Assistant can not create manager' if (course.assistant?(operator_id) && role == 'manager')
+    user = User.find operator_id
+    user.system_staff? || course.staff?(operator_id)
+  end
+
+  def destroyable?(operator_id)
+    return false if new_record?
+    if role == 'manager'
       course = Course.find_enabled_by course_id
       return false if course.evaluator? user_id
-
       manager_num = Enrollment.where(course_id: course_id, role: 'manager').size
-      return (stickies.size.zero? && (manager_num > 1))
-    when 'assistant'
-      return stickies.size.zero?
-    when 'learner'
-      outcomes = Outcome.where(manager_id: user_id, course_id: course_id)
-      outcomes.each do |outcome|
-        return false unless outcome.outcome_messages.empty?
-      end
-      return stickies.size.zero?
+      return false if manager_num == 1
     end
-    false
+    updatable? operator_id
+  end
+
+  def updatable?(operator_id, role = nil)
+    # FIXME updat_to role must be inputted
+    return false if SYSTEM_ROSTER_SYNC == :on && sourced_id.blank?
+    return false if SYSTEM_ROSTER_SYNC == :off && sourced_id.present?
+    Enrollment.creatable?(course.id, operator_id, role)
   end
 end

@@ -6,7 +6,7 @@ class TermsController < ApplicationController
   def create
     @term = Term.new(term_params)
     begin
-      raise unless @term.creatable? session[:id]
+      raise unless Term.creatable? session[:id]
       Term.transaction do
         @term.save!
         if SYSTEM_ROSTER_SYNC == :on

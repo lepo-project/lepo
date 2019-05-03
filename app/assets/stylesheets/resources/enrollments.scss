@@ -1,8 +1,8 @@
 //
-// CSS for course-members-resource
+// CSS for enrollment-resource
 //
 
-#resource #course-member-resource {
+#resource #enrollment-resource {
   .edit-group {
     a {
       color: #fff;
@@ -23,5 +23,8 @@
         }
       }
     }
+  }
+  .role-info td {
+    text-align: center;
   }
 }

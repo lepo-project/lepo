@@ -110,7 +110,7 @@ class User < ApplicationRecord
       # Query by signin_name in consideration of the case there are users without sourcedId created before using RosterAPI
       user = User.find_or_initialize_by(signin_name: ru['username'])
       if user.update_attributes(sourced_id: ru['sourcedId'], authentication: 'ldap', family_name: ru['familyName'], given_name: ru['givenName'])
-        ids.push user.id
+        ids.push({id: user.id, sourced_id: user.sourced_id})
       end
     end
     ids

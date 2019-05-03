@@ -1,0 +1,17 @@
+<div id="enrollment-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <%= render partial: 'role_info' %>
+      <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+      <%= render(partial: 'layouts/search_members', locals: {update_model: 'enrollment', resource_id: @course.id}) %>
+      <%= render(partial: 'layouts/csv_members', locals: {update_model: 'enrollment', resource_id: @course.id}) %>
+      <% current_enrollments = @course.managers.zip Array.new(@course.managers.size, 'manager'), Array.new(@course.managers.size, '') %>
+      <% current_enrollments = current_enrollments.concat(@course.assistants.zip Array.new(@course.assistants.size, 'assistant'), Array.new(@course.assistants.size, '')) %>
+      <% current_enrollments = current_enrollments.concat(@course.learners.zip Array.new(@course.learners.size, 'learner'), Array.new(@course.learners.size, '')) %>
+      <%= render(partial: 'layouts/member_candidates', locals: {title: '現在のメンバー', category: 'course', form_category: 'index', users: current_enrollments, resource_id: @course.id, footer:''}) %>
+      <p>
+        <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}} %>
+      </p>
+    </div>
+  </div>
+</div>

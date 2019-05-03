@@ -11,6 +11,12 @@
         <td class="name-td">
           <%= link_to user.full_name_all, {controller: 'enrollments', action: 'ajax_show', id: user.id}, remote: true %>
         </td>
+        <td class="button-td">
+          <% if current_user.system_staff? || @course.staff?(current_user.id) %>
+          <% enrollment = Enrollment.find_by(user_id: user.id, course_id: @course.id) %>
+          <%= render partial: 'layouts/buttons/rest_edit', locals: {path: edit_enrollment_path(enrollment), class_attr: 'btn btn-primary'} %>
+          <% end %>
+        </td>
       </tr>
       <% end %>
     </table>

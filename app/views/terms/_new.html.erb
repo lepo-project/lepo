@@ -4,7 +4,7 @@
 			<h1>学期の設定</h1>
 			<%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 
-			<% if @term.creatable? session[:id] %>
+			<% if Term.creatable? session[:id] %>
 			<div class="bordered-block">
 				<h2>
 					新しい学期の登録

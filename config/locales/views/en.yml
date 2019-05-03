@@ -92,6 +92,12 @@ en:
       group: "Group #%{index}"
     members:
       users:  "%{num} users"
+    role_info:
+      edit_course: Edit course
+      edit_course_member: Edit course member
+      evaluate_assignment: Evaluate assignment
+      submit_assignment: Submit assignment
+      view_content: View content
     signin_reports:
       show_learners_details: Show / Hide Learner Info.
     toolbar:

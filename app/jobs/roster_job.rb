@@ -51,11 +51,14 @@ class RosterJob < ApplicationJob
   def sync_with_course cid
     rmanagers = get_roster "/classes/#{cid[:sourced_id]}/teachers"
     manager_ids = User.sync_roster rmanagers['users']
-    Enrollment.sync_roster cid[:id], manager_ids, 'manager'
     rlearners = get_roster "/classes/#{cid[:sourced_id]}/students"
     learner_ids = User.sync_roster rlearners['users']
-    Enrollment.sync_roster cid[:id], learner_ids, 'learner'
-    destroyed_ids = Enrollment.destroy_unused cid[:id], manager_ids.concat(learner_ids)
+    # FIXME: get_roster for aide
+
+    school_id = Rails.application.secrets.roster_school_sourced_id
+    renrollments = get_roster "/schools/#{school_id}/classes/#{cid[:sourced_id]}/enrollments"
+    enrollment_ids = Enrollment.sync_roster cid[:id], manager_ids.concat(learner_ids), renrollments['enrollments']
+    destroyed_ids = Enrollment.destroy_unused cid[:id], enrollment_ids
     @logger.info("Deleted from enrollments for course_id: #{cid[:id]} => user_id: #{destroyed_ids.join(', ')}") if destroyed_ids.present?
   end
 
