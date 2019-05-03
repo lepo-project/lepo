@@ -5,10 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-# Fix autoprefixer-rails verstion 8 to precompile assets with therubyracer
-gem 'autoprefixer-rails', '~>8.6.5'
+gem 'autoprefixer-rails', '~> 9.1.0'
 gem 'autosize', '~> 2.4'
-gem 'bootstrap', '~> 4.1.0'
+gem 'bootstrap', '~> 4.3.0'
 # gem "chartkick"
 gem 'coffee-rails', '~> 4.2.0'
 gem 'combine_pdf', '~> 1.0.7'
