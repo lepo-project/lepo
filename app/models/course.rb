@@ -27,15 +27,15 @@ class Course < ApplicationRecord
   has_many :learners, -> { where('enrollments.role = ?', 'learner').order(signin_name: :asc) }, through: :enrollments, source: :user
   has_many :lessons, -> { order(display_order: :asc) }
   has_many :managers, -> { where('enrollments.role = ?', 'manager') }, through: :enrollments, source: :user
+  has_many :members, through: :enrollments, source: :user
+  has_many :notes
+  has_many :notices, dependent: :destroy
+  has_many :open_lessons, -> { where('lessons.status = ?', 'open').order(display_order: :asc) }, class_name: 'Lesson'
   has_many :original_draft_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'distributed_draft').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_open_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'open').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_review_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'review').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_work_sheets, -> { where('notes.category = ? and notes.status in (?)', 'work', %w[distributed_draft open review]).order(updated_at: :desc) }, class_name: 'Note'
-  has_many :members, through: :enrollments, source: :user
-  has_many :notices, dependent: :destroy
-  has_many :open_lessons, -> { where('lessons.status = ?', 'open').order(display_order: :asc) }, class_name: 'Lesson'
   has_many :outcomes, dependent: :destroy
-  has_many :notes
   validates_presence_of :overview
   validates_presence_of :term_id
   validates_presence_of :title

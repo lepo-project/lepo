@@ -45,7 +45,7 @@ ja:
     terms:
       created: 学期を登録しました
       creation_failed: 学期の登録に失敗しました
-      updated: 学期を更新しました
-      update_failed: 学期の更新に失敗しました
       deleted: 学期を削除しました
       delete_failed: 学期の削除に失敗しました
+      updated: 学期を更新しました
+      update_failed: 学期の更新に失敗しました

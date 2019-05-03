@@ -8,8 +8,8 @@ en:
       content: Content
       content_member: Member
       course: Course
-      enrollment: Member
       device: Device
+      enrollment: Member
       goal: Goal
       goals_objective: Goals and Objective
       lesson: Lesson
@@ -89,13 +89,13 @@ en:
         learners: Learners
         lessons: Lessons
         managers: Managers
-        original_draft_work_sheets: Work sheet (draft)
-        original_open_work_sheets: Work sheet (open)
-        original_review_work_sheets: Work sheet (review)
         members: Members
         notes: Notes
         notices: Notices
         open_lessons: Open lessons
+        original_draft_work_sheets: Work sheet (draft)
+        original_open_work_sheets: Work sheet (open)
+        original_review_work_sheets: Work sheet (review)
         outcomes: Outcomes
         overview: Overview
         period: Time Period
@@ -104,15 +104,15 @@ en:
         title: Title
         weekday: Weekday
 
+      device:
+        managers: Managers
+        title: Title
+        user: :activerecord.models.user
+
       enrollment:
         course: :activerecord.models.course
         group: Group
         role: Role
-        user: :activerecord.models.user
-
-      device:
-        managers: Managers
-        title: Title
         user: :activerecord.models.user
 
       goal:

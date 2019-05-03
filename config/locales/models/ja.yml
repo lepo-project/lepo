@@ -8,8 +8,8 @@ ja:
       content: 教材
       content_member: 教材メンバー
       course: コース
-      enrollment: コースメンバー
       device: デバイス
+      enrollment: コースメンバー
       goal: 到達目標
       goals_objective: コースと教材のゴール
       lesson: レッスン
@@ -89,13 +89,13 @@ ja:
         learners: 学習者
         lessons: :activerecord.models.lesson
         managers: 教師
+        members: メンバー
+        notes: :activerecord.models.note
+        notices: :activerecord.models.notice
+        open_lessons: レッスン（公開中）
         original_draft_work_sheets: ワークシート（非公開）
         original_open_work_sheets: ワークシート（公開）
         original_review_work_sheets: ワークシート（レビュー）
-        members: メンバー
-        notes: ノート
-        notices: :activerecord.models.notice
-        open_lessons: レッスン（公開中）
         outcomes: :activerecord.models.outcome
         overview: 概要
         period: 時限
@@ -104,16 +104,16 @@ ja:
         title: タイトル
         weekday: 曜日
 
+      device:
+        managers: 管理者
+        title: タイトル
+        registration: 登録
+
       enrollment:
         course: :activerecord.models.course
         group: 班
         role: 役割
         user: :activerecord.models.user
-
-      device:
-        managers: 管理者
-        title: タイトル
-        registration: 登録
 
       goal:
         course: :activerecord.models.course
