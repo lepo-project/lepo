@@ -65,6 +65,8 @@ ja:
       pages: :contents.contents_card.pages
       to_draft: 非公開に変更
       to_open: 公開に変更
+    objective:
+      no_goal: 0. その他
     option_form:
       can_not_be_undone: この操作は取り消すことができません
       course_with_lessons: レッスンが登録されているコースは、削除できません

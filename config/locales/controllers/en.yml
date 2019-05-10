@@ -18,6 +18,7 @@ en:
       delete_failed: Course delete failed
       manager_creation_failed: Manager creation failed
       no_courses_with_criteria: No courses with these criteria.
+      no_goal_title: (Others)
       update_failed: Course update failed
     enrollments:
       creation_failed: Member creation failed

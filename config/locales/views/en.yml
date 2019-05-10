@@ -65,6 +65,8 @@ en:
       pages: :contents.contents_card.pages
       to_draft: to draft
       to_open: to open
+    objective:
+      no_goal: 0. Others
     option_form:
       can_not_be_undone: This operation can not be undone.
       course_with_lessons: Course with lesson can not be deleted.
