@@ -50,6 +50,7 @@ group :development do
   # meta_request is necessary for rails_panel chrome extension
   # gem 'meta_request'
   gem 'rubocop', require: false
+  gem 'rubocop-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
