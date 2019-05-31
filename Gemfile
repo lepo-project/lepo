@@ -32,7 +32,7 @@ gem 'rest-client', '~> 2.0.0'
 gem 'sass-rails', '~> 5.0.6'
 gem 'shrine', '~> 2.11.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+# gem 'mini_racer'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '~> 4.1.14'
 gem 'whenever', require: false
