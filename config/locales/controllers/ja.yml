@@ -30,6 +30,7 @@ ja:
     preferences:
       update_success: "v%{version} へのアップデートに成功しました！"
       update_failed: "v%{version} へのアップデートに失敗しました"
+      user_creation_failed: ユーザの登録に失敗しました
     signin:
       error1: アクセスを許可されていません
       error2: User ID または Password に間違いがあります

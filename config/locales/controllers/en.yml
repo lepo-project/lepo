@@ -30,6 +30,7 @@ en:
     preferences:
       update_success: "Update to v%{version} success!"
       update_failed: "Update to v%{version} failed."
+      user_creation_failed: User creation failed
     signin:
       error1: You are not allowed to access.
       error2: There is a mistake in User ID or Password.
