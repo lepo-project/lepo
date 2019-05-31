@@ -1,0 +1,6 @@
+<% id_attr ||= 'edit-btn' %>
+<% class_attr ||= 'dropdown-item' %>
+
+<%= link_to(path, { id: id_attr, class: class_attr, remote: true }) do %>
+<i class="fa fa-pencil"></i> <%= t('.edit') %>
+<% end %>

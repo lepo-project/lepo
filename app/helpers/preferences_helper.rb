@@ -7,7 +7,7 @@ module PreferencesHelper
     case controller_name
     when 'courses'
       case action_name
-      when 'ajax_new'
+      when 'new'
         t('helpers.new_course') + ' : ' + t('helpers.new_course_summary')
       when 'ajax_course_pref'
         t('helpers.edit_course') + ' : ' + t('helpers.edit_course_summary')

@@ -5,10 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-# Fix autoprefixer-rails verstion 8 to precompile assets with therubyracer
-gem 'autoprefixer-rails', '~>8.6.5'
+gem 'autoprefixer-rails', '~> 9.1.0'
 gem 'autosize', '~> 2.4'
-gem 'bootstrap', '~> 4.1.0'
+gem 'bootstrap', '~> 4.3.0'
 # gem "chartkick"
 gem 'coffee-rails', '~> 4.2.0'
 gem 'combine_pdf', '~> 1.0.7'
@@ -33,7 +32,7 @@ gem 'rest-client', '~> 2.0.0'
 gem 'sass-rails', '~> 5.0.6'
 gem 'shrine', '~> 2.11.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+# gem 'mini_racer'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '~> 4.1.14'
 gem 'whenever', require: false
@@ -51,6 +50,7 @@ group :development do
   # meta_request is necessary for rails_panel chrome extension
   # gem 'meta_request'
   gem 'rubocop', require: false
+  gem 'rubocop-rails'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'

@@ -9,12 +9,11 @@
           <th colspan="<%= @course.goals.size + 1 %>" class="goal-title"><%= get_short_string(objective.title, 20) %></th>
         </tr>
         <tr>
-          <% goal_title = '0. その他' %>
           <% if selected_association.new_record? or selected_association.goal_id == 0 %>
-              <td class="selected"><%= goal_title %></td>
+              <td class="selected"><%= t('.no_goal') %></td>
           <% else %>
               <td style="text-align:center;">
-                <%= link_to(goal_title, {action: 'ajax_update_association', id: @course.id, g_id: 0, association_id: selected_association.id}, {class: 'bright-link', remote: true}) %>
+                <%= link_to(t('.no_goal'), {action: 'ajax_update_association', id: @course.id, g_id: 0, association_id: selected_association.id}, {class: 'bright-link', remote: true}) %>
               </td>
           <% end %>
           <% @course.goals.each_with_index do |g, index| %>

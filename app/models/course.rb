@@ -3,39 +3,39 @@
 # Table name: courses
 #
 #  id           :integer          not null, primary key
+#  enabled      :boolean          default(TRUE)
+#  sourced_id   :string
 #  term_id      :integer
+#  image_data   :text
 #  title        :string
 #  overview     :text
+#  weekday      :integer          default(9)
+#  period       :integer          default(0)
 #  status       :string           default("draft")
 #  groups_count :integer          default(1)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  image_data   :text
-#  guid         :string
-#  weekday      :integer          default(9)
-#  period       :integer          default(0)
-#  enabled      :boolean          default(TRUE)
 #
 
 class Course < ApplicationRecord
   include ImageUploader::Attachment.new(:image)
   belongs_to :term
-  has_many :assistants, -> { where('course_members.role = ?', 'assistant') }, through: :course_members, source: :user
+  has_many :assistants, -> { where('enrollments.role = ?', 'assistant') }, through: :enrollments, source: :user
   has_many :contents, -> { order('lessons.display_order asc') }, through: :lessons
-  has_many :course_members, dependent: :destroy
+  has_many :enrollments, dependent: :destroy
   has_many :goals, -> { order(id: :asc) }, dependent: :destroy
-  has_many :learners, -> { where('course_members.role = ?', 'learner').order(signin_name: :asc) }, through: :course_members, source: :user
+  has_many :learners, -> { where('enrollments.role = ?', 'learner').order(signin_name: :asc) }, through: :enrollments, source: :user
   has_many :lessons, -> { order(display_order: :asc) }
-  has_many :managers, -> { where('course_members.role = ?', 'manager') }, through: :course_members, source: :user
+  has_many :managers, -> { where('enrollments.role = ?', 'manager') }, through: :enrollments, source: :user
+  has_many :members, through: :enrollments, source: :user
+  has_many :notes
+  has_many :notices, dependent: :destroy
+  has_many :open_lessons, -> { where('lessons.status = ?', 'open').order(display_order: :asc) }, class_name: 'Lesson'
   has_many :original_draft_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'distributed_draft').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_open_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'open').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_review_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'review').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_work_sheets, -> { where('notes.category = ? and notes.status in (?)', 'work', %w[distributed_draft open review]).order(updated_at: :desc) }, class_name: 'Note'
-  has_many :members, through: :course_members, source: :user
-  has_many :notices, dependent: :destroy
-  has_many :open_lessons, -> { where('lessons.status = ?', 'open').order(display_order: :asc) }, class_name: 'Lesson'
   has_many :outcomes, dependent: :destroy
-  has_many :notes
   validates_presence_of :overview
   validates_presence_of :term_id
   validates_presence_of :title
@@ -46,14 +46,15 @@ class Course < ApplicationRecord
   validates_inclusion_of :period, in: (0..COURSE_PERIOD_MAX_SIZE).to_a
   # 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat, 7: Sun, 9: Not weekly course
   validates_inclusion_of :weekday, in: [1, 2, 3, 4, 5, 6, 7, 9]
-  validates_uniqueness_of :guid, allow_nil: true
+  validates_uniqueness_of :sourced_id, allow_nil: true
+  validate :term_and_sync_consistency
   accepts_nested_attributes_for :goals, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: COURSE_GOAL_MAX_SIZE
 
   # ====================================================================
   # Public Functions
   # ====================================================================
   def self.associated_by(user_id, role)
-    courses = CourseMember.where(user_id: user_id, role: role).order(updated_at: :desc).to_a
+    courses = Enrollment.where(user_id: user_id, role: role).order(updated_at: :desc).to_a
     courses.map!(&:course)
     courses.delete_if { |c| !c.enabled }
   end
@@ -72,7 +73,7 @@ class Course < ApplicationRecord
     user = User.find(user_id)
     return Course.where(status: 'open', enabled: true).order(:weekday, :period).limit(100) if user.system_staff?
 
-    courses = CourseMember.where(user_id: user_id).to_a
+    courses = Enrollment.where(user_id: user_id).to_a
     courses.map!(&:course)
     courses.delete_if { |c| !c.enabled }
     courses.delete_if { |c| c.status != 'open' }
@@ -82,7 +83,7 @@ class Course < ApplicationRecord
   end
 
   def self.not_open_with(user_id)
-    courses = CourseMember.where(user_id: user_id).order(updated_at: :desc).to_a
+    courses = Enrollment.where(user_id: user_id).order(updated_at: :desc).to_a
     courses.map!(&:course)
     courses.delete_if { |c| !c.enabled }
     courses.delete_if { |c| (c.status == 'open') || ((c.status == 'draft') && (c.learner? user_id)) }
@@ -102,24 +103,25 @@ class Course < ApplicationRecord
       else
         manager_ids = User.search(manager_parts, '', User.count).pluck(:id)
       end
-      course_ids = CourseMember.where(role: 'manager').where('user_id IN (?)', manager_ids).pluck(:course_id).uniq
+      course_ids = Enrollment.where(role: 'manager').where('user_id IN (?)', manager_ids).pluck(:course_id).uniq
       @candidates = @candidates.where('id IN(?)', course_ids)
     end
     @candidates.limit(COURSE_SEARCH_MAX_SIZE)
   end
 
-  def self.sync_roster(term_id, rcourses)
+  def self.sync_roster(term_id, term_status, rcourses)
     # Create and Update with OneRoster data
 
     ids = []
     rcourses.each do |rc|
+      next if (rc['schoolSourcedId'] != Rails.application.secrets.roster_school_sourced_id)
       # REQUIREMENT: period vaule in OneRoster is [weekday number]-[time period number] format
       weekday = rc['periods'].split(',')[0].split('-')[0]
       period = rc['periods'].split(',')[0].split('-')[1]
-      course = Course.find_or_initialize_by(guid: rc['sourcedId'])
+      course = Course.find_or_initialize_by(sourced_id: rc['sourcedId'])
       overview = course.overview.blank? ? '...' : course.overview
-      if course.update_attributes(enabled: true, term_id: term_id, title: rc['title'], overview: overview, weekday: weekday, period: period)
-        ids.push({id: course.id, guid: course.guid})
+      if course.update_attributes(enabled: true, term_id: term_id, title: rc['title'], overview: overview, weekday: weekday, period: period, status: term_status)
+        ids.push({id: course.id, sourced_id: course.sourced_id})
         Goal.create(course_id: course.id, title: '...') unless Goal.where(course_id: course.id).present?
       end
     end
@@ -135,14 +137,22 @@ class Course < ApplicationRecord
     courses.empty? ? [] : courses.pluck(:id)
   end
 
+  def self.update_status(term_id, status)
+    courses = where(term_id: term_id).where.not(status: status)
+    courses.each do |course|
+      course.update_attributes(status: status)
+    end
+    courses.empty? ? [] : courses.pluck(:id)
+  end
+
   # FIXME: Group work
   def group_index_for(user_id)
-    CourseMember.where(course_id: id, user_id: user_id).first.group_index
+    Enrollment.where(course_id: id, user_id: user_id).first.group_index
   end
 
   # FIXME: Group work
   def learners_in_group(index)
-    user_ids = course_members.where('course_members.role = ? and course_members.group_index = ?', 'learner', index).order(user_id: :asc).pluck(:user_id)
+    user_ids = enrollments.where('enrollments.role = ? and enrollments.group_index = ?', 'learner', index).order(user_id: :asc).pluck(:user_id)
     User.where(id: user_ids).order(signin_name: :asc)
   end
 
@@ -217,9 +227,28 @@ class Course < ApplicationRecord
     end
   end
 
-  def deletable?(user_id)
+  def self.creatable?(user_id)
+    # Not permitted when SYSTEM_ROSTER_SYNC is :suspended
+    return false if %i[on off].exclude? SYSTEM_ROSTER_SYNC
+    user = User.find user_id
+    user.system_staff?
+  end
+
+  def destroyable?(user_id)
     return false if new_record?
-    lessons.size.zero? && (staff? user_id)
+    return false unless lessons.size.zero?
+    return false unless staff? user_id
+    updatable? user_id
+  end
+
+  def updatable?(user_id)
+    # Not permitted when SYSTEM_ROSTER_SYNC is :suspended
+    return false if %i[on off].exclude? SYSTEM_ROSTER_SYNC
+    return false if SYSTEM_ROSTER_SYNC == :on && sourced_id.blank?
+    return false if SYSTEM_ROSTER_SYNC == :off && sourced_id.present?
+    return true if staff? user_id
+    user = User.find user_id
+    user.system_staff?
   end
 
   def fill_goals
@@ -271,7 +300,7 @@ class Course < ApplicationRecord
 
   def user_role(user_id)
     return 'new' unless User.find_by(id: user_id)
-    association = CourseMember.find_by(user_id: user_id, course_id: id)
+    association = Enrollment.find_by(user_id: user_id, course_id: id)
     association ? association.role : 'pending'
   end
 
@@ -289,9 +318,28 @@ class Course < ApplicationRecord
     end
   end
 
+  def to_roster_hash
+    raise if term.sourced_id.nil?
+    periods = weekday.to_s + '-' + period.to_s
+    hash = {
+      title: title,
+      classType: 'scheduled',
+      schoolSourcedId: Rails.application.secrets.roster_school_sourced_id,
+      termSourcedIds: term.sourced_id,
+      periods: "#{weekday}-#{period}"
+    }
+  end
+
   # ====================================================================
   # Private Functions
   # ====================================================================
 
   private
+
+  def term_and_sync_consistency
+    # The following if statement is a prescription to pass course_test
+    return if term_id.blank?
+    errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :on && term.sourced_id.blank?
+    errors.add(:term_id) if SYSTEM_ROSTER_SYNC == :off && term.sourced_id.present?
+  end
 end

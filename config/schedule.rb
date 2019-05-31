@@ -19,9 +19,16 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :output, "#{path}/log/cron_log.log"
+set :output, "#{path}/log/cron.log"
 set :environment, :production
 
+# Required only when SYSTEM_ROSTER_SYNC is :on
 every 1.day, at: ['6:00 am'] do
   runner 'RosterJob.perform_now'
+end
+
+# To update course status according to term
+# Required for all SYSTEM_ROSTER_SYNC settings
+every 1.day, at: ['0:10 am'] do
+  runner 'TermJob.perform_now'
 end

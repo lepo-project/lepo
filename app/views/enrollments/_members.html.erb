@@ -1,0 +1,25 @@
+<% if users.size > 0 %>
+<div class="card">
+  <h2 class="card-header"><%= title %> : <%= t('.users', num: users.size) %></h2>
+  <div class="card-body" style="padding: 1px;">
+    <table class="table table-sm table-striped user-table">
+      <% users.each do |user| %>
+      <tr>
+        <td class="image-td">
+          <%= render partial: 'layouts/image', locals: {obj: user, fa_class: 'fa-user', img_px: '40'} %>
+        </td>
+        <td class="name-td">
+          <%= link_to user.full_name_all, {controller: 'enrollments', action: 'ajax_show', id: user.id}, remote: true %>
+        </td>
+        <td class="button-td">
+          <% if current_user.system_staff? || @course.staff?(current_user.id) %>
+          <% enrollment = Enrollment.find_by(user_id: user.id, course_id: @course.id) %>
+          <%= render partial: 'layouts/buttons/rest_edit', locals: {path: edit_enrollment_path(enrollment), class_attr: 'btn btn-primary'} %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+<% end %>

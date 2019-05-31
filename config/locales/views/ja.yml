@@ -49,10 +49,10 @@ ja:
       unregister: 解除
     form:
       auto_register_of_course_manager: 指定しない場合は、コース作成ユーザを教師に自動登録
-      disabled_to_be_draft: 公開中/アーカイブの状態から、準備中には戻せません
       group_default: グループを利用しない場合は1を設定
       group_explanation: 学生をグループに分類して、ワークシートを閲覧/相互評価可能
       no_course_manager_form: 公開中またはアーカイブのコースでは、コースメンバーページから編集可能
+      no_selectable_terms: 選択可能な学期がないため、コースを登録できません
       remove_image: 画像を削除
     goal_card:
       assigned_objectives: 対応するレッスン目標
@@ -65,7 +65,12 @@ ja:
       pages: :contents.contents_card.pages
       to_draft: 非公開に変更
       to_open: 公開に変更
+    objective:
+      no_goal: 0. その他
     option_form:
+      can_not_be_undone: この操作は取り消すことができません
+      course_with_lessons: レッスンが登録されているコースは、削除できません
+      delete_course: コースの削除
       duplication_settings: 複製先コースの設定
     search_courses:
       search_course: コースの検索
@@ -82,13 +87,19 @@ ja:
       show_content: 教材を表示
       show_note: レッスンノートを表示
 
-  course_members:
+  enrollments:
     edit_group:
-      group: :course_members.index.group
+      group: :enrollments.index.group
     index:
       group: "%{index}班"
     members:
       users:  "%{num}名"
+    role_info:
+      edit_course: コース編集
+      edit_course_member: コースメンバー編集
+      evaluate_assignment: 課題評価
+      submit_assignment: 課題提出
+      view_content: 教材閲覧
     signin_reports:
       show_learners_details: 学生の情報を表示 / 非表示
     toolbar:
@@ -131,6 +142,12 @@ ja:
         uploading: アップロード中
       ok:
         ok: 完了
+      rest_back:
+        back: 戻る
+      rest_delete:
+        delete: 削除
+      rest_edit:
+        edit: 編集
       save_and_next:
         save_and_next: 保存して次へ
       search:
@@ -195,8 +212,8 @@ ja:
       status_message3: 学生に配布できるワークシートは、コースで最大1つのみ
       review_message: 評価開始後に評価対象数を変更すると、学習者が評価するワークシートも変更
     group:
-      group: :course_members.index.group
-      users: :course_members.members.users
+      group: :enrollments.index.group
+      users: :enrollments.members.users
     header:
       characters: 字
       media_count: 画像等の数
@@ -234,7 +251,7 @@ ja:
       references: 参考資料
     toolbars:
       courses:
-        group: :course_members.index.group
+        group: :enrollments.index.group
       home:
         export: テキスト出力
         reload: 再読み込み
@@ -250,13 +267,13 @@ ja:
   portfolios:
     achievement_reports:
       learning_progress: 学習の進捗
-      show_learners_details: :course_members.signin_reports.show_learners_details
+      show_learners_details: :enrollments.signin_reports.show_learners_details
     goal_reports:
       goal_achievement_rate: コース目標の達成率
     lessons_card:
       no_lessons: :courses.lesson_card.no_lessons
     star_reports:
-      show_learners_details: :course_members.signin_reports.show_learners_details
+      show_learners_details: :enrollments.signin_reports.show_learners_details
       star_acquisition_status: スターの獲得状況
     toolbar:
       portfolio: :helpers.portfolio
@@ -353,6 +370,11 @@ ja:
       show_sticky_panel: ふせんパネルを表示
       stickies_by_date: ふせんを作成順で表示
       stickies_by_stars: ふせんをスター順で表示
+
+  terms:
+    new:
+      courses_num: 'コース数: %{num}'
+      oneroster_api: 'OneRoster APIと同期'
 
   users:
     account_pref:

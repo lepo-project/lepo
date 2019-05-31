@@ -12,12 +12,25 @@ ja:
       update_failed: " %{name} の更新に失敗しました"
       upload_failed: " %{name} のアップロードに失敗しました"
     courses:
+      all_blank_title: 到達目標が設定されていません
+      creation_failed: コースの登録に失敗しました
+      deleted: コースを削除しました
+      delete_failed: コースの削除に失敗しました
+      manager_creation_failed: 教師の登録に失敗しました
       no_courses_with_criteria: 条件を満たすコースが見つかりません
+      no_goal_title: （その他）
+      update_failed: コースの更新に失敗しました
+    enrollments:
+      creation_failed: メンバーの登録に失敗しました
+      delete_failed: メンバーの削除に失敗しました
+      evaluator_must_be_manager: 課題の評価担当者は、教師である必要があります
+      update_failed: メンバーの更新に失敗しました
     notes:
       creation_error: ノートの作成に失敗しました。入力した値を確認して下さい。
     preferences:
       update_success: "v%{version} へのアップデートに成功しました！"
       update_failed: "v%{version} へのアップデートに失敗しました"
+      user_creation_failed: ユーザの登録に失敗しました
     signin:
       error1: アクセスを許可されていません
       error2: User ID または Password に間違いがあります
@@ -31,3 +44,10 @@ ja:
       re_register_button_error: +Noteボタンを再登録してください
       transfer_error: ノートの移動に失敗しました
       upload_error: ファイルの保存に失敗しました
+    terms:
+      created: 学期を登録しました
+      creation_failed: 学期の登録に失敗しました
+      deleted: 学期を削除しました
+      delete_failed: 学期の削除に失敗しました
+      updated: 学期を更新しました
+      update_failed: 学期の更新に失敗しました

@@ -1,0 +1,6 @@
+<% id_attr ||= 'delete-btn' %>
+<% class_attr ||= 'btn btn-danger btn-lg' %>
+
+<%= link_to(path, { id: id_attr, class: class_attr, method: :delete, remote: true }) do %>
+<i class="fa fa-trash-o"></i> <%= t('.delete') %>
+<% end %>

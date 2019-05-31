@@ -2,7 +2,7 @@
   <button type="button" id="new-resource-btn" class="btn btn-link dropdown-toggle toolbar-btn" data-toggle="dropdown" title="<%= t('.add') %>"><i class="fa fa-plus"></i></button>
   <div class="dropdown-menu" style="margin: 0;">
     <% if User.system_staff? session[:id] %>
-    <%= link_to({controller: 'courses', action: 'ajax_new'}, {class: 'dropdown-item', remote: true}) do %>
+    <%= link_to({controller: 'courses', action: 'new'}, {class: 'dropdown-item', remote: true}) do %>
     <i class="fa fa-flag fa-lg fa-fw"></i> <%= t('.new_course') %>
     <% end %>
     <% else %>

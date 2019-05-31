@@ -49,10 +49,10 @@ en:
       unregister: UnReg.
     form:
       auto_register_of_course_manager: If not specified, the course creater becomes manager.
-      disabled_to_be_draft: Draft status can not select from open / archived status.
       group_default: Set 1 when not using group
       group_explanation: Classify learners into groups for browsing and peer-reviewing the worksheets
       no_course_manager_form: For open / archive status, managers can be edit at the course member page
+      no_selectable_terms: Course can NOT be saved because of no selectable terms
       remove_image: Remove image
     goal_card:
       assigned_objectives: Assigned Lesson Objectives
@@ -65,7 +65,12 @@ en:
       pages: :contents.contents_card.pages
       to_draft: to draft
       to_open: to open
+    objective:
+      no_goal: 0. Others
     option_form:
+      can_not_be_undone: This operation can not be undone.
+      course_with_lessons: Course with lesson can not be deleted.
+      delete_course: Delete course
       duplication_settings: Duplication course settings.
     search_courses:
       search_course: Search Course
@@ -82,13 +87,19 @@ en:
       show_content: Show content
       show_note: Show lesson note
 
-  course_members:
+  enrollments:
     edit_group:
       group: "#%{index}"
     index:
       group: "Group #%{index}"
     members:
       users:  "%{num} users"
+    role_info:
+      edit_course: Edit course
+      edit_course_member: Edit course member
+      evaluate_assignment: Evaluate assignment
+      submit_assignment: Submit assignment
+      view_content: View content
     signin_reports:
       show_learners_details: Show / Hide Learner Info.
     toolbar:
@@ -131,6 +142,12 @@ en:
         uploading: Uploading
       ok:
         ok: OK
+      rest_back:
+        back: Back
+      rest_delete:
+        delete: Delete
+      rest_edit:
+        edit: Edit
       save_and_next:
         save_and_next: Save & Next
       search:
@@ -195,8 +212,8 @@ en:
       status_message3: Only one work sheet can be distributed to learners in the course
       review_message: Changing the number of reviews after starting the review makes also changing the work sheets to review by learners
     group:
-      group: :course_members.index.group
-      users: :course_members.members.users
+      group: :enrollments.index.group
+      users: :enrollments.members.users
     header:
       characters: characters
       media_count: media count
@@ -234,7 +251,7 @@ en:
       references: References
     toolbars:
       courses:
-        group: :course_members.index.group
+        group: :enrollments.index.group
       home:
         export: Export to text
         reload: Reload
@@ -250,13 +267,13 @@ en:
   portfolios:
     achievement_reports:
       learning_progress: Learning Progress
-      show_learners_details: :course_members.signin_reports.show_learners_details
+      show_learners_details: :enrollments.signin_reports.show_learners_details
     goal_reports:
       goal_achievement_rate: Goal Achievement Rate
     lessons_card:
       no_lessons: :courses.lesson_card.no_lessons
     star_reports:
-      show_learners_details: :course_members.signin_reports.show_learners_details
+      show_learners_details: :enrollments.signin_reports.show_learners_details
       star_acquisition_status: Star Acquisition Status
     toolbar:
       portfolio: :helpers.portfolio
@@ -353,6 +370,11 @@ en:
       show_sticky_panel: Show sticky panel
       stickies_by_date: Stickies by date
       stickies_by_stars: Stickies by stars
+
+  terms:
+    new:
+      courses_num: 'Number of courses: %{num}'
+      oneroster_api: 'Sync to OneRoster API'
 
   users:
     account_pref:

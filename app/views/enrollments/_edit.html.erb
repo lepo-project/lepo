@@ -1,0 +1,42 @@
+<div id="enrollment-resource" class="scroll-pane">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>コースメンバーの編集</h1>
+      <%= render partial: 'role_info' %>
+      <%= form_for @enrollment, html: {id: 'enrollment_form', remote: true} do |f| %>
+      <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
+      <div class="bordered-block">
+        <div class="form-group row align-items-center">
+          <div class="col-md-3 col-form-label text-sm-right">
+            <%= t('activerecord.attributes.enrollment.course') %>
+          </div>
+          <div class="col-md-8">
+            <%= @course.title %>
+          </div>
+        </div>
+        <div class="form-group row align-items-center">
+          <div class="col-md-3 col-form-label text-sm-right">
+            <%= t('activerecord.attributes.enrollment.user') %>
+          </div>
+          <div class="col-md-8">
+            <%= @user.full_name %>
+          </div>
+        </div>
+        <div class="form-group row align-items-center">
+          <%= f.label :role, t('activerecord.attributes.enrollment.role'), class: 'col-md-3 col-form-label text-sm-right' %>
+          <div class="col-md-8">
+            <%= f.select :role, member_role_options('enrollment'), {}, {class: 'form-control'} %>
+          </div>
+        </div>
+        <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}} %>
+        <%= render(partial: 'layouts/buttons/update') if @enrollment.updatable? session[:id] %>
+        <% if @enrollment.destroyable? session[:id] %>
+        <span style="margin-left:3rem;">
+          <%= render partial: 'layouts/buttons/rest_delete', locals: {path: enrollment_path(@enrollment.id), id_attr: ''} %>
+        </span>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>

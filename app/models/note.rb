@@ -8,12 +8,12 @@
 #  original_ws_id     :integer          default(0)
 #  title              :string
 #  overview           :text
+#  category           :string           default("private")
 #  status             :string           default("draft")
 #  stars_count        :integer          default(0)
 #  peer_reviews_count :integer          default(0)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  category           :string           default("private")
 #
 
 class Note < ApplicationRecord
@@ -126,7 +126,7 @@ class Note < ApplicationRecord
 
   def group_index
     return nil unless course_id > 0
-    CourseMember.where(course_id: course_id, user_id: manager_id).first.group_index
+    Enrollment.where(course_id: course_id, user_id: manager_id).first.group_index
   end
 
   def manager?(user_id)

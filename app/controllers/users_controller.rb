@@ -54,8 +54,9 @@ class UsersController < ApplicationController
       user_hash[:password] = params[:password] if params[:authentication] == 'local'
       user_hash[:phonetic_family_name] = params[:phonetic_family_name] if USER_PHONETIC_NAME_FLAG
       user_hash[:phonetic_given_name] = params[:phonetic_given_name] if USER_PHONETIC_NAME_FLAG
-      unless User.create(user_hash)
-        flash.now[:message] = 'ユーザの新規作成に失敗しました'
+      user = User.new(user_hash)
+      unless user.save
+        flash.now[:message] = t('controllers.preferences.user_creation_failed')
         flash[:message_category] = 'error'
       end
       ajax_csv_candidates

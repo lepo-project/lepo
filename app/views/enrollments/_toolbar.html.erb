@@ -1,0 +1,42 @@
+<% case controller.action_name when 'ajax_index', 'update', 'destroy' -%>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['']]} %>
+</nav>
+<% if Enrollment.creatable? @course.id, session[:id] %>
+<div id="toolbar-btns">
+  <div class="btn-group">
+    <%= link_to(new_enrollment_path, {class: 'toolbar-btn', remote: true}) do %>
+    <i class='fa fa-plus'></i> <%= t('activerecord.models.enrollment') %>
+    <% end %>
+
+    <% if @course.groups_count > 1 %>
+    <a style="cursor:pointer;" class="toolbar-btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i></a>
+    <div class="dropdown-menu">
+      <%= link_to({action: 'ajax_edit_group'}, {class: 'dropdown-item', remote: true}) do %>
+      <i class="fa fa-pencil"></i> <%= t('.edit_group') %>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+<% when 'edit' %>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [@user.full_name]]} %>
+</nav>
+<div id="toolbar-btns">
+  <%= render partial: 'layouts/buttons/cancel', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, id_attr: 'toolbar-cancel-btn', class_attr: 'toolbar-btn'} %>
+  <%= render(partial: 'layouts/buttons/toolbar_update', locals: {onclick_txt: "$('#enrollment_form').submit()"}) if @enrollment.updatable? session[:id] %>
+</div>
+
+<% when 'new', 'create', 'ajax_edit_group', 'ajax_update_group' %>
+<div id="toolbar-btns">
+  <%= render partial: 'layouts/buttons/ok', locals: {action_hash: {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}, id_attr: 'toolbar-ok-btn', class_attr: 'toolbar-btn'} %>
+</div>
+
+<% when 'ajax_show' -%>
+<nav id="sub-nav">
+  <%= render partial: 'layouts/breadcrumb', locals: {crumbs: [['', {action: 'ajax_index', nav_section: session[:nav_section], nav_id: @course.id}], [@selected_user.full_name]]} %>
+</nav>
+<% end -%>

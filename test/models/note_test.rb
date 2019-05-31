@@ -8,12 +8,12 @@
 #  original_ws_id     :integer          default(0)
 #  title              :string
 #  overview           :text
+#  category           :string           default("private")
 #  status             :string           default("draft")
 #  stars_count        :integer          default(0)
 #  peer_reviews_count :integer          default(0)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  category           :string           default("private")
 #
 
 require 'test_helper'

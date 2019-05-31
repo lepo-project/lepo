@@ -1,0 +1,11 @@
+<div id="toolbar-btns">
+  <div class="btn-group">
+    <a class="toolbar-btn dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><i class="fa fa-cog fa-2x"></i></a>
+    <div class="dropdown-menu">
+      <%= link_to({action: 'ajax_edit_notice'}, {class: 'dropdown-item', remote: true}) do %>
+      <i class="fa fa-bullhorn"></i> <%= t('activerecord.models.notice') %>
+      <% end %>
+      <%= render partial: 'layouts/buttons/rest_edit', locals: {path: edit_course_path(@course.id), id_attr: 'toolbar-edit-btn'} %>
+    </div>
+  </div>
+</div>

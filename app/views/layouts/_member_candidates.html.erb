@@ -1,4 +1,4 @@
-<% if users.size == 0 %>
+<% if users.empty? %>
 <%= render partial: 'layouts/system_message', locals: {message: t('.no_search_results'), message_category: 'info'} %>
 <% else %>
 <div class="card block">
@@ -20,25 +20,42 @@
           <% member_role = @member_role ? @member_role : '' %>
           <% url = member_candidate_url category, form_category, user[0], resource_id, user[2], search_word, member_role, candidates_csv %>
 
-          <%= link_to(url, remote: true) do %>
           <% case user[2] when 'suspended' %>
+          <%= link_to(url, remote: true) do %>
           <button type="button" class="btn btn-danger">
             <%= t('activerecord.others.user.role.suspended') %>
           </button>
+          <% end %>
+
           <% when 'none' %>
+          <%= link_to(url, method: :delete, remote: true) do %>
           <button type="button" class="btn btn-danger">
-            <%= t('activerecord.models.'+category) %>から登録解除
+            登録解除
           </button>
+          <% end %>
+
           <% else %>
           <% button_title = member_role_text category, user[2] %>
           <% if button_title %>
+          <% case controller_name when 'enrollments' %>
+          <% enrollment = Enrollment.new(course_id: resource_id, user_id: user[0].id, role: user[2]) %>
+          <%= form_for enrollment, url: url, html: {remote: true} do |f| %>
+          <%= f.hidden_field :course_id, value: resource_id %>
+          <%= f.hidden_field :user_id, value: user[0].id %>
+          <%= f.hidden_field :role, value: user[2] %>
+          <button type="submit" class="btn btn-primary">
+            <%= button_title %>として登録
+          </button>
+          <% end %>
+          <% else %>
+          <%= link_to(url, remote: true) do %>
           <button type="button" class="btn btn-primary">
             <%= button_title %>として登録
           </button>
           <% end %>
           <% end %>
           <% end %>
-
+          <% end %>
         </td>
       </tr>
       <% end %>

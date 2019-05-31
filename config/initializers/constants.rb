@@ -10,8 +10,12 @@ SYSTEM_SSL_FLAG = false
 # IP addresses that system staffs can singnin
 SYSTEM_STAFF_SIGNIN_IP = ['127.0.0.1'].freeze
 
-# Log file when using IMS OneRoster API
-SYSTEM_ROSTER_LOG_FILE = 'log/roster.log'
+# Log file for ActiveJob
+SYSTEM_JOB_LOG_FILE = 'log/active_job.log'
+
+# Synchronization mode with IMS OneRoster API: select one from [:on, :suspended, :off]
+# Check schedule.rb and run "bundle exec whenever -i" when SYSTEM_ROSTER_SYNC changes
+SYSTEM_ROSTER_SYNC = :off.freeze
 
 # ===== Versatile constatns =====
 # time delay for autocomplete

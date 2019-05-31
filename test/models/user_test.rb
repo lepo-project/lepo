@@ -13,13 +13,14 @@
 #  given_name           :string
 #  phonetic_family_name :string
 #  phonetic_given_name  :string
+#  image_data           :text
 #  web_url              :string
 #  description          :text
 #  default_note_id      :integer          default(0)
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  image_data           :text
+#  sourced_id           :string
 #
 
 require 'test_helper'
@@ -68,6 +69,12 @@ class UserTest < ActiveSupport::TestCase
   test 'some users with same signin_name are invalid' do
     user = create(:user)
     assert_invalid build(:user, signin_name: user.signin_name), :signin_name
+  end
+
+  # test for validates_uniqueness_of :sourced_id, allow_nil: true
+  test 'some users with same sourced_id are invalid' do
+    user = create(:user)
+    assert_invalid build(:user, sourced_id: user.sourced_id), :sourced_id
   end
 
   # test for validates_uniqueness_of :token

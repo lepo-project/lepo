@@ -20,7 +20,6 @@ class Lesson < ApplicationRecord
   belongs_to :course, touch: true
   has_many :attendances
   has_many :goals_objectives, dependent: :destroy
-  has_many :no_goal_objectives, -> { where('goals_objectives.goal_id < ?', 1) }, through: :goals_objectives, source: :objective
   has_many :outcomes
   validates_presence_of :content_id
   validates_presence_of :course_id
@@ -62,10 +61,18 @@ class Lesson < ApplicationRecord
     0
   end
 
+  def no_goal_objectives
+    objs = content.objectives.to_a
+    goals_objectives.each do |go|
+      objs.reject!{|obj| obj.id == go.objective_id} unless go.goal_id.zero?
+    end
+    objs
+  end
+
   def user_role(user_id)
     return 'observer' if new_record?
     return 'evaluator' if user_id == evaluator_id
-    course_member = CourseMember.find_by(user_id: user_id, course_id: course_id)
-    course_member ? course_member.role : 'observer'
+    enrollment = Enrollment.find_by(user_id: user_id, course_id: course_id)
+    enrollment ? enrollment.role : 'observer'
   end
 end

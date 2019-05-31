@@ -42,7 +42,7 @@ module NotesHelper
 
   def note_course_candidates
     courses = Course.work_sheet_distributable_by session[:id]
-    courses.pluck(:title, :id)
+    courses.map {|course| [course_combined_title(course), course.id]}
   end
 
   def note_status_candidates(note)

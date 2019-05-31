@@ -18,7 +18,7 @@
     </div>
     <div id="message-card"></div>
     <main id="resource">
-      <% unless User.present? %>
+      <% unless User.all.present? %>
       <!-- before initial setup -->
       <%= render partial: 'setup' %>
       <% else %>

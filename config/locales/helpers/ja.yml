@@ -6,7 +6,6 @@ ja:
     assignment_page: 課題
     bookmark: ブックマーク
     bookmark_summary: サイドバーに表示するブックマーク
-    candidate: 候補
     char_count: 文字数
     contents_manage: 教材管理
     course_not_periodically: 定時開講ではない
@@ -52,13 +51,7 @@ ja:
     system_notice_summary: サインイン画面に表示するお知らせ
     teacher_evaluation: 教師評価
     term: 学期
-    term_category_first: 前期
-    term_category_full: 通年
-    term_category_intensive: 集中
-    term_category_second: 後期
-    term_category_years: 年度跨ぎ
     term_summary: コースを開講する学期
-    term_year: "%{year}年度"
     unspecified: 指定なし
     update: システム更新
     update_summary: LePo更新後のDB等の修正

@@ -115,7 +115,7 @@ module ApplicationHelper
     case controller_name
     when 'courses'
       case action_name
-      when 'ajax_new'
+      when 'new'
         %w[fa-flag fa-plus-circle]
       when 'ajax_course_pref'
         %w[fa-flag fa-pencil]
@@ -217,7 +217,7 @@ module ApplicationHelper
     card['body'] = course.overview
     card['summary'] = true
     period_footnote = course_period(course, false).empty? ? '' : course_period(course, false) + ' / '
-    card['footnotes'] = [period_footnote + term_display_title(course.term.title)]
+    card['footnotes'] = [period_footnote + course.term.title]
     card
   end
 
@@ -336,7 +336,7 @@ module ApplicationHelper
   end
 
   def user_card_l_border(user)
-    return 'course' if session[:nav_controller] != 'course_members'
+    return 'course' if session[:nav_controller] != 'enrollments'
     course = Course.find_enabled_by session[:nav_id]
     return 'staff' if course.staff? user.id
     'learner'
@@ -347,7 +347,7 @@ module ApplicationHelper
     when 'content'
       { action: 'ajax_update_role', user_id: user.id, content_id: resource_id, update_to: update_to, form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
     when 'course'
-      { action: 'ajax_update_role', user_id: user.id, course_id: resource_id, update_to: update_to, form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
+      { action: 'create', form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
     when 'system'
       if update_to == 'suspended'
         { action: 'ajax_update_role', user_id: user.id, update_to: 'suspended', form_category: form_category, search_word: search_word, member_role: member_role, candidates_csv: candidates_csv }
@@ -361,7 +361,7 @@ module ApplicationHelper
   end
 
   def managers_of_course(category, user, course_id, manager_ids)
-    { controller: 'course_members', action: 'ajax_get_managers', category: category, manager_id: user.id, course_id: course_id, manager_ids: manager_ids }
+    { controller: 'enrollments', action: 'ajax_get_managers', category: category, manager_id: user.id, course_id: course_id, manager_ids: manager_ids }
   end
 
   # 4. for others =============================================================================
@@ -414,7 +414,7 @@ module ApplicationHelper
         items.push(nav_section: 'open_courses', nav_controller: 'portfolios', nav_id: course.id, title: t('helpers.portfolio'), class: 'no-icon')
         # items.push(nav_section: 'open_courses', nav_controller: 'stickies', nav_id: course.id, title: t('activerecord.models.sticky'), class: 'no-icon')
         items.push(nav_section: 'open_courses', nav_controller: 'notes', nav_id: course.id, title: t('helpers.worksheet_note'), class: 'no-icon')
-        items.push(nav_section: 'open_courses', nav_controller: 'course_members', nav_id: course.id, title: t('activerecord.models.course_member'), class: 'no-icon')
+        items.push(nav_section: 'open_courses', nav_controller: 'enrollments', nav_id: course.id, title: t('activerecord.models.enrollment'), class: 'no-icon')
       end
     when 'repository'
       items.push(nav_section: 'repository', nav_controller: 'contents', title: t('activerecord.models.content'), class: 'fa fa-book fa-lg')
@@ -422,7 +422,7 @@ module ApplicationHelper
         items.push(nav_section: 'repository', nav_controller: 'courses', nav_id: course.id, title: course_combined_title(course), class: 'fa fa-flag fa-lg')
         items.push(nav_section: 'repository', nav_controller: 'portfolios', nav_id: course.id, title: t('helpers.portfolio'), class: 'no-icon')
         items.push(nav_section: 'repository', nav_controller: 'notes', nav_id: course.id, title: t('helpers.worksheet_note'), class: 'no-icon')
-        items.push(nav_section: 'repository', nav_controller: 'course_members', nav_id: course.id, title: t('activerecord.models.course_member'), class: 'no-icon')
+        items.push(nav_section: 'repository', nav_controller: 'enrollments', nav_id: course.id, title: t('activerecord.models.enrollment'), class: 'no-icon')
       end
     end
     items
@@ -524,13 +524,13 @@ module ApplicationHelper
   def member_role_options(update_model)
     case update_model
     when 'content_member'
-      options = [[t('activerecord.others.content_member.role.manager') + t('helpers.candidate'), 'manager']]
-      options.push [t('activerecord.others.content_member.role.assistant') + t('helpers.candidate'), 'assistant']
-      options.push [t('activerecord.others.content_member.role.user') + t('helpers.candidate'), 'user']
-    when 'course_member'
-      options = [[t('activerecord.attributes.course.managers') + t('helpers.candidate'), 'manager']]
-      options.push [t('activerecord.attributes.course.assistants') + t('helpers.candidate'), 'assistant']
-      options.push [t('activerecord.attributes.course.learners') + t('helpers.candidate'), 'learner']
+      options = [[t('activerecord.others.content_member.role.manager'), 'manager']]
+      options.push [t('activerecord.others.content_member.role.assistant'), 'assistant']
+      options.push [t('activerecord.others.content_member.role.user'), 'user']
+    when 'enrollment'
+      options = [[t('activerecord.attributes.course.managers'), 'manager']]
+      options.push [t('activerecord.attributes.course.assistants'), 'assistant']
+      options.push [t('activerecord.attributes.course.learners'), 'learner']
     when 'system'
       options = [[t('activerecord.others.user.role.admin'), 'admin']]
       options.push [t('activerecord.others.user.role.manager'), 'manager']

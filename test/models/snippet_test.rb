@@ -8,9 +8,9 @@
 #  description :text
 #  source_type :string           default("direct")
 #  source_id   :integer
+#  image_data  :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  image_data  :text
 #
 
 require 'test_helper'

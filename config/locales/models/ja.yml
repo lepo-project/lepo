@@ -8,8 +8,8 @@ ja:
       content: 教材
       content_member: 教材メンバー
       course: コース
-      course_member: コースメンバー
       device: デバイス
+      enrollment: コースメンバー
       goal: 到達目標
       goals_objective: コースと教材のゴール
       lesson: レッスン
@@ -82,39 +82,38 @@ ja:
       course:
         assistants: アシスタント
         contents: :activerecord.models.content
-        course_members: コースのユーザ
+        enrollments: コースのユーザ
         goals: :activerecord.models.goal
         groups_count: グループ数
         image_data: 画像ファイル
         learners: 学習者
         lessons: :activerecord.models.lesson
         managers: 教師
+        members: メンバー
+        notes: :activerecord.models.note
+        notices: :activerecord.models.notice
+        open_lessons: レッスン（公開中）
         original_draft_work_sheets: ワークシート（非公開）
         original_open_work_sheets: ワークシート（公開）
         original_review_work_sheets: ワークシート（レビュー）
-        members: メンバー
-        notes: ノート
-        notices: :activerecord.models.notice
-        open_lessons: レッスン（公開中）
         outcomes: :activerecord.models.outcome
         overview: 概要
         period: 時限
         status: 状態
-        notes: :activerecord.models.note
         term_id: :activerecord.models.term
         title: タイトル
         weekday: 曜日
-
-      course_member:
-        course: :activerecord.models.course
-        group: 班
-        role: 役割
-        user: :activerecord.models.user
 
       device:
         managers: 管理者
         title: タイトル
         registration: 登録
+
+      enrollment:
+        course: :activerecord.models.course
+        group: 班
+        role: 役割
+        user: :activerecord.models.user
 
       goal:
         course: :activerecord.models.course
@@ -270,7 +269,7 @@ ja:
         contents: 内容
         content_members: 教材ユーザ
         courses: コース
-        course_members: コースユーザ
+        enrollments: コースユーザ
         description: 説明
         devices: デバイス
         family_name: 姓

@@ -1,9 +1,14 @@
-<%= form_for @course, url: {action: submit_action, id: @course.id}, html: {id: 'course-form', name: 'course-form', multipart: true, remote: true} do |f| %>
+<%= form_for @course, html: {id: 'course-form', name: 'course-form', multipart: true, remote: true} do |f| %>
 <%= render partial: 'layouts/system_message', locals: {message: flash[:message], message_category: flash[:message_category]} %>
 <%#= f.error_messages %>
 
 <div class="bordered-block">
-  <h2>基本情報</h2>
+  <h2>基本情報
+    <div class="header-explanation">
+      <%= t('activerecord.attributes.course.status') + ': ' + t("helpers.select_#{@course.status}_course") %>
+    </div>
+  </h2>
+
   <%= render partial: 'layouts/required' %>
   <div class="form-group row">
     <%= f.label :title, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.title'), class: 'col-md-3 col-form-label text-sm-right' %>
@@ -20,11 +25,15 @@
     </div>
   </div>
 
-  <div class="form-group row">
+  <div class="form-group row align-items-center">
     <%= f.label :term_id, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.term_id'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
       <% if @course.new_record? %>
+      <% if selectable_terms('hereafter').present? %>
       <%= f.select :term_id, selectable_terms('hereafter'), {}, {class: 'form-control'} %>
+      <% else %>
+      <%= render partial: 'layouts/system_message', locals: {message: t('.no_selectable_terms'), message_category: 'error'} %>
+      <% end %>
       <% else %>
       <%= f.select :term_id, selectable_terms('all'), {}, {class: 'form-control'} %>
       <% end %>
@@ -42,16 +51,6 @@
     <%= f.label :period, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.period'), class: 'col-md-3 col-form-label text-sm-right' %>
     <div class="col-md-8">
       <%= f.select :period, periods,  {}, {class: 'form-control'} %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :status, raw("<span class='required'>*</span>") + t('activerecord.attributes.course.status'), class: 'col-md-3 col-form-label text-sm-right' %>
-    <div class="col-md-8">
-      <%= f.select :status, course_status_array, course_disabled_status_hash(@course.status), {class: 'form-control'} %>
-      <ul class="form-list">
-        <li><%= t('.disabled_to_be_draft') %></li>
-      </ul>
     </div>
   </div>
 
@@ -125,7 +124,7 @@
 <%= render partial: 'layouts/buttons/save_and_next' %>
 <% end %>
 <script>
-$(function () {
-  $('#course_title').focus();
-})
+  $(function () {
+    $('#course_title').focus();
+  })
 </script>

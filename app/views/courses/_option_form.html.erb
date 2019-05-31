@@ -1,12 +1,12 @@
 <div class="bordered-block" style="margin-top:1rem;">
-  <h2>オプション（コース担当教師のみ利用可能）
+  <h2>オプション
     <div class="header-explanation">
       <span id="option_form_opener"><a class="bright-link" style="cursor:pointer;">オプションを表示/非表示</a></span>
     </div>
   </h2>
   <div id="option_form" style="display: none; margin-left:20px;">
     <div style="margin-bottom:1rem;">
-      <h3>1. コースの複製</h3>
+      <h3>コースの複製</h3>
       <% if selectable_terms('hereafter').size > 0 %>
       <%= form_for :course, url: {action: 'ajax_duplicate', original_id: @course.id}, remote: true do |f| %>
       <p>
@@ -28,12 +28,12 @@
     </div>
 
     <div>
-      <h3>2. コースの削除</h3>
-      <% if @course.lessons.size > 0 %>
-      <p>レッスンが登録されているコースは、削除できません</p>
+      <h3><%= t('.delete_course') %></h3>
+      <% if @course.destroyable? session[:id] %>
+      <%= render partial: 'layouts/system_message', locals: {message: t('.can_not_be_undone'), message_category: 'info'} %>
+      <%= render partial: 'layouts/buttons/rest_delete', locals: {path: course_path(@course.id)} %>
       <% else %>
-      <p>この操作は、取り消すことができません</p>
-      <%= render partial: 'layouts/buttons/delete', locals: {action_hash: {action: 'ajax_destroy', id: @course.id}} %>
+      <%= render partial: 'layouts/system_message', locals: {message: t('.course_with_lessons'), message_category: 'info'} %>
       <% end %>
     </div>
   </div>
@@ -41,5 +41,5 @@
 
 
 <script>
-$("#option_form_opener").click(function(){toggleOptionForm();})
+  $("#option_form_opener").click(function(){toggleOptionForm();})
 </script>

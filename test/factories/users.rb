@@ -13,17 +13,19 @@
 #  given_name           :string
 #  phonetic_family_name :string
 #  phonetic_given_name  :string
+#  image_data           :text
 #  web_url              :string
 #  description          :text
 #  default_note_id      :integer          default(0)
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  image_data           :text
+#  sourced_id           :string
 #
 
 FactoryBot.define do
   factory :user, class: User do
+    sequence(:sourced_id) { |i| "dummy-user-sourced_id-#{i}" }
     sequence(:signin_name) { |i| "user#{i}-test" }
     password 'temporary'
     password_confirmation 'temporary'

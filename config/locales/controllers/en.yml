@@ -12,12 +12,25 @@ en:
       update_failed: " %{name} update failed."
       upload_failed: " %{name} upload failed."
     courses:
+      all_blank_title: Goal has not been set
+      creation_failed: Course creation failed
+      deleted: Course deleted
+      delete_failed: Course delete failed
+      manager_creation_failed: Manager creation failed
       no_courses_with_criteria: No courses with these criteria.
+      no_goal_title: (Others)
+      update_failed: Course update failed
+    enrollments:
+      creation_failed: Member creation failed
+      delete_failed: Member delete failed
+      evaluator_must_be_manager: The evaluator must be a manager
+      update_failed: Member update failed
     notes:
       creation_error: Creating note failed. Please check the input values.
     preferences:
       update_success: "Update to v%{version} success!"
       update_failed: "Update to v%{version} failed."
+      user_creation_failed: User creation failed
     signin:
       error1: You are not allowed to access.
       error2: There is a mistake in User ID or Password.
@@ -31,3 +44,10 @@ en:
       re_register_button_error: Please re-register +Note button
       transfer_error: Transferring note failed
       upload_error: Failed to save file
+    terms:
+      created: Term created
+      creation_failed: Term creation failed
+      deleted: Term deleted
+      delete_failed: Term delete failed
+      updated: Term updated
+      update_failed: Term update failed

@@ -1,46 +1,62 @@
 class TermsController < ApplicationController
+  include RosterApi
   # ====================================================================
   # Public Functions
   # ====================================================================
-  def ajax_create
+  def create
     @term = Term.new(term_params)
-    if @term.save
-      flash.now[:message] = '学期を追加しました'
+    begin
+      raise unless Term.creatable? session[:id]
+      Term.transaction do
+        @term.save!
+        if SYSTEM_ROSTER_SYNC == :on
+          payload = {academicSession: @term.to_roster_hash}
+          response = request_roster_api('/academicSessions/', :post, payload)
+          @term.update_attributes!(sourced_id: response['academicSession']['sourcedId'])
+        end
+      end
+      flash.now[:message] = t('controllers.terms.created')
       flash.now[:message_category] = 'info'
       @term = Term.new
-    else
-      flash.now[:message] = '学期の追加に失敗しました'
-      flash.now[:message_category] = 'error'
+    rescue => error
+      notify_error error, t('controllers.terms.creation_failed')
     end
-
     render_term
   end
 
-  def ajax_update
-    term = Term.find params[:term][:id]
-
-    if term.update_attributes(term_params)
-      flash.now[:message] = '学期情報を更新しました'
-      flash.now[:message_category] = 'info'
-    else
-      flash.now[:message] = '学期情報の更新に失敗しました'
-      flash.now[:message_category] = 'error'
-    end
-
-    render_term
-  end
-
-  def ajax_new
-    render_term
-  end
-
-  def ajax_destroy
+  def update
     term = Term.find params[:id]
-    if term.deletable? session[:id]
-      term.destroy
-    else
-      flash.now[:message] = '学期の削除に失敗しました。学期は登録コースがゼロの時のみ、削除可能です。'
-      flash.now[:message_category] = 'error'
+    begin
+      raise unless term.updatable? session[:id]
+      Term.transaction do
+        term.update_attributes!(term_params)
+        payload = {academicSession: term.to_roster_hash}
+        request_roster_api("/academicSessions/#{term.sourced_id}", :put, payload) if SYSTEM_ROSTER_SYNC == :on
+      end
+      flash.now[:message] = t('controllers.terms.updated')
+      flash.now[:message_category] = 'info'
+    rescue => error
+      notify_error error, t('controllers.terms.update_failed')
+    end
+    render_term
+  end
+
+  def new
+    render_term
+  end
+
+  def destroy
+    term = Term.find params[:id]
+    begin
+      raise unless term.destroyable? session[:id]
+      Term.transaction do
+        term.destroy!
+        request_roster_api("/academicSessions/#{term.sourced_id}", :delete) if SYSTEM_ROSTER_SYNC == :on
+      end
+      flash.now[:message] = t('controllers.terms.deleted')
+      flash.now[:message_category] = 'info'
+    rescue => error
+      notify_error error, t('controllers.terms.delete_failed')
     end
     render_term
   end
@@ -52,7 +68,7 @@ class TermsController < ApplicationController
   private
 
   def term_params
-    params.require(:term).permit(:id, :title, :start_at, :end_at)
+    params.require(:term).permit(:title, :start_at, :end_at)
   end
 
   def render_term

@@ -13,13 +13,14 @@
 #  given_name           :string
 #  phonetic_family_name :string
 #  phonetic_given_name  :string
+#  image_data           :text
 #  web_url              :string
 #  description          :text
 #  default_note_id      :integer          default(0)
 #  last_signin_at       :datetime
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  image_data           :text
+#  sourced_id           :string
 #
 
 require 'net/ldap'
@@ -29,17 +30,17 @@ class User < ApplicationRecord
   include ImageUploader::Attachment.new(:image)
   include RandomString
   before_validation :set_default_value
-  has_many :archived_courses, -> { where('courses.status = ? and courses.enabled = ?', 'archived', true) }, through: :course_members, source: :course
+  has_many :archived_courses, -> { where('courses.status = ? and courses.enabled = ?', 'archived', true) }, through: :enrollments, source: :course
   has_many :attendances
   has_many :content_members
   has_many :contents, through: :content_members
-  has_many :course_members
-  has_many :courses, -> { where('courses.enabled = ?', true) }, through: :course_members
+  has_many :enrollments
+  has_many :courses, -> { where('courses.enabled = ?', true) }, through: :enrollments
   # FIXME: PushNotification
   has_many :devices, foreign_key: :manager_id, dependent: :destroy
   has_many :lessons, foreign_key: :evaluator_id
   has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
-  has_many :open_courses, -> { where('courses.status = ? and courses.enabled = ?', 'open', true) }, through: :course_members, source: :course
+  has_many :open_courses, -> { where('courses.status = ? and courses.enabled = ?', 'open', true) }, through: :enrollments, source: :course
   has_many :outcomes, foreign_key: :manager_id
   has_many :outcome_messages, foreign_key: :manager_id
   has_many :signins
@@ -53,6 +54,7 @@ class User < ApplicationRecord
   validates_presence_of :signin_name
   validates_presence_of :token
   validates_uniqueness_of :signin_name
+  validates_uniqueness_of :sourced_id, allow_nil: true
   validates_uniqueness_of :token
   validates_inclusion_of :authentication, in: %w[local ldap]
   validates_inclusion_of :role, in: %w[admin manager user suspended]
@@ -105,9 +107,10 @@ class User < ApplicationRecord
 
     ids = []
     rusers.each do |ru|
+      # Query by signin_name in consideration of the case there are users without sourcedId created before using RosterAPI
       user = User.find_or_initialize_by(signin_name: ru['username'])
-      if user.update_attributes(authentication: 'ldap', family_name: ru['familyName'], given_name: ru['givenName'])
-        ids.push user.id
+      if user.update_attributes(sourced_id: ru['sourcedId'], authentication: 'ldap', family_name: ru['familyName'], given_name: ru['givenName'])
+        ids.push({id: user.id, sourced_id: user.sourced_id})
       end
     end
     ids
@@ -232,15 +235,14 @@ class User < ApplicationRecord
   def content_manageable?
     # condition 1
     return true if %w[admin manager].include? role
-    course_members.each do |cm|
+    enrollments.each do |enrollment|
       # condition 2: content manager and users must be course manager or assistant
-      return true if cm.role == 'manager' || cm.role == 'assistant'
+      return true if enrollment.role == 'manager' || enrollment.role == 'assistant'
     end
     false
   end
 
   def work_sheet_manageable?
-    return true if %w[admin manager].include? role
     distributable_courses = Course.work_sheet_distributable_by id
     return true unless distributable_courses.empty?
     false
@@ -281,7 +283,7 @@ class User < ApplicationRecord
   end
 
   def system_preferences
-    system_staff? ? [%w[preferences ajax_new_user_pref], %w[preferences ajax_user_account_pref], %w[courses ajax_new], %w[courses ajax_course_pref], %w[preferences ajax_notice_pref], %w[terms ajax_new], %w[preferences ajax_update_pref]] : []
+    system_staff? ? [%w[preferences ajax_new_user_pref], %w[preferences ajax_user_account_pref], %w[courses new], %w[courses ajax_course_pref], %w[preferences ajax_notice_pref], %w[terms new], %w[preferences ajax_update_pref]] : []
   end
 
   # ====================================================================
