@@ -234,6 +234,7 @@ en:
       not_for_peer_review: Not for peer review
       not_for_peer_review_message: You do not have to review the following worksheet(s).
     index_home:
+      no_default_note: No default note set
       no_note_resources: Currently no notes managed
       no_snippets: Currently no snippets
       snippet_transfer: Please transfer the citation to the note by drag and drop or select the item in "Operation"
@@ -341,10 +342,12 @@ en:
         delete: :layouts.buttons.delete.delete
         enter_citation: Enter citation text from PDF file
         move_to: 'Move under %{title}'
-        remove: Transfer this out of note
         transfer_to: 'Transfer this to %{note_title}'
       pdf:
         input_pdf_text: You can not cite directly from PDF file. Please enter the cited text from "Operations" button.
+    web_snippet:
+      create:
+        saved_to: 'Saved to "%{title}" in LePo'
 
   stickies:
     edit:
