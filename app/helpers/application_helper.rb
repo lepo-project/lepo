@@ -28,8 +28,14 @@ module ApplicationHelper
 
   def get_short_string(original_string, max_length)
     original_string_array = original_string.split(//u)
-    return original_string_array[0..(max_length - 2)].join + '...' if original_string_array.size > max_length
-    original_string
+    case max_length
+    when 0
+      '...'
+    when 1...original_string_array.size
+      original_string_array[0..(max_length - 1)].join + '...'
+    else
+      original_string
+    end
   end
 
   def ratio(value1, value2, decimal_num)

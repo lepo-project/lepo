@@ -1,7 +1,7 @@
 <div class="snippet-card card">
   <div class="main-area">
     <div class="body" style="font-size:small;">
-      <% if snippet.description.empty? %>
+      <% if snippet.description.empty? && (session[:nav_section] == 'home') %>
       <%= t('.input_pdf_text') %>
       <% else %>
       <% display_body = (session[:nav_section] == 'home') ? snippet.description : get_short_string(snippet.description, WEB_OPEN_SNIPPET_MAX_LENGTH)%>
