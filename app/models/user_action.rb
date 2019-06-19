@@ -21,6 +21,6 @@
 
 class UserAction < ApplicationRecord
   belongs_to :user
-  validates_presence_of :user_id
-  validates_inclusion_of :category, in: %w[created read updated deleted signined signouted]
+  validates :category, inclusion: { in: %w[created read updated deleted signined signouted] }
+  validates :user_id, presence: true
 end

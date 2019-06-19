@@ -48,19 +48,19 @@ class User < ApplicationRecord
   has_many :stickies, foreign_key: :manager_id
   has_many :sticky_stars, foreign_key: :manager_id
   has_many :user_actions
-  validates_presence_of :family_name
-  validates_presence_of :hashed_password, if: "authentication == 'local'"
-  validates_presence_of :salt, if: "authentication == 'local'"
-  validates_presence_of :signin_name
-  validates_presence_of :token
-  validates_uniqueness_of :signin_name
-  validates_uniqueness_of :sourced_id, allow_nil: true
-  validates_uniqueness_of :token
-  validates_inclusion_of :authentication, in: %w[local ldap]
-  validates_inclusion_of :role, in: %w[admin manager user suspended]
-  validates_confirmation_of :password
+  validates :authentication, inclusion: { in: %w[local ldap] }
+  validates :family_name, presence: true
+  validates :hashed_password, presence: true, if: "authentication == 'local'"
+  validates :password, confirmation: true
+  validates :password, length: { in: USER_PASSWORD_MIN_LENGTH..USER_PASSWORD_MAX_LENGTH }, allow_blank: true, if: "authentication == 'local'"
+  validates :role, inclusion: { in: %w[admin manager user suspended] }
+  validates :salt, presence: true, if: "authentication == 'local'"
+  validates :signin_name, presence: true
+  validates :signin_name, uniqueness: true
+  validates :sourced_id, uniqueness: true, allow_nil: true
+  validates :token, presence: true
+  validates :token, uniqueness: true
   validate :password_non_blank, if: "authentication == 'local'"
-  validates_length_of :password, in: USER_PASSWORD_MIN_LENGTH..USER_PASSWORD_MAX_LENGTH, allow_blank: true, if: "authentication == 'local'"
   attr_accessor :password_confirmation
 
   # ====================================================================
