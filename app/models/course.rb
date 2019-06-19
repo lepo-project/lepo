@@ -36,17 +36,17 @@ class Course < ApplicationRecord
   has_many :original_review_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'review').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_work_sheets, -> { where('notes.category = ? and notes.status in (?)', 'work', %w[distributed_draft open review]).order(updated_at: :desc) }, class_name: 'Note'
   has_many :outcomes, dependent: :destroy
-  validates_presence_of :overview
-  validates_presence_of :term_id
-  validates_presence_of :title
-  # FIXME: Group work
-  validates_inclusion_of :groups_count, in: (1..COURSE_GROUP_MAX_SIZE).to_a
-  validates_inclusion_of :status, in: %w[draft open archived]
   validates :enabled, inclusion: { in: [true, false] }
-  validates_inclusion_of :period, in: (0..COURSE_PERIOD_MAX_SIZE).to_a
+  # FIXME: Group work
+  validates :groups_count, inclusion: { in: (1..COURSE_GROUP_MAX_SIZE).to_a }
+  validates :overview, presence: true
+  validates :period, inclusion: { in: (0..COURSE_PERIOD_MAX_SIZE).to_a }
+  validates :sourced_id, uniqueness: true, allow_nil: true
+  validates :status, inclusion: { in: %w[draft open archived] }
+  validates :term_id, presence: true
+  validates :title, presence: true
   # 1: Mon, 2: Tue, 3: Wed, 4: Thu, 5: Fri, 6: Sat, 7: Sun, 9: Not weekly course
-  validates_inclusion_of :weekday, in: [1, 2, 3, 4, 5, 6, 7, 9]
-  validates_uniqueness_of :sourced_id, allow_nil: true
+  validates :weekday, inclusion: { in: [1, 2, 3, 4, 5, 6, 7, 9] }
   validate :term_and_sync_consistency
   accepts_nested_attributes_for :goals, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: COURSE_GOAL_MAX_SIZE
 
