@@ -13,7 +13,7 @@
 class Device < ActiveRecord::Base
   # FIXME: PushNotification
   belongs_to :manager, class_name: 'User'
-  validates_presence_of :manager_id
-  validates_presence_of :title
-  validates_uniqueness_of :registration_id
+  validates :manager_id, presence: true
+  validates :registration_id, uniqueness: true
+  validates :title, presence: true
 end

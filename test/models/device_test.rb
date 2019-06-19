@@ -21,21 +21,21 @@ class DeviceTest < ActiveSupport::TestCase
     assert build(:device).valid?
   end
 
-  # test for validates_presence_of :manager_id
+  # validates :manager_id, presence: true
   test 'a device without manager_id is invalid' do
     assert_invalid build(:device, manager_id: ''), :manager_id
     assert_invalid build(:device, manager_id: nil), :manager_id
   end
 
-  # test for validates_presence_of :title
-  test 'a device without title is invalid' do
-    assert_invalid build(:device, title: ''), :title
-    assert_invalid build(:device, title: nil), :title
-  end
-
-  # test for validates_uniqueness_of :registration_id
+  # validates :registration_id, uniqueness: true
   test 'some devices with same registration_id are invalid' do
     device = create(:device)
     assert_invalid build(:device, registration_id: device.registration_id), :registration_id
+  end
+
+  # validates :title, presence: true
+  test 'a device without title is invalid' do
+    assert_invalid build(:device, title: ''), :title
+    assert_invalid build(:device, title: nil), :title
   end
 end
