@@ -15,12 +15,12 @@
 class Bookmark < ApplicationRecord
   belongs_to :manager, class_name: 'User'
   belongs_to :target, class_name: 'WebPage'
-  validates_presence_of :display_order
-  validates_presence_of :display_title
-  validates_presence_of :manager_id
-  validates_presence_of :target_id
-  validates_inclusion_of :target_type, in: %w[web]
-  validates_uniqueness_of :display_title, scope: [:manager_id]
+  validates :display_order, presence: true
+  validates :display_title, presence: true
+  validates :display_title, uniqueness: { scope: :manager_id }
+  validates :manager_id, presence: true
+  validates :target_id, presence: true
+  validates :target_type, inclusion: { in: %w[web] }
   after_destroy :destroy_target
 
   # ====================================================================

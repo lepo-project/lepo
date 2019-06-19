@@ -23,39 +23,39 @@ class BookmarkTest < ActiveSupport::TestCase
     assert build(:bookmark).valid?
   end
 
-  # test for validates_presence_of :display_order
+  # validates :display_order, presence: true
   test 'a bookmark without display_order is invalid' do
     assert_invalid build(:bookmark, display_order: ''), :display_order
     assert_invalid build(:bookmark, display_order: nil), :display_order
   end
 
-  # test for validates_presence_of :display_title
+  # validates :display_title, presence: true
   test 'a bookmark without display_title is invalid' do
     assert_invalid build(:bookmark, display_title: ''), :display_title
     assert_invalid build(:bookmark, display_title: nil), :display_title
   end
 
-  # test for validates_presence_of :manager_id
+  # validates :display_title, uniqueness: { scope: :manager_id }
+  test 'some bookmarks with same display_title and manager_id are invalid' do
+    bookmark = create(:bookmark)
+    assert_invalid build(:bookmark, display_title: bookmark.display_title, manager_id: bookmark.manager_id), :display_title
+  end
+
+  # validates :manager_id, presence: true
   test 'a bookmark without manager_id is invalid' do
     assert_invalid build(:bookmark, manager_id: ''), :manager_id
     assert_invalid build(:bookmark, manager_id: nil), :manager_id
   end
 
-  # test for validates_presence_of :target_id
+  # validates :target_id, presence: true
   test 'a bookmark without target_id is invalid' do
     assert_invalid build(:bookmark, target_id: ''), :target_id
     assert_invalid build(:bookmark, target_id: nil), :target_id
   end
 
-  # test for validates_inclusion_of :target_type, in: %w[web]
+  # validates :target_type, inclusion: { in: %w[web] }
   test 'a bookmark with target_type that is not incluede in [web] is invalid' do
     assert_invalid build(:bookmark, target_type: ''), :target_type
     assert_invalid build(:bookmark, target_type: nil), :target_type
-  end
-
-  # test for validates_uniqueness_of :display_title, scope: [:manager_id]
-  test 'some bookmarks with same display_title and manager_id are invalid' do
-    bookmark = create(:bookmark)
-    assert_invalid build(:bookmark, display_title: bookmark.display_title, manager_id: bookmark.manager_id), :display_title
   end
 end
