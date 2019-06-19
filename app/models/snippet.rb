@@ -21,16 +21,16 @@ class Snippet < ApplicationRecord
   # belongs_to :source, class_name: 'Page'
   has_many :notes, through: :note_indices
   has_many :note_indices, as: :item, dependent: :destroy
-  validates_presence_of :description, if: '%w[direct page].include? source_type'
-  validates_presence_of :manager_id
-  validates_presence_of :source_id, if: '%w[page web].include? source_type'
-  validates_inclusion_of :category, in: %w[text header subheader], if: "source_type == 'direct'"
-  validates_inclusion_of :category, in: %w[text], if: "source_type == 'page'"
-  validates_inclusion_of :category, in: %w[image], if: "source_type == 'upload'"
-  validates_inclusion_of :category, in: %w[text image pdf scratch ted youtube], if: "source_type == 'web'"
-  validates_inclusion_of :source_type, in: %w[direct page upload web]
-  validates_format_of :description, with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension', if: "source_type == 'web' && category == 'image'"
+  validates :category, inclusion: { in: %w[text header subheader] }, if: "source_type == 'direct'"
+  validates :category, inclusion: { in: %w[text] }, if: "source_type == 'page'"
+  validates :category, inclusion: { in: %w[image] }, if: "source_type == 'upload'"
+  validates :category, inclusion: { in: %w[text image pdf scratch ted youtube] }, if: "source_type == 'web'"
+  validates :description, presence: true, if: '%w[direct page].include? source_type'
+  validates :description, format: { with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension' }, if: "source_type == 'web' && category == 'image'"
   validates :image_data, presence: true, if: "source_type == 'upload' && category == 'image'"
+  validates :manager_id, presence: true
+  validates :source_id, presence: true, if: '%w[page web].include? source_type'
+  validates :source_type, inclusion: { in: %w[direct page upload web] }
   after_destroy :destroy_source
   before_save :limit_description_length
 
