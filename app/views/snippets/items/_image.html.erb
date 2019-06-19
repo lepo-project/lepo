@@ -10,8 +10,8 @@
 <div class="snippet-card card">
   <div class="main-area">
     <div class="snippet-image">
-      <% if session[:nav_section] == 'home' %>
-      <img src="<%= snippet.description %>">
+      <% if session[:nav_section] == 'home' && snippet.description.present? %>
+      <%= image_tag snippet.description %>
       <% else %>
       <i class='fa fa-image fa-lg' ></i>
       <% end %>

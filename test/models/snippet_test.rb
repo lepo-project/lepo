@@ -91,4 +91,10 @@ class SnippetTest < ActiveSupport::TestCase
     assert_invalid build(:web_image_snippet, description: ''), :description
     assert_invalid build(:web_image_snippet, description: nil), :description
   end
+
+  # test for validates :image_data, presence: true, if: "source_type == 'upload' && category == 'image'"
+  test 'a snippet without image_data is invalid' do
+    assert_invalid build(:upload_image_snippet, image_data: ''), :image_data
+    assert_invalid build(:upload_image_snippet, image_data: nil), :image_data
+  end
 end

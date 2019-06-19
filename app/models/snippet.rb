@@ -30,6 +30,7 @@ class Snippet < ApplicationRecord
   validates_inclusion_of :category, in: %w[text image pdf scratch ted youtube], if: "source_type == 'web'"
   validates_inclusion_of :source_type, in: %w[direct page upload web]
   validates_format_of :description, with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension', if: "source_type == 'web' && category == 'image'"
+  validates :image_data, presence: true, if: "source_type == 'upload' && category == 'image'"
   after_destroy :destroy_source
   before_save :limit_description_length
 
