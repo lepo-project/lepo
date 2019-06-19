@@ -34,13 +34,13 @@ class Content < ApplicationRecord
   has_many :pages, -> { order(display_order: :asc) }, dependent: :destroy
   has_many :file_pages, -> { where('pages.category = ?', 'file').order(display_order: :asc) }, class_name: 'Page'
   has_many :stickies, dependent: :destroy
-  validates_presence_of :folder_name
-  validates_presence_of :overview
-  validates_presence_of :title
-  validates_uniqueness_of :folder_name
-  validates_inclusion_of :as_category, in: %w[text file outside]
-  validates_inclusion_of :category, in: %w[upload]
-  validates_inclusion_of :status, in: %w[open archived]
+  validates :as_category, inclusion: { in: %w[text file outside] }
+  validates :category, inclusion: { in: %w[upload] }
+  validates :folder_name, presence: true
+  validates :folder_name, uniqueness: true
+  validates :overview, presence: true
+  validates :status, inclusion: { in: %w[open archived] }
+  validates :title, presence: true
   accepts_nested_attributes_for :objectives, allow_destroy: true, reject_if: proc { |att| att['title'].blank? }, limit: CONTENT_OBJECTIVE_MAX_SIZE
   after_save :adjust_allocation
 
