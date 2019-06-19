@@ -13,11 +13,11 @@
 
 class Term < ApplicationRecord
   has_many :courses, -> { where('courses.enabled = ?', true) }
-  validates_presence_of :end_at
-  validates_presence_of :start_at
-  validates_presence_of :title
-  validates_uniqueness_of :sourced_id, allow_nil: true
-  validates_uniqueness_of :title
+  validates :end_at, presence: true
+  validates :sourced_id, uniqueness: true, allow_nil: true
+  validates :start_at, presence: true
+  validates :title, presence: true
+  validates :title, uniqueness: true
   validate :end_at_is_after_start_at
 
   # ====================================================================
