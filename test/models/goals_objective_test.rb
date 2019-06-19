@@ -21,25 +21,25 @@ class GoalsObjectiveTest < ActiveSupport::TestCase
     assert build(:goals_objective).valid?
   end
 
-  # test for validates_presence_of :goal_id
+  # validates :goal_id, presence: true
   test 'a goals_objective without goal_id is invalid' do
     assert_invalid build(:goals_objective, goal_id: ''), :goal_id
     assert_invalid build(:goals_objective, goal_id: nil), :goal_id
   end
 
-  # test for validates_presence_of :lesson_id
+  # validates :lesson_id, presence: true
   test 'a goals_objective without lesson_id is invalid' do
     assert_invalid build(:goals_objective, lesson_id: ''), :lesson_id
     assert_invalid build(:goals_objective, lesson_id: nil), :lesson_id
   end
 
-  # test for validates_presence_of :objective_id
+  # validates :objective_id, presence: true
   test 'a goals_objective without objective_id is invalid' do
     assert_invalid build(:goals_objective, objective_id: ''), :objective_id
     assert_invalid build(:goals_objective, objective_id: nil), :objective_id
   end
 
-  # test for validates_uniqueness_of :objective_id, scope: [:goal_id]
+  # validates :objective_id, uniqueness: { scope: :goal_id }
   test 'some goals_objectives with same objective_id and goal_id are invalid' do
     goals_objective = create(:goals_objective)
     assert_invalid build(:goals_objective, objective_id: goals_objective.objective_id, goal_id: goals_objective.goal_id), :objective_id
