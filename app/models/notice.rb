@@ -14,9 +14,9 @@
 class Notice < ApplicationRecord
   belongs_to :manager, class_name: 'User'
   belongs_to :course
-  validates_presence_of :manager_id
-  validates_presence_of :message
-  validates_inclusion_of :status, in: %w[open archived]
+  validates :manager_id, presence: true
+  validates :message, presence: true
+  validates :status, inclusion: { in: %w[open archived] }
 
   # ====================================================================
   # Public Functions

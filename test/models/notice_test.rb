@@ -23,19 +23,19 @@ class NoticeTest < ActiveSupport::TestCase
     assert build(:archived_notice).valid?
   end
 
-  # test for validates_presence_of :manager_id
+  # validates :manager_id, presence: true
   test 'a notice without manager_id is invalid' do
     assert_invalid build(:notice, manager_id: ''), :manager_id
     assert_invalid build(:notice, manager_id: nil), :manager_id
   end
 
-  # test for validates_presence_of :message
+  # validates :message, presence: true
   test 'a notice without message is invalid' do
     assert_invalid build(:notice, message: ''), :message
     assert_invalid build(:notice, message: nil), :message
   end
 
-  # test for validates_inclusion_of :status, in: %w[open archived]
+  # validates :status, inclusion: { in: %w[open archived] }
   test 'a notice with status that is not included in [open archived] is invalid' do
     assert_invalid build(:notice, status: ''), :status
     assert_invalid build(:notice, status: nil), :status
