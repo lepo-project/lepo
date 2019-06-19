@@ -11,7 +11,7 @@
   <% end %>
 </div>
 <% if @snippets.size > 0 %>
-<%= render partial: 'layouts/system_message', locals: {message: t('.snippet_transfer'), message_category: 'info'} %>
+<%= render partial: 'layouts/system_message', locals: {message: t('.snippet_transfer'), message_category: 'error'} %>
 <% else %>
 <% if @notes.size > 0 %>
 <%= render partial: 'layouts/system_message', locals: {message: t('.no_snippets'), message_category: 'info'} %>

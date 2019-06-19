@@ -237,7 +237,7 @@ ja:
       no_default_note: 標準ノートが設定されていません
       no_note_resources: 現在、管理しているノートはありません
       no_snippets: 現在、ノートに未保存のWebから記録した情報はありません
-      snippet_transfer: 引用した情報はドラッグ＆ドロップ、またはメニュー「操作」からノートに移動して下さい
+      snippet_transfer: 個人ノート / ワークシートに保存していない以下の引用情報は、2019年8月1日以降、表示されなくなります。必要に応じて、これらの情報を、個人ノート / ワークシートに移動して下さい。
     subtitle:
       private: :activerecord.others.note.category.private
       lesson: :activerecord.others.note.category.lesson

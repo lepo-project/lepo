@@ -237,7 +237,7 @@ en:
       no_default_note: No default note set
       no_note_resources: Currently no notes managed
       no_snippets: Currently no snippets
-      snippet_transfer: Please transfer the citation to the note by drag and drop or select the item in "Operation"
+      snippet_transfer: The following citation information that has not been saved in the private / worksheet note will not be displayed after August 1, 2019. If necessary, move this information to your private / worksheet note.
     subtitle:
       private: :activerecord.others.note.category.private
       lesson: :activerecord.others.note.category.lesson
