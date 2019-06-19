@@ -13,7 +13,7 @@
 class NoteStar < ApplicationRecord
   belongs_to :manager, class_name: 'User'
   belongs_to :note
-  validates_presence_of :manager_id
-  validates_presence_of :note_id
-  validates_uniqueness_of :manager_id, scope: [:note_id]
+  validates :manager_id, presence: true
+  validates :manager_id, uniqueness: { scope: :note_id }
+  validates :note_id, presence: true
 end

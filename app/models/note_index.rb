@@ -14,11 +14,11 @@
 class NoteIndex < ApplicationRecord
   belongs_to :note, touch: true
   belongs_to :item, polymorphic: true
-  validates_presence_of :display_order
-  validates_presence_of :note_id
-  validates_presence_of :item_id
-  validates_uniqueness_of :item_id, scope: %i[item_type note_id]
-  validates_inclusion_of :item_type, in: %w[Content Snippet Sticky]
+  validates :display_order, presence: true
+  validates :item_id, presence: true
+  validates :item_id, uniqueness: { scope: %i[item_type note_id] }
+  validates :item_type, inclusion: { in: %w[Content Snippet Sticky] }
+  validates :note_id, presence: true
 
   # ====================================================================
   # Public Functions
