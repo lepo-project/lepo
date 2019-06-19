@@ -28,38 +28,38 @@ class OutcomeTest < ActiveSupport::TestCase
     assert build(:return_outcome).valid?
   end
 
-  # test for validates_presence_of :course_id
+  # validates :course_id, presence: true
   test 'a outcome without course_id is invalid' do
     assert_invalid build(:outcome, course_id: ''), :course_id
     assert_invalid build(:outcome, course_id: nil), :course_id
   end
 
-  # test for validates_presence_of :lesson_id
+  # validates :lesson_id, presence: true
   test 'a outcome without lesson_id is invalid' do
     assert_invalid build(:outcome, lesson_id: ''), :lesson_id
     assert_invalid build(:outcome, lesson_id: nil), :lesson_id
   end
 
-  # test for validates_presence_of :manager_id
-  test 'a outcome without manager_id is invalid' do
-    assert_invalid build(:outcome, manager_id: ''), :manager_id
-    assert_invalid build(:outcome, manager_id: nil), :manager_id
-  end
-
-  # test for validates_uniqueness_of :lesson_id, scope: [:manager_id]
+  # validates :lesson_id, uniqueness: { scope: :manager_id }
   test 'some outcome with same folder_name and manager_id are invalid' do
     outcome = create(:outcome)
     assert_invalid build(:outcome, lesson_id: outcome.lesson_id, manager_id: outcome.manager_id), :lesson_id
   end
 
-  # test for validates_inclusion_of :score, in: (0..10).to_a, allow_nil: true
+  # validates :manager_id, presence: true
+  test 'a outcome without manager_id is invalid' do
+    assert_invalid build(:outcome, manager_id: ''), :manager_id
+    assert_invalid build(:outcome, manager_id: nil), :manager_id
+  end
+
+  # validates :score, inclusion: { in: (0..10).to_a }, allow_nil: true
   test 'a outcome with score that is not included in (0..10).to_a is invalid' do
     assert build(:outcome, score: nil).valid?
     assert_invalid build(:outcome, score: -1), :score
     assert_invalid build(:outcome, score: 11), :score
   end
 
-  # test for validates_inclusion_of :status, in: %w[draft submit self_submit return]
+  # validates :status, inclusion: { in: %w[draft submit self_submit return] }
   test 'a outcome with status that is not included in [draft submit self_submit return] is invalid' do
     assert_invalid build(:outcome, status: ''), :status
     assert_invalid build(:outcome, status: nil), :status
