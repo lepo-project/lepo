@@ -25,25 +25,19 @@ class EnrollmentTest < ActiveSupport::TestCase
     assert build(:course_learner).valid?
   end
 
-  # test for validates_presence_of :course_id
+  # validates :course_id, presence: true
   test 'a enrollment without course_id is invalid' do
     assert_invalid build(:course_manager, course_id: ''), :course_id
     assert_invalid build(:course_manager, course_id: nil), :course_id
   end
 
-  # test for validates_presence_of :user_id
-  test 'a enrollment without user_id is invalid' do
-    assert_invalid build(:course_manager, user_id: ''), :user_id
-    assert_invalid build(:course_manager, user_id: nil), :user_id
-  end
-
-  # test for validates_uniqueness_of :course_id, scope: [:user_id]
+  # validates :course_id, uniqueness: { scope: :user_id }
   test 'some enrollments with same course_id and user_id are invalid' do
     enrollment = create(:course_manager)
     assert_invalid build(:course_manager, course_id: enrollment.course_id, user_id: enrollment.user_id), :course_id
   end
 
-  # test for validates_inclusion_of :group_index, in: (0...COURSE_GROUP_MAX_SIZE).to_a
+  # validates :group_index, inclusion: { in: (0...COURSE_GROUP_MAX_SIZE).to_a }
   test 'a enrollment with group_index that is not included in (0...COURSE_GROUP_MAX_SIZE).to_a is invalid' do
     assert_invalid build(:course_manager, group_index: ''), :group_index
     assert_invalid build(:course_manager, group_index: nil), :group_index
@@ -51,9 +45,15 @@ class EnrollmentTest < ActiveSupport::TestCase
     assert_invalid build(:course_manager, group_index: COURSE_GROUP_MAX_SIZE), :group_index
   end
 
-  # test for validates_inclusion_of :role, in: %w[manager assistant learner]
+  # validates :role, inclusion: { in: %w[manager assistant learner] }
   test 'a enrollment with role that is not included in [manager assistant learner] is invalid' do
     assert_invalid build(:course_manager, role: ''), :role
     assert_invalid build(:course_manager, role: nil), :role
+  end
+
+  # validates :user_id, presence: true
+  test 'a enrollment without user_id is invalid' do
+    assert_invalid build(:course_manager, user_id: ''), :user_id
+    assert_invalid build(:course_manager, user_id: nil), :user_id
   end
 end
