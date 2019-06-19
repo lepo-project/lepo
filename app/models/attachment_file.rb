@@ -18,9 +18,8 @@ class AttachmentFile < ApplicationRecord
                     url: ':relative_url_root/system/contents/:content_folder_name/attachment_files/:filename'
   do_not_validate_attachment_file_type :upload
   validates_attachment_size :upload, less_than: CONTENT_MAX_FILE_SIZE.megabytes
-
   belongs_to :content, touch: true
-  validates_presence_of :content_id
-  validates_presence_of :upload_file_name
-  validates_uniqueness_of :upload_file_name, scope: [:content_id]
+  validates :content_id, presence: true
+  validates :upload_file_name, presence: true
+  validates :upload_file_name, uniqueness: { scope: :content_id }
 end
