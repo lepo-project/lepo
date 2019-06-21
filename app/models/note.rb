@@ -96,7 +96,8 @@ class Note < ApplicationRecord
   end
 
   def export_html
-    export_html = '<span class="header">' + title + '</span><br/>'
+    export_html = '<span class="header">' + title + '</span><br/><br/>'
+    export_html += '<span>' + manager.full_name + '</span><br/><br/>'
     export_html += '<span>' + overview + '</span><br/>'
     note_indices.each do |ni|
       case ni.item_type
@@ -125,7 +126,8 @@ class Note < ApplicationRecord
   end
 
   def group_index
-    return nil unless course_id > 0
+    return nil unless course_id.positive?
+
     Enrollment.where(course_id: course_id, user_id: manager_id).first.group_index
   end
 
