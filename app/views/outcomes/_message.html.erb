@@ -15,7 +15,7 @@
     <div class="popover-content">
       <div>
         <% message = (message.message.size == 0) ? '...' : message.message %>
-        <%= sanitize add_br message %>
+        <%= text_with_br message %>
       </div>
     </div>
   </div>

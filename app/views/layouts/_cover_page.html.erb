@@ -6,7 +6,7 @@
       <div class="loc abstract">
         <div class="loc-header"><%= t('activerecord.attributes.content.overview') %></div>
         <div class="loc-body">
-          <%= sanitize add_br @content.overview %>
+          <%= text_with_br @content.overview %>
         </div>
       </div>
 
@@ -25,7 +25,7 @@
       <div class="loc condition">
         <div class="loc-header"><%= t('activerecord.attributes.content.condition') %></div>
         <div class="loc-body">
-          <%= sanitize add_br @content.condition %>
+          <%= text_with_br @content.condition %>
         </div>
       </div>
       <% end %>
@@ -43,7 +43,7 @@
           <% end %>
         </div>
         <div class="loc-body">
-          <%= sanitize add_br @content.as_overview %>
+          <%= text_with_br @content.as_overview %>
         </div>
       </div>
     </div>

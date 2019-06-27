@@ -6,9 +6,10 @@
 
 module ApplicationHelper
   # 0. for general ============================================================================
-  def add_br(txt)
-    txt = html_escape(txt)
-    txt.gsub(/\r\n|\r|\n/, '<br />')
+  def text_with_br(txt)
+    # return HTML escaped text with br tag
+    # sanitize method is used to mark html_safe
+    sanitize html_escape(txt).gsub(/\r\n|\r|\n/, '<br />')
   end
 
   def average(value, data_num, decimal_num)

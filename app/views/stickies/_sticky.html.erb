@@ -19,7 +19,7 @@
       <%= link_to_target_in_course sticky, false %>
       <% end %>
     </div>
-    <div class="body word-wrap"><%= auto_link(sanitize(add_br sticky.message), html: { target: '_blank' }) %></div>
+    <div class="body word-wrap"><%= auto_link(text_with_br(sticky.message), html: { target: '_blank' }) %></div>
     <div class="footer">
       <div class="left-footer">
         <% updated = (sticky.created_at != sticky.updated_at) %>

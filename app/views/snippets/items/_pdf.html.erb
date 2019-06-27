@@ -5,8 +5,7 @@
       <%= t('.input_pdf_text') %>
       <% else %>
       <% display_body = (session[:nav_section] == 'home') ? snippet.description : get_short_string(snippet.description, WEB_OPEN_SNIPPET_MAX_LENGTH)%>
-      <% add_br_body = add_br display_body %>
-      <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
+      <%= auto_link(text_with_br(display_body), html: { target: '_blank' }) %>
       <% end %>
     </div>
     <%= render(partial: 'snippets/items/footer_web', locals: {snippet: snippet}) %>
