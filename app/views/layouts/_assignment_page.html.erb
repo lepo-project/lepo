@@ -13,7 +13,7 @@
           <% if session[:nav_section] == 'home' %>
           マニュアルには課題はありません（このページは課題ページのサンプルです）。
           <% else %>
-          <%= sanitize add_br @content.as_overview %>
+          <%= text_with_br @content.as_overview %>
           <% end %>
         </div>
       </div>

@@ -20,7 +20,7 @@ class GoalTest < ActiveSupport::TestCase
     assert build(:goal).valid?
   end
 
-  # test for validates_presence_of :title
+  # validates :title, presence: true
   test 'a goal without title is invalid' do
     assert_invalid build(:goal, title: ''), :title
     assert_invalid build(:goal, title: nil), :title

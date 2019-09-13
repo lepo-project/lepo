@@ -9,7 +9,7 @@
   </div>
   <% end %>
   <% if card['caption'] %>
-  <div class='caption'><%= sanitize add_br card['caption'] %></div>
+  <div class='caption'><%= text_with_br card['caption'] %></div>
   <% end %>
 </div>
 
@@ -18,10 +18,9 @@
     <% if card['header'] %>
     <h3><%= card['header'] %></h3>
     <% end %>
-    <% add_br_body = add_br card['body'] %>
     <% if card['summary'] %>
 
-    <% separated_body = get_summary add_br_body %>
+    <% separated_body = get_summary text_with_br(card['body']) %>
     <%= auto_link(sanitize(separated_body[0]), html: { target: '_blank' }) %>
     <% if separated_body.size == 2 %>
     <br/>
@@ -36,7 +35,7 @@
     <% end %>
 
     <% else %>
-    <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
+    <%= auto_link(text_with_br(card['body']), html: { target: '_blank' }) %>
     <% end %>
   </div>
   <div class="footer">

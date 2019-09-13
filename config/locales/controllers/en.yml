@@ -40,6 +40,7 @@ en:
       character_numbers_error: "Character numbers (%{current}) exceed the limit (%{limit})"
       creation_error: Failed to save text
       inside_lepo_error: +Note is invalid inside LePo
+      no_default_note: Please set the default note in LePo
       pdf_creation: "PDF: Only the URL was saved (Not the selected characters)"
       re_register_button_error: Please re-register +Note button
       transfer_error: Transferring note failed

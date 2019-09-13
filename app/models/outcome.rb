@@ -24,13 +24,12 @@ class Outcome < ApplicationRecord
   has_many :outcome_messages, -> { order(updated_at: :desc) }
   has_many :outcomes_objectives, -> { order(objective_id: :asc) }
   has_many :objectives, -> { order(id: :asc) }, through: :outcomes_objectives
-  validates_presence_of :course_id
-  validates_presence_of :lesson_id
-  validates_presence_of :manager_id
-  validates_uniqueness_of :lesson_id, scope: [:manager_id]
-  validates_inclusion_of :score, in: (0..10).to_a, allow_nil: true
-  validates_inclusion_of :status, in: %w[draft submit self_submit return]
-
+  validates :course_id, presence: true
+  validates :lesson_id, presence: true
+  validates :lesson_id, uniqueness: { scope: :manager_id }
+  validates :manager_id, presence: true
+  validates :score, inclusion: { in: (0..10).to_a }, allow_nil: true
+  validates :status, inclusion: { in: %w[draft submit self_submit return] }
   accepts_nested_attributes_for :outcome_messages, allow_destroy: true
   accepts_nested_attributes_for :outcome_text, allow_destroy: true
   accepts_nested_attributes_for :outcomes_objectives, allow_destroy: true

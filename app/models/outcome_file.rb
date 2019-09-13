@@ -13,11 +13,11 @@ require 'json'
 class OutcomeFile < ApplicationRecord
   include OutcomeUploader::Attachment.new(:upload)
   belongs_to :outcome, touch: true
-  validates_presence_of :outcome_id
-  validates_presence_of :upload_data
+  validates :outcome_id, presence: true
+  validates :upload_data, presence: true
 
   def file_name
-    JSON.parse(self.upload_data)['metadata']['filename'] if self.upload_data
+    JSON.parse(upload_data)['metadata']['filename'] if upload_data
   end
 
   def same_name_file

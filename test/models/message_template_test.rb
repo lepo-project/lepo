@@ -23,25 +23,25 @@ class MessageTemplateTest < ActiveSupport::TestCase
     assert build(:message_template).valid?
   end
 
-  # test for validates_presence_of :content_id
+  # validates :content_id, presence: true
   test 'a message_template without content_id is invalid' do
     assert_invalid build(:message_template, content_id: ''), :content_id
     assert_invalid build(:message_template, content_id: nil), :content_id
   end
 
-  # test for validates_presence_of :manager_id
+  # validates :manager_id, presence: true
   test 'a message_template without manager_id is invalid' do
     assert_invalid build(:message_template, manager_id: ''), :manager_id
     assert_invalid build(:message_template, manager_id: nil), :manager_id
   end
 
-  # test for validates_presence_of :message
+  # validates :message, presence: true
   test 'a message_template without message is invalid' do
     assert_invalid build(:message_template, message: ''), :message
     assert_invalid build(:message_template, message: nil), :message
   end
 
-  # test for validates_presence_of :objective_id
+  # validates :objective_id, presence: true
   test 'a message_template without objective_id is invalid' do
     assert_invalid build(:message_template, objective_id: ''), :objective_id
     assert_invalid build(:message_template, objective_id: nil), :objective_id

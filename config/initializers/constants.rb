@@ -96,4 +96,4 @@ USER_TOKEN_LENGTH = 20
 WEB_SNIPPET_MAX_LENGTH = 300
 
 # max character length for web open snippet (less or equal to WEB_SNIPPET_MAX_LENGTH)
-WEB_OPEN_SNIPPET_MAX_LENGTH = 50
+WEB_OPEN_SNIPPET_MAX_LENGTH = 0

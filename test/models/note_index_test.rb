@@ -22,27 +22,33 @@ class NoteIndexTest < ActiveSupport::TestCase
     assert build(:note_index).valid?
   end
 
-  # test for validates_presence_of :display_order
+  # validates :display_order, presence: true
   test 'a note_index without display_order is invalid' do
     assert_invalid build(:note_index, display_order: ''), :display_order
     assert_invalid build(:note_index, display_order: nil), :display_order
   end
 
-  # test for validates_presence_of :note_id
-  test 'a note_index without note_id is invalid' do
-    assert_invalid build(:note_index, note_id: ''), :note_id
-    assert_invalid build(:note_index, note_id: nil), :note_id
-  end
-
-  # test for validates_presence_of :item_id
+  # validates :item_id, presence: true
   test 'a note_index without item_id is invalid' do
     assert_invalid build(:note_index, item_id: ''), :item_id
     assert_invalid build(:note_index, item_id: nil), :item_id
   end
 
-  # test for validates_inclusion_of :item_type, in: %w[Snippet Content]
+  # validates :item_id, uniqueness: { scope: %i[item_type note_id] }
+  test 'some note_indices with same item_id and item_type and note_id are invalid' do
+    note_index = create(:note_index)
+    assert_invalid build(:note_index, item_id: note_index.item_id, item_type: note_index.item_type, note_id: note_index.note_id), :item_id
+  end
+
+  # validates :item_type, inclusion: { in: %w[Content Snippet Sticky] }
   test 'a note_index with item_type that is not incluede in [Snippet Content] is invalid' do
     assert_invalid build(:note_index, item_type: ''), :item_type
     assert_invalid build(:note_index, item_type: nil), :item_type
+  end
+
+  # validates :note_id, presence: true
+  test 'a note_index without note_id is invalid' do
+    assert_invalid build(:note_index, note_id: ''), :note_id
+    assert_invalid build(:note_index, note_id: nil), :note_id
   end
 end

@@ -16,8 +16,8 @@ class MessageTemplate < ApplicationRecord
   belongs_to :content
   belongs_to :manager, class_name: 'User'
   belongs_to :objective
-  validates_presence_of :content_id
-  validates_presence_of :manager_id
-  validates_presence_of :message
-  validates_presence_of :objective_id
+  validates :content_id, presence: true
+  validates :manager_id, presence: true
+  validates :message, presence: true
+  validates :objective_id, presence: true
 end

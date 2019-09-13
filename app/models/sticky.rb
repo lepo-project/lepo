@@ -23,13 +23,13 @@ class Sticky < ApplicationRecord
   has_many :note_indices, as: :item, dependent: :destroy
   has_many :sticky_stars, dependent: :destroy
   has_many :stared_users, -> { where('sticky_stars.stared = ?', true) }, through: :sticky_stars, source: :manager
-  validates_absence_of :content_id, if: "target_type == 'Note'"
-  validates_presence_of :content_id, if: "target_type == 'Page'"
-  validates_presence_of :course_id, if: "category == 'course'"
-  validates_presence_of :manager_id
-  validates_presence_of :target_id
-  validates_inclusion_of :category, in: %w[private course]
-  validates_inclusion_of :target_type, in: %w[Page Note]
+  validates :category, inclusion: { in: %w[private course] }
+  validates :content_id, absence: true, if: "target_type == 'Note'"
+  validates :content_id, presence: true, if: "target_type == 'Page'"
+  validates :course_id, presence: true, if: "category == 'course'"
+  validates :manager_id, presence: true
+  validates :target_id, presence: true
+  validates :target_type, inclusion: { in: %w[Page Note] }
 
   # ====================================================================
   # Public Functions

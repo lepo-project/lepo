@@ -34,6 +34,7 @@ FactoryBot.define do
     factory :upload_image_snippet do
       source_type 'upload'
       category 'image'
+      image_data 'image data for shrine gem'
     end
 
     factory :web_text_snippet do

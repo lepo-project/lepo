@@ -20,13 +20,13 @@ class OutcomeFileTest < ActiveSupport::TestCase
     assert build(:outcome_file).valid?
   end
 
-  # test for validates_presence_of :outcome_id
+  # validates :outcome_id, presence: true
   test 'a outcome_file without outcome_id is invalid' do
     assert_invalid build(:outcome_file, outcome_id: ''), :outcome_id
     assert_invalid build(:outcome_file, outcome_id: nil), :outcome_id
   end
 
-  # test for validates_presence_of :upload_data
+  # validates :upload_data, presence: true
   test 'a outcome_file without upload_data is invalid' do
     assert_invalid build(:outcome_file, upload_data: ''), :upload_data
     assert_invalid build(:outcome_file, upload_data: nil), :upload_data

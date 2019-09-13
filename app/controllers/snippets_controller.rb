@@ -148,6 +148,9 @@ class SnippetsController < ApplicationController
     if !token || !user
       @warning_message = t('controllers.snippets.re_register_button_error')
       render 'snippets/web_snippet/bookmarklet', get_tags('snippets/web_snippet/_warning', 5000)
+    elsif user.default_note_id.zero?
+      @warning_message = t('controllers.snippets.no_default_note')
+      render_warning
     elsif lepo_url? url
       @warning_message = t('controllers.snippets.inside_lepo_error')
       render_warning
@@ -160,10 +163,13 @@ class SnippetsController < ApplicationController
       # Firefox: text snippet from PDF works for url, title and description
       # Chrome & Safari: text snippet from PDF works for url, but not for title and description
       # IE11: text snippet from PDF doesn't work (no access to lepo server)
+      @note_title = Note.find(user.default_note_id).title
       save_web_snippet url, '[PDF]', description, 'pdf', user
     elsif !description.empty?
+      @note_title = Note.find(user.default_note_id).title
       save_web_snippet url, title, description, category, user
     elsif embed_url? url
+      @note_title = Note.find(user.default_note_id).title
       save_web_embed_snippet url, title, user
     else
       render 'snippets/web_snippet/image_bookmarklet', get_tags('snippets/web_snippet/_image_selector', 0, token)

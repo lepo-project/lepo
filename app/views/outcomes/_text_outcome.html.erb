@@ -8,7 +8,7 @@
   <% else %>
       <div class="text-outcome">
         <% if outcome_text %>
-            <%= sanitize add_br outcome_text.entry %>
+            <%= text_with_br outcome_text.entry %>
         <% end %>
       </div>
   <% end %>

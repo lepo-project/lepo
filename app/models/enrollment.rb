@@ -15,12 +15,12 @@
 class Enrollment < ApplicationRecord
   belongs_to :course
   belongs_to :user
-  validates_presence_of :course_id
-  validates_presence_of :user_id
-  validates_uniqueness_of :course_id, scope: [:user_id]
+  validates :course_id, presence: true
+  validates :course_id, uniqueness: { scope: :user_id }
   # FIXME: Group work
-  validates_inclusion_of :group_index, in: (0...COURSE_GROUP_MAX_SIZE).to_a
-  validates_inclusion_of :role, in: %w[manager assistant learner]
+  validates :group_index, inclusion: { in: (0...COURSE_GROUP_MAX_SIZE).to_a }
+  validates :role, inclusion: { in: %w[manager assistant learner] }
+  validates :user_id, presence: true
 
   # ====================================================================
   # Public Functions

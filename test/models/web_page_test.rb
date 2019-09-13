@@ -20,13 +20,13 @@ class WebPageTest < ActiveSupport::TestCase
     assert build(:web_page).valid?
   end
 
-  # test for validates_presence_of :url
+  # validates :url, presence: true
   test 'a web_page without url is invalid' do
     assert_invalid build(:web_page, url: ''), :url
     assert_invalid build(:web_page, url: nil), :url
   end
 
-  # test for validates :url, format: URI.regexp(%w[http https])
+  # validates :url, format: URI.regexp(%w[http https])
   test 'a web_page with incorrect url is invalid' do
     assert_invalid build(:web_page, url: 'abc'), :url
   end

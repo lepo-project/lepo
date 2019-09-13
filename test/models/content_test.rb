@@ -29,42 +29,42 @@ class ContentTest < ActiveSupport::TestCase
     assert build(:archived_content).valid?
   end
 
-  # test for validates_presence_of :folder_name
-  # this test is no need because of before_validation callback
-
-  # test for validates_presence_of :overview
-  test 'a content without overview is invalid' do
-    assert_invalid build(:content, overview: ''), :overview
-    assert_invalid build(:content, overview: nil), :overview
-  end
-
-  # test for validates_presence_of :title
-  test 'a content without title is invalid' do
-    assert_invalid build(:content, title: ''), :title
-    assert_invalid build(:content, title: nil), :title
-  end
-
-  # test for validates_uniqueness_of :folder_name
-  test 'some contents with same folder_name are invalid' do
-    content = create(:content)
-    assert_invalid build(:content, folder_name: content.folder_name), :folder_name
-  end
-
-  # test for validates_inclusion_of :as_category, in: %w[text file outside]
+  # validates :as_category, inclusion: { in: %w[text file outside] }
   test 'a content with as_category that is not included in [text file outside] is invalid' do
     assert_invalid build(:content, as_category: ''), :as_category
     assert_invalid build(:content, as_category: nil), :as_category
   end
 
-  # test for validates_inclusion_of :category, in: %w[upload]
+  # validates :category, inclusion: { in: %w[upload] }
   test 'a content with category that is not included in [upload] is invalid' do
     assert_invalid build(:content, category: ''), :category
     assert_invalid build(:content, category: nil), :category
   end
 
-  # test for validates_inclusion_of :status, in: %w[open archived]
+  # validates :folder_name, presence: true
+  # this test is no need because of before_validation callback
+
+  # validates :folder_name, uniqueness: true
+  test 'some contents with same folder_name are invalid' do
+    content = create(:content)
+    assert_invalid build(:content, folder_name: content.folder_name), :folder_name
+  end
+
+  # validates :overview, presence: true
+  test 'a content without overview is invalid' do
+    assert_invalid build(:content, overview: ''), :overview
+    assert_invalid build(:content, overview: nil), :overview
+  end
+
+  # validates :status, inclusion: { in: %w[open archived] }
   test 'a content with status that is not included in [open archived] is invalid' do
     assert_invalid build(:content, status: ''), :status
     assert_invalid build(:content, status: nil), :status
+  end
+
+  # validates :title, presence: true
+  test 'a content without title is invalid' do
+    assert_invalid build(:content, title: ''), :title
+    assert_invalid build(:content, title: nil), :title
   end
 end

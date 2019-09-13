@@ -13,10 +13,10 @@
 class ContentMember < ApplicationRecord
   belongs_to :content
   belongs_to :user
-  validates_presence_of :content_id
-  validates_presence_of :user_id
-  validates_uniqueness_of :content_id, scope: [:user_id]
-  validates_inclusion_of :role, in: %w[manager assistant user]
+  validates :content_id, presence: true
+  validates :content_id, uniqueness: { scope: :user_id }
+  validates :role, inclusion: { in: %w[manager assistant user] }
+  validates :user_id, presence: true
   validate :content_manageable_user, if: "role != 'assistant'"
 
   def content_manageable_user

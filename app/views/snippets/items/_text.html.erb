@@ -1,8 +1,7 @@
 <% case snippet.source_type when 'direct' %>
 <div class="snippet-direct">
   <div class="body" style="margin: 0.5rem 0;">
-    <% add_br_body = add_br snippet.description %>
-    <%= auto_link(sanitize(add_br_body), html: { class: 'bright-link', target: '_blank' }) %>
+    <%= auto_link(text_with_br(snippet.description), html: { class: 'bright-link', target: '_blank' }) %>
   </div>
   <%= render(partial: 'snippets/items/operations_direct', locals: {snippet: snippet}) if editable_snippet %>
 </div>
@@ -11,9 +10,8 @@
 <div class="snippet-card card">
   <div class="main-area">
     <div class="body">
-      <% add_br_body = add_br snippet.description %>
       <span style="background-color: #fe0;">
-        <%= auto_link(sanitize(add_br_body), html: { target: '_blank' }) %>
+        <%= auto_link(text_with_br(snippet.description), html: { target: '_blank' }) %>
       </span>
     </div>
     <%= render(partial: 'snippets/items/footer_page', locals: {snippet: snippet}) %>
@@ -25,8 +23,7 @@
   <div class="main-area">
     <div class="body">
       <% display_body = (session[:nav_section] == 'home') ? snippet.description : get_short_string(snippet.description, WEB_OPEN_SNIPPET_MAX_LENGTH)%>
-      <% add_br_body = add_br display_body %>
-      <%= auto_link(sanitize(add_br_body), html: { class: 'bright-link', target: '_blank' }) %>
+      <%= auto_link(text_with_br(display_body), html: { class: 'bright-link', target: '_blank' }) %>
     </div>
     <%= render(partial: 'snippets/items/footer_web', locals: {snippet: snippet}) %>
   </div>

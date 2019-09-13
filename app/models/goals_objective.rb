@@ -14,8 +14,8 @@ class GoalsObjective < ApplicationRecord
   belongs_to :goal
   belongs_to :lesson
   belongs_to :objective
-  validates_presence_of :goal_id
-  validates_presence_of :lesson_id
-  validates_presence_of :objective_id
-  validates_uniqueness_of :objective_id, scope: [:goal_id]
+  validates :goal_id, presence: true
+  validates :lesson_id, presence: true
+  validates :objective_id, presence: true
+  validates :objective_id, uniqueness: { scope: :goal_id }
 end

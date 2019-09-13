@@ -21,12 +21,12 @@ class Lesson < ApplicationRecord
   has_many :attendances
   has_many :goals_objectives, dependent: :destroy
   has_many :outcomes
-  validates_presence_of :content_id
-  validates_presence_of :course_id
-  validates_presence_of :display_order
-  validates_presence_of :evaluator_id
-  validates_uniqueness_of :content_id, scope: [:course_id]
-  validates_inclusion_of :status, in: %w[draft open]
+  validates :content_id, presence: true
+  validates :content_id, uniqueness: { scope: :course_id }
+  validates :course_id, presence: true
+  validates :display_order, presence: true
+  validates :evaluator_id, presence: true
+  validates :status, inclusion: { in: %w[draft open] }
 
   # ====================================================================
   # Public Functions

@@ -20,7 +20,7 @@ class OutcomeTextTest < ActiveSupport::TestCase
     assert build(:outcome_text).valid?
   end
 
-  # test for validates_presence_of :outcome_id
+  # validates :outcome_id, presence: true
   test 'a outcome_text without outcome_id is invalid' do
     assert_invalid build(:outcome_text, outcome_id: ''), :outcome_id
     assert_invalid build(:outcome_text, outcome_id: nil), :outcome_id

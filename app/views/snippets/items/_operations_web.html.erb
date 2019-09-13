@@ -19,10 +19,6 @@
     <li><%= link_to(raw("<i class='fa-li fa fa-file-text-o'></i>") + t('.transfer_to', note_title: note.title), link_hash, {remote: true}) %></li>
     <% end %>
     <% end %>
-    <!-- Transfer snippet out of note -->
-    <% if snippet.transferable? session[:id] %>
-    <li><%= link_to(raw("<i class='fa-li fa fa-file-text'></i>") + t('.remove'), {controller: :snippets, action: 'ajax_transfer', id: snippet.id, from_note_id: @note.id}, {remote: true}) %></li>
-    <% end %>
     <!-- Delete snippet -->
     <% link_hash = @note ? {controller: :snippets, action: 'ajax_destroy', id: snippet.id, note_id: @note.id} : {controller: :snippets, action: 'ajax_destroy', id: snippet.id} %>
     <li><%= link_to(raw("<i class='fa-li fa fa-trash-o'></i>") + t('.delete'), link_hash, {remote: true}) %></li>

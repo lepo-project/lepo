@@ -11,5 +11,5 @@
 
 class OutcomeText < ApplicationRecord
   belongs_to :outcome, touch: true
-  validates_presence_of :outcome_id
+  validates :outcome_id, presence: true
 end

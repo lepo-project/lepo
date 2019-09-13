@@ -20,7 +20,7 @@ class SigninTest < ActiveSupport::TestCase
     assert build(:signin).valid?
   end
 
-  # test for validates_presence_of :user_id
+  # validates :user_id, presence: true
   test 'a signin without user_id is invalid' do
     assert_invalid build(:signin, user_id: ''), :user_id
     assert_invalid build(:signin, user_id: nil), :user_id

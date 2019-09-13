@@ -14,5 +14,5 @@ class Goal < ApplicationRecord
   has_many :goals_objectives, dependent: :destroy
   has_many :lessons, through: :goals_objectives
   has_many :objectives, -> { order(id: :asc) }, through: :goals_objectives
-  validates_presence_of :title
+  validates :title, presence: true
 end

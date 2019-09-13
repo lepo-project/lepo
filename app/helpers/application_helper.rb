@@ -6,9 +6,10 @@
 
 module ApplicationHelper
   # 0. for general ============================================================================
-  def add_br(txt)
-    txt = html_escape(txt)
-    txt.gsub(/\r\n|\r|\n/, '<br />')
+  def text_with_br(txt)
+    # return HTML escaped text with br tag
+    # sanitize method is used to mark html_safe
+    sanitize html_escape(txt).gsub(/\r\n|\r|\n/, '<br />')
   end
 
   def average(value, data_num, decimal_num)
@@ -28,8 +29,14 @@ module ApplicationHelper
 
   def get_short_string(original_string, max_length)
     original_string_array = original_string.split(//u)
-    return original_string_array[0..(max_length - 2)].join + '...' if original_string_array.size > max_length
-    original_string
+    case max_length
+    when 0
+      '...'
+    when 1...original_string_array.size
+      original_string_array[0..(max_length - 1)].join + '...'
+    else
+      original_string
+    end
   end
 
   def ratio(value1, value2, decimal_num)

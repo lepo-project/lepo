@@ -22,12 +22,12 @@ class Page < ApplicationRecord
   validates_attachment_size :upload, less_than: CONTENT_MAX_FILE_SIZE.megabytes
   belongs_to :content, touch: true
   has_many :stickies, as: :target, dependent: :destroy
-  validates_presence_of :content_id
-  validates_presence_of :upload_file_name, if: "category == 'file'"
-  validates_inclusion_of :category, in: %w[file cover assignment]
-  validates_uniqueness_of :category, scope: [:content_id], if: "category == 'cover'"
-  validates_uniqueness_of :category, scope: [:content_id], if: "category == 'assignment'"
-  validates_uniqueness_of :upload_file_name, scope: [:content_id], if: "category == 'file'"
-  validates_numericality_of :display_order, equal_to: 0, if: "category == 'cover'"
-  validates_numericality_of :display_order, greater_than: 0, if: "category != 'cover'"
+  validates :category, inclusion: { in: %w[file cover assignment] }
+  validates :category, uniqueness: { scope: :content_id }, if: "category == 'cover'"
+  validates :category, uniqueness: { scope: :content_id }, if: "category == 'assignment'"
+  validates :content_id, presence: true
+  validates :display_order, numericality: { equal_to: 0 }, if: "category == 'cover'"
+  validates :display_order, numericality: { greater_than: 0 }, if: "category != 'cover'"
+  validates :upload_file_name, presence: true, if: "category == 'file'"
+  validates :upload_file_name, uniqueness: { scope: :content_id }, if: "category == 'file'"
 end

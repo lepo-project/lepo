@@ -21,21 +21,21 @@ class NoteStarTest < ActiveSupport::TestCase
     assert build(:note_star).valid?
   end
 
-  # test for validates_presence_of :manager_id
+  # validates :manager_id, presence: true
   test 'a note_star without manager_id is invalid' do
     assert_invalid build(:note_star, manager_id: ''), :manager_id
     assert_invalid build(:note_star, manager_id: nil), :manager_id
   end
 
-  # test for validates_presence_of :note_id
-  test 'a note_star without note_id is invalid' do
-    assert_invalid build(:note_star, note_id: ''), :note_id
-    assert_invalid build(:note_star, note_id: nil), :note_id
-  end
-
-  # test for validates_uniqueness_of :manager_id, scope: [:note_id]
+  # validates :manager_id, uniqueness: { scope: :note_id }
   test 'some note_stars with same manager_id and note_id are invalid' do
     note_star = create(:note_star)
     assert_invalid build(:note_star, manager_id: note_star.manager_id, note_id: note_star.note_id), :manager_id
+  end
+
+  # validates :note_id, presence: true
+  test 'a note_star without note_id is invalid' do
+    assert_invalid build(:note_star, note_id: ''), :note_id
+    assert_invalid build(:note_star, note_id: nil), :note_id
   end
 end
