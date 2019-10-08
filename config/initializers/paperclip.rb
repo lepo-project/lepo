@@ -13,7 +13,3 @@ end
 Paperclip.interpolates :snippet_id do |attachment, style|
   attachment.instance.snippet.id
 end
-
-Paperclip.interpolates :relative_url_root  do |attachment, style|
-  Rails.application.config.relative_url_root.to_s
-end
