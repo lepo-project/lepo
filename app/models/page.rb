@@ -17,7 +17,7 @@
 class Page < ApplicationRecord
   has_attached_file :upload,
   path: ':rails_root/public/system/contents/:content_folder_name/:filename',
-  url: ':relative_url_root/system/contents/:content_folder_name/:filename'
+  url: '/system/contents/:content_folder_name/:filename'
   validates_attachment_content_type :upload, content_type: ['application/pdf', 'image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'text/html', 'video/mp4', 'video/quicktime']
   validates_attachment_size :upload, less_than: CONTENT_MAX_FILE_SIZE.megabytes
   belongs_to :content, touch: true

@@ -190,7 +190,7 @@ class Course < ApplicationRecord
 
   def image_rails_url(version_num)
     file_id = image_id('px' + version_num)
-    "#{Rails.application.config.relative_url_root}/courses/#{id}/image?file_id=#{file_id}&version=px#{version_num}" if image && (%w[40 80 160].include? version_num)
+    "/courses/#{id}/image?file_id=#{file_id}&version=px#{version_num}" if image && (%w[40 80 160].include? version_num)
   end
 
   def learner_work_sheets(user_id, course_staff)

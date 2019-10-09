@@ -6,7 +6,7 @@ function showCreateHighlightBtns(mouseupTarget, selectionTarget) {
       var selectedText = selectionTarget.getSelection().getRangeAt(0).toString();
       if (showHighlightBtns(evt, mouseupTarget, true)) {
         document.getElementById('highlight-create-btn').onclick =  function() {
-          jQuery.ajax({type: 'post', url: '<%= Rails.application.config.relative_url_root %>/courses/ajax_create_snippet/', data:{'description': selectedText}});
+          jQuery.ajax({type: 'post', url: '/courses/ajax_create_snippet/', data:{'description': selectedText}});
           hideHighlightBtns(selectionTarget);
         };
         document.getElementById('highlight-cancel-btn').onclick = function() {
@@ -26,7 +26,7 @@ function showDeleteHighlightBtns(evt, element) {
   if (showHighlightBtns(evt, positionOrigin, false)) {
     var highlightId = element.getAttribute('data-lepo').slice('highlight-'.length);
     document.getElementById('highlight-delete-btn').onclick =  function() {
-      jQuery.ajax({type: 'post', url: '<%= Rails.application.config.relative_url_root %>/courses/ajax_destroy_snippet/', data:{'snippet_id': highlightId}});
+      jQuery.ajax({type: 'post', url: '/courses/ajax_destroy_snippet/', data:{'snippet_id': highlightId}});
       removeElement(highlightId)
       hideHighlightBtns();
     };

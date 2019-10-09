@@ -56,14 +56,14 @@ function keyBinder(target_doc) {
         case "n":
         if ($('#page-frame')[0] || $('#simple-html-content')[0]) {
           // showing content page
-          jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_toggle_lesson_note/?from=content"});
+          jQuery.ajax({url:"/courses/ajax_toggle_lesson_note/?from=content"});
         } else if ($('#note-resource')[0]) {
           // showing lesson note
-          jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/courses/ajax_toggle_lesson_note/?from=note"});
+          jQuery.ajax({url:"/courses/ajax_toggle_lesson_note/?from=note"});
         }
         break;
         default:
-        jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/application/key_binder/?key=" + binding_key});
+        jQuery.ajax({url:"/application/key_binder/?key=" + binding_key});
       }
       return false;
     });
@@ -107,7 +107,7 @@ function sortBookmarks() {
     opacity: 0.8,
     update:function () {
       $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/bookmarks/ajax_sort/',
+        url:'/bookmarks/ajax_sort/',
         data:$(this).sortable('serialize')
       })
     }
@@ -120,7 +120,7 @@ function sortLessons(course_id) {
     opacity: 0.8,
     update:function () {
       $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/courses/ajax_sort_lessons/' + course_id,
+        url:'/courses/ajax_sort_lessons/' + course_id,
         data:$(this).sortable('serialize')
       })
     }
@@ -134,7 +134,7 @@ function sortNoteItems(note_id, disabled) {
     opacity: 0.8,
     update:function () {
       $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/snippets/ajax_sort/?note_id=' + note_id,
+        url:'/snippets/ajax_sort/?note_id=' + note_id,
         data:$(this).sortable('serialize')
       })
     }
@@ -147,7 +147,7 @@ function sortPages (content_id) {
     opacity: 0.8,
     update:function () {
       $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/contents/ajax_sort_pages/' + content_id,
+        url:'/contents/ajax_sort_pages/' + content_id,
         data:$(this).sortable('serialize')
       })
     }
@@ -223,7 +223,7 @@ function createTemplate(lesson_id, outcome_id, content_id, objective_id) {
     // all text in textarea, for all browsers
     message = $("#outcome_" + outcome_id + " .message_form_text").val();
   }
-  jQuery.ajax({type:"post", url:"<%= Rails.application.config.relative_url_root %>/message_templates/ajax_create/", data:{'message':message, 'lesson_id':lesson_id, 'content_id':content_id, 'outcome_id':outcome_id, 'objective_id':objective_id}});
+  jQuery.ajax({type:"post", url:"/message_templates/ajax_create/", data:{'message':message, 'lesson_id':lesson_id, 'content_id':content_id, 'outcome_id':outcome_id, 'objective_id':objective_id}});
 }
 
 function displaycreateTemplateBtn(message_length, outcome_id) {
@@ -270,7 +270,7 @@ function insertTemplate(button, lesson_id, id, message) {
     textRange.text = message;
     textRange.select();
   }
-  jQuery.ajax({url:"<%= Rails.application.config.relative_url_root %>/message_templates/ajax_count/", data:{'id':id, 'lesson_id':lesson_id}});
+  jQuery.ajax({url:"/message_templates/ajax_count/", data:{'id':id, 'lesson_id':lesson_id}});
   autosize.update($('.elastic_textarea'));
 }
 function bindMessageTextarea(outcome_id) {

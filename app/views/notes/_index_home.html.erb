@@ -37,7 +37,7 @@ $(function () {
       var snippet_id = ui.draggable.attr('id').substr('snippet_'.length);
       var note_id = $(this).attr('id').substr('note_'.length);
       $.ajax({
-        url:'<%= Rails.application.config.relative_url_root %>/snippets/ajax_transfer/'+snippet_id+'?to_note_id='+note_id
+        url:'/snippets/ajax_transfer/'+snippet_id+'?to_note_id='+note_id
       })
       ui.draggable.hide();
     }

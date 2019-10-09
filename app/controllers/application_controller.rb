@@ -198,19 +198,18 @@ class ApplicationController < ActionController::Base
   def file_page_info(_lesson_id, content, page_num, max_page_num)
     return [nil, nil] unless (page_num > 0) && (page_num < max_page_num)
     file = content.pages[page_num]
-    relative_url_prefix = ENV['RAILS_RELATIVE_URL_ROOT'] ? ENV['RAILS_RELATIVE_URL_ROOT'] + '/' : ''
     case file.upload_content_type[0, 1]
     when 't' then
       return ['html', file.upload.url]
     when 'i' then
-      return ['image', "#{relative_url_prefix}iframe/image_page/#{file.id}"]
+      return ['image', "iframe/image_page/#{file.id}"]
     when 'v' then
-      return ['video', "#{relative_url_prefix}iframe/video_page/#{file.id}"]
+      return ['video', "iframe/video_page/#{file.id}"]
     when 'a' then
       if content_type_pdf?(file.upload_content_type)
-        ['pdf', "#{relative_url_prefix}/pdfjs/minimal?file=#{file.upload.url}"]
+        ['pdf', "/pdfjs/minimal?file=#{file.upload.url}"]
       else
-        ['application', "#{relative_url_prefix}iframe/object_page/#{file.id}"]
+        ['application', "iframe/object_page/#{file.id}"]
       end
     end
   end
