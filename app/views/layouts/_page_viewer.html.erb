@@ -7,29 +7,29 @@
 <%= render partial: 'layouts/highlight_btns' %>
 
 <script>
-document.getElementById('page-frame').onload = function(e){
-	this.style.opacity = 1;
-	var iframeWin = this.contentWindow
-	var iframeDoc = iframeWin.document
+	document.getElementById('page-frame').onload = function(e){
+		this.style.opacity = 1;
+		var iframeWin = this.contentWindow
+		var iframeDoc = iframeWin.document
 
-	// Make keyBinder to work even when clicking the content in the iframe
-	keyBinder($(iframeWin));
+		// Make keyBinder to work even when clicking the content in the iframe
+		keyBinder($(iframeWin));
 
-	<% if @course %>
-	showCreateHighlightBtns($(iframeDoc), iframeDoc);
-	<% case pg['file_type'] when 'pdf' %>
-	// Set color for text selection
-	$(this.contentDocument).find("head").append($('<style>#pdfjs_viewer-minimal .textLayer ::selection {background-color: #acf;} #pdfjs_viewer-minimal *::-moz-selection {background-color: #acf;}</style>'))
-	this.contentDocument.addEventListener('textlayerrendered', function (e) {
+		<% if @course %>
+		showCreateHighlightBtns($(iframeDoc), iframeDoc);
+		<% case pg['file_type'] when 'pdf' %>
+		// Set color for text selection
+		$(this.contentDocument).find("head").append($('<style>#pdfjs_viewer-minimal .textLayer ::selection {background-color: #acf;} #pdfjs_viewer-minimal *::-moz-selection {background-color: #acf;}</style>'))
+		this.contentDocument.addEventListener('textlayerrendered', function (e) {
+			<% current_user.highlight_texts(@course.lesson_note(session[:id]).id, pg['file_id']).each do |highlight| %>
+			showHighlight(this, 'textLayer', <%= highlight[0] %>, "<%= highlight[1] %>");
+			<% end %>
+		}, true);
+		<% when 'html' %>
 		<% current_user.highlight_texts(@course.lesson_note(session[:id]).id, pg['file_id']).each do |highlight| %>
-		showHighlight(this, 'textLayer', <%= highlight[0] %>, "<%= highlight[1] %>");
+		showHighlight(this.contentDocument, '', <%= highlight[0] %>, "<%= highlight[1] %>");
 		<% end %>
-	}, true);
-	<% when 'html' %>
-	<% current_user.highlight_texts(@course.lesson_note(session[:id]).id, pg['file_id']).each do |highlight| %>
-	showHighlight(this.contentDocument, '', <%= highlight[0] %>, "<%= highlight[1] %>");
-	<% end %>
-	<% end %>
-	<% end %>
-};
+		<% end %>
+		<% end %>
+	};
 </script>

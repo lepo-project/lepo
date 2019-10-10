@@ -1,15 +1,16 @@
-// Reload highlight texts in page
-<% current_user.highlight_texts(@course.lesson_note(session[:id]).id, pg['file_id']).each do |highlight| %>
+// Add highlight texts in page
 if (document.getElementById('page-frame') == null) {
   // For cover and assignment page
-  showHighlight(document, '', <%= highlight[0] %>, "<%= highlight[1] %>");
+  showHighlight(document, '', <%= highlight_id %>, "<%= highlight_description %>");
 } else {
   // For iframe page
   var iframeDoc = document.getElementById('page-frame').contentDocument;
   <% case pg['file_type'] when 'pdf' %>
-  showHighlight(iframeDoc, 'textLayer', <%= highlight[0] %>, "<%= highlight[1] %>");
+  showHighlight(iframeDoc, 'textLayer', <%= highlight_id %>, "<%= highlight_description %>");
+  iframeDoc.addEventListener('textlayerrendered', function (e) {
+    showHighlight(iframeDoc, 'textLayer', <%= highlight_id %>, "<%= highlight_description %>");
+  }, true);
   <% when 'html' %>
-  showHighlight(iframeDoc, '', <%= highlight[0] %>, "<%= highlight[1] %>");
+  showHighlight(iframeDoc, '', <%= highlight_id %>, "<%= highlight_description %>");
   <% end %>
 }
-<% end %>
