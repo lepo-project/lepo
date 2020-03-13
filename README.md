@@ -33,6 +33,7 @@ LePo is a Web-based LMS (Learning Management System) that is developing with the
 
 * recommended environments: Nginx, Unicorn and MariaDB (MySQL)
 
-# Current Status
+# Remarks
  - LePo is in alpha version status. In the near future, there may be a big code change.
  - We assume use LePo in Japanese now, but English language pack is also under development.
+ - Using LePo with relative url root (subdirectory) is not supported.
