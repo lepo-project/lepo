@@ -49,7 +49,7 @@ class CoursesController < ApplicationController
 
   def update
     @course = Course.find_enabled_by params[:id]
-    initial_hash = @course.to_roster_hash
+    initial_hash = @course.to_roster_hash if (SYSTEM_ROSTER_SYNC == :on)
     course_form = course_params
     # Remedy for both new file upload and delete_image are selected
     course_form.delete(:remove_image) if course_form[:image] && course_form[:image].size.nonzero?
