@@ -12,6 +12,7 @@
 class Goal < ApplicationRecord
   belongs_to :course, touch: true
   has_many :goals_objectives, dependent: :destroy
+  # has_many through has_many association
   has_many :lessons, through: :goals_objectives
   has_many :objectives, -> { order(id: :asc) }, through: :goals_objectives
   validates :title, presence: true

@@ -19,14 +19,15 @@
 class Note < ApplicationRecord
   belongs_to :course
   belongs_to :manager, class_name: 'User'
+  has_many :note_indices, -> { order('note_indices.display_order asc, note_indices.updated_at asc') }, dependent: :destroy
+  has_many :note_stars, dependent: :destroy
+  has_many :stickies, as: :target, dependent: :destroy
+  # has_many through has_many association
   has_many :contents, -> { order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Content'
   has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :direct_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'direct').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
-  has_many :note_indices, -> { order('note_indices.display_order asc, note_indices.updated_at asc') }, dependent: :destroy
-  has_many :note_stars, dependent: :destroy
   has_many :snippets, -> { order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :stared_users, -> { where('note_stars.stared = ?', true) }, through: :note_stars, source: :manager
-  has_many :stickies, as: :target, dependent: :destroy
   has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader", "pdf")').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :upload_snippets, -> { where('snippets.source_type = ?', 'upload').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'

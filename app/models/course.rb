@@ -20,13 +20,9 @@
 class Course < ApplicationRecord
   include ImageUploader::Attachment.new(:image)
   belongs_to :term
-  has_many :assistants, -> { where('enrollments.role = ?', 'assistant') }, through: :enrollments, source: :user
-  has_many :contents, -> { order('lessons.display_order asc') }, through: :lessons
   has_many :enrollments, dependent: :destroy
   has_many :goals, -> { order(id: :asc) }, dependent: :destroy
-  has_many :learners, -> { where('enrollments.role = ?', 'learner').order(signin_name: :asc) }, through: :enrollments, source: :user
   has_many :lessons, -> { order(display_order: :asc) }
-  has_many :managers, -> { where('enrollments.role = ?', 'manager') }, through: :enrollments, source: :user
   has_many :members, through: :enrollments, source: :user
   has_many :notes
   has_many :notices, dependent: :destroy
@@ -36,6 +32,11 @@ class Course < ApplicationRecord
   has_many :original_review_work_sheets, -> { where('notes.category = ? and notes.status = ?', 'work', 'review').order(updated_at: :desc) }, class_name: 'Note'
   has_many :original_work_sheets, -> { where('notes.category = ? and notes.status in (?)', 'work', %w[distributed_draft open review]).order(updated_at: :desc) }, class_name: 'Note'
   has_many :outcomes, dependent: :destroy
+  # has_many through has_many association
+  has_many :assistants, -> { where('enrollments.role = ?', 'assistant') }, through: :enrollments, source: :user
+  has_many :contents, -> { order('lessons.display_order asc') }, through: :lessons
+  has_many :learners, -> { where('enrollments.role = ?', 'learner').order(signin_name: :asc) }, through: :enrollments, source: :user
+  has_many :managers, -> { where('enrollments.role = ?', 'manager') }, through: :enrollments, source: :user
   validates :enabled, inclusion: { in: [true, false] }
   # FIXME: Group work
   validates :groups_count, inclusion: { in: (1..COURSE_GROUP_MAX_SIZE).to_a }

@@ -23,6 +23,7 @@ class Outcome < ApplicationRecord
   has_many :outcome_files, -> { order(updated_at: :desc) }
   has_many :outcome_messages, -> { order(updated_at: :desc) }
   has_many :outcomes_objectives, -> { order(objective_id: :asc) }
+  # has_many through has_many association
   has_many :objectives, -> { order(id: :asc) }, through: :outcomes_objectives
   validates :course_id, presence: true
   validates :lesson_id, presence: true

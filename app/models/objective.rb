@@ -14,8 +14,9 @@
 class Objective < ApplicationRecord
   belongs_to :content, touch: true
   has_many :goals_objectives, dependent: :destroy
-  has_many :goals, -> { order(id: :asc) }, through: :goals_objectives
   has_many :outcomes_objectives, dependent: :destroy
+  # has_many through has_many association
+  has_many :goals, -> { order(id: :asc) }, through: :goals_objectives
   has_many :outcomes, through: :outcomes_objectives
   validates :allocation, inclusion: { in: (1..10).to_a }, allow_nil: true
   validates :title, presence: true

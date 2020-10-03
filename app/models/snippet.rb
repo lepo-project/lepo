@@ -19,8 +19,9 @@ class Snippet < ApplicationRecord
   belongs_to :source, class_name: 'WebPage'
   # FIXME: Correct this to be appropriate 'belongs_to' according to the value of source_type
   # belongs_to :source, class_name: 'Page'
-  has_many :notes, through: :note_indices
   has_many :note_indices, as: :item, dependent: :destroy
+  # has_many through has_many association
+  has_many :notes, through: :note_indices
   validates :category, inclusion: { in: %w[text header subheader] }, if: "source_type == 'direct'"
   validates :category, inclusion: { in: %w[text] }, if: "source_type == 'page'"
   validates :category, inclusion: { in: %w[image] }, if: "source_type == 'upload'"

@@ -19,9 +19,10 @@ class Sticky < ApplicationRecord
   belongs_to :manager, class_name: 'User'
   belongs_to :content
   belongs_to :target, polymorphic: true
-  has_many :notes, through: :note_indices
   has_many :note_indices, as: :item, dependent: :destroy
   has_many :sticky_stars, dependent: :destroy
+  # has_many through has_many association
+  has_many :notes, through: :note_indices
   has_many :stared_users, -> { where('sticky_stars.stared = ?', true) }, through: :sticky_stars, source: :manager
   validates :category, inclusion: { in: %w[private course] }
   validates :content_id, absence: true, if: "target_type == 'Note'"
