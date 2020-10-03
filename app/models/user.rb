@@ -51,17 +51,17 @@ class User < ApplicationRecord
   has_many :open_courses, -> { where('courses.status = ? and courses.enabled = ?', 'open', true) }, through: :enrollments, source: :course
   validates :authentication, inclusion: { in: %w[local ldap] }
   validates :family_name, presence: true
-  validates :hashed_password, presence: true, if: "authentication == 'local'"
+  validates :hashed_password, presence: true, if: -> {authentication == 'local'}
   validates :password, confirmation: true
-  validates :password, length: { in: USER_PASSWORD_MIN_LENGTH..USER_PASSWORD_MAX_LENGTH }, allow_blank: true, if: "authentication == 'local'"
+  validates :password, length: { in: USER_PASSWORD_MIN_LENGTH..USER_PASSWORD_MAX_LENGTH }, allow_blank: true, if: -> {authentication == 'local'}
   validates :role, inclusion: { in: %w[admin manager user suspended] }
-  validates :salt, presence: true, if: "authentication == 'local'"
+  validates :salt, presence: true, if: -> {authentication == 'local'}
   validates :signin_name, presence: true
   validates :signin_name, uniqueness: true
   validates :sourced_id, uniqueness: true, allow_nil: true
   validates :token, presence: true
   validates :token, uniqueness: true
-  validate :password_non_blank, if: "authentication == 'local'"
+  validate :password_non_blank, if: -> {authentication == 'local'}
   attr_accessor :password_confirmation
 
   # ====================================================================

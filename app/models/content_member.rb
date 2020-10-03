@@ -17,7 +17,7 @@ class ContentMember < ApplicationRecord
   validates :content_id, uniqueness: { scope: :user_id }
   validates :role, inclusion: { in: %w[manager assistant user] }
   validates :user_id, presence: true
-  validate :content_manageable_user, if: "role != 'assistant'"
+  validate :content_manageable_user, if: -> {role != 'assistant'}
 
   def content_manageable_user
     errors.add(:base, 'Content manager and user must be content_manageable.') unless user.content_manageable?
