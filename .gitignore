@@ -6,7 +6,6 @@
 
 # Ignore bundler config
 /.bundle
-/vendor/bundle
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -14,11 +13,19 @@
 /db/schema.rb
 
 # Ignore all logfiles and tempfiles.
-/log
-/tmp
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
 
-# Ignore uploaded files
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignore uploaded files in development.
 /storage/*
+!/storage/.keep
 
 # From GitHub initial .ignore file
 *.rbc
