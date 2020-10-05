@@ -70,7 +70,5 @@ end
 group :production do
   gem 'mysql2', '~> 0.4.0'
   # Use Puma as the app server
-  # gem 'puma', '~> 3.0'
-  # Use Unicorn as the app server
-  gem 'unicorn', '~> 5.4.0'
+  gem 'puma', '~> 4.3'
 end
