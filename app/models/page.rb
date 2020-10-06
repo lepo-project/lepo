@@ -23,11 +23,11 @@ class Page < ApplicationRecord
   belongs_to :content, touch: true
   has_many :stickies, as: :target, dependent: :destroy
   validates :category, inclusion: { in: %w[file cover assignment] }
-  validates :category, uniqueness: { scope: :content_id }, if: "category == 'cover'"
-  validates :category, uniqueness: { scope: :content_id }, if: "category == 'assignment'"
+  validates :category, uniqueness: { scope: :content_id }, if: -> {category == 'cover'}
+  validates :category, uniqueness: { scope: :content_id }, if: -> {category == 'assignment'}
   validates :content_id, presence: true
-  validates :display_order, numericality: { equal_to: 0 }, if: "category == 'cover'"
-  validates :display_order, numericality: { greater_than: 0 }, if: "category != 'cover'"
-  validates :upload_file_name, presence: true, if: "category == 'file'"
-  validates :upload_file_name, uniqueness: { scope: :content_id }, if: "category == 'file'"
+  validates :display_order, numericality: { equal_to: 0 }, if: -> {category == 'cover'}
+  validates :display_order, numericality: { greater_than: 0 }, if: -> {category != 'cover'}
+  validates :upload_file_name, presence: true, if: -> {category == 'file'}
+  validates :upload_file_name, uniqueness: { scope: :content_id }, if: -> {category == 'file'}
 end

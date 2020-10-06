@@ -23,17 +23,18 @@ class Content < ApplicationRecord
   has_one :manager, -> { where('content_members.role = ?', 'manager') }, through: :content_members, source: :user
   has_many :asset_files, -> { order(upload_file_name: :asc) }, dependent: :destroy
   has_many :attachment_files, -> { order(upload_file_name: :asc) }, dependent: :destroy
-  has_many :courses, -> { where('courses.enabled = ?', true) }, through: :lessons
   has_many :content_members, dependent: :destroy
-  has_many :assistants, -> { where('content_members.role = ?', 'assistant') }, through: :content_members, source: :user
-  has_many :users, -> { where('content_members.role = ?', 'user') }, through: :content_members, source: :user
   has_many :lessons
-  has_many :notes, through: :note_indices
   has_many :note_indices, as: :item, dependent: :destroy
   has_many :objectives, -> { order(id: :asc) }, dependent: :destroy
   has_many :pages, -> { order(display_order: :asc) }, dependent: :destroy
   has_many :file_pages, -> { where('pages.category = ?', 'file').order(display_order: :asc) }, class_name: 'Page'
   has_many :stickies, dependent: :destroy
+  # has_many through has_many association
+  has_many :assistants, -> { where('content_members.role = ?', 'assistant') }, through: :content_members, source: :user
+  has_many :courses, -> { where('courses.enabled = ?', true) }, through: :lessons
+  has_many :notes, through: :note_indices
+  has_many :users, -> { where('content_members.role = ?', 'user') }, through: :content_members, source: :user
   validates :as_category, inclusion: { in: %w[text file outside] }
   validates :category, inclusion: { in: %w[upload] }
   validates :folder_name, presence: true

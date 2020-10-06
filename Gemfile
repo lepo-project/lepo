@@ -5,48 +5,48 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'autoprefixer-rails', '~> 9.1.0'
+gem 'autoprefixer-rails', '~> 10.0.0'
 gem 'autosize', '~> 2.4'
-gem 'bootstrap', '~> 4.3.0'
+gem 'bootstrap', '~> 4.5.0'
 # gem "chartkick"
 gem 'coffee-rails', '~> 4.2.0'
 gem 'combine_pdf', '~> 1.0.7'
 gem 'font-awesome-rails', '~> 4.7'
 gem 'http_accept_language', '~> 2.1.0'
-gem 'image_processing', '~> 1.6.0'
+gem 'image_processing', '~> 1.12.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 gem 'jquery-hotkeys-rails', '~> 0.7.9'
-gem 'jquery-rails', '~> 4.3.0'
+gem 'jquery-rails', '~> 4.4.0'
 gem 'jquery-ui-rails', '~> 6.0.0'
 gem 'net-ldap', '~> 0.16.0'
 gem 'paperclip', '~> 6.0.0'
 gem 'pdfjs_viewer-rails', '~> 0.2.8', github: 'lepo-project/pdfjs_viewer-rails'
-gem 'rails', '~> 5.0.4'
+gem 'rails', '~> 5.2.4'
 gem 'rails-assets-tether', '~> 1.1'
 gem 'rails_autolink'
 gem 'remotipart', '~> 1.4.2'
 # FIXME: PushNotification
-gem 'rest-client', '~> 2.0.0'
+gem 'rest-client', '~> 2.1.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.6'
-gem 'shrine', '~> 2.11.0'
+gem 'shrine', '~> 2.19.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer'
+# gem 'mini_racer', '= 0.2.6'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '~> 4.1.14'
+gem 'uglifier', '~> 4.2.0'
 gem 'whenever', require: false
 
 group :development, :test do
-  gem 'sqlite3', '~> 1.3.0'
+  gem 'sqlite3', '~> 1.4.0'
 end
 
 group :development do
-  gem 'annotate', '~> 2.7.0'
+  gem 'annotate', '~> 3.1.0'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'i18n_generators', '~> 2.2.0'
-  gem 'listen', '~> 3.1.0'
+  gem 'listen', '~> 3.2.0'
   # meta_request is necessary for rails_panel chrome extension
   # gem 'meta_request'
   gem 'rubocop', require: false
@@ -68,9 +68,7 @@ group :test do
 end
 
 group :production do
-  gem 'mysql2', '~> 0.4.0'
+  gem 'mysql2', '~> 0.5.0'
   # Use Puma as the app server
-  # gem 'puma', '~> 3.0'
-  # Use Unicorn as the app server
-  gem 'unicorn', '~> 5.4.0'
+  gem 'puma', '~> 4.3'
 end

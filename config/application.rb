@@ -30,7 +30,7 @@ module LepoApp
     config.action_view.field_error_proc = proc { |html_tag, instance| html_tag }
 
     # LePo version
-    config.version = '0.3.3'
-    config.version_date = Date.new(2020, 3, 13)
+    config.version = '0.3.4'
+    config.version_date = Date.new(2020, 10, 6)
   end
 end

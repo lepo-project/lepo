@@ -19,31 +19,32 @@
 class Note < ApplicationRecord
   belongs_to :course
   belongs_to :manager, class_name: 'User'
+  has_many :note_indices, -> { order('note_indices.display_order asc, note_indices.updated_at asc') }, dependent: :destroy
+  has_many :note_stars, dependent: :destroy
+  has_many :stickies, as: :target, dependent: :destroy
+  # has_many through has_many association
   has_many :contents, -> { order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Content'
   has_many :direct_snippets, -> { where('snippets.source_type = ?', 'direct').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :direct_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "header", "subheader")', 'direct').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
-  has_many :note_indices, -> { order('note_indices.display_order asc, note_indices.updated_at asc') }, dependent: :destroy
-  has_many :note_stars, dependent: :destroy
   has_many :snippets, -> { order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :stared_users, -> { where('note_stars.stared = ?', true) }, through: :note_stars, source: :manager
-  has_many :stickies, as: :target, dependent: :destroy
   has_many :text_snippets, -> { where('snippets.category in ("text", "header", "subheader", "pdf")').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :upload_snippets, -> { where('snippets.source_type = ?', 'upload').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :web_snippets, -> { where('snippets.source_type = ?', 'web').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   has_many :web_text_snippets, -> { where('snippets.source_type = ? and snippets.category in ("text", "pdf")', 'web').order('note_indices.display_order asc') }, through: :note_indices, source: :item, source_type: 'Snippet'
   validates :category, inclusion: { in: %w[private lesson work] }
-  validates :course_id, numericality: { equal_to: 0 }, if: "category == 'private'"
-  validates :course_id, numericality: { greater_than: 0 }, if: "category != 'private'"
+  validates :course_id, numericality: { equal_to: 0 }, if: -> {category == 'private'}
+  validates :course_id, numericality: { greater_than: 0 }, if: -> {category != 'private'}
   validates :manager_id, presence: true
-  validates :original_ws_id, numericality: { greater_than_or_equal_to: 0 }, if: "category == 'work'"
-  validates :original_ws_id, numericality: { equal_to: 0 }, if: "category != 'work'"
+  validates :original_ws_id, numericality: { greater_than_or_equal_to: 0 }, if: -> {category == 'work'}
+  validates :original_ws_id, numericality: { equal_to: 0 }, if: -> {category != 'work'}
   validates :peer_reviews_count, inclusion: { in: (0..NOTE_PEER_REVIEW_MAX_SIZE).to_a }
-  validates :status, inclusion: { in: %w[draft archived] }, if: "category == 'private'"
-  validates :status, inclusion: { in: %w[associated_course] }, if: "category == 'lesson'"
-  validates :status, inclusion: { in: %w[draft distributed_draft review open archived original_ws] }, if: "category == 'work'"
+  validates :status, inclusion: { in: %w[draft archived] }, if: -> {category == 'private'}
+  validates :status, inclusion: { in: %w[associated_course] }, if: -> {category == 'lesson'}
+  validates :status, inclusion: { in: %w[draft distributed_draft review open archived original_ws] }, if: -> {category == 'work'}
   validates :title, presence: true
   # FIXME: following validation does NOT work with if condition
-  # validates :manager_id, uniqueness: { scope: [:course_id] }, if: "category == 'lesson'"
+  # validates :manager_id, uniqueness: { scope: [:course_id] }, if: -> {category == 'lesson'}
   # validates :manager_id, uniqueness: { scope: [:course_id] }, if: proc { |note| note.category == 'lesson' }
 
   # ====================================================================

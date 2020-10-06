@@ -19,17 +19,18 @@ class Snippet < ApplicationRecord
   belongs_to :source, class_name: 'WebPage'
   # FIXME: Correct this to be appropriate 'belongs_to' according to the value of source_type
   # belongs_to :source, class_name: 'Page'
-  has_many :notes, through: :note_indices
   has_many :note_indices, as: :item, dependent: :destroy
-  validates :category, inclusion: { in: %w[text header subheader] }, if: "source_type == 'direct'"
-  validates :category, inclusion: { in: %w[text] }, if: "source_type == 'page'"
-  validates :category, inclusion: { in: %w[image] }, if: "source_type == 'upload'"
-  validates :category, inclusion: { in: %w[text image pdf scratch ted youtube] }, if: "source_type == 'web'"
-  validates :description, presence: true, if: '%w[direct page].include? source_type'
-  validates :description, format: { with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension' }, if: "source_type == 'web' && category == 'image'"
-  validates :image_data, presence: true, if: "source_type == 'upload' && category == 'image'"
+  # has_many through has_many association
+  has_many :notes, through: :note_indices
+  validates :category, inclusion: { in: %w[text header subheader] }, if: -> {source_type == 'direct'}
+  validates :category, inclusion: { in: %w[text] }, if: -> {source_type == 'page'}
+  validates :category, inclusion: { in: %w[image] }, if: -> {source_type == 'upload'}
+  validates :category, inclusion: { in: %w[text image pdf scratch ted youtube] }, if: -> {source_type == 'web'}
+  validates :description, presence: true, if: -> {%w[direct page].include? source_type}
+  validates :description, format: { with: /\.(gif|jpe?g|png)/i, message: 'must have an image extension' }, if: -> {source_type == 'web' && category == 'image'}
+  validates :image_data, presence: true, if: -> {source_type == 'upload' && category == 'image'}
   validates :manager_id, presence: true
-  validates :source_id, presence: true, if: '%w[page web].include? source_type'
+  validates :source_id, presence: true, if: -> {%w[page web].include? source_type}
   validates :source_type, inclusion: { in: %w[direct page upload web] }
   after_destroy :destroy_source
   before_save :limit_description_length
