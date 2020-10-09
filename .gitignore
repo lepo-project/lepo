@@ -62,5 +62,8 @@ bower.json
 # Ignore pow environment settings
 .powenv
 
-# Ignore Byebug command history file.
+# Ignore Byebug command history file
 .byebug_history
+
+# Ignore macOS .DS_store
+.DS_Store
