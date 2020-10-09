@@ -1,3 +1,6 @@
+<iframe src="blank.mp3" allow="autoplay" style="display:none;" />
+<audio id="page-audio-player" style="margin:0.5em; display:none;" src="<%= pg['audio_file_path'] %>" autoplay controls />
+
 <iframe id="page-frame" name="page-frame" src="<%= pg['file_path'] %>" frameborder="0" marginheight="0" marginwidth="0" style="opacity: 0;"></iframe>
 
 <div id="sticky-panel">
@@ -30,6 +33,10 @@
 		showHighlight(this.contentDocument, '', <%= highlight[0] %>, "<%= highlight[1] %>");
 		<% end %>
 		<% end %>
+		<% end %>
+
+		<% unless pg['audio_file_path'].blank? %>
+			document.getElementById('page-audio-player').style.display = 'block'
 		<% end %>
 	};
 </script>

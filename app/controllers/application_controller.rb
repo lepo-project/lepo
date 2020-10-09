@@ -186,6 +186,7 @@ class ApplicationController < ActionController::Base
     file_info = file_page_info(lesson_id, content, session[:page_num], session[:max_page_num])
     p['file_type'] = file_info[0]
     p['file_path'] = file_info[1]
+    p['audio_file_path'] = file_info[2]
 
     if (session[:nav_section] == 'open_courses') || ((session[:nav_section] == 'repository') && (session[:nav_controller] == 'courses'))
       p['stickies'] = get_course_stickies_by_target session[:nav_id], 'Page', p['file_id'], content.id
@@ -200,18 +201,31 @@ class ApplicationController < ActionController::Base
     file = content.pages[page_num]
     case file.upload_content_type[0, 1]
     when 't' then
-      return ['html', file.upload.url]
+      return ['html', file.upload.url, '']
     when 'i' then
-      return ['image', "iframe/image_page/#{file.id}"]
+      return ['image', "iframe/image_page/#{file.id}", get_page_audio_file(file.upload.url, %w[.gif .jpg .jpeg, .png], %w[.mp3 .m4a])]
     when 'v' then
-      return ['video', "iframe/video_page/#{file.id}"]
+      return ['video', "iframe/video_page/#{file.id}", '']
     when 'a' then
       if content_type_pdf?(file.upload_content_type)
-        ['pdf', "/pdfjs/minimal?file=#{file.upload.url}"]
+        ['pdf', "/pdfjs/minimal?file=#{file.upload.url}", get_page_audio_file(file.upload.url, %w[.pdf], %w[.mp3 .m4a])]
       else
-        ['application', "iframe/object_page/#{file.id}"]
+        ['application', "iframe/object_page/#{file.id}", '']
       end
     end
+  end
+
+  def get_page_audio_file(url, page_exts, audio_exts)
+    page_exts.each do |pext|
+      ext_index = url.downcase.rindex(pext)
+      if ext_index
+        audio_exts.each do |ext|
+          file = url[0...ext_index] + ext
+          return file if File.exist?("public/#{file}")
+        end
+      end
+    end
+    ''
   end
 
   def get_content_stickies(content_id, page_id = nil)
