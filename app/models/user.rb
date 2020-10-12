@@ -175,7 +175,7 @@ class User < ApplicationRecord
     else
       results = results.where('signin_name like ? or family_name like ? or given_name like ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%")
     end
-    results.uniq.order(signin_name: :asc).limit(max_search_num).to_a
+    results.distinct.order(signin_name: :asc).limit(max_search_num).to_a
   end
 
   def dashboard_cards
