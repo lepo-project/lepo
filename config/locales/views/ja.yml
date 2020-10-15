@@ -33,7 +33,9 @@ ja:
       newest: 最新版
       recommended_browsers: 推奨するWebブラウザ
       released_at: 公開日
-      remarks_for_edge: なお、Edgeブラウザでは、ノート機能が利用できません
+      remarks_for_content: また、システム管理者、1つ以上のコースの管理者/アシスタントになっているユーザ、および1つ以上の教材のアシスタントになっているユーザは、教材を管理することができます。
+      remarks_for_course: システム管理者のみコースの登録が可能であり、特定のユーザをコース管理者に指定してコース登録することで、そのユーザがコースを管理できるようになります。
+      remarks_for_edge: Edgeブラウザは、Chromium版のみサポートしています
       shortcut_keys: ショートカットキー
       system_version: システムのバージョン
       use_following_browsers: LePoは、以下のwebブラウザで利用してください
