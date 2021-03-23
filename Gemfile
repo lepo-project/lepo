@@ -30,7 +30,7 @@ gem 'remotipart', '~> 1.4.2'
 gem 'rest-client', '~> 2.1.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.6'
-gem 'shrine', '~> 2.19.0'
+gem 'shrine', '~> 3.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', '= 0.2.6'
 # Use Uglifier as compressor for JavaScript assets
