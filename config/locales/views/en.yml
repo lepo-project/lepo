@@ -300,10 +300,10 @@ en:
       admin_account_message3: System administrator and managers can sign-in only from the following IP addresses.
       admin_account_message4: The creation of the administrator account has already been completed.
       config_header: Config. Files
-      config_message1: Please check the configurations in the above file and set appropriate values ​​as necessary.
+      config_message1: Please check the configurations in the above file and set appropriate values as necessary.
       config_message2: Please set the information of the database to use in the above file. When using SQLite 3 in the development environment, you can skip this step here.
-      config_message3: Please set values for secret_key_base in the above file. For the production environment, set the value of secret_key_base as an environment variable.
-      config_message4: To generate random string of secret_key_base, you can use "rails secret" command etc.
+      config_message3: Please set some confidentials if needed. In the Production environment, to set this file is required.
+      config_message4: "To create or edit this file, use the command like, EDITOR =\"vi\" bin/rails credentials: edit."
       config_message5: After correcting the config files, restart the Rails server and proceed to Step 3.
       header: Welcome to LePo !
       license_header: License

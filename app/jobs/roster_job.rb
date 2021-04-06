@@ -37,12 +37,12 @@ class RosterJob < ApplicationJob
   private
 
   def get_roster(endpoint)
-    url = Rails.application.secrets.roster_url_prefix + endpoint
+    url = Rails.application.credentials.oneroster[:url_prefix] + endpoint
     # FIXME: verify_ssl should be true!
     response = RestClient::Request.execute(
       :url => url,
       :method => :get,
-      :headers => {Authorization: 'Bearer ' + Rails.application.secrets.roster_token},
+      :headers => {Authorization: 'Bearer ' + Rails.application.credentials.oneroster[:token]},
       :verify_ssl => false
     )
     JSON.parse(response.body)
@@ -55,7 +55,7 @@ class RosterJob < ApplicationJob
     learner_ids = User.sync_roster rlearners['users']
     # FIXME: get_roster for aide
 
-    school_id = Rails.application.secrets.roster_school_sourced_id
+    school_id = Rails.application.credentials.oneroster[:school_sourced_id]
     renrollments = get_roster "/schools/#{school_id}/classes/#{cid[:sourced_id]}/enrollments"
     enrollment_ids = Enrollment.sync_roster cid[:id], manager_ids.concat(learner_ids), renrollments['enrollments']
     destroyed_ids = Enrollment.destroy_unused cid[:id], enrollment_ids

@@ -302,8 +302,8 @@ ja:
       config_header: 設定ファイル
       config_message1: ファイルの記載事項を確認し、必要に応じて適切な値を設定しましょう。
       config_message2: 利用するデータベースの情報を、ファイルに設定しましょう。開発環境で SQLite3 を用いる場合は、ここでは修正せずに先に進んでも構いません。
-      config_message3: secret_key_base の値を、ファイルに設定しましょう。なお、Production 環境では、環境変数として secret_key_base の値を設定します。
-      config_message4: secret_key_base のランダム文字列を生成するには、「rails secret」コマンドなどが利用できます。
+      config_message3: 必用に応じて、いくつかの秘匿情報を設定しましょう。なお、Production 環境では、このファイルの設定が必用です。
+      config_message4: このファイルの生成や編集には、 EDITOR="vi" bin/rails credentials:edit 等の操作をします。
       config_message5: 上記の設定ファイルの修正が終わったら、Railsサーバを再起動してからStep 3. に進みます。
       header: 学習支援システム LePo にようこそ!
       license_header: ライセンス
