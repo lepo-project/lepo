@@ -22,7 +22,7 @@
 set :output, "#{path}/log/cron.log"
 set :environment, :production
 
-every 1.day, at: ['6:00 am'] do
+every 5.minutes do
   # Required only when SYSTEM_ROSTER_SYNC is :on
   runner 'RosterJob.perform_now'
 end

@@ -43,12 +43,11 @@ class RosterJob < ApplicationJob
 
     while flag
       url = Rails.application.credentials.oneroster[:url_prefix] + endpoint + "?offset=#{offset}&limit=#{limit}"
-      # FIXME: verify_ssl should be true!
       response = RestClient::Request.execute(
         :url => url,
         :method => :get,
         :headers => {Authorization: 'Bearer ' + Rails.application.credentials.oneroster[:token]},
-        :verify_ssl => false
+        :verify_ssl => true
       )
       flag = (response.code == 200) && !JSON.parse(response.body)[obj_name].empty?
       responses.concat JSON.parse(response.body)[obj_name] if flag
