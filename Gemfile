@@ -5,7 +5,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'autoprefixer-rails', '~> 10.0.0'
+gem 'autoprefixer-rails', '~> 10.2.0'
 gem 'autosize', '~> 2.4'
 gem 'bootstrap', '~> 4.5.0'
 # gem "chartkick"
