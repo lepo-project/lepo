@@ -4,6 +4,7 @@
 # 1. variable getter
 # 2. page replacer
 
+require 'json'
 class ApplicationController < ActionController::Base
   include HttpAcceptLanguage::AutoLocale
   after_action :discard_flash_if_xhr
@@ -36,9 +37,15 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize
-    return if User.find_by(id: session[:id])
+    if User.find_by(id: session[:id])
+      log_activity session[:id]
+      return
+    end
     # For snippet import through bookmarklet
-    return if (controller_name == 'snippets') && (action_name == 'create_web_snippet')
+    if (controller_name == 'snippets') && (action_name == 'create_web_snippet')
+      log_activity(User.find_by(token: params[:tk]).id) if User.find_by(token: params[:tk])
+      return
+    end
     # For mainly expired session
     reset_session
     flash[:message] = 'サインインしてください'
@@ -96,6 +103,19 @@ class ApplicationController < ActionController::Base
 
   def src_ip
     request.env['HTTP_X_FORWARDED_FOR'] || request.remote_ip
+  end
+
+  def log_activity user_id
+    Log.create!({
+      user_id: user_id,
+      src_ip: src_ip,
+      user_agent: request.user_agent,
+      controller: controller_name,
+      action: action_name,
+      # Delete parameter items
+      # tk: snippet import token through bookmarklet
+      params: params.except(:action, :controller, :password, :tk, :utf8, :commit)
+    })
   end
 
   def record_user_action(category, course_id = nil, lesson_id = nil, content_id = nil, page_id = nil, sticky_id = nil, sticky_star_id = nil, snippet_id = nil, outcome_id = nil, outcome_message_id = nil)

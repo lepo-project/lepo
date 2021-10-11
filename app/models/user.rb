@@ -36,6 +36,7 @@ class User < ApplicationRecord
   # FIXME: PushNotification
   has_many :devices, foreign_key: :manager_id, dependent: :destroy
   has_many :lessons, foreign_key: :evaluator_id
+  has_many :logs
   has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
   has_many :outcomes, foreign_key: :manager_id
   has_many :outcome_messages, foreign_key: :manager_id

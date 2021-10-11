@@ -25,6 +25,7 @@ class SigninController < ApplicationController
         Signin.create(user_id: session[:id], src_ip: src_ip)
         record_user_action('signined')
         # UserAction.create(user_id: session[:id], src_ip: src_ip, category: 'signined')
+        log_activity session[:id]
         set_nav_session 'home', 'dashboard', 0
         render 'layouts/renders/all_for_signin'
       end
@@ -59,6 +60,7 @@ class SigninController < ApplicationController
 
   def signout
     record_user_action('signouted')
+    log_activity session[:id]
     session.each do |key, _value|
       session[key] = nil
     end

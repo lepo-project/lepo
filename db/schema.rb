@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_02_074042) do
+ActiveRecord::Schema.define(version: 2021_10_08_110803) do
 
   create_table "asset_files", force: :cascade do |t|
     t.integer "content_id"
@@ -151,6 +151,20 @@ ActiveRecord::Schema.define(version: 2019_05_02_074042) do
     t.datetime "updated_at", null: false
     t.index ["content_id", "course_id"], name: "index_lessons_on_content_id_and_course_id", unique: true
     t.index ["course_id"], name: "index_lessons_on_course_id"
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "controller"
+    t.string "action"
+    t.json "params"
+    t.string "src_ip"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action"], name: "index_logs_on_action"
+    t.index ["controller"], name: "index_logs_on_controller"
+    t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
   create_table "message_templates", force: :cascade do |t|
