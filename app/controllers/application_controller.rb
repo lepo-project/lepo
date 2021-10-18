@@ -106,16 +106,35 @@ class ApplicationController < ActionController::Base
   end
 
   def log_activity user_id
+    # Delete parameter items
+    # tk: snippet import token through bookmarklet
+    params_log = params.except(:action, :controller, :password, :tk, :utf8, :commit)
+    # Prescription for 'Encoding::UndefinedConversionError' error
+    hide_file_info(params_log, '[FILTERED]')
     Log.create!({
       user_id: user_id,
       src_ip: src_ip,
       user_agent: request.user_agent,
       controller: controller_name,
       action: action_name,
-      # Delete parameter items
-      # tk: snippet import token through bookmarklet
-      params: params.except(:action, :controller, :password, :tk, :utf8, :commit)
-    })
+      params: params_log,
+      nav_section: session[:nav_section],
+      nav_controller: session[:nav_controller],
+      nav_id: session[:nav_id],
+      content_id: session[:content_id],
+      page_num: session[:page_num],
+      max_page_num: session[:max_page_num]
+      })
+  end
+
+  def hide_file_info(params_log, hide_message)
+    params_log[:asset_file][:upload] = hide_message if params_log[:asset_file] && params_log[:asset_file][:upload]
+    params_log[:attachment_file][:upload] = hide_message if params_log[:attachment_file] && params_log[:attachment_file][:upload]
+    params_log[:outcome_file][:upload] = hide_message if params_log[:outcome_file] && params_log[:outcome_file][:upload]
+    params_log[:page_file][:upload] = hide_message if params_log[:page_file] && params_log[:page_file][:upload]
+    params_log[:course][:image] = hide_message if params_log[:course] && params_log[:course][:image]
+    params_log[:snippet][:image] = hide_message if params_log[:snippet] && params_log[:snippet][:image]
+    params_log[:user][:image] = hide_message if params_log[:user] && params_log[:user][:image]
   end
 
   def record_user_action(category, course_id = nil, lesson_id = nil, content_id = nil, page_id = nil, sticky_id = nil, sticky_star_id = nil, snippet_id = nil, outcome_id = nil, outcome_message_id = nil)

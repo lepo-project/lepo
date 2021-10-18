@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_08_110803) do
+ActiveRecord::Schema.define(version: 2021_10_17_034333) do
 
   create_table "asset_files", force: :cascade do |t|
     t.integer "content_id"
@@ -162,8 +162,17 @@ ActiveRecord::Schema.define(version: 2021_10_08_110803) do
     t.string "user_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nav_section"
+    t.string "nav_controller"
+    t.integer "nav_id"
+    t.integer "content_id"
+    t.integer "page_num"
+    t.integer "max_page_num"
     t.index ["action"], name: "index_logs_on_action"
+    t.index ["content_id"], name: "index_logs_on_content_id"
     t.index ["controller"], name: "index_logs_on_controller"
+    t.index ["nav_id"], name: "index_logs_on_nav_id"
+    t.index ["page_num"], name: "index_logs_on_page_num"
     t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
