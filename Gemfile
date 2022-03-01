@@ -13,7 +13,7 @@ gem 'coffee-rails', '~> 4.2.0'
 gem 'combine_pdf', '~> 1.0.7'
 gem 'font-awesome-rails', '~> 4.7'
 gem 'http_accept_language', '~> 2.1.0'
-gem 'image_processing', '~> 1.12.0'
+gem 'image_processing', '~> 1.12.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 gem 'jquery-hotkeys-rails', '~> 0.7.9'
