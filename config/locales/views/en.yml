@@ -33,7 +33,9 @@ en:
       newest: newest
       recommended_browsers: Recommended Web Browsers
       released_at: Released at
-      remarks_for_edge: Note function can not be used with Edge browser.
+      remarks_for_content: System administrators, users who are manager / assistant for one or more courses, and users who are assistant for one or more contents can manage the contents.
+      remarks_for_course: Only the system manager can register the course, and by designating a specific user as the course manager and registering the course, that user can manage the course.
+      remarks_for_edge: For Edge browser, only the Chromium version is supported.
       shortcut_keys: Shortcut Keys
       system_version: System Version
       use_following_browsers: Please use LePo in the following web browsers
@@ -298,10 +300,10 @@ en:
       admin_account_message3: System administrator and managers can sign-in only from the following IP addresses.
       admin_account_message4: The creation of the administrator account has already been completed.
       config_header: Config. Files
-      config_message1: Please check the configurations in the above file and set appropriate values ​​as necessary.
+      config_message1: Please check the configurations in the above file and set appropriate values as necessary.
       config_message2: Please set the information of the database to use in the above file. When using SQLite 3 in the development environment, you can skip this step here.
-      config_message3: Please set values for secret_key_base in the above file. For the production environment, set the value of secret_key_base as an environment variable.
-      config_message4: To generate random string of secret_key_base, you can use "rails secret" command etc.
+      config_message3: Please set some confidentials if needed. In the Production environment, to set this file is required.
+      config_message4: "To create or edit this file, use the command like, EDITOR =\"vi\" bin/rails credentials: edit."
       config_message5: After correcting the config files, restart the Rails server and proceed to Step 3.
       header: Welcome to LePo !
       license_header: License

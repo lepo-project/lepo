@@ -5,10 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'autoprefixer-rails', '~> 10.0.0'
+gem 'autoprefixer-rails', '~> 10.3.0'
 gem 'autosize', '~> 2.4'
 gem 'bootstrap', '~> 4.5.0'
-# gem "chartkick"
 gem 'coffee-rails', '~> 4.2.0'
 gem 'combine_pdf', '~> 1.0.7'
 gem 'font-awesome-rails', '~> 4.7'
@@ -19,7 +18,7 @@ gem 'image_processing', '~> 1.12.0'
 gem 'jquery-hotkeys-rails', '~> 0.7.9'
 gem 'jquery-rails', '~> 4.4.0'
 gem 'jquery-ui-rails', '~> 6.0.0'
-gem 'net-ldap', '~> 0.16.0'
+gem 'net-ldap', '~> 0.17.0'
 gem 'paperclip', '~> 6.0.0'
 gem 'pdfjs_viewer-rails', '~> 0.2.8', github: 'lepo-project/pdfjs_viewer-rails'
 gem 'rails', '~> 5.2.4'
@@ -30,9 +29,9 @@ gem 'remotipart', '~> 1.4.2'
 gem 'rest-client', '~> 2.1.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.6'
-gem 'shrine', '~> 2.19.0'
+gem 'shrine', '~> 3.4.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'mini_racer', '= 0.2.6'
+# gem 'mini_racer', '~> 0.4.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '~> 4.2.0'
 gem 'whenever', require: false

@@ -10,7 +10,6 @@
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3*
-/db/schema.rb
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -38,12 +37,6 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 
-# TODO Comment out this rule if you are OK with secrets being uploaded to the repo
-config/initializers/secret_token.rb
-
-# Only include if you have production secrets in this file, which is no longer a Rails default
-# config/secrets.yml
-
 # dotenv
 # TODO Comment out this rule if environment variables can be committed
 .env
@@ -62,5 +55,12 @@ bower.json
 # Ignore pow environment settings
 .powenv
 
-# Ignore Byebug command history file.
+# Ignore Byebug command history file
 .byebug_history
+
+# Ignore macOS .DS_store
+.DS_Store
+
+# Ignore master key and credentials.
+/config/master.key
+/config/credentials.yml.enc

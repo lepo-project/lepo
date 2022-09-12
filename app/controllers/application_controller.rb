@@ -4,6 +4,7 @@
 # 1. variable getter
 # 2. page replacer
 
+require 'json'
 class ApplicationController < ActionController::Base
   include HttpAcceptLanguage::AutoLocale
   after_action :discard_flash_if_xhr
@@ -36,9 +37,15 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize
-    return if User.find_by(id: session[:id])
+    if User.find_by(id: session[:id])
+      log_activity session[:id]
+      return
+    end
     # For snippet import through bookmarklet
-    return if (controller_name == 'snippets') && (action_name == 'create_web_snippet')
+    if (controller_name == 'snippets') && (action_name == 'create_web_snippet')
+      log_activity(User.find_by(token: params[:tk]).id) if User.find_by(token: params[:tk])
+      return
+    end
     # For mainly expired session
     reset_session
     flash[:message] = 'サインインしてください'
@@ -96,6 +103,38 @@ class ApplicationController < ActionController::Base
 
   def src_ip
     request.env['HTTP_X_FORWARDED_FOR'] || request.remote_ip
+  end
+
+  def log_activity user_id
+    # Delete parameter items
+    # tk: snippet import token through bookmarklet
+    params_log = params.except(:action, :controller, :password, :tk, :utf8, :commit)
+    # Prescription for 'Encoding::UndefinedConversionError' error
+    hide_file_info(params_log, '[FILTERED]')
+    Log.create!({
+      user_id: user_id,
+      src_ip: src_ip,
+      user_agent: request.user_agent,
+      controller: controller_name,
+      action: action_name,
+      params: params_log,
+      nav_section: session[:nav_section],
+      nav_controller: session[:nav_controller],
+      nav_id: session[:nav_id],
+      content_id: session[:content_id],
+      page_num: session[:page_num],
+      max_page_num: session[:max_page_num]
+      })
+  end
+
+  def hide_file_info(params_log, hide_message)
+    params_log[:asset_file][:upload] = hide_message if params_log[:asset_file] && params_log[:asset_file][:upload]
+    params_log[:attachment_file][:upload] = hide_message if params_log[:attachment_file] && params_log[:attachment_file][:upload]
+    params_log[:outcome_file][:upload] = hide_message if params_log[:outcome_file] && params_log[:outcome_file][:upload]
+    params_log[:page_file][:upload] = hide_message if params_log[:page_file] && params_log[:page_file][:upload]
+    params_log[:course][:image] = hide_message if params_log[:course] && params_log[:course][:image]
+    params_log[:snippet][:image] = hide_message if params_log[:snippet] && params_log[:snippet][:image]
+    params_log[:user][:image] = hide_message if params_log[:user] && params_log[:user][:image]
   end
 
   def record_user_action(category, course_id = nil, lesson_id = nil, content_id = nil, page_id = nil, sticky_id = nil, sticky_star_id = nil, snippet_id = nil, outcome_id = nil, outcome_message_id = nil)
@@ -186,6 +225,7 @@ class ApplicationController < ActionController::Base
     file_info = file_page_info(lesson_id, content, session[:page_num], session[:max_page_num])
     p['file_type'] = file_info[0]
     p['file_path'] = file_info[1]
+    p['audio_file_path'] = file_info[2]
 
     if (session[:nav_section] == 'open_courses') || ((session[:nav_section] == 'repository') && (session[:nav_controller] == 'courses'))
       p['stickies'] = get_course_stickies_by_target session[:nav_id], 'Page', p['file_id'], content.id
@@ -200,18 +240,31 @@ class ApplicationController < ActionController::Base
     file = content.pages[page_num]
     case file.upload_content_type[0, 1]
     when 't' then
-      return ['html', file.upload.url]
+      return ['html', file.upload.url, '']
     when 'i' then
-      return ['image', "iframe/image_page/#{file.id}"]
+      return ['image', "iframe/image_page/#{file.id}", get_page_audio_file(file.upload.url, %w[.gif .jpg .jpeg, .png], %w[.mp3 .m4a])]
     when 'v' then
-      return ['video', "iframe/video_page/#{file.id}"]
+      return ['video', "iframe/video_page/#{file.id}", '']
     when 'a' then
       if content_type_pdf?(file.upload_content_type)
-        ['pdf', "/pdfjs/minimal?file=#{file.upload.url}"]
+        ['pdf', "/pdfjs/minimal?file=#{file.upload.url}", get_page_audio_file(file.upload.url, %w[.pdf], %w[.mp3 .m4a])]
       else
-        ['application', "iframe/object_page/#{file.id}"]
+        ['application', "iframe/object_page/#{file.id}", '']
       end
     end
+  end
+
+  def get_page_audio_file(url, page_exts, audio_exts)
+    page_exts.each do |pext|
+      ext_index = url.downcase.rindex(pext)
+      if ext_index
+        audio_exts.each do |ext|
+          file = url[0...ext_index] + ext
+          return file if File.exist?("public/#{file}")
+        end
+      end
+    end
+    ''
   end
 
   def get_content_stickies(content_id, page_id = nil)
@@ -317,7 +370,7 @@ class ApplicationController < ActionController::Base
   # def send_push_notification(registration_id)
   #   fcm_url = 'https://fcm.googleapis.com/fcm/send'
   #   payload = "{\"registration_ids\":[\"" + registration_id + "\"],\"delay_while_idle\":true,\"collapse_key\":\"lepo\"}"
-  #   headers = { content_type: :json, accept: :json, Authorization: 'key=' + Rails.application.secrets.fcm_authorization_key }
+  #   headers = { content_type: :json, accept: :json, Authorization: 'key=' + Rails.application.credentials.fcm_authorization_key }
   #   RestClient.post fcm_url, payload, headers
   # end
 

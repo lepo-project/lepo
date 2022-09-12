@@ -25,6 +25,7 @@ class SigninController < ApplicationController
         Signin.create(user_id: session[:id], src_ip: src_ip)
         record_user_action('signined')
         # UserAction.create(user_id: session[:id], src_ip: src_ip, category: 'signined')
+        log_activity session[:id]
         set_nav_session 'home', 'dashboard', 0
         render 'layouts/renders/all_for_signin'
       end
@@ -41,7 +42,7 @@ class SigninController < ApplicationController
       user_hash[:phonetic_given_name] = 'Master' if USER_PHONETIC_NAME_FLAG
       user = User.new(user_hash)
       if user.save
-        url = I18n.default_locale == :ja ? 'https://lepo.info/' : 'https://lepo.info/en'
+        url = I18n.default_locale == :ja ? 'https://lepo.app/' : 'https://lepo.app/en'
         Bookmark.transaction do
           web_page = WebPage.create! title: 'LePo', url: url
           Bookmark.create! manager_id: user.id, display_title: 'LePo Project', display_order: 1, target_type: 'web', target_id: web_page.id
@@ -59,6 +60,7 @@ class SigninController < ApplicationController
 
   def signout
     record_user_action('signouted')
+    log_activity session[:id]
     session.each do |key, _value|
       session[key] = nil
     end

@@ -26,7 +26,7 @@ production:
   reconnect: false
   encoding: utf8mb4
   charset: utf8mb4
-  collation: utf8mb4_unicode_ci
+  collation: utf8mb4_0900_ai_ci
   host: localhost
   database:
   username:

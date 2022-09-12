@@ -1,7 +1,6 @@
 require "image_processing/mini_magick"
 
 class ImageUploader < Shrine
-  plugin :delete_promoted
   plugin :delete_raw
   plugin :determine_mime_type
   plugin :processing

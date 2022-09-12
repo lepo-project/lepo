@@ -22,13 +22,16 @@
 set :output, "#{path}/log/cron.log"
 set :environment, :production
 
-# Required only when SYSTEM_ROSTER_SYNC is :on
-every 1.day, at: ['6:00 am'] do
+every 5.minutes do
+  # Required only when SYSTEM_ROSTER_SYNC is :on
   runner 'RosterJob.perform_now'
 end
 
-# To update course status according to term
-# Required for all SYSTEM_ROSTER_SYNC settings
 every 1.day, at: ['0:10 am'] do
+  # To update course status according to term
+  # Required for all SYSTEM_ROSTER_SYNC settings
   runner 'TermJob.perform_now'
+
+  # Clear old cache files for Shrine gem
+  runner 'CacheJob.perform_now'
 end

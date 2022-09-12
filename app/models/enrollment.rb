@@ -77,7 +77,7 @@ class Enrollment < ApplicationRecord
     raise if user.sourced_id.nil?
     hash = {
       classSourcedId: course.sourced_id,
-      schoolSourcedId: Rails.application.secrets.roster_school_sourced_id,
+      schoolSourcedId: Rails.application.credentials.oneroster[:school_sourced_id],
       userSourcedId: user.sourced_id,
       role: Enrollment.to_roster_role(role)
     }

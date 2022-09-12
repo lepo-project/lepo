@@ -1,5 +1,5 @@
 class OutcomeUploader < Shrine
-  plugin :delete_promoted
+  plugin :determine_mime_type
   plugin :validation_helpers
 
   Attacher.validate do

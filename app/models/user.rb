@@ -36,6 +36,7 @@ class User < ApplicationRecord
   # FIXME: PushNotification
   has_many :devices, foreign_key: :manager_id, dependent: :destroy
   has_many :lessons, foreign_key: :evaluator_id
+  has_many :logs
   has_many :notes, -> { order(updated_at: :desc) }, foreign_key: :manager_id
   has_many :outcomes, foreign_key: :manager_id
   has_many :outcome_messages, foreign_key: :manager_id
@@ -110,9 +111,12 @@ class User < ApplicationRecord
     rusers.each do |ru|
       # Query by signin_name in consideration of the case there are users without sourcedId created before using RosterAPI
       user = User.find_or_initialize_by(signin_name: ru['username'])
-      if user.update_attributes(sourced_id: ru['sourcedId'], authentication: 'ldap', family_name: ru['familyName'], given_name: ru['givenName'])
-        ids.push({id: user.id, sourced_id: user.sourced_id})
+      if ru['password'].empty?
+        user_hash = {sourced_id: ru['sourcedId'], authentication: 'ldap', family_name: ru['familyName'], given_name: ru['givenName']}
+      else
+        user_hash = {sourced_id: ru['sourcedId'], authentication: 'local', password: ru['password'], family_name: ru['familyName'], given_name: ru['givenName']}
       end
+      ids.push({id: user.id, sourced_id: user.sourced_id}) if user.update_attributes(user_hash)
     end
     ids
   end
@@ -175,7 +179,7 @@ class User < ApplicationRecord
     else
       results = results.where('signin_name like ? or family_name like ? or given_name like ?', "%#{search_word}%", "%#{search_word}%", "%#{search_word}%")
     end
-    results.uniq.order(signin_name: :asc).limit(max_search_num).to_a
+    results.distinct.order(signin_name: :asc).limit(max_search_num).to_a
   end
 
   def dashboard_cards

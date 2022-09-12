@@ -115,7 +115,9 @@ class Course < ApplicationRecord
 
     ids = []
     rcourses.each do |rc|
-      next if (rc['schoolSourcedId'] != Rails.application.secrets.roster_school_sourced_id)
+      next if (rc['schoolSourcedId'] != Rails.application.credentials.oneroster[:school_sourced_id])
+      next if (Rails.application.credentials.oneroster[:sync_courses] && !Rails.application.credentials.oneroster[:sync_courses].include?(rc['sourcedId']))
+
       # REQUIREMENT: period vaule in OneRoster is [weekday number]-[time period number] format
       weekday = rc['periods'].split(',')[0].split('-')[0]
       period = rc['periods'].split(',')[0].split('-')[1]
@@ -325,7 +327,7 @@ class Course < ApplicationRecord
     hash = {
       title: title,
       classType: 'scheduled',
-      schoolSourcedId: Rails.application.secrets.roster_school_sourced_id,
+      schoolSourcedId: Rails.application.credentials.oneroster[:school_sourced_id],
       termSourcedIds: term.sourced_id,
       periods: "#{weekday}-#{period}"
     }
