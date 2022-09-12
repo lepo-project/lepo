@@ -42,7 +42,7 @@ class SigninController < ApplicationController
       user_hash[:phonetic_given_name] = 'Master' if USER_PHONETIC_NAME_FLAG
       user = User.new(user_hash)
       if user.save
-        url = I18n.default_locale == :ja ? 'https://lepo.info/' : 'https://lepo.info/en'
+        url = I18n.default_locale == :ja ? 'https://lepo.app/' : 'https://lepo.app/en'
         Bookmark.transaction do
           web_page = WebPage.create! title: 'LePo', url: url
           Bookmark.create! manager_id: user.id, display_title: 'LePo Project', display_order: 1, target_type: 'web', target_id: web_page.id
