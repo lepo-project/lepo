@@ -45,7 +45,7 @@ group :development do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'i18n_generators', '~> 2.2.0'
-  gem 'listen', '~> 3.2.0'
+  gem 'listen', '~> 3.3.0'
   # meta_request is necessary for rails_panel chrome extension
   # gem 'meta_request'
   gem 'rubocop', require: false
