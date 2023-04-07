@@ -1,6 +1,32 @@
-<script>
-var file_page = true;
-var path = "<%=h @file_page.upload.url %>";
-</script>
+<link href="https://vjs.zencdn.net/8.3.0/video-js.min.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+<style type="text/css">
+  .video-js .vjs-time-control {display: inline; font-size: 1.5em; margin-top: -0.5em;}
+  .video-js .vjs-current-time {padding-right: 0;}
+  .video-js .vjs-duration {padding-left: 0;}
+  #video-player {position: absolute; top:0; bottom:0; max-width:100%; max-height:100%; margin:0 1px;}
+</style>
 
-<script src="/javascripts/video_player.js"></script>
+<video-js id="video-player" oncontextmenu="return false;">
+    <source src="<%=h @file_page.upload.url %>" type="video/mp4" />
+</video-js>
+<script>
+  let player = videojs('video-player', {
+    autoplay: true,
+    controls: true,
+    preload: 'auto',
+    playbackRates: [0.75, 1, 1.25, 1.5],
+    controlBar: {
+      remainingTimeDisplay: false,
+      currentTimeDisplay: true,
+      durationDisplay: true,
+      pictureInPictureToggle: false,
+      skipButtons: {forward: 10, backward: 10}
+    },
+    userActions: {
+        // disable fullscreen key
+        hotkeys: {fullscreenKey: function(event) {}}
+    }
+  });
+  player.focus();
+</script>

@@ -1,6 +1,8 @@
 <iframe src="blank.mp3" allow="autoplay" style="display:none;" />
-<audio id="page-audio-player" style="margin:0.5em; display:none;" src="<%= pg['audio_file_path'] %>" autoplay controls controlslist="nodownload" />
 
+<video-js id="audio-player" class="video-js vjs-time-control" style="display:none;">
+	<source src="<%= pg['audio_file_path'] %>">
+</video-js>
 <iframe id="page-frame" name="page-frame" src="<%= pg['file_path'] %>" frameborder="0" marginheight="0" marginwidth="0" style="opacity: 0;"></iframe>
 
 <div id="sticky-panel">
@@ -34,9 +36,41 @@
 		<% end %>
 		<% end %>
 		<% end %>
-
 		<% unless pg['audio_file_path'].blank? %>
-			document.getElementById('page-audio-player').style.display = 'block'
+			if (videojs.getPlayer('audio-player') !== undefined){
+				videojs.getPlayer('audio-player').dispose();
+			};
+			var player = videojs('audio-player', {
+				audioOnlyMode: true,
+			    autoplay: true,
+				controls: true,
+				preload: 'auto',
+				playbackRates: [0.75, 1, 1.25, 1.5],
+				controlBar: {
+		          remainingTimeDisplay: false,
+		          currentTimeDisplay: true,
+		          durationDisplay: true,
+			      skipButtons: {forward: 10, backward: 10}
+				}
+			});
+
+			var cw = document.getElementById('page-frame').contentWindow;
+			<% case pg['file_type'] when 'pdf' %>
+			cw.document.getElementById('viewer').addEventListener('pagerendered', function(){
+				setPlayerPosition();
+			});
+			<% else %>
+				setPlayerPosition();
+			<% end %>
+			cw.addEventListener('resize', function(){
+				setPlayerPosition();
+			});
+			function setPlayerPosition() {
+				document.getElementById('audio-player').style.display = 'block'
+				viewerHeight = cw.document.getElementById('viewer').offsetHeight;
+				// 32px is for main toolbar height
+				document.getElementById('audio-player').style.top = (viewerHeight + 32) + 'px';
+			};
 		<% end %>
 	};
 </script>
