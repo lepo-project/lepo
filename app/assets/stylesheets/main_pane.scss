@@ -236,14 +236,16 @@
     }
     iframe {
       display: block;
-      height: calc(100% - 30px);
+      height: 100%;
       width: 100%;
     }
     #audio-player {
       position: absolute;
       top: $toolbar-height;
       left: 0;
-      width: 460px;
+      .vjs-control-bar {
+        opacity: 0.8 !important;
+      }
     }
     a {
       &.bright-link {
