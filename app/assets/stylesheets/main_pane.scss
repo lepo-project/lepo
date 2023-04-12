@@ -238,6 +238,9 @@
       display: block;
       height: 100%;
       width: 100%;
+      &.with-audio {
+        height: calc(100% - 30px);
+      }
     }
     #audio-player {
       position: absolute;

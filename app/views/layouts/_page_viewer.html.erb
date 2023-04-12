@@ -37,6 +37,7 @@
 		<% end %>
 		<% end %>
 		<% unless pg['audio_file_path'].blank? %>
+			this.classList.add('with-audio');
 			if (videojs.getPlayer('audio-player') !== undefined){
 				videojs.getPlayer('audio-player').dispose();
 			};
@@ -67,15 +68,15 @@
 			});
 			function setPlayerPosition() {
 				document.getElementById('audio-player').style.display = 'block'
-				viewerHeight = cw.document.getElementById('viewer').offsetHeight;
+				playerTop = cw.document.getElementById('viewer').offsetHeight;
+				playerTop += document.getElementById('main-toolbar').offsetHeight;
 				<% case pg['file_type'] when 'pdf' %>
-					viewerWidth = cw.document.getElementsByClassName('page')[0].offsetWidth;
-					viewerHeight += 4
+					playerWidth = cw.document.getElementsByClassName('page')[0].offsetWidth;
 				<% else %>
-					viewerWidth = cw.document.getElementById('viewer').offsetWidth;
+					playerWidth = cw.document.getElementById('viewer').offsetWidth;
 				<% end %>
-				document.getElementById('audio-player').style.top = (viewerHeight + 4) + 'px';
-				document.getElementById('audio-player').style.width = viewerWidth + 'px';
+				document.getElementById('audio-player').style.top = playerTop + 'px';
+				document.getElementById('audio-player').style.width = playerWidth + 'px';
 			};
 		<% end %>
 	};
