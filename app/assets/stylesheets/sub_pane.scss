@@ -95,15 +95,15 @@
     .toolbar-btn {
       display: block;
       float: inherit;
-      font-size: 1.5rem;
       height: $toolbar-height;
-      padding: 4px 4px 0;
+      padding: 6px 4px 0;
       text-align: center;
+      .signout-text {
+        vertical-align: text-bottom;
+        padding: 0 0.2rem;
+      }
       i {
-        font-size: 1.9rem;
-        &.fa-plus {
-          font-size: 1.8rem;
-        }
+        font-size: 1.5rem;
       }
     }
     a.toolbar-btn, button.toolbar-btn {

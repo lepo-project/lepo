@@ -28,8 +28,8 @@
 </div>
 
 <div id="right-btns">
-  <%= link_to({controller: 'signin', action: 'signout'}, {id: 'signout-btn', class: 'toolbar-btn', title: t('.signout')}) do %>
-  <i class="fa fa-sign-out"></i>
+  <%= link_to({controller: 'signin', action: 'signout'}, {id: 'signout-btn', class: 'toolbar-btn'}) do %>
+  <i class="fa fa-sign-out"></i><span class="signout-text"><%= t('.signout') %></span>
   <% end %>
 </div>
 
