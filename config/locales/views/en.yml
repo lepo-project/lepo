@@ -35,7 +35,6 @@ en:
       released_at: Released at
       remarks_for_content: System administrators, users who are manager / assistant for one or more courses, and users who are assistant for one or more contents can manage the contents.
       remarks_for_course: Only the system manager can register the course, and by designating a specific user as the course manager and registering the course, that user can manage the course.
-      remarks_for_edge: For Edge browser, only the Chromium version is supported.
       shortcut_keys: Shortcut Keys
       system_version: System Version
       use_following_browsers: Please use LePo in the following web browsers

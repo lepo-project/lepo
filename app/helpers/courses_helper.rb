@@ -40,10 +40,8 @@ module CoursesHelper
     case lesson_role
     when 'learner'
       outcome = Outcome.find_by(manager_id: session[:id], lesson_id: lesson_id)
-      if outcome && outcome.score && (outcome.status != 'draft')
-        return { class: 'fa fa-check fa-lg', text: '評価済み[満点]' } if outcome.score == 10
-        return { class: 'fa fa-check fa-lg icon-gray', text: '評価済み' }
-      end
+      return { class: 'fa fa-circle', text: '評価依頼中' } if outcome && (outcome.status == 'submit')
+      return { class: 'fa fa-check fa-lg', text: '学習済み' } if outcome && (outcome.status != 'draft')
     when 'evaluator', 'manager', 'assistant'
       outcomes = Outcome.where(lesson_id: lesson_id).to_a
       outcomes.delete_if { |oc| oc.status == 'draft' || !oc.score }

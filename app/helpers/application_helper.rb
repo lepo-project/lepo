@@ -227,33 +227,6 @@ module ApplicationHelper
     card
   end
 
-  def lesson_activity_card_hash(course_role, lesson_resources)
-    card = {}
-    card['header'] = t('helpers.lesson_status')
-    case course_role
-    when 'learner'
-      non_self_eval_num = lesson_resources['non_self_eval'].size
-      if non_self_eval_num.zero?
-        card['icon'] = 'fa fa-check-circle'
-        card['body'] = '全ての公開レッスンで、自己評価済みです'
-      else
-        card['icon'] = 'fa fa-exclamation-circle'
-        card['body'] = "以下のレッスンで、自己評価がされていません\n"
-        lesson_resources['non_self_eval'].each_with_index do |lesson, i|
-          card['body'] += "　・レッスン#{lesson.display_order}: #{lesson.content.title} \n"
-          card['body'] += "\n" if (i == 1) && non_self_eval_num > 2
-        end
-      end
-      card['summary'] = true
-    else
-      card['icon'] = 'fa fa-info-circle'
-      card['body'] = '学生には、自己評価をしていないレッスンが表示されます'
-      card['summary'] = false
-    end
-    card['footnotes'] = []
-    card
-  end
-
   def notice_card_hash(notice, border_category, course = Course.new)
     card = {}
     if notice.manager.image

@@ -12,21 +12,6 @@
       <%= render partial: 'notices/notice_card', collection: notices, locals: {border_category: 'course'} %>
       <% end %>
 
-      <!-- Course Activities -->
-      <% if @course.learner? session[:id] %>
-      <div class="card-l learner-border">
-        <%= render partial: 'layouts/card_l', locals: {card: lesson_activity_card_hash('learner', @lesson_resources)} %>
-      </div>
-      <% else %>
-      <div class="card-l staff-border">
-        <%= render partial: 'layouts/card_l', locals: {card: lesson_activity_card_hash('staff', @lesson_resources)} %>
-      </div>
-      <% end %>
-
-      <!-- Self Evaluation Chart: Deprecated -->
-      <%# charts = get_self_achievement_charts(session[:id], @course.id, Date.today, 1, 14) %>
-      <%#= render partial: 'selfeval_chart', locals: {charts: charts} %>
-
       <!-- Hot Course Stickies -->
       <div id="hot-stickies">
         <% hot_stickies = @course.hot_stickies %>
